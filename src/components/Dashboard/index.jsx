@@ -12,7 +12,6 @@ import { getDataList } from "../../services/getDataLists";
 
 export function Dashboard() {
   const { token, setCompaniesList, setClientsList, setProductsList } = useContext(userDataContext);
-  
   useEffect(() => {
     getDataList.getCompaniesList(token, setCompaniesList);
     getDataList.getClientsList(token, setClientsList);

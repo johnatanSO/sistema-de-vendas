@@ -12,7 +12,6 @@ Modal.setAppElement("#root");
 function App() {
   const {token, setToken} = useContext(userDataContext);
   const [createAccountSuccess, setCreateAccountSuccess] = useState(false);
-
   useEffect(() =>{
     setToken(localStorage.getItem('token'));
   },[])
