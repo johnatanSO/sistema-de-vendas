@@ -1,0 +1,87 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.containerLoginScreen {
+  width: 900px;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  background-color: rgb(41, 41, 41);
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 2px 2px 7px black;
+
+  span {
+    margin: 0 10px;
+    color: rgb(173, 173, 173);
+  }
+  
+  .inputs {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      input {
+        background-color: rgb(15, 15, 15);
+        color: rgb(193, 193, 193);
+        height: 50px;
+        font-size:1rem;
+        margin-bottom: 5px;
+        border: 1px solid transparent;
+        padding: 15px;
+        border-radius: 5px;
+        outline: none;
+        transition: all 0.2s;
+        &:focus {
+          border: 1px solid #4aa39b;
+        }
+      }
+      button {
+        height: 50px;
+        font-size:1rem;
+        background-color: #4aa39b;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-weight: 600;
+        transition: filter 0.2s;
+        &:hover {
+          filter: brightness(80%);
+        }
+        &:disabled {
+          filter: brightness(60%);
+          pointer-events: none;
+        }
+      }
+    }
+
+  }
+  @media (max-width: 632px) {
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    .inputs {
+      width: 90%;
+    }
+    span {
+      margin: 20px 0;
+    }
+  }
+}

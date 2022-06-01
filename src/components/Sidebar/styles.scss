@@ -1,0 +1,84 @@
+aside{
+  background-color: rgb(41,41,41);
+  min-width: 180px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  animation: slide-in 0.4s;
+  @keyframes slide-in {
+    from {
+      transform: translateX(-20%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  .link{
+    text-decoration: none;
+  }
+  .link-logo {
+    width: 80%;
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    img{
+      width: 100%;
+    }
+  }
+  .logout{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: rgb(205, 205, 205);
+    font-size: 1.2rem;
+    padding: 1rem;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+    .icon{
+      margin-right: 10px;
+    }
+    &:hover{
+      background-color: rgba(255,255,255,0.1);
+    }
+  }
+  .menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    .menu-item {
+      width: 100%;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 10px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      &.active{
+        background-color:rgb(15,15,15);
+      }
+      &:hover {
+        background-color: rgb(15,15,15);
+      }
+      &:active{
+        color: rgb(105, 105, 105);
+      }
+      .icon{
+        margin-right: 10px;
+      }
+    }
+  }
+}

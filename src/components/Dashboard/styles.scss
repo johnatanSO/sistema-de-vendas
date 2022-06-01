@@ -1,0 +1,131 @@
+.dashboard-container{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+}
+.main-container{
+  width: 100%;
+  color:white;
+  padding: 40px;
+  overflow-x: auto;
+  animation: slide-in-container 0.4s;
+  @keyframes slide-in-container {
+    from {
+      transform: translateX(10%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  .main-header{
+    height: auto;
+    padding: 20px 30px;
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    .products{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      .quantityProduct{
+        width: 15%;
+        margin-right: 10px;
+        text-align: center;
+      }
+      .product{
+        width: 85%;
+      }
+    }
+    .select-container{
+      height: 40px;
+      background-color: rgb(15,15,15);
+      border-radius: 0.25rem;
+      border: 1px solid transparent;
+      padding: 0 10px;
+      margin-bottom:4px;
+      outline: none;
+      transition: border 0.2s;
+      cursor: pointer;
+            
+      .option{
+        background-color:rgb(41,41,41);
+        font-size: 1rem;
+        cursor: pointer;
+      }
+    }
+    form{
+      display: flex;
+      flex-direction: column;
+      width: 35%;
+      h2{
+        margin-bottom: 10px;
+      }
+      input{
+        height: 40px;
+        background-color: rgb(15,15,15);
+        border-radius: 0.25rem;
+        border: 1px solid transparent;
+        padding: 0 10px;
+        margin-bottom:4px;
+        outline: none;
+        transition: border 0.2s;
+        &:focus{
+          border: 1px solid #4aa39b;
+        }
+        &[type=number]::-webkit-inner-spin-button { 
+          -webkit-appearance: none;  
+        }
+        &[type=number] { 
+          -moz-appearance: textfield;
+          appearance: textfield;  
+        }
+      }
+      button{
+        height: 40px;
+        background-color: #4aa39b;
+        border-radius: 0.25rem;
+        border: 2px solid transparent;
+        padding: 0 10px;
+        cursor: pointer;
+        transition: filter 0.2s;
+        font-weight: 600;
+        &:hover{
+          filter: brightness(80%);
+        }
+      }
+    }
+  }
+  .main-body{
+    background-color: #1a1a1a;
+    margin-top: 5px;
+    height: auto;
+    padding: 20px 30px;
+  }
+}
+table{ 
+  width: 100%;
+  border-spacing:0 0.5rem;
+  
+  th{
+    color: rgb(121, 121, 121);
+    font-weight: 400;
+    padding: 1rem 2rem;
+    text-align: left;
+    line-height: 1.5rem;
+  }
+  tr.orderList{
+    cursor: pointer;
+    transition: filter 0.2s;
+    &:hover{
+      filter: brightness(80%)
+    }
+  }
+  td{ 
+    padding: 1rem 2rem;
+    border: 0;
+    background-color: rgb(41,41,41);
+    color: rgb(215, 215, 215);
+  }
+}

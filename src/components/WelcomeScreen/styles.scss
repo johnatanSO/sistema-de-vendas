@@ -1,0 +1,28 @@
+.welcomeScreen{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../../assets/backgroundWelcome.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  animation: slide-in-container 0.4s;
+  @keyframes slide-in-container {
+    from {
+      transform: translateX(10%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  h1{
+    font-size:4rem;
+    width: 60%;
+  }
+}
