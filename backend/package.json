@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Servidor para trabalho da faculdade",
+  "main": "server.js",
+  "scripts": {
+    "start": "ts-node-dev --transpile-only server.ts",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cors": "^2.8.13",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^7.1.0"
+  },
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^1.2.0",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.1.4",
+    "eslint": "^8.38.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4"
+  }
+}

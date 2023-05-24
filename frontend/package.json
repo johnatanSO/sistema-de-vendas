@@ -1,0 +1,29 @@
+{
+  "name": "sistema-de-vendas",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.2",
+    "@rocketseat/eslint-config": "^1.2.0",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.33",
+    "@types/react-dom": "18.0.11",
+    "axios": "^1.4.0",
+    "eslint": "8.37.0",
+    "eslint-config-next": "13.3.0",
+    "next": "13.3.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sass": "^1.61.0",
+    "sass-loader": "^13.2.2",
+    "typescript": "5.0.3"
+  }
+}
