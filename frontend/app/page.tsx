@@ -7,12 +7,3 @@ export default function HomePage() {
     </>
   )
 }
-export async function getServerSideProps() {
-  return {
-    props: {},
-    redirect: {
-      permanent: false,
-      destination: '/login',
-    },
-  }
-}
