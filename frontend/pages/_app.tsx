@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 config.autoAddCss = false
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const restrictLayout =
     router.route !== '/login' && router.route !== '/createAccount'
@@ -21,5 +21,3 @@ function MyApp({ Component, pageProps }: AppProps) {
     </div>
   )
 }
-
-export default MyApp

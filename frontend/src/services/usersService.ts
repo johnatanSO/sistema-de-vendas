@@ -2,7 +2,9 @@ import http from '../api/http'
 import { NewUser } from '../screens/CreateAccount'
 
 export const usersService = {
-  async getSession() {},
+  async getSession(logged: boolean) {
+    return logged
+  },
 
   async login() {},
 
