@@ -1,4 +1,6 @@
 @import "./colors.scss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+
 
 * {
   box-sizing: border-box;
@@ -11,7 +13,7 @@ body,
 textarea,
 input,
 button {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -41,4 +43,5 @@ body {
 
 a {
   color: $gray-color-100;
+  text-decoration: underline;
 }

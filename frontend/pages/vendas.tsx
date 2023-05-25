@@ -1,7 +1,9 @@
-export default function VendasPage() {
+import { Sales } from '../src/screens/Sales'
+
+export default function SalesPage() {
   return (
     <>
-      <h1>Vendas</h1>
+      <Sales />
     </>
   )
 }

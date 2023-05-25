@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { config } from '@fortawesome/fontawesome-svg-core'
 import { Sidebar } from '../src/layout/Sidebar'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 
 config.autoAddCss = false
 
@@ -13,6 +14,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div className="wrapper">
+      <Head>
+        <title>My page title</title>
+      </Head>
       {restrictLayout && <Sidebar />}
 
       <main className={restrictLayout ? 'screensContainer' : 'loginContainer'}>

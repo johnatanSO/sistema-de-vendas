@@ -70,11 +70,9 @@
       }
     }
   }
-
-  .createAccountLink {
+  a {
     text-align: center;
     margin-top: 25px;
-    text-decoration: underline;
     transition: filter 0.2s;
 
     &:hover {
