@@ -4,6 +4,7 @@ import cors from 'cors'
 import { vendasRoutes } from './src/routes/vendas'
 import { dashboardRoutes } from './src/routes/dashboard'
 import { produtosRoutes } from './src/routes/produtos'
+import { usersRoutes } from './src/routes/users'
 
 interface CustomExpress extends Express {
   mongo?: any
@@ -21,6 +22,7 @@ app.listen(PORT, () => console.log(`SERVIDOR RODANDO NA PORTA ${PORT}!`))
 app.use('/vendas', vendasRoutes)
 app.use('/dashboard', dashboardRoutes)
 app.use('/produtos', produtosRoutes)
+app.use('/users', usersRoutes)
 
 /* Não adicionei nenhum middleware em nenhuma das rotas (authentication || permission) 
 pois o sistema é bem simples e para fins de estudo. */
