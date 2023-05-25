@@ -1,6 +1,6 @@
 @import "../../../styles/colors.scss";
 
-.formContainer {
+.createAccountContainer {
   width: 80%;
   max-width: 400px;
 
@@ -20,7 +20,7 @@
     margin-bottom: 30px;
   }
 
-  .inputs {
+  .formContainer {
     display: flex;
     flex-direction: column;
     gap: 10px;

@@ -1,84 +1,77 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import style from './CreateAccount.module.scss'
-/* import { api } from '../../services/api'
-import { userDataContext } from '../../userDataContext'
-import Loading from '../Loading'
- */
-export function CreateAccount() {
-  // const [usernameOrEmail, setUsernameOrEmail] = useState('')
-  // const [password, setPassword] = useState('')
-  const nome = ''
-  const email = ''
-  const password = ''
-  /*   const { setName, setToken } = useContext(userDataContext)
-  const [loading, setLoading] = useState(false)
+import { usersService } from '@/src/services/usersService'
 
-  async function handleLogin(event) {
+export interface NewUser {
+  name: string
+  email: string
+  password: string
+}
+
+export function CreateAccount() {
+  const defaultValuesNewUser = {
+    name: '',
+    email: '',
+    password: '',
+  }
+  const [newUser, setNewUser] = useState<NewUser>(defaultValuesNewUser)
+
+  async function onCreateAccount(event: any) {
     event.preventDefault()
-    if (!usernameOrEmail || !password) {
-      alert('Por favor, preencha todos os campos')
-      return
-    }
-    setLoading(true)
-    await api
-      .post('user/login', {
-        id: Math.random() * 100,
-        usernameOrEmail,
-        password,
-      })
-      .then(async (res) => {
-        if (res.status === 200) {
-          await setName(res.data.user.username)
-          await setToken(res.data.token)
-          localStorage.setItem('token', res.data.token)
-        }
-      })
+    usersService
+      .register(newUser)
+      .then(() => {})
       .catch((err) => {
-        if (err.response.status === 400) {
-          alert('Usuário e/ou senha inválido(s)')
-          setUsernameOrEmail('')
-          setPassword('')
-        }
+        console.log(err)
       })
-    setLoading(false)
-  } */
+  }
 
   return (
-    <form className={style.formContainer}>
+    <div className={style.createAccountContainer}>
       <h2>Criar uma nova conta</h2>
-      <div className={style.inputs}>
+      <form onSubmit={onCreateAccount} className={style.formContainer}>
         <input
-          /* onChange={(e) => {
-            setUsernameOrEmail(e.target.value)
-          }} */
-          value={nome}
+          onChange={(e) => {
+            setNewUser({
+              ...newUser,
+              name: e.target.value,
+            })
+          }}
+          required
+          value={newUser.name}
           type="text"
-          placeholder="Nome de usuário"
+          placeholder="Digite seu nome"
         />
         <input
-          /* onChange={(e) => {
-            setUsernameOrEmail(e.target.value)
-          }} */
-          value={email}
+          required
+          onChange={(e) => {
+            setNewUser({
+              ...newUser,
+              email: e.target.value,
+            })
+          }}
+          value={newUser.email}
           type="text"
-          placeholder="E-mail"
+          placeholder="Digite seu E-mail"
         />
         <input
-          value={password}
-          /* onChange={(e) => {
-            setPassword(e.target.value)
-          }} */
+          required
+          value={newUser.password}
+          onChange={(e) => {
+            setNewUser({
+              ...newUser,
+              password: e.target.value,
+            })
+          }}
           type="password"
-          name="password"
-          id="passwordLogin"
-          placeholder="Senha"
+          placeholder="Digite uma senha"
         />
         <button type="submit">Cadastrar</button>
-      </div>
+      </form>
       <Link href="/login" className={style.loginAccountLink}>
         Entrar com conta existente
       </Link>
-    </form>
+    </div>
   )
 }

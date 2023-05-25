@@ -1,5 +1,4 @@
-'use client'
-import { useRouter, usePathname } from 'next/navigation'
+import { useRouter } from 'next/router'
 import style from './Sidebar.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -7,14 +6,14 @@ import { menuOptions } from './menuOptions'
 
 export function Sidebar() {
   const router = useRouter()
-  const pathname = usePathname()
 
   return (
     <aside className={style.sidebarContainer}>
       <div className={style.userButton}>
         <FontAwesomeIcon className={style.userIcon} icon={faUser} />
-        <span className={style.notification}>2</span>
+        <div className={style.notification}>2</div>
       </div>
+
       <ul className={style.menuList}>
         {menuOptions.map((option) => {
           return (
@@ -25,14 +24,15 @@ export function Sidebar() {
               }}
               title="Dashboard"
               className={
-                pathname === option.link ? style.activeMenu : undefined
+                router.pathname === option.link ? style.activeMenu : undefined
               }
             >
-              <FontAwesomeIcon icon={option.icon} />
+              <FontAwesomeIcon className={style.icon} icon={option.icon} />
             </li>
           )
         })}
       </ul>
+
       <FontAwesomeIcon
         className={style.logoutButton}
         title="Sair"
