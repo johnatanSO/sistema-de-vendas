@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import style from './Login.module.scss'
+import Link from 'next/link'
 import { useState } from 'react'
 import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
@@ -43,9 +43,7 @@ export function Login() {
             setPassword(event.target.value)
           }}
         />
-        <button disabled={!email && !password} type="submit">
-          Entrar
-        </button>
+        <button type="submit">Entrar</button>
       </form>
 
       <Link href="/createAccount" className={style.createAccountLink}>

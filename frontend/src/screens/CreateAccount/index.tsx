@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import React, { useState } from 'react'
 import style from './CreateAccount.module.scss'
-import { usersService } from '@/src/services/usersService'
+import Link from 'next/link'
+import { useState } from 'react'
+import { usersService } from '../../services/usersService'
 
 export interface NewUser {
   name: string

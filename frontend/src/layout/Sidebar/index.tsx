@@ -7,6 +7,10 @@ import { menuOptions } from './menuOptions'
 export function Sidebar() {
   const router = useRouter()
 
+  function logout() {
+    router.push('/login')
+  }
+
   return (
     <aside className={style.sidebarContainer}>
       <div className={style.userButton}>
@@ -37,6 +41,9 @@ export function Sidebar() {
         className={style.logoutButton}
         title="Sair"
         icon={faRightFromBracket}
+        onClick={() => {
+          logout()
+        }}
       />
     </aside>
   )
