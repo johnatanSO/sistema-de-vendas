@@ -5,7 +5,17 @@ export default function Layout({ children }: any) {
         <title>Sistema de vendas</title>
       </head>
       <body>
-        <main>{children}</main>
+        <main
+          style={{
+            height: '100vh',
+            width: '100vw',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {children}
+        </main>
       </body>
     </html>
   )
