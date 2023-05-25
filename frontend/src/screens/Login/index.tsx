@@ -10,7 +10,7 @@ export function Login() {
   const router = useRouter()
 
   function onLogin() {
-    if (!email) return alert('Digite um E-mail')
+    if (!email) return alert('Digite um e-mail')
     if (!password) return alert('Digite a sua senha')
 
     usersService
