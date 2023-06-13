@@ -2,16 +2,19 @@ import { productsService } from '../../services/productsService'
 import { HeaderPage } from '../../components/HeaderPage'
 import { useEffect, useState } from 'react'
 import style from './Products.module.scss'
-console.log(style)
+
+interface Product {
+  _id: string
+}
 
 export function Products() {
-  const [products, setProducts] = useState<any[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [loadingProducts, setLoadingProducts] = useState<boolean>(true)
 
   function getProducts() {
     setLoadingProducts(true)
     productsService
-      .getAll({})
+      .getAll({ filters: {} })
       .then((res) => {
         setProducts(res.data.items)
       })
@@ -31,7 +34,7 @@ export function Products() {
     <>
       <HeaderPage buttonText="Novo produto" />
       {loadingProducts && <span>carregando produtos...</span>}
-      <table>
+      <table className={style.table}>
         <thead>
           <tr>
             <th>Title 1</th>

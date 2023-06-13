@@ -2,7 +2,6 @@ import { salesService } from '../../services/salesService'
 import { HeaderPage } from '../../components/HeaderPage'
 import { useEffect, useState } from 'react'
 import style from './Sales.module.scss'
-console.log(style)
 
 export function Sales() {
   const [sales, setSales] = useState<any[]>([])
@@ -11,7 +10,7 @@ export function Sales() {
   function getSales() {
     setLoadingSales(true)
     salesService
-      .getAll({})
+      .getAll({ filters: {} })
       .then((res) => {
         setSales(res.data.items)
       })
@@ -31,7 +30,7 @@ export function Sales() {
     <>
       <HeaderPage buttonText="Nova venda" />
       {loadingSales && <span>carregando vendas...</span>}
-      <table>
+      <table className={style.table}>
         <thead>
           <tr>
             <th>Title 1</th>

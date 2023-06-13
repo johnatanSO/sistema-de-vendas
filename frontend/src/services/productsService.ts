@@ -1,7 +1,23 @@
 import http from '../api/http'
 
+interface GetAllParams {
+  filters: any
+}
+
+interface CreateParams {
+  newPoductData: any
+}
+
+interface UpdateParams {
+  productData: any
+}
+
+interface DeleteParams {
+  idProduct: string
+}
+
 export const productsService = {
-  async getAll(filters: any) {
+  async getAll({ filters }: GetAllParams) {
     const params = {
       ...filters,
     }
@@ -10,7 +26,7 @@ export const productsService = {
     })
   },
 
-  async create(newPoductData: any) {
+  async create({ newPoductData }: CreateParams) {
     const body = {
       ...newPoductData,
     }
@@ -20,7 +36,7 @@ export const productsService = {
     })
   },
 
-  async update(productData: any) {
+  async update({ productData }: UpdateParams) {
     const body = {
       ...productData,
     }
@@ -30,7 +46,7 @@ export const productsService = {
     })
   },
 
-  async delete(idProduct: string) {
+  async delete({ idProduct }: DeleteParams) {
     return await http.delete(`/produtos/${idProduct}`)
   },
 }

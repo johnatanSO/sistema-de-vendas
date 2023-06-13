@@ -1,7 +1,23 @@
 import http from '../api/http'
 
+interface GetAllParams {
+  filters: any
+}
+
+interface CreateParams {
+  newSaleData: any
+}
+
+interface UpdateParams {
+  saleData: any
+}
+
+interface DeleteParams {
+  idSale: string
+}
+
 export const salesService = {
-  async getAll(filters: any) {
+  async getAll({ filters }: GetAllParams) {
     const params = {
       ...filters,
     }
@@ -10,7 +26,7 @@ export const salesService = {
     })
   },
 
-  async create(newSaleData: any) {
+  async create({ newSaleData }: CreateParams) {
     const body = {
       ...newSaleData,
     }
@@ -20,7 +36,7 @@ export const salesService = {
     })
   },
 
-  async update(saleData: any) {
+  async update({ saleData }: UpdateParams) {
     const body = {
       ...saleData,
     }
@@ -30,7 +46,7 @@ export const salesService = {
     })
   },
 
-  async delete(idSale: string) {
+  async delete({ idSale }: DeleteParams) {
     return await http.delete(`/vendas/${idSale}`)
   },
 }

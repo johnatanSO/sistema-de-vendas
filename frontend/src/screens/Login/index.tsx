@@ -4,14 +4,21 @@ import { useState } from 'react'
 import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
 
+export interface LogginUserData {
+  email: string
+  password: string
+}
+
 export function Login() {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+  const [userData, setUserData] = useState<LogginUserData>({
+    email: '',
+    password: '',
+  })
   const router = useRouter()
 
   function onLogin() {
-    if (!email) return alert('Digite um e-mail')
-    if (!password) return alert('Digite a sua senha')
+    if (!userData?.email) return alert('Digite um e-mail')
+    if (!userData?.password) return alert('Digite a sua senha')
 
     usersService
       .login()
@@ -28,19 +35,25 @@ export function Login() {
       <h2>Entrar com uma conta existente</h2>
       <form onSubmit={onLogin} className={style.formContainer}>
         <input
-          value={email}
+          value={userData?.email}
           type="text"
           placeholder="Digite seu E-mail"
           onChange={(event) => {
-            setEmail(event.target.value)
+            setUserData({
+              ...userData,
+              email: event.target.value,
+            })
           }}
         />
         <input
-          value={password}
+          value={userData?.password}
           type="password"
           placeholder="Senha"
           onChange={(event) => {
-            setPassword(event.target.value)
+            setUserData({
+              ...userData,
+              password: event.target.value,
+            })
           }}
         />
         <button type="submit">Entrar</button>

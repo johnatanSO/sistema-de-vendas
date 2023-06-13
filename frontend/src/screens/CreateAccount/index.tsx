@@ -20,7 +20,7 @@ export function CreateAccount() {
   async function onCreateAccount(event: any) {
     event.preventDefault()
     usersService
-      .register(newUser)
+      .register({ newUser })
       .then(() => {})
       .catch((err) => {
         console.log(err)
