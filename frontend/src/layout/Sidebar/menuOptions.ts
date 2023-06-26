@@ -1,8 +1,6 @@
 import {
   faPieChart,
   faDollarSign,
-  faClipboardList,
-  faUsers,
   faBox,
   faClipboardUser,
 } from '@fortawesome/free-solid-svg-icons'
