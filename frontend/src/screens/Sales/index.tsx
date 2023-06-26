@@ -3,7 +3,7 @@ import { HeaderPage } from '../../components/HeaderPage'
 import { useEffect, useState } from 'react'
 import { ModalCreateNewSale } from './ModalCreateNewSale'
 import { TableComponent } from '../../../src/components/TableComponent'
-import { ValueFormatterParams } from '@/src/models/columns'
+import { Column, ValueFormatterParams } from '../../../src/models/columns'
 import dayjs from 'dayjs'
 import { format } from '../../../src/utils/format'
 
@@ -38,7 +38,7 @@ export function Sales() {
     getSales()
   }, [])
 
-  const columns: any = [
+  const columns: Column[] = [
     {
       headerName: 'Nº pedido',
       field: '_id',

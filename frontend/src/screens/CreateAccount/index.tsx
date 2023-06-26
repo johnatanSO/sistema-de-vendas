@@ -1,6 +1,6 @@
 import style from './CreateAccount.module.scss'
 import Link from 'next/link'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { usersService } from '../../services/usersService'
 
 export interface NewUser {
@@ -17,7 +17,7 @@ export function CreateAccount() {
   }
   const [newUser, setNewUser] = useState<NewUser>(defaultValuesNewUser)
 
-  async function onCreateAccount(event: any) {
+  async function onCreateAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     usersService
       .register({ newUser })
