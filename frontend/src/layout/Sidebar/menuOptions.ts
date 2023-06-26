@@ -2,6 +2,8 @@ import {
   faPieChart,
   faDollarSign,
   faClipboardList,
+  faUsers,
+  faBox,
 } from '@fortawesome/free-solid-svg-icons'
 
 interface MenuOption {
@@ -25,9 +27,15 @@ export const menuOptions: MenuOption[] = [
     name: 'vendas',
   },
   {
-    title: 'Relatórios',
-    link: '/relatorios',
-    icon: faClipboardList,
-    name: 'relatorios',
+    title: 'Clientes',
+    link: '/clientes',
+    icon: faUsers,
+    name: 'clientes',
+  },
+  {
+    title: 'Produtos',
+    link: '/produtos',
+    icon: faBox,
+    name: 'produtos',
   },
 ]
