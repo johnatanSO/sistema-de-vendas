@@ -1,4 +1,5 @@
 import { FilterDate } from '../FilterDate'
+import style from './HeaderPage.module.scss'
 
 interface HeaderPageProps {
   buttonText: string
@@ -6,9 +7,12 @@ interface HeaderPageProps {
 
 export function HeaderPage({ buttonText }: HeaderPageProps) {
   return (
-    <header>
+    <header className={style.headerContainer}>
       <FilterDate />
-      <button>{buttonText || 'Cadastrar'}</button>
+      <div className={style.buttonsContainer}>
+        <button>{buttonText || 'Cadastrar'}</button>
+        <button>Filtros</button>
+      </div>
     </header>
   )
 }

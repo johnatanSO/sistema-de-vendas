@@ -1,5 +1,5 @@
-import { productsService } from '../../services/productsService'
-import { HeaderPage } from '../../components/HeaderPage'
+import { productsService } from '../../../services/productsService'
+import { HeaderPage } from '../../../components/HeaderPage'
 import { useEffect, useState } from 'react'
 import style from './Products.module.scss'
 
