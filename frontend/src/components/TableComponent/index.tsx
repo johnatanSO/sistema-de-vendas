@@ -22,7 +22,10 @@ export function TableComponent({ columns, rows }: Props) {
               {columns.map((column) => {
                 return (
                   <td key={column.field}>
-                    {column.valueFormatter(row[column.field])}
+                    {column.valueFormatter({
+                      value: row[column.field],
+                      data: row,
+                    })}
                   </td>
                 )
               })}

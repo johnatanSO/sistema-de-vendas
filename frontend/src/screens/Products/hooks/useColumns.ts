@@ -6,23 +6,26 @@ export function useColumns(): Column[] {
     {
       headerName: 'Código',
       field: '_id',
-      valueFormatter: (params: ValueFormatterParams) => params.value,
+      valueFormatter: (params: ValueFormatterParams) => params.value || '--',
     },
     {
       headerName: 'Nome do produto',
       field: 'name',
-      valueFormatter: (params: ValueFormatterParams) => params.value,
+      valueFormatter: (params: ValueFormatterParams) => params.value || '--',
     },
     {
       headerName: 'Quantidade',
       field: 'stock',
-      valueFormatter: (params: ValueFormatterParams) => params.value,
+      valueFormatter: (params: ValueFormatterParams) => {
+        console.log(params)
+        return params.value || '--'
+      },
     },
     {
       headerName: 'Valor',
       field: 'value',
       valueFormatter: (params: ValueFormatterParams) =>
-        format.formatarReal(params.value),
+        format.formatarReal(params.value || 0),
     },
   ]
 }
