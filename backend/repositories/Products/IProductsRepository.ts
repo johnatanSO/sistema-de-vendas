@@ -5,6 +5,7 @@ export interface Product {
   name: string
   value: number
   stock: number
+  amount?: number
 }
 
 export interface IProductsRepository {
@@ -14,4 +15,5 @@ export interface IProductsRepository {
   delete: (idProduct: string) => void
   findByName: (name: string) => Promise<Product | null>
   findById: (productId: string) => Promise<Product | null>
+  updateStock: (product: Product) => void
 }

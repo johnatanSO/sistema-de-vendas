@@ -1,10 +1,7 @@
 import { IProductsRepository } from './../repositories/Products/IProductsRepository'
 
 export class DeleteProductService {
-  productsRepository: IProductsRepository
-  constructor(productsRepository: IProductsRepository) {
-    this.productsRepository = productsRepository
-  }
+  constructor(private productsRepository: IProductsRepository) {}
 
   async execute(idProduct: string) {
     const productNotFound = await this.productsRepository.findById(idProduct)

@@ -1,10 +1,10 @@
 import express, { Express } from 'express'
-import dbConnection from './src/mongoConfigs'
+import dbConnection from './mongoConfigs'
 import cors from 'cors'
-import { vendasRoutes } from './src/routes/vendas'
-import { dashboardRoutes } from './src/routes/dashboard'
-import { produtosRoutes } from './src/routes/produtos'
-import { usersRoutes } from './src/routes/users'
+import { vendasRoutes } from './routes/vendas'
+import { dashboardRoutes } from './routes/dashboard'
+import { produtosRoutes } from './routes/produtos'
+import { usersRoutes } from './routes/users'
 
 interface CustomExpress extends Express {
   mongo?: any

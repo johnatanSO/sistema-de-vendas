@@ -14,4 +14,5 @@ export interface Sale {
 export interface ISalesRepository {
   list: () => Promise<Sale[]>
   create: (SaleData: Sale) => Promise<Sale>
+  cancel: (idSale: string) => void
 }

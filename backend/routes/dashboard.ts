@@ -10,7 +10,7 @@ interface Sale {
 
 dashboardRoutes.get('/formasDePagamento', async (req, res) => {
   try {
-    const sales = await SaleModel.find()
+    const sales = await SaleModel.find().sort({ totalValue: -1 })
     const paymentTypes = sales?.reduce(
       (acc: { type: string; value: number }[], sale: Sale) => {
         const paymentAlreadyExists = !!acc.find(

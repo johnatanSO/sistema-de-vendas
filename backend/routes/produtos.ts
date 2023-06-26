@@ -7,7 +7,6 @@ import { DeleteProductService } from '../services/DeleteProductService.service'
 const produtosRoutes = express.Router()
 const productsRepository = new ProductsRepository()
 
-// [X] - TODO: Refactor and move query to repository.
 produtosRoutes.get('/', async (req: Request, res: Response) => {
   try {
     const products = await productsRepository.list()
@@ -15,14 +14,11 @@ produtosRoutes.get('/', async (req: Request, res: Response) => {
       items: products,
       message: 'Busca concluída com sucesso!',
     })
-  } catch (err) {
-    res
-      .status(500)
-      .json({ error: err, message: 'Falha ao buscar dados', items: [] })
+  } catch ({ message }) {
+    res.status(500).json({ message })
   }
 })
 
-// [X] - TODO: Refactor and move logic to services.
 produtosRoutes.post('/', async (req: Request, res: Response) => {
   const { name, value, stock } = req.body
   try {
@@ -40,9 +36,9 @@ produtosRoutes.post('/', async (req: Request, res: Response) => {
       item: newProduct,
       message: 'Produto cadastrado com sucesso!',
     })
-  } catch (error: any) {
+  } catch ({ message }) {
     res.status(400).json({
-      error: error.message,
+      message,
     })
   }
 })

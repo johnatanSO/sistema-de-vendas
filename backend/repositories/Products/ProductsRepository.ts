@@ -31,4 +31,11 @@ export class ProductsRepository implements IProductsRepository {
   async findById(productId: string): Promise<Product | null> {
     return await ProductModel.findOne({ _id: productId })
   }
+
+  async updateStock(product: Product) {
+    await ProductModel.updateOne(
+      { _id: product._id },
+      { $inc: { stock: -Number(product.amount) } },
+    )
+  }
 }
