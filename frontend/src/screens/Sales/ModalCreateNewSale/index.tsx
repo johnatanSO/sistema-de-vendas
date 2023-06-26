@@ -1,4 +1,4 @@
-import { ModalLayout } from '@/src/components/ModalLayout'
+import { ModalLayout } from '../../../components/ModalLayout'
 import { FormEvent } from 'react'
 import style from './ModalCreateNewSale.module.scss'
 
