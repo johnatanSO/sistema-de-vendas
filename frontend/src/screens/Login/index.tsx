@@ -4,13 +4,13 @@ import { useState } from 'react'
 import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
 
-export interface LogginUserData {
+export interface LoginUserData {
   email: string
   password: string
 }
 
 export function Login() {
-  const [userData, setUserData] = useState<LogginUserData>({
+  const [userData, setUserData] = useState<LoginUserData>({
     email: '',
     password: '',
   })
@@ -21,7 +21,7 @@ export function Login() {
     if (!userData?.password) return alert('Digite a sua senha')
 
     usersService
-      .login()
+      .login({ userData })
       .then(() => {
         router.push('/')
       })

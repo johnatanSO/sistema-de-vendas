@@ -15,7 +15,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <div className="wrapper">
       <Head>
-        <title>My page title</title>
+        <title>Sistema de vendas</title>
       </Head>
       {restrictLayout && <Sidebar />}
 

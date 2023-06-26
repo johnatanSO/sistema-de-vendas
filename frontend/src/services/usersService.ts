@@ -1,5 +1,10 @@
 import http from '../api/http'
 import { NewUser } from '../screens/CreateAccount'
+import { LoginUserData } from '../screens/Login'
+
+interface LoginParams {
+  userData: LoginUserData
+}
 
 interface RegisterParams {
   newUser: NewUser
@@ -14,7 +19,13 @@ export const usersService = {
     return logged
   },
 
-  async login() {},
+  async login({ userData }: LoginParams) {
+    const body: any = { ...userData }
+
+    return http.post('/users/login', {
+      ...body,
+    })
+  },
 
   async register({ newUser }: RegisterParams) {
     const body = { ...newUser }
