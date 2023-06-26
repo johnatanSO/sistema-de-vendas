@@ -3,9 +3,18 @@ import { HeaderPage } from '../../components/HeaderPage'
 import { useEffect, useState } from 'react'
 import style from './Sales.module.scss'
 import { ModalCreateNewSale } from './ModalCreateNewSale'
+import dayjs from 'dayjs'
+import { format } from '../../../src/utils/format'
+
+interface Sale {
+  _id: string
+  date: Date
+  totalValue: number
+  client: string
+}
 
 export function Sales() {
-  const [sales, setSales] = useState<any[]>([])
+  const [sales, setSales] = useState<Sale[]>([])
   const [loadingSales, setLoadingSales] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
 
@@ -41,26 +50,24 @@ export function Sales() {
       <table className={style.table}>
         <thead>
           <tr>
-            <th>Title 1</th>
-            <th>Title 2</th>
+            <th>Nº do pedido</th>
+            <th>Cliente</th>
+            <th>Data da venda</th>
+            <th>Valor</th>
           </tr>
         </thead>
         <tbody>
           {sales?.map((sale) => {
             return (
               <tr key={sale._id}>
-                <td>Corpo 1</td>
-                <td>Corpo 2</td>
+                <td>{sale._id}</td>
+                <td>{sale.client || '--'}</td>
+                <td>{dayjs(sale.date).format('DD/MM/YYYY - HH:mm')}</td>
+                <td>{format.formatarReal(sale.totalValue)}</td>
               </tr>
             )
           })}
         </tbody>
-        <tfoot>
-          <tr>
-            <td>Footer 1</td>
-            <td>Footer 2</td>
-          </tr>
-        </tfoot>
       </table>
 
       {formModalOpened && (
