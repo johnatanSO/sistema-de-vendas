@@ -1,8 +1,10 @@
 import { productsService } from '../../services/productsService'
 import { HeaderPage } from '../../components/HeaderPage'
 import { useEffect, useState } from 'react'
-import style from './Products.module.scss'
 import { ModalCreateNewProduct } from './ModalCreateNewProduct'
+import { TableComponent } from '../../../src/components/TableComponent'
+import { Column } from '../../../src/models/columns'
+import { useColumns } from './hooks/useColumns'
 
 interface Product {
   _id: string
@@ -32,6 +34,8 @@ export function Products() {
     getProducts()
   }, [])
 
+  const columns: Column[] = useColumns()
+
   return (
     <>
       <HeaderPage
@@ -41,30 +45,8 @@ export function Products() {
         buttonText="Novo produto"
       />
       {loadingProducts && <span>carregando produtos...</span>}
-      <table className={style.table}>
-        <thead>
-          <tr>
-            <th>Title 1</th>
-            <th>Title 2</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products?.map((sale) => {
-            return (
-              <tr key={sale._id}>
-                <td>Corpo 1</td>
-                <td>Corpo 2</td>
-              </tr>
-            )
-          })}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>Footer 1</td>
-            <td>Footer 2</td>
-          </tr>
-        </tfoot>
-      </table>
+
+      <TableComponent columns={columns} rows={products} />
 
       {formModalOpened && (
         <ModalCreateNewProduct

@@ -3,9 +3,8 @@ import { HeaderPage } from '../../components/HeaderPage'
 import { useEffect, useState } from 'react'
 import { ModalCreateNewSale } from './ModalCreateNewSale'
 import { TableComponent } from '../../../src/components/TableComponent'
-import { Column, ValueFormatterParams } from '../../../src/models/columns'
-import dayjs from 'dayjs'
-import { format } from '../../../src/utils/format'
+import { Column } from '../../../src/models/columns'
+import { useColumns } from './hooks/useColumns'
 
 interface Sale {
   _id: string
@@ -38,30 +37,7 @@ export function Sales() {
     getSales()
   }, [])
 
-  const columns: Column[] = [
-    {
-      headerName: 'Nº pedido',
-      field: '_id',
-      valueFormatter: (params: ValueFormatterParams) => params.value,
-    },
-    {
-      headerName: 'Cliente',
-      field: 'client',
-      valueFormatter: (params: ValueFormatterParams) => params.value,
-    },
-    {
-      headerName: 'Data da venda',
-      field: 'date',
-      valueFormatter: (params: ValueFormatterParams) =>
-        dayjs(params.value).format('DD/MM/YYYY - HH:mm'),
-    },
-    {
-      headerName: 'Valor total',
-      field: 'totalValue',
-      valueFormatter: (params: ValueFormatterParams) =>
-        format.formatarReal(params.value),
-    },
-  ]
+  const columns: Column[] = useColumns()
 
   return (
     <>
