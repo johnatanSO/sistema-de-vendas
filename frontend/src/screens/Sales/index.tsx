@@ -1,8 +1,9 @@
 import { salesService } from '../../services/salesService'
 import { HeaderPage } from '../../components/HeaderPage'
 import { useEffect, useState } from 'react'
-import style from './Sales.module.scss'
 import { ModalCreateNewSale } from './ModalCreateNewSale'
+import { TableComponent } from '../../../src/components/TableComponent'
+import { ValueFormatterParams } from '@/src/models/columns'
 import dayjs from 'dayjs'
 import { format } from '../../../src/utils/format'
 
@@ -37,6 +38,31 @@ export function Sales() {
     getSales()
   }, [])
 
+  const columns: any = [
+    {
+      headerName: 'Nº pedido',
+      field: '_id',
+      valueFormatter: (params: ValueFormatterParams) => params.value,
+    },
+    {
+      headerName: 'Cliente',
+      field: 'client',
+      valueFormatter: (params: ValueFormatterParams) => params.value,
+    },
+    {
+      headerName: 'Data da venda',
+      field: 'date',
+      valueFormatter: (params: ValueFormatterParams) =>
+        dayjs(params.value).format('DD/MM/YYYY - HH:mm'),
+    },
+    {
+      headerName: 'Valor total',
+      field: 'totalValue',
+      valueFormatter: (params: ValueFormatterParams) =>
+        format.formatarReal(params.value),
+    },
+  ]
+
   return (
     <>
       <HeaderPage
@@ -47,28 +73,7 @@ export function Sales() {
       />
       {loadingSales && <span>carregando vendas...</span>}
 
-      <table className={style.table}>
-        <thead>
-          <tr>
-            <th>Nº do pedido</th>
-            <th>Cliente</th>
-            <th>Data da venda</th>
-            <th>Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sales?.map((sale) => {
-            return (
-              <tr key={sale._id}>
-                <td>{sale._id}</td>
-                <td>{sale.client || '--'}</td>
-                <td>{dayjs(sale.date).format('DD/MM/YYYY - HH:mm')}</td>
-                <td>{format.formatarReal(sale.totalValue)}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      <TableComponent columns={columns} rows={sales} />
 
       {formModalOpened && (
         <ModalCreateNewSale

@@ -1,0 +1,17 @@
+@import "../../../styles/colors.scss";
+
+.table {
+  width: 100%;
+  margin-top: 20px;
+  border-radius: 10px;
+  border-collapse: collapse;
+
+  background: $gray-color-400;
+  box-shadow: 1px 5px 10px rgba(0, 0, 0);
+
+  td,
+  th {
+    padding: 0.6rem 1.2rem;
+    text-align: start;
+  }
+}
