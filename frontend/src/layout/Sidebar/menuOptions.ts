@@ -4,6 +4,7 @@ import {
   faClipboardList,
   faUsers,
   faBox,
+  faClipboardUser,
 } from '@fortawesome/free-solid-svg-icons'
 
 interface MenuOption {
@@ -27,15 +28,15 @@ export const menuOptions: MenuOption[] = [
     name: 'vendas',
   },
   {
-    title: 'Clientes',
-    link: '/clientes',
-    icon: faUsers,
-    name: 'clientes',
-  },
-  {
     title: 'Produtos',
     link: '/produtos',
     icon: faBox,
     name: 'produtos',
+  },
+  {
+    title: 'Clientes',
+    link: '/clientes',
+    icon: faClipboardUser,
+    name: 'clientes',
   },
 ]
