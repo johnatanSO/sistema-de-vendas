@@ -1,7 +1,10 @@
 import { ISalesRepository, Sale } from '../repositories/Sales/ISalesRepository'
 
 export class CreateNewSaleService {
-  constructor(private salesRepository: ISalesRepository) {}
+  salesRepository: ISalesRepository
+  constructor(salesRepository: ISalesRepository) {
+    this.salesRepository = salesRepository
+  }
 
   async execute({
     client,

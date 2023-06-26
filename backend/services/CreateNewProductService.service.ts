@@ -2,7 +2,10 @@ import { IProductsRepository } from './../repositories/Products/IProductsReposit
 import { Product } from '../repositories/Products/IProductsRepository'
 
 export class CreateNewProductService {
-  constructor(private productsRepository: IProductsRepository) {}
+  productsRepository: IProductsRepository
+  constructor(productsRepository: IProductsRepository) {
+    this.productsRepository = productsRepository
+  }
 
   async execute({ name, value, stock }: Product): Promise<Product> {
     const alreadExistProduct = await this.productsRepository.findByName(name)

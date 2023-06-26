@@ -4,7 +4,10 @@ import {
 } from '../repositories/Products/IProductsRepository'
 
 export class UpdateProductsStock {
-  constructor(private productsRepository: IProductsRepository) {}
+  productsRepository: IProductsRepository
+  constructor(productsRepository: IProductsRepository) {
+    this.productsRepository = productsRepository
+  }
 
   async execute(products: Product[]) {
     for (const product of products) {

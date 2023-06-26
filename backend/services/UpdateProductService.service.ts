@@ -1,7 +1,10 @@
 import { IProductsRepository } from './../repositories/Products/IProductsRepository'
 
 export class UpdateNewProductService {
-  constructor(private productsRepository: IProductsRepository) {}
+  productsRepository: IProductsRepository
+  constructor(productsRepository: IProductsRepository) {
+    this.productsRepository = productsRepository
+  }
 
   async execute({ name, _id, value, stock }: any): Promise<any> {
     const productNotFound = await this.productsRepository.findById(_id)
