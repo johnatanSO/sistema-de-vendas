@@ -1,4 +1,4 @@
-import { Products } from '@/src/screens/Products'
+import { Products } from '../src/screens/Products'
 
 export default function ProductsPage() {
   return (

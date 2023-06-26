@@ -2,10 +2,12 @@ import { salesService } from '../../services/salesService'
 import { HeaderPage } from '../../components/HeaderPage'
 import { useEffect, useState } from 'react'
 import style from './Sales.module.scss'
+import { ModalCreateNewSale } from './ModalCreateNewSale'
 
 export function Sales() {
   const [sales, setSales] = useState<any[]>([])
   const [loadingSales, setLoadingSales] = useState<boolean>(true)
+  const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
 
   function getSales() {
     setLoadingSales(true)
@@ -28,8 +30,14 @@ export function Sales() {
 
   return (
     <>
-      <HeaderPage buttonText="Nova venda" />
+      <HeaderPage
+        onClickFunction={() => {
+          setFormModalOpened(true)
+        }}
+        buttonText="Nova venda"
+      />
       {loadingSales && <span>carregando vendas...</span>}
+
       <table className={style.table}>
         <thead>
           <tr>
@@ -54,6 +62,15 @@ export function Sales() {
           </tr>
         </tfoot>
       </table>
+
+      {formModalOpened && (
+        <ModalCreateNewSale
+          open={formModalOpened}
+          handleClose={() => {
+            setFormModalOpened(false)
+          }}
+        />
+      )}
     </>
   )
 }
