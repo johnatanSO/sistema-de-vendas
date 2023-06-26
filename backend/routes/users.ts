@@ -40,4 +40,26 @@ usersRoutes.post('/register', async (req: Request, res: Response) => {
     })
   }
 })
+
+usersRoutes.get('/login', async (req: Request, res: Response) => {
+  const { name, email, password } = req.body
+  try {
+    const createNewUserService = new CreateNewUserService(usersRepository)
+
+    const newProduct = await createNewUserService.execute({
+      name,
+      email,
+      password,
+    })
+
+    res.status(201).json({
+      item: newProduct,
+      message: 'Produto cadastrado com sucesso!',
+    })
+  } catch (error: any) {
+    res.status(400).json({
+      error: error.message,
+    })
+  }
+})
 export { usersRoutes }
