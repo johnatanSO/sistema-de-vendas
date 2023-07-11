@@ -54,7 +54,6 @@ vendasRoutes.post('/', async (req: Request, res: Response) => {
 
 vendasRoutes.put('/cancelar', async (req: Request, res: Response) => {
   const { _id } = req.body
-
   try {
     const cancelSaleService = new CancelSaleService(salesRepository)
     cancelSaleService.execute(_id)
