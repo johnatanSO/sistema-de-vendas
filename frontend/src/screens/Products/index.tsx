@@ -7,6 +7,7 @@ import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
 import { EmptyItems } from '../../../src/components/EmptyItems'
 import { useRouter } from 'next/router'
+import { FilterByName } from '../../../src/components/FilterByName'
 
 export interface Product {
   _id: string
@@ -57,6 +58,7 @@ export function Products() {
           setFormModalOpened(true)
         }}
         buttonText="Novo produto"
+        InputFilter={<FilterByName />}
       />
 
       {products?.length > 0 && (

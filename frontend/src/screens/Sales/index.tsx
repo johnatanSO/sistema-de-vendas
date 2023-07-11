@@ -6,6 +6,7 @@ import { TableComponent } from '../../../src/components/TableComponent'
 import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
+import { FilterDate } from '../../../src/components/FilterDate'
 
 export interface Sale {
   _id: string
@@ -59,6 +60,7 @@ export function Sales() {
           setFormModalOpened(true)
         }}
         buttonText="Nova venda"
+        InputFilter={<FilterDate />}
       />
 
       <TableComponent loading={loadingSales} columns={columns} rows={sales} />

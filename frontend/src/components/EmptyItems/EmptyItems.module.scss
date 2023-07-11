@@ -1,27 +1,31 @@
-@import '../../../styles/colors.scss';
+@import "../../../styles/colors.scss";
 
-.emptyItemsContainer{
-	display: flex; 
-	flex-direction: column; 
-	align-items: center;
+.emptyItemsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  gap: 10px;
   text-align: center;
   align-self: center;
-  width: 100%; 
 
-	background: $gray-color-500;
-	box-shadow: 1px 4px 7px rgba(0, 0, 0, 0.334);
+  width: 100%;
 
-	border-radius: 15px;
-	padding: 45px 10px;
+  background: $gray-color-500;
+  color: $gray-color-300;
+  box-shadow: 1px 4px 7px rgba(0, 0, 0, 0.334);
 
-  h2{
+  border-radius: 15px;
+  padding: 45px 10px;
+  margin-top: 20px;
+
+  h2 {
     font-size: 1.4rem;
   }
 }
 
 @media (max-width: 1070px) {
-  .emptyItemsContainer{
+  .emptyItemsContainer {
     width: 80%;
     padding: 0;
   }

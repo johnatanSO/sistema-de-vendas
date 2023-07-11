@@ -12,7 +12,7 @@ export function EmptyItems({ text, icon }: EmpytItems) {
     <div className={style.emptyItemsContainer}>
       <h2>{text}</h2>
       <FontAwesomeIcon
-        style={{ fontSize: '4.5rem', margin: '20px 0px' }}
+        style={{ height: '4.5rem' }}
         icon={icon || faSquareXmark}
       />
     </div>

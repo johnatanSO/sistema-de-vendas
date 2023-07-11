@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import http from '../api/http'
 
 interface GetAllParams {
@@ -19,7 +20,12 @@ interface DeleteParams {
 export const salesService = {
   async getAll({ filters }: GetAllParams) {
     const params = {
-      ...filters,
+      ...(filters?.startDate
+        ? { startDate: filters?.startDate }
+        : { startDate: dayjs().startOf('month').toISOString() }),
+      ...(filters?.endDate
+        ? { endDate: filters?.endDate }
+        : { endDate: dayjs().endOf('month').toISOString() }),
     }
     return await http.get('/vendas/', {
       params,

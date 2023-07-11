@@ -5,12 +5,13 @@
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   .buttonsContainer {
     display: flex;
     align-items: center;
     gap: 15px;
+
+    margin-left: auto;
 
     button{
       border-radius: 10px;
