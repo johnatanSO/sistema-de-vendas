@@ -72,7 +72,7 @@ produtosRoutes.put('/', async (req: Request, res: Response) => {
 
 // [X] - TODO: Refactor and move logic to services.
 produtosRoutes.delete('/', async (req: Request, res: Response) => {
-  const { idProduct } = req.body
+  const { idProduct } = req.query
 
   try {
     const deleteProductService = new DeleteProductService(productsRepository)

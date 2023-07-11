@@ -23,7 +23,6 @@ usersRoutes.post('/register', async (req: Request, res: Response) => {
   const { name, email, password } = req.body
   try {
     const createNewUserService = new CreateNewUserService(usersRepository)
-
     const newProduct = await createNewUserService.execute({
       name,
       email,

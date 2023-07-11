@@ -6,7 +6,7 @@ export class DeleteProductService {
     this.productsRepository = productsRepository
   }
 
-  async execute(idProduct: string) {
+  async execute(idProduct: any) {
     const productNotFound = await this.productsRepository.findById(idProduct)
 
     if (!productNotFound) {
