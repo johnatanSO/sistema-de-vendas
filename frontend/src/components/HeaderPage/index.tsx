@@ -11,8 +11,10 @@ export function HeaderPage({ buttonText, onClickFunction }: HeaderPageProps) {
     <header className={style.headerContainer}>
       <FilterDate />
       <div className={style.buttonsContainer}>
-        <button onClick={onClickFunction}>{buttonText || 'Cadastrar'}</button>
-        <button>Filtros</button>
+        <button className={style.createNewButton} onClick={onClickFunction}>
+          {buttonText || 'Cadastrar'}
+        </button>
+        <button className={style.filtersButton}>Filtros</button>
       </div>
     </header>
   )

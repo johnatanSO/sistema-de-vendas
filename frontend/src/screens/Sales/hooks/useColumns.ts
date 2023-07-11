@@ -12,7 +12,7 @@ export function useColumns(): Column[] {
     {
       headerName: 'Cliente',
       field: 'client',
-      valueFormatter: (params: ValueFormatterParams) => params.value,
+      valueFormatter: (params: ValueFormatterParams) => params.value || '--',
     },
     {
       headerName: 'Data da venda',

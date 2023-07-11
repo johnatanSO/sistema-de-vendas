@@ -1,9 +1,13 @@
+import style from './FilterDate.module.scss'
+
 export function FilterDate() {
   return (
-    <div>
+    <div className={style.inputsContainer}>
       <input type="date" />
       <input type="date" />
-      <button>Filtrar</button>
+      <button className={style.filterButton} type="button">
+        Filtrar
+      </button>
     </div>
   )
 }

@@ -31,6 +31,23 @@ body {
   flex: 1;
   padding: 1.2rem;
   overflow-y: auto;
+
+  scroll-behavior: smooth;
+  
+  &::-webkit-scrollbar {
+    width: 12px;
+    height: 12px; 
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $gray-color-400
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary-color;   
+    border-radius: 20px;      
+    border: 3px solid $gray-color-400;
+  }
 }
 
 .loginContainer{

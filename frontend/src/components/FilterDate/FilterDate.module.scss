@@ -1,0 +1,44 @@
+@import "../../../styles/colors.scss";
+
+.inputsContainer {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  input {
+    padding: 0.4rem 1rem;
+    line-height: 1;
+    border-radius: 10px;
+
+    background: $gray-color-400;
+    border: 1px solid $gray-color-300;
+    color: $gray-color-200;
+  }
+
+  .filterButton {
+    border-radius: 10px;
+    border: none;
+    padding: 0.7rem 1.1rem;
+
+    background: $primary-color;
+    color: $white-color;
+    box-shadow: 1px 2px 5px rgb(0 0 0);
+
+    font-weight: 500;
+    font-size: 0.8rem;
+    line-height: 1;
+
+    transition: filter 0.2s;
+    cursor: pointer;
+
+    &:not(:disabled):hover {
+      filter: brightness(0.8);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+  }
+}
