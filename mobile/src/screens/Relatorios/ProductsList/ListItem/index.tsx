@@ -8,21 +8,21 @@ import { styles } from './ListItem.styles'
 
 interface ListItemProps {
   item: Product
-  setProductDataToEdit: (productData: Product | undefined) => void
+  handleEditProduct: (productData: Product) => void
   handleDeleteProduct: (idProduct: string) => void
-  handleOpenEditModal: (open: boolean) => void
 }
 
 export function ListItem({
   item,
-  setProductDataToEdit,
   handleDeleteProduct,
-  handleOpenEditModal,
+  handleEditProduct,
 }: ListItemProps) {
   return (
     <View style={styles.productItem}>
       <View style={styles.infosContainer}>
-        <Text style={styles.textName}>{item?.name}</Text>
+        <Text numberOfLines={1} style={styles.textName}>
+          {item?.name || '--'}
+        </Text>
         <Text style={item?.stock === 0 ? styles.textAlert : styles.text}>
           Quantidade {item?.stock}
         </Text>
@@ -34,8 +34,7 @@ export function ListItem({
       <View style={styles.actionsContainer}>
         <Pressable
           onPress={() => {
-            handleOpenEditModal(true)
-            setProductDataToEdit(item)
+            handleEditProduct(item)
           }}
           style={styles.editButton}
         >

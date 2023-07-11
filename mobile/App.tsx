@@ -9,6 +9,7 @@ import {
 } from '@expo-google-fonts/roboto'
 import { Loading } from './src/components/Loading'
 import theme from './styles/theme'
+import { AlertContextComponent } from './src/contexts/alertContext'
 
 export default function App() {
   const [fontsLoader] = useFonts({
@@ -26,9 +27,11 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      <NavigationContainer theme={createTheme}>
-        {fontsLoader ? <Routes /> : <Loading />}
-      </NavigationContainer>
+      <AlertContextComponent>
+        <NavigationContainer theme={createTheme}>
+          {fontsLoader ? <Routes /> : <Loading />}
+        </NavigationContainer>
+      </AlertContextComponent>
     </>
   )
 }

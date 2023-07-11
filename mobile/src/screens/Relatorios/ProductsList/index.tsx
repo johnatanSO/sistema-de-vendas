@@ -1,21 +1,34 @@
 import { View, FlatList } from 'react-native'
 import { EmptyItems } from '../../../components/EmptyItems'
 import { styles } from './ProductsList.styles'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ButtonCreateNew } from '../../../components/ButtonCreateNew'
 import { ModalCreateNewProduct } from './ModalCreateNewProduct'
 import { productsService } from '../../../services/productsService.service'
 import { Loading } from '../../../components/Loading'
 import { ListItem } from './ListItem'
+import { AlertContext } from '../../../contexts/alertContext'
 
 export interface Product {
   _id: string
   name: string
   value: number
   stock: number
+  amount: number
 }
 
-export function ProductsList() {
+interface ProductsListProps {
+  navigation: any
+  focus: string
+}
+
+export function ProductsList({ navigation, focus }: ProductsListProps) {
+  const {
+    alertDialogConfirmConfigs,
+    setAlertDialogConfirmConfigs,
+    alertNotifyConfigs,
+    setAlertNotifyConfigs,
+  } = useContext(AlertContext)
   const [products, setProducts] = useState<Product[]>([])
   const [modalCreateNewProductOpened, setModalCreateNewProductOpened] =
     useState<boolean>(false)
@@ -40,15 +53,49 @@ export function ProductsList() {
   }
 
   function handleDeleteProduct(idProduct: string) {
-    productsService
-      .delete(idProduct)
-      .then(() => {
-        getProducts()
-      })
-      .catch((err) => {
-        console.log('[ERROR]: ', err)
-      })
+    setAlertDialogConfirmConfigs({
+      ...alertDialogConfirmConfigs,
+      open: true,
+      title: 'Alerta de confirmação',
+      text: 'Deseja realmente deletar este produto?',
+      onClickAgree: () => {
+        productsService
+          .delete(idProduct)
+          .then(() => {
+            setAlertNotifyConfigs({
+              ...alertNotifyConfigs,
+              open: true,
+              type: 'success',
+              text: 'Produto excluído com sucesso',
+            })
+            getProducts()
+          })
+          .catch((err) => {
+            setAlertNotifyConfigs({
+              ...alertNotifyConfigs,
+              open: true,
+              type: 'error',
+              text:
+                'Erro ao tentar excluír produto' + err.response.data.message,
+            })
+            console.log('[ERROR]: ', err.response.data.message)
+          })
+      },
+    })
   }
+
+  function handleEditProduct(product: Product) {
+    setProductDataToEdit(product)
+    setModalCreateNewProductOpened(true)
+  }
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getProducts()
+    })
+
+    return unsubscribe
+  }, [navigation])
 
   useEffect(() => {
     getProducts()
@@ -76,9 +123,8 @@ export function ProductsList() {
           renderItem={({ item }) => {
             return (
               <ListItem
-                handleOpenEditModal={setModalCreateNewProductOpened}
+                handleEditProduct={handleEditProduct}
                 handleDeleteProduct={handleDeleteProduct}
-                setProductDataToEdit={setProductDataToEdit}
                 item={item}
               />
             )
@@ -91,7 +137,10 @@ export function ProductsList() {
           productDataToEdit={productDataToEdit}
           setProductDataToEdit={setProductDataToEdit}
           getProducts={getProducts}
-          handleClose={setModalCreateNewProductOpened}
+          open={modalCreateNewProductOpened}
+          handleClose={() => {
+            setModalCreateNewProductOpened(false)
+          }}
         />
       )}
     </>

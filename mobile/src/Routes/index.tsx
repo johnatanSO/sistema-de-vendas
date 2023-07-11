@@ -3,7 +3,7 @@ import { Relatorios } from '../screens/Relatorios'
 import { NovaVenda } from '../screens/NovaVenda'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Vendas } from '../screens/Vendas'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {
   faChartPie,
@@ -26,12 +26,12 @@ export function Routes() {
           tabBarStyle: {
             backgroundColor: theme.COLORS.GRAY_600,
             borderTopWidth: 0,
-            paddingBottom: 10,
-            paddingTop: 6,
+            height: Platform.OS === 'ios' ? 85 : 60,
+            paddingBottom: Platform.OS === 'ios' ? 15 : 7,
           },
         }}
       >
-        {/* <Screen
+        <Screen
           name="Dashboard"
           component={Dashboard}
           options={{
@@ -40,8 +40,8 @@ export function Routes() {
               <FontAwesomeIcon color={color} icon={faChartPie} size={20} />
             ),
           }}
-        /> */}
-        {/* <Screen
+        />
+        <Screen
           name="Vendas"
           component={Vendas}
           options={{
@@ -50,8 +50,8 @@ export function Routes() {
               <FontAwesomeIcon color={color} icon={faDollarSign} size={20} />
             ),
           }}
-        /> */}
-        {/* <Screen
+        />
+        <Screen
           name="Relatorios"
           component={Relatorios}
           options={{
@@ -60,7 +60,7 @@ export function Routes() {
               <FontAwesomeIcon color={color} icon={faClipboardList} size={20} />
             ),
           }}
-        /> */}
+        />
         <Screen
           name="NovaVenda"
           component={NovaVenda}

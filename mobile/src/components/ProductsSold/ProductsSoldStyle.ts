@@ -7,7 +7,11 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.COLORS.GRAY_600,
     borderRadius: 20,
     margin: 20,
-    boxShadow: '1px 3px 10px rgba(0,0,0,0.5)',
+    boxShadow: '1px 3px 10px rgba(255,0,0)',
+    shadowColor: 'rgba(0,0,0,0.5)',
+    /* shadowOffset: {width: 1, height: 3},
+    shadowOpacity: 0.5,
+    shadowRadius: 10, */
   },
   card: {
     boxShadow: '0px 3px 7px rgba(0,0,0,0.2)',

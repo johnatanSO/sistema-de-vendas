@@ -1,16 +1,24 @@
-import { StyleSheet } from 'react-native'
+import { Dimensions, StyleSheet } from 'react-native'
 import theme from '../../../styles/theme'
+
+const windowHeight = Dimensions.get('window').height
 
 export const styles = StyleSheet.create({
   summaryContainer: {
     width: '85%',
-    marginTop: '-6vh',
+    marginTop: -windowHeight / 16.4,
     backgroundColor: theme.COLORS.GRAY_600,
     borderRadius: 20,
-    boxShadow: '1px 3px 10px rgba(0,0,0,0.5)',
+    shadowColor: '#000',
+    shadowOffset: { width: 1, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 10,
   },
   card: {
-    boxShadow: '0px 3px 7px rgba(0,0,0,0.2)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 7,
     backgroundColor: theme.COLORS.GRAY_400,
     flex: 1,
     padding: 20,
@@ -27,8 +35,6 @@ export const styles = StyleSheet.create({
   },
   titleContainer: {
     color: theme.COLORS.GRAY_100,
-    borderBottomWidth: 1,
-    borderColor: theme.COLORS.GRAY_300,
     paddingBottom: 7,
     paddingLeft: 25,
     paddingRight: 25,

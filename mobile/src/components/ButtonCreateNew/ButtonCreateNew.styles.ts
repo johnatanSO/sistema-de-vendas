@@ -16,6 +16,7 @@ export const styles = StyleSheet.create({
   },
   buttonText: {
     color: theme.COLORS.WHITE,
-    fontWeight: '500',
+    fontFamily: theme.FONT_FAMILY.BOLD,
+    fontSize: 16,
   },
 })

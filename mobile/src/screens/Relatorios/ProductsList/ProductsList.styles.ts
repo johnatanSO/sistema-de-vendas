@@ -4,6 +4,8 @@ export const styles = StyleSheet.create({
   list: {
     marginTop: 25,
     marginBottom: 25,
-    width: '85%',
+    width: '100%',
+    paddingLeft: '7%',
+    paddingRight: '7%',
   },
 })

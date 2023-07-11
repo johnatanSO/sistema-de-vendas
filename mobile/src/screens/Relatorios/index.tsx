@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { View, Text } from 'react-native'
+import { Text, View } from 'react-native'
 import { styles } from './RelatoriosStyles'
 import HeaderReports from '../../layout/HeaderReports'
 import { ProductsList } from './ProductsList'
 import { Submenu } from './Submenu'
 
-export function Relatorios() {
+export function Relatorios({ navigation }: any) {
   const [activeReport, setActiveReport] = useState<string>('products')
 
   return (
@@ -15,7 +15,7 @@ export function Relatorios() {
       <Submenu activeReport={activeReport} setActiveReport={setActiveReport} />
 
       {activeReport === 'products' ? (
-        <ProductsList />
+        <ProductsList focus={activeReport} navigation={navigation} />
       ) : activeReport === 'clients' ? (
         <Text style={{ color: 'white', marginTop: 20 }}>
           Página de clientes em desenvolvimento...
