@@ -3,7 +3,7 @@ import { IProductsRepository, Product } from './IProductsRepository'
 
 export class ProductsRepository implements IProductsRepository {
   async list(searchString: any): Promise<Product[]> {
-    return await ProductModel.find({ name: searchString })
+    return await ProductModel.find({ name: new RegExp('^' + searchString) })
   }
 
   async create(ProductData: Product): Promise<Product> {
