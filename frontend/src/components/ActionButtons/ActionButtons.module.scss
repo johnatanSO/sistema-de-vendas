@@ -7,7 +7,6 @@
   gap: 20px;
   
   button {
-    line-height: 0;
     border: none;
     background: transparent;
 
@@ -29,6 +28,7 @@
 
     .icon {
       height: 20px;
+      filter: drop-shadow(1px 2px 3px rgb(0 0 0 / 0.6));
     }
   }
 }

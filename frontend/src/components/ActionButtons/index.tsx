@@ -15,6 +15,7 @@ export function ActionButtons({ actions, params }: Props) {
             style={{ color: action?.color || '' }}
             key={key}
             type="button"
+            disabled={params?.data?.status === 'canceled'}
             onClick={() => {
               action?.onClickFunction?.(params.data)
             }}

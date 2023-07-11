@@ -52,7 +52,9 @@ export const salesService = {
     })
   },
 
-  async delete({ idSale }: DeleteParams) {
-    return await http.delete(`/vendas/${idSale}`)
+  async cancel({ idSale }: DeleteParams) {
+    return await http.put(`/vendas/cancelar/`, {
+      _id: idSale,
+    })
   },
 }

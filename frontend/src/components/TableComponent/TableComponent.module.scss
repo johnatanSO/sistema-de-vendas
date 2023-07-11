@@ -14,6 +14,7 @@
     tr {
       display: flex;
       flex-direction: row;
+      align-items: center;
 
       th {
         flex: 1;
@@ -30,6 +31,7 @@
     tr {
       display: flex;
       flex-direction: row;
+      align-items: center;
 
       box-shadow: 1px 5px 10px rgba(0, 0, 0);
       background: $gray-color-400;

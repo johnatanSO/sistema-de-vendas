@@ -1,12 +1,13 @@
 import { salesService } from '../../services/salesService'
 import { HeaderPage } from '../../components/HeaderPage'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ModalCreateNewSale } from './ModalCreateNewSale'
 import { TableComponent } from '../../../src/components/TableComponent'
 import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { FilterDate } from '../../../src/components/FilterDate'
+import { AlertContext } from '../../../src/contexts/alertContext'
 
 export interface Sale {
   _id: string
@@ -16,6 +17,12 @@ export interface Sale {
 }
 
 export function Sales() {
+  const {
+    alertDialogConfirmConfigs,
+    setAlertDialogConfirmConfigs,
+    alertNotifyConfigs,
+    setAlertNotifyConfigs,
+  } = useContext(AlertContext)
   const [sales, setSales] = useState<Sale[]>([])
   const [loadingSales, setLoadingSales] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
@@ -27,6 +34,7 @@ export function Sales() {
       .getAll({ filters: { ...router.query } })
       .then((res) => {
         setSales(res.data.items)
+        console.log(res.data.items)
       })
       .catch((err) => {
         console.log(err)
@@ -45,16 +53,16 @@ export function Sales() {
       ...alertDialogConfirmConfigs,
       open: true,
       title: 'Alerta de confirmação',
-      text: 'Deseja realmente excluir este produto?',
+      text: 'Deseja realmente cancelar esta venda?',
       onClickAgree: () => {
-        productsService
-          .delete({ idProduct: product?._id })
+        salesService
+          .cancel({ idSale: sale?._id })
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
               type: 'success',
-              text: 'Produto excluído com sucesso',
+              text: 'Venda cancelada com sucesso',
             })
             router.push({
               pathname: router.route,
@@ -66,7 +74,7 @@ export function Sales() {
               ...alertNotifyConfigs,
               open: true,
               type: 'error',
-              text: `Erro ao tentar excluir produto (${err.response.data.error})`,
+              text: `Erro ao tentar cancelar a venda (${err.response.data.error})`,
             })
           })
       },

@@ -1,0 +1,6 @@
+@import "../../../styles/colors.scss";
+
+.canceledText {
+  color: $red-color-500;
+  text-decoration: line-through;
+}
