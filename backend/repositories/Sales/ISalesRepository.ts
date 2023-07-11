@@ -4,6 +4,11 @@ interface SaleProduct {
   value: number
 }
 
+export interface FiltersGetSales {
+  startDate: any
+  endDate: any
+}
+
 export interface Sale {
   client: string
   products: SaleProduct[]
@@ -12,7 +17,7 @@ export interface Sale {
 }
 
 export interface ISalesRepository {
-  list: () => Promise<Sale[]>
+  list: (filters: FiltersGetSales) => Promise<Sale[]>
   create: (SaleData: Sale) => Promise<Sale>
   cancel: (idSale: string) => void
 }

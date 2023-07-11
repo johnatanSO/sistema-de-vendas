@@ -1,10 +1,11 @@
-import { ProductsRepository } from './../repositories/Products/ProductsRepository';
+import { ProductsRepository } from './../repositories/Products/ProductsRepository'
 import express, { Request, Response } from 'express'
-import { ProductModel } from '../models/product'
 import { SalesRepository } from '../repositories/Sales/SalesRepository'
 import { CreateNewSaleService } from '../services/CreateNewSale.service'
+import { GetSalesService } from '../services/GetSalesService.service'
+
 import { UpdateProductsStock } from '../services/UpdateProductsStock.service'
-import { CancelSaleService } from '../services/CancelSaleService.service';
+import { CancelSaleService } from '../services/CancelSaleService.service'
 
 const vendasRoutes = express.Router()
 const salesRepository = new SalesRepository()
@@ -12,7 +13,10 @@ const productsRepository = new ProductsRepository()
 
 vendasRoutes.get('/', async (req, res) => {
   try {
-    const sales = await salesRepository.list()
+    const { startDate, endDate } = req.query
+    const getSalesService = new GetSalesService(salesRepository)
+    const sales = await getSalesService.execute({ startDate, endDate })
+
     res.status(200).json({
       items: sales,
       message: 'Busca concluída com sucesso!',
@@ -29,7 +33,12 @@ vendasRoutes.post('/', async (req: Request, res: Response) => {
 
   try {
     const createNewSaleService = new CreateNewSaleService(salesRepository)
-    const newSale = await createNewSaleService.execute({client, products, paymentType, totalValue})
+    const newSale = await createNewSaleService.execute({
+      client,
+      products,
+      paymentType,
+      totalValue,
+    })
 
     const updateProductsStock = new UpdateProductsStock(productsRepository)
     await updateProductsStock.execute(products)

@@ -18,7 +18,7 @@ const saleSchema = new mongoose.Schema({
     type: Date || String,
     default: Date.now,
   },
-  status: {type: String, default: null}
+  status: { type: String, default: null },
 })
 
 export const SaleModel = mongoose.model('Sale', saleSchema)
