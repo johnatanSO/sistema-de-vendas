@@ -2,8 +2,8 @@ import { ProductModel } from '../../models/product'
 import { IProductsRepository, Product } from './IProductsRepository'
 
 export class ProductsRepository implements IProductsRepository {
-  async list(): Promise<Product[]> {
-    return await ProductModel.find()
+  async list(searchString: any): Promise<Product[]> {
+    return await ProductModel.find({ name: searchString })
   }
 
   async create(ProductData: Product): Promise<Product> {

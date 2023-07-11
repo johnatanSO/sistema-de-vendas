@@ -9,7 +9,7 @@ export interface Product {
 }
 
 export interface IProductsRepository {
-  list: () => Promise<Product[]>
+  list: (searchString: string) => Promise<Product[]>
   create: (ProductData: Product) => Promise<Product>
   update: (ProductData: Product) => Promise<Product>
   delete: (idProduct: string) => void

@@ -9,7 +9,9 @@ const productsRepository = new ProductsRepository()
 
 produtosRoutes.get('/', async (req: Request, res: Response) => {
   try {
-    const products = await productsRepository.list()
+    const { searchString = '' } = req.query
+    const products = await productsRepository.list(searchString)
+
     res.status(200).json({
       items: products,
       message: 'Busca concluída com sucesso!',
