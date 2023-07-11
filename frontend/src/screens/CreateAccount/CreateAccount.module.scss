@@ -64,8 +64,7 @@
       }
 
       &:disabled {
-        filter: brightness(0.6);
-        pointer-events: none;
+        filter: opacity(0.6);
         cursor: not-allowed;
       }
     }

@@ -1,31 +1,31 @@
 import dayjs from 'dayjs'
 import { Column, ValueFormatterParams } from '../../../../src/models/columns'
 import { format } from '../../../../src/utils/format'
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faBan, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { ActionButtons } from '../../../../src/components/ActionButtons'
 import { Sale } from '..'
 
 interface UseColumnsParams {
-  handleDeleteSale: (sale: Sale) => void
+  handleCancelSale: (sale: Sale) => void
   handleEditSale: (sale: Sale) => void
 }
 
 export function useColumns({
   handleEditSale,
-  handleDeleteSale,
+  handleCancelSale,
 }: UseColumnsParams): Column[] {
   const actions = [
     {
       icon: faPen,
-      title: 'Editar',
+      title: 'Editar venda',
       color: '#31a2ff',
       onClickFunction: handleEditSale,
     },
     {
-      icon: faTrash,
-      title: 'Excluir',
+      icon: faBan,
+      title: 'Caneclar venda',
       color: '#ed4252',
-      onClickFunction: handleDeleteSale,
+      onClickFunction: handleCancelSale,
     },
   ]
 

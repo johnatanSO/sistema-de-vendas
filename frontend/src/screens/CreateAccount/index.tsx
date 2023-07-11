@@ -2,6 +2,7 @@ import style from './CreateAccount.module.scss'
 import Link from 'next/link'
 import { FormEvent, useState } from 'react'
 import { usersService } from '../../services/usersService'
+import { useRouter } from 'next/router'
 
 export interface NewUser {
   name: string
@@ -16,14 +17,23 @@ export function CreateAccount() {
     password: '',
   }
   const [newUser, setNewUser] = useState<NewUser>(defaultValuesNewUser)
+  const [loading, setLoading] = useState<boolean>(false)
+  const router = useRouter()
 
   async function onCreateAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (loading) return
+    setLoading(true)
     usersService
       .register({ newUser })
-      .then(() => {})
+      .then(() => {
+        router.push('/')
+      })
       .catch((err) => {
         console.log(err)
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
@@ -67,7 +77,9 @@ export function CreateAccount() {
           type="password"
           placeholder="Digite uma senha"
         />
-        <button type="submit">Cadastrar</button>
+        <button disabled={loading} type="submit">
+          {loading ? <>Carregando...</> : 'Cadastrar'}
+        </button>
       </form>
       <Link href="/login" className={style.loginAccountLink}>
         Entrar com conta existente

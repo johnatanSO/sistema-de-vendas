@@ -40,8 +40,37 @@ export function Sales() {
     getSales()
   }, [router.query])
 
-  function handleDeleteSale(sale: Sale) {
-    console.log('DELETE')
+  function handleCancelSale(sale: Sale) {
+    setAlertDialogConfirmConfigs({
+      ...alertDialogConfirmConfigs,
+      open: true,
+      title: 'Alerta de confirmação',
+      text: 'Deseja realmente excluir este produto?',
+      onClickAgree: () => {
+        productsService
+          .delete({ idProduct: product?._id })
+          .then(() => {
+            setAlertNotifyConfigs({
+              ...alertNotifyConfigs,
+              open: true,
+              type: 'success',
+              text: 'Produto excluído com sucesso',
+            })
+            router.push({
+              pathname: router.route,
+              query: router.query,
+            })
+          })
+          .catch((err) => {
+            setAlertNotifyConfigs({
+              ...alertNotifyConfigs,
+              open: true,
+              type: 'error',
+              text: `Erro ao tentar excluir produto (${err.response.data.error})`,
+            })
+          })
+      },
+    })
   }
 
   function handleEditSale(sale: Sale) {
@@ -50,7 +79,7 @@ export function Sales() {
 
   const columns: Column[] = useColumns({
     handleEditSale,
-    handleDeleteSale,
+    handleCancelSale,
   })
 
   return (

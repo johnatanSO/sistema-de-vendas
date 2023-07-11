@@ -47,6 +47,10 @@ export const productsService = {
   },
 
   async delete({ idProduct }: DeleteParams) {
-    return await http.delete(`/produtos/${idProduct}`)
+    return await http.delete(`/produtos/`, {
+      params: {
+        idProduct,
+      },
+    })
   },
 }

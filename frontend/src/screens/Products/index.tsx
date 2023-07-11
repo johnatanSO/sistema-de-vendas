@@ -1,6 +1,6 @@
 import { productsService } from '../../services/productsService'
 import { HeaderPage } from '../../components/HeaderPage'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ModalCreateNewProduct } from './ModalCreateNewProduct'
 import { TableComponent } from '../../../src/components/TableComponent'
 import { Column } from '../../../src/models/columns'
@@ -8,12 +8,19 @@ import { useColumns } from './hooks/useColumns'
 import { EmptyItems } from '../../../src/components/EmptyItems'
 import { useRouter } from 'next/router'
 import { FilterByName } from '../../../src/components/FilterByName'
+import { AlertContext } from '../../../src/contexts/alertContext'
 
 export interface Product {
   _id: string
 }
 
 export function Products() {
+  const {
+    alertDialogConfirmConfigs,
+    setAlertDialogConfirmConfigs,
+    alertNotifyConfigs,
+    setAlertNotifyConfigs,
+  } = useContext(AlertContext)
   const [products, setProducts] = useState<Product[]>([])
   const [loadingProducts, setLoadingProducts] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
@@ -39,7 +46,36 @@ export function Products() {
   }, [router.query])
 
   function handleDeleteProduct(product: Product) {
-    console.log('DELETE')
+    setAlertDialogConfirmConfigs({
+      ...alertDialogConfirmConfigs,
+      open: true,
+      title: 'Alerta de confirmação',
+      text: 'Deseja realmente excluir este produto?',
+      onClickAgree: () => {
+        productsService
+          .delete({ idProduct: product?._id })
+          .then(() => {
+            setAlertNotifyConfigs({
+              ...alertNotifyConfigs,
+              open: true,
+              type: 'success',
+              text: 'Produto excluído com sucesso',
+            })
+            router.push({
+              pathname: router.route,
+              query: router.query,
+            })
+          })
+          .catch((err) => {
+            setAlertNotifyConfigs({
+              ...alertNotifyConfigs,
+              open: true,
+              type: 'error',
+              text: `Erro ao tentar excluir produto (${err.response.data.error})`,
+            })
+          })
+      },
+    })
   }
 
   function handleEditProduct(product: Product) {

@@ -43,7 +43,6 @@ export function useColumns({
       headerName: 'Quantidade',
       field: 'stock',
       valueFormatter: (params: ValueFormatterParams) => {
-        console.log(params)
         return params.value || '--'
       },
     },
