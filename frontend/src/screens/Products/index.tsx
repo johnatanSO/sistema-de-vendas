@@ -5,6 +5,7 @@ import { ModalCreateNewProduct } from './ModalCreateNewProduct'
 import { TableComponent } from '../../../src/components/TableComponent'
 import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
+import { EmptyItems } from '../../../src/components/EmptyItems'
 
 interface Product {
   _id: string
@@ -44,9 +45,18 @@ export function Products() {
         }}
         buttonText="Novo produto"
       />
-      {loadingProducts && <span>carregando produtos...</span>}
 
-      <TableComponent columns={columns} rows={products} />
+      {products?.length > 0 && (
+        <TableComponent
+          loading={loadingProducts}
+          columns={columns}
+          rows={products}
+        />
+      )}
+
+      {products?.length === 0 && !loadingProducts && (
+        <EmptyItems text="Nenhum produto foi encontrado" />
+      )}
 
       {formModalOpened && (
         <ModalCreateNewProduct

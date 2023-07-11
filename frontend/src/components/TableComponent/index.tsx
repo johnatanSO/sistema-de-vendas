@@ -3,15 +3,16 @@ import style from './TableComponent.module.scss'
 interface Props {
   columns: any[]
   rows: any[]
+  loading: boolean
 }
 
-export function TableComponent({ columns, rows }: Props) {
+export function TableComponent({ columns, rows, loading }: Props) {
   return (
     <table className={style.table}>
       <thead>
         <tr>
           {columns?.map((column) => {
-            return <th key={column.field}>{column?.headerName || '--'}</th>
+            return <th key={column.field}>{column?.headerName || ''}</th>
           })}
         </tr>
       </thead>
@@ -22,7 +23,11 @@ export function TableComponent({ columns, rows }: Props) {
               {columns.map((column) => {
                 return (
                   <td key={column.field}>
-                    {column.valueFormatter({
+                    {column?.valueFormatter?.({
+                      value: row[column.field],
+                      data: row,
+                    })}
+                    {column?.cellRenderer?.({
                       value: row[column.field],
                       data: row,
                     })}

@@ -47,9 +47,8 @@ export function Sales() {
         }}
         buttonText="Nova venda"
       />
-      {loadingSales && <span>carregando vendas...</span>}
 
-      <TableComponent columns={columns} rows={sales} />
+      <TableComponent loading={loadingSales} columns={columns} rows={sales} />
 
       {formModalOpened && (
         <ModalCreateNewSale

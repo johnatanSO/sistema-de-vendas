@@ -3,15 +3,43 @@
 .table {
   width: 100%;
   margin-top: 20px;
-  border-radius: 10px;
+
   border-collapse: collapse;
+  text-align: left;
 
-  background: $gray-color-400;
-  box-shadow: 1px 5px 10px rgba(0, 0, 0);
+  display: flex;
+  flex-direction: column;
 
-  td,
-  th {
-    padding: 0.6rem 1.2rem;
-    text-align: start;
+  thead {
+    tr {
+      display: flex;
+      flex-direction: row;
+
+      th {
+        flex: 1;
+        padding: 0.6rem 1.1rem;
+      }
+    }
+  }
+
+  tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    tr {
+      display: flex;
+      flex-direction: row;
+
+      box-shadow: 1px 5px 10px rgba(0, 0, 0);
+      background: $gray-color-400;
+
+      border-radius: 10px;
+
+      td {
+        flex: 1;
+        padding: 0.6rem 1.1rem;
+      }
+    }
   }
 }

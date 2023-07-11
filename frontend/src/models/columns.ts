@@ -1,4 +1,11 @@
+import { ReactNode } from 'react'
+
 export interface ValueFormatterParams {
+  data: any
+  value: any
+}
+
+export interface CellRendererParams {
   data: any
   value: any
 }
@@ -6,5 +13,6 @@ export interface ValueFormatterParams {
 export interface Column {
   headerName: string
   field: string
-  valueFormatter: (params: ValueFormatterParams) => any
+  valueFormatter?: (params: ValueFormatterParams) => any
+  cellRenderer?: (params: CellRendererParams) => ReactNode
 }
