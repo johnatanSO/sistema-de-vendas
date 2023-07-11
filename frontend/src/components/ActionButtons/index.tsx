@@ -15,6 +15,9 @@ export function ActionButtons({ actions, params }: Props) {
             style={{ color: action?.color || '' }}
             key={key}
             type="button"
+            onClick={() => {
+              action?.onClickFunction?.(params.data)
+            }}
           >
             <FontAwesomeIcon className={style.icon} icon={action.icon} />
           </button>

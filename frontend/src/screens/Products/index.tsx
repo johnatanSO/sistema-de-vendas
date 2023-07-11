@@ -6,8 +6,9 @@ import { TableComponent } from '../../../src/components/TableComponent'
 import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
 import { EmptyItems } from '../../../src/components/EmptyItems'
+import { useRouter } from 'next/router'
 
-interface Product {
+export interface Product {
   _id: string
 }
 
@@ -15,11 +16,12 @@ export function Products() {
   const [products, setProducts] = useState<Product[]>([])
   const [loadingProducts, setLoadingProducts] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
+  const router = useRouter()
 
   function getProducts() {
     setLoadingProducts(true)
     productsService
-      .getAll({ filters: {} })
+      .getAll({ filters: { ...router.query } })
       .then((res) => {
         setProducts(res.data.items)
       })
@@ -33,9 +35,20 @@ export function Products() {
 
   useEffect(() => {
     getProducts()
-  }, [])
+  }, [router.query])
 
-  const columns: Column[] = useColumns()
+  function handleDeleteProduct(product: Product) {
+    console.log('DELETE')
+  }
+
+  function handleEditProduct(product: Product) {
+    console.log('EDIT')
+  }
+
+  const columns: Column[] = useColumns({
+    handleEditProduct,
+    handleDeleteProduct,
+  })
 
   return (
     <>

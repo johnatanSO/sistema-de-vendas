@@ -5,8 +5,9 @@ import { ModalCreateNewSale } from './ModalCreateNewSale'
 import { TableComponent } from '../../../src/components/TableComponent'
 import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
+import { useRouter } from 'next/router'
 
-interface Sale {
+export interface Sale {
   _id: string
   date: Date
   totalValue: number
@@ -17,11 +18,12 @@ export function Sales() {
   const [sales, setSales] = useState<Sale[]>([])
   const [loadingSales, setLoadingSales] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
+  const router = useRouter()
 
   function getSales() {
     setLoadingSales(true)
     salesService
-      .getAll({ filters: {} })
+      .getAll({ filters: { ...router.query } })
       .then((res) => {
         setSales(res.data.items)
       })
@@ -35,9 +37,20 @@ export function Sales() {
 
   useEffect(() => {
     getSales()
-  }, [])
+  }, [router.query])
 
-  const columns: Column[] = useColumns()
+  function handleDeleteSale(sale: Sale) {
+    console.log('DELETE')
+  }
+
+  function handleEditSale(sale: Sale) {
+    console.log('EDIT')
+  }
+
+  const columns: Column[] = useColumns({
+    handleEditSale,
+    handleDeleteSale,
+  })
 
   return (
     <>

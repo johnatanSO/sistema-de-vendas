@@ -2,18 +2,12 @@
 
 .inputsContainer {
   display: flex;
-  align-items: center;
 
   gap: 10px;
 
-  input {
-    padding: 0.4rem 1rem;
-    line-height: 1;
-    border-radius: 10px;
-
+  .input {
     background: $gray-color-400;
-    border: 1px solid $gray-color-300;
-    color: $gray-color-200;
+    border-radius: 10px;
   }
 
   .filterButton {
