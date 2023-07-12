@@ -14,6 +14,10 @@ export class CreateNewProductService {
       throw new Error('Já existe um produto com esse nome')
     }
 
+    if (!name) {
+      throw new Error('Nenhum nome foi informado par ao produto')
+    }
+
     const newProduct = this.productsRepository.create({
       name,
       value,
