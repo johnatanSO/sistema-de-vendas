@@ -8,7 +8,7 @@ interface Props {
 
 export function TableComponent({ columns, rows, loading }: Props) {
   return (
-    <table className={style.table}>
+    <table style={loading ? { opacity: 0.5 } : {}} className={style.table}>
       <thead>
         <tr>
           {columns?.map((column) => {

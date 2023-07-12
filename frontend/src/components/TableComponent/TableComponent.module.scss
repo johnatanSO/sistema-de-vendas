@@ -3,12 +3,15 @@
 .table {
   width: 100%;
   margin-top: 20px;
+  position: relative;
 
   border-collapse: collapse;
   text-align: left;
 
   display: flex;
   flex-direction: column;
+
+  transition: opacity 0.2s;
 
   thead {
     tr {
