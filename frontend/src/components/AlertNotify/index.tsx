@@ -34,7 +34,7 @@ export function AlertNotify() {
         }
         className={style.alertIcon}
       />
-      <span>{alertNotifyConfigs?.text || '--'}</span>
+      <p>{alertNotifyConfigs?.text || '--'}</p>
       <button onClick={alertNotifyConfigs.handleClose}>
         <FontAwesomeIcon icon={faXmark} style={{ height: '1.5rem' }} />
       </button>

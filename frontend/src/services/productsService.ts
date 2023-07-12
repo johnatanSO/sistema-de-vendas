@@ -1,11 +1,12 @@
 import http from '../api/http'
+import { NewProductData } from '../screens/Products/ModalCreateNewProduct'
 
 interface GetAllParams {
   filters: any
 }
 
 interface CreateParams {
-  newPoductData: any
+  newProductData: NewProductData
 }
 
 interface UpdateParams {
@@ -26,9 +27,11 @@ export const productsService = {
     })
   },
 
-  async create({ newPoductData }: CreateParams) {
+  async create({ newProductData }: CreateParams) {
     const body = {
-      ...newPoductData,
+      ...newProductData,
+      stock: Number(newProductData?.stock),
+      value: Number(newProductData?.value),
     }
 
     return await http.post('/produtos', {

@@ -8,6 +8,7 @@ import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { FilterDate } from '../../../src/components/FilterDate'
 import { AlertContext } from '../../../src/contexts/alertContext'
+import { EmptyItems } from '../../../src/components/EmptyItems'
 
 export interface Sale {
   _id: string
@@ -100,7 +101,13 @@ export function Sales() {
         InputFilter={<FilterDate />}
       />
 
-      <TableComponent loading={loadingSales} columns={columns} rows={sales} />
+      {sales?.length > 0 && (
+        <TableComponent loading={loadingSales} columns={columns} rows={sales} />
+      )}
+
+      {sales?.length === 0 && !loadingSales && (
+        <EmptyItems text="Nenhuma venda foi encontrada" />
+      )}
 
       {formModalOpened && (
         <ModalCreateNewSale

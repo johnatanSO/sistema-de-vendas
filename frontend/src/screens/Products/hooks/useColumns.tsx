@@ -42,9 +42,7 @@ export function useColumns({
     {
       headerName: 'Quantidade',
       field: 'stock',
-      valueFormatter: (params: ValueFormatterParams) => {
-        return params.value || '--'
-      },
+      valueFormatter: (params: ValueFormatterParams) => params.value || 0,
     },
     {
       headerName: 'Valor',

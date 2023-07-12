@@ -10,6 +10,7 @@ interface Props {
 export function ModalCreateNewSale({ open, handleClose }: Props) {
   function onCreateNewSale(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    console.log('CRIAR NOVA VENDA')
   }
 
   return (

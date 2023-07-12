@@ -1,0 +1,71 @@
+@import "../../../styles/colors.scss";
+
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .container {
+    background: $gray-color-400;
+    box-shadow: 1px 7px 10px rgb(0 0 0 / 1);
+
+    border-radius: 10px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+
+      .closeButton {
+        height: 1.3rem;
+        color: $red-color-500;
+
+        cursor: pointer;
+        transition: filter 0.2s;
+
+        &:hover {
+          filter: brightness(0.8);
+        }
+      }
+    }
+
+    .mainContent {
+      background: $gray-color-500;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .footer {
+      button {
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+        padding: 10px 0px;
+        font-weight: 500;
+        font-size: 0.8rem;
+
+        border: none;
+        box-shadow: 1px 3px 5px rgb(0 0 0 / 0.5);
+        background: $primary-color;
+        color: $white-color;
+
+        cursor: pointer;
+        transition: filter 0.2s;
+
+        &:not(:disabled):hover {
+          filter: brightness(0.8);
+        }
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 0.4;
+        }
+      }
+    }
+  }
+}

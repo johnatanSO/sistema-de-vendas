@@ -11,6 +11,7 @@ interface Props {
   handleClose: () => void
   children: ReactNode
   onSubmit: (event: FormEvent<HTMLFormElement>) => void
+  loading: boolean
 }
 export function ModalLayout({
   title,
@@ -19,20 +20,27 @@ export function ModalLayout({
   handleClose,
   children,
   onSubmit,
+  loading,
 }: Props) {
   return (
     <Modal className={style.overlay} open={open} onClose={handleClose}>
       <Box className={style.container} onSubmit={onSubmit} component="form">
         <Box className={style.header} component="header">
           <h3>{title || 'Modal'}</h3>
-          <FontAwesomeIcon icon={faXmark} />
+          <FontAwesomeIcon
+            onClick={handleClose}
+            className={style.closeButton}
+            icon={faXmark}
+          />
         </Box>
 
         <Box className={style.mainContent} component="main">
           {children}
         </Box>
         <Box className={style.footer} component="footer">
-          <button type="submit">{submitButtonText || 'Confirmar'}</button>
+          <button disabled={loading} type="submit">
+            {loading ? 'carregando...' : submitButtonText || 'Confirmar'}
+          </button>
         </Box>
       </Box>
     </Modal>
