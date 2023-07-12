@@ -1,8 +1,9 @@
-import { NextRequest } from 'next/server'
 import http from '../api/http'
 import { NewUser } from '../screens/CreateAccount'
 import { LoginUserData } from '../screens/Login'
+import { setCookie, /* destroyCookie, */ parseCookies } from 'nookies'
 
+const USER_INFO = 'userInfo'
 const ACCESS_TOKEN_KEY = 'accessToken'
 
 interface LoginParams {
@@ -14,8 +15,8 @@ interface RegisterParams {
 }
 
 export const usersService = {
-  async getSession(request: NextRequest) {
-    const token = await this.getToken(request)
+  async getSession() {
+    const token = await this.getToken()
 
     if (token) {
       return await this.verifyToken(token)
@@ -29,8 +30,9 @@ export const usersService = {
       .post('/users/login', {
         ...body,
       })
-      .then((res) => {
-        this.saveToken(res.data)
+      .then(async (res) => {
+        await this.saveUser(res.data)
+        await this.saveToken(res.data)
         return res.data
       })
       .catch((err) => err.response.data)
@@ -50,8 +52,10 @@ export const usersService = {
       .catch((err) => err.response.data)
   },
 
-  async getToken(request: NextRequest) {
-    const token = request.cookies.get(ACCESS_TOKEN_KEY)
+  async getToken() {
+    const cookies = parseCookies()
+    const token = cookies[ACCESS_TOKEN_KEY]
+
     return token || undefined
   },
 
@@ -64,5 +68,15 @@ export const usersService = {
     return true
   },
 
-  async saveToken({ token }: { token: string }) {},
+  async saveToken({ token }: { token: string }) {
+    localStorage?.setItem(ACCESS_TOKEN_KEY, token)
+    setCookie(undefined, ACCESS_TOKEN_KEY, token, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: '/',
+    })
+  },
+
+  async saveUser(userData: any) {
+    localStorage?.setItem(USER_INFO, JSON.stringify(userData))
+  },
 }

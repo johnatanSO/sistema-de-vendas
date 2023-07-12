@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { usersService } from './src/services/usersService'
 
 export async function middleware(request: NextRequest) {
-  const hasSession = await usersService.getSession(request)
+  const hasSession = await usersService.getSession()
   if (!hasSession) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
