@@ -50,7 +50,7 @@ usersRoutes.post('/login', async (req: Request, res: Response) => {
       password,
     })
 
-    res.status(201).json({
+    res.status(200).json({
       item: user,
       message: 'Usuário encontrado com sucesso',
     })
