@@ -4,7 +4,7 @@ import { LoginUserData } from '../screens/Login'
 import { setCookie, destroyCookie, parseCookies } from 'nookies'
 
 const USER_INFO = 'userInfo'
-const ACCESS_TOKEN_KEY = 'accessToken'
+const ACCESS_TOKEN_KEY = ':sis-vendas[v1]:'
 
 interface LoginParams {
   userData: LoginUserData
