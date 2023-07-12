@@ -32,7 +32,6 @@ export const usersService = {
       })
       .then(async (res) => {
         await this.saveUser(res.data)
-        await this.saveToken(res.data)
         return res.data
       })
       .catch((err) => err.response.data)
@@ -45,8 +44,8 @@ export const usersService = {
       .post('/users/register', {
         ...body,
       })
-      .then((res) => {
-        this.saveToken(res.data)
+      .then(async (res) => {
+        await this.saveUser(res.data)
         return res.data
       })
       .catch((err) => err.response.data)
@@ -68,15 +67,12 @@ export const usersService = {
     return true
   },
 
-  async saveToken({ token }: { token: string }) {
-    localStorage?.setItem(ACCESS_TOKEN_KEY, token)
-    setCookie(undefined, ACCESS_TOKEN_KEY, token, {
+  async saveUser(userData: any) {
+    localStorage?.setItem(USER_INFO, JSON.stringify(userData))
+    localStorage?.setItem(ACCESS_TOKEN_KEY, userData?.token)
+    setCookie(undefined, ACCESS_TOKEN_KEY, userData?.token, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
     })
-  },
-
-  async saveUser(userData: any) {
-    localStorage?.setItem(USER_INFO, JSON.stringify(userData))
   },
 }
