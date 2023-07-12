@@ -1,8 +1,9 @@
 import style from './CreateAccount.module.scss'
 import Link from 'next/link'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
+import { AlertContext } from '../../../src/contexts/alertContext'
 
 export interface NewUser {
   name: string
@@ -11,6 +12,7 @@ export interface NewUser {
 }
 
 export function CreateAccount() {
+  const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const defaultValuesNewUser = {
     name: '',
     email: '',
@@ -23,6 +25,36 @@ export function CreateAccount() {
   async function onCreateAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (loading) return
+    if (!newUser?.email) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        text: 'E-mail não informado',
+        open: 'true',
+      })
+      return
+    }
+
+    if (!newUser?.password) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        text: 'Senha não informada',
+        open: 'true',
+      })
+      return
+    }
+
+    if (!newUser?.name) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        text: 'Nome não informada',
+        open: 'true',
+      })
+      return
+    }
+
     setLoading(true)
     usersService
       .register({ newUser })

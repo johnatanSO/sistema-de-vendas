@@ -1,6 +1,6 @@
 import style from './Login.module.scss'
 import Link from 'next/link'
-import { useContext, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
 import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../../src/contexts/alertContext'
@@ -12,13 +12,16 @@ export interface LoginUserData {
 
 export function Login() {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
+  const [loading, setLoading] = useState<boolean>(false)
   const [userData, setUserData] = useState<LoginUserData>({
     email: '',
     password: '',
   })
   const router = useRouter()
 
-  function onLogin() {
+  function onLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (loading) return
     if (!userData?.email) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
@@ -26,7 +29,9 @@ export function Login() {
         text: 'E-mail não informado',
         open: 'true',
       })
+      return
     }
+
     if (!userData?.password) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
@@ -34,8 +39,10 @@ export function Login() {
         text: 'Senha não informada',
         open: 'true',
       })
+      return
     }
 
+    setLoading(true)
     usersService
       .login({ userData })
       .then(() => {
@@ -56,6 +63,9 @@ export function Login() {
             `(${err.response.data.message})`,
           open: 'true',
         })
+      })
+      .finally(() => {
+        setLoading(false)
       })
   }
 
