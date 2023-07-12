@@ -35,7 +35,6 @@ export function Sales() {
       .getAll({ filters: { ...router.query } })
       .then((res) => {
         setSales(res.data.items)
-        console.log(res.data.items)
       })
       .catch((err) => {
         console.log(err)

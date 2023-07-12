@@ -18,7 +18,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <AlertContextComponent>
         <Head>
           <title>Sistema de vendas</title>
-          <link rel="shortcut icon" href="/favicon.svg" />
+          <link rel="shortcut icon" href="./favicon.ico" />
         </Head>
         {restrictLayout && <Sidebar />}
 
