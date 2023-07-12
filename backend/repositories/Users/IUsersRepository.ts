@@ -5,6 +5,7 @@ export interface NewUser {
 }
 
 export interface IUsersRepository {
-  create: (userData: NewUser) => Promise<NewUser>
+  create: (newUserData: NewUser) => Promise<NewUser>
   findByEmail: (email: string) => Promise<NewUser>
+  authenticate: (password: string) => Promise<any>
 }

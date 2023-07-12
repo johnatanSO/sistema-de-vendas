@@ -15,4 +15,8 @@ export class UsersRepository implements IUsersRepository {
   async findByEmail(email: string): Promise<NewUser> {
     return await UserModel.findOne({ email })
   }
+
+  async authenticate(password: string): Promise<any> {
+    return await UserModel.findOne({ password })
+  }
 }

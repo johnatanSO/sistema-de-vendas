@@ -1,9 +1,12 @@
-import { ISalesRepository } from "../repositories/Sales/ISalesRepository";
+import { ISalesRepository } from '../repositories/Sales/ISalesRepository'
 
 export class CancelSaleService {
-  constructor(private salesRepository: ISalesRepository){}
+  salesRepository: ISalesRepository
+  constructor(salesRepository: ISalesRepository) {
+    this.salesRepository = salesRepository
+  }
 
-  execute(idSale:string){
+  execute(idSale: string) {
     this.salesRepository.cancel(idSale)
   }
 }

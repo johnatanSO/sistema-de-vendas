@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import { CreateNewUserService } from '../services/CreateNewUserService.service'
 import { UsersRepository } from '../repositories/Users/UsersRepository'
+import { AuthenticateUserService } from '../services/AuthenticateUserService.service'
 const usersRoutes = express.Router()
 
 const usersRepository = new UsersRepository()
@@ -41,11 +42,17 @@ usersRoutes.post('/register', async (req: Request, res: Response) => {
 })
 
 usersRoutes.post('/login', async (req: Request, res: Response) => {
-  // const { name, email, password } = req.body
+  const { email, password } = req.body
   try {
+    const authenticateUserService = new AuthenticateUserService(usersRepository)
+    const user = await authenticateUserService.execute({
+      email,
+      password,
+    })
+
     res.status(201).json({
-      item: undefined,
-      message: 'Produto cadastrado com sucesso!',
+      item: user,
+      message: 'Usuário encontrado com sucesso',
     })
   } catch (error: any) {
     res.status(400).json({
