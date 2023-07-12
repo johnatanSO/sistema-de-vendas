@@ -1,8 +1,9 @@
 import style from './Login.module.scss'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
+import { AlertContext } from '../../../src/contexts/alertContext'
 
 export interface LoginUserData {
   email: string
@@ -10,6 +11,7 @@ export interface LoginUserData {
 }
 
 export function Login() {
+  const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const [userData, setUserData] = useState<LoginUserData>({
     email: '',
     password: '',
@@ -17,16 +19,43 @@ export function Login() {
   const router = useRouter()
 
   function onLogin() {
-    if (!userData?.email) return alert('Digite um e-mail')
-    if (!userData?.password) return alert('Digite a sua senha')
+    if (!userData?.email) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        text: 'E-mail não informado',
+        open: 'true',
+      })
+    }
+    if (!userData?.password) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        text: 'Senha não informada',
+        open: 'true',
+      })
+    }
 
     usersService
       .login({ userData })
       .then(() => {
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'success',
+          text: 'Usuário autenticado com sucesso',
+          open: 'true',
+        })
         router.push('/')
       })
-      .catch(() => {
-        alert('Erro ao tentar fazer login')
+      .catch((err) => {
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'error',
+          text:
+            'Erro ao tentar realizar autenticação do usuário ' +
+            `(${err.response.data.message})`,
+          open: 'true',
+        })
       })
   }
 
