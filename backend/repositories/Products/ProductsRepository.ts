@@ -38,4 +38,8 @@ export class ProductsRepository implements IProductsRepository {
       { $inc: { stock: -Number(product.amount) } },
     )
   }
+
+  async getEntries(): Promise<number> {
+    return ProductModel.countDocuments({})
+  }
 }

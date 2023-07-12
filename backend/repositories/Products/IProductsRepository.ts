@@ -17,4 +17,5 @@ export interface IProductsRepository {
   findByName: (name: string) => Promise<Product | null>
   findById: (productId: string) => Promise<Product | null>
   updateStock: (product: Product) => void
+  getEntries: () => Promise<number>
 }
