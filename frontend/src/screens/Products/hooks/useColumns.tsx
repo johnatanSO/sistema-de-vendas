@@ -31,7 +31,7 @@ export function useColumns({
   return [
     {
       headerName: 'Código',
-      field: '_id',
+      field: 'code',
       valueFormatter: (params: ValueFormatterParams) => params.value || '--',
     },
     {
