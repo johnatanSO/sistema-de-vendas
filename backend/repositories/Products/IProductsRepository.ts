@@ -6,6 +6,7 @@ export interface Product {
   value: number
   stock: number
   amount?: number
+  code: string
 }
 
 export interface IProductsRepository {

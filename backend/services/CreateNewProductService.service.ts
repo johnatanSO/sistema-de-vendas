@@ -18,7 +18,11 @@ export class CreateNewProductService {
       throw new Error('Nenhum nome foi informado par ao produto')
     }
 
+    const products = await this.productsRepository.list('')
+    const code = (products.length + 1).toString()
+
     const newProduct = this.productsRepository.create({
+      code,
       name,
       value,
       stock,
