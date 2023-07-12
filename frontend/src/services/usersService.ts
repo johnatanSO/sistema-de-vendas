@@ -1,7 +1,7 @@
 import http from '../api/http'
 import { NewUser } from '../screens/CreateAccount'
 import { LoginUserData } from '../screens/Login'
-import { setCookie, /* destroyCookie, */ parseCookies } from 'nookies'
+import { setCookie, destroyCookie, parseCookies } from 'nookies'
 
 const USER_INFO = 'userInfo'
 const ACCESS_TOKEN_KEY = 'accessToken'
@@ -68,11 +68,17 @@ export const usersService = {
   },
 
   async saveUser(userData: any) {
-    localStorage?.setItem(USER_INFO, JSON.stringify(userData))
-    localStorage?.setItem(ACCESS_TOKEN_KEY, userData?.token)
+    globalThis?.localStorage?.setItem(USER_INFO, JSON.stringify(userData))
+    globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, userData?.token)
     setCookie(undefined, ACCESS_TOKEN_KEY, userData?.token, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
     })
+  },
+
+  async deleteToken() {
+    globalThis?.localStorage?.removeItem(USER_INFO)
+    globalThis?.localStorage?.removeItem(ACCESS_TOKEN_KEY)
+    destroyCookie(null, ACCESS_TOKEN_KEY)
   },
 }

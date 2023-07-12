@@ -3,11 +3,13 @@ import style from './Sidebar.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import { menuOptions } from './menuOptions'
+import { usersService } from '../../../src/services/usersService'
 
 export function Sidebar() {
   const router = useRouter()
 
-  function logout() {
+  async function handleLogout() {
+    await usersService.deleteToken()
     router.push('/login')
   }
 
@@ -41,9 +43,7 @@ export function Sidebar() {
         className={style.logoutButton}
         title="Sair"
         icon={faRightFromBracket}
-        onClick={() => {
-          logout()
-        }}
+        onClick={handleLogout}
       />
     </aside>
   )
