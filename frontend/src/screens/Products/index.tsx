@@ -34,7 +34,7 @@ export function Products() {
         setProducts(res.data.items)
       })
       .catch((err) => {
-        console.log(err)
+        console.log('ERRO AO BUSCAR PRODUTOS, ', err)
       })
       .finally(() => {
         setLoadingProducts(false)
@@ -78,9 +78,7 @@ export function Products() {
     })
   }
 
-  function handleEditProduct(product: Product) {
-    console.log('EDIT')
-  }
+  function handleEditProduct(product: Product) {}
 
   const columns: Column[] = useColumns({
     handleEditProduct,

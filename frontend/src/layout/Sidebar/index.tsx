@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 import { menuOptions } from './menuOptions'
 import { usersService } from '../../../src/services/usersService'
+import Link from 'next/link'
 
 export function Sidebar() {
   const router = useRouter()
@@ -23,18 +24,15 @@ export function Sidebar() {
       <ul className={style.menuList}>
         {menuOptions.map((option) => {
           return (
-            <li
-              key={option.name}
-              onClick={() => {
-                router.push(option.link)
-              }}
-              title="Dashboard"
-              className={
-                router.pathname === option.link ? style.activeMenu : undefined
-              }
-            >
-              <FontAwesomeIcon className={style.icon} icon={option.icon} />
-            </li>
+            <Link href={option.link} key={option.name} title="Dashboard">
+              <li
+                className={
+                  router.pathname === option.link ? style.activeMenu : undefined
+                }
+              >
+                <FontAwesomeIcon className={style.icon} icon={option.icon} />
+              </li>
+            </Link>
           )
         })}
       </ul>

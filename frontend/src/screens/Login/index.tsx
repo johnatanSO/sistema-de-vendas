@@ -45,16 +45,18 @@ export function Login() {
     setLoading(true)
     usersService
       .login({ userData })
-      .then(() => {
+      .then((res) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: 'success',
           text: 'Usuário autenticado com sucesso',
           open: 'true',
         })
+        usersService.saveUser(res.data.item)
         router.push('/')
       })
       .catch((err) => {
+        console.log('ERRO AO TENTAR REALIZAR LOGIN,', err)
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: 'error',

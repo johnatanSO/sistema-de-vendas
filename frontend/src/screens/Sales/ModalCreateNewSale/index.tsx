@@ -10,7 +10,6 @@ interface Props {
 export function ModalCreateNewSale({ open, handleClose }: Props) {
   function onCreateNewSale(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    console.log('CRIAR NOVA VENDA')
   }
 
   return (
@@ -20,6 +19,7 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
       onSubmit={onCreateNewSale}
       title="Realizar nova venda"
       submitButtonText="Finalizar"
+      loading={true}
     >
       <div className={style.fieldsContainer}>a</div>
     </ModalLayout>

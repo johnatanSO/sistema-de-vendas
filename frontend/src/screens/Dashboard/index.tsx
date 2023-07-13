@@ -15,20 +15,20 @@ export function Dashboard() {
         setPaymentTypes(res.data.paymentTypes)
       })
       .catch((err) => {
-        console.log(err)
+        console.log('ERRO AO BUSCAR FORMAS DE PAGAMENTO, ', err)
       })
       .finally(() => {
         setLoading(false)
       })
   }
-  console.log('Loading: ', loading)
+
   useEffect(() => {
     getPaymentTypes()
   }, [])
 
   return (
     <>
-      <h1>Dashboard</h1>
+      <h1>{loading ? 'carregando' : 'Dashboard'}</h1>
       {JSON.stringify(paymentTypes)}
     </>
   )

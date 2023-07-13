@@ -37,7 +37,7 @@ export function Sales() {
         setSales(res.data.items)
       })
       .catch((err) => {
-        console.log(err)
+        console.log('ERRO AO BUSCAR VENDAS, ', err)
       })
       .finally(() => {
         setLoadingSales(false)
@@ -81,9 +81,7 @@ export function Sales() {
     })
   }
 
-  function handleEditSale(sale: Sale) {
-    console.log('EDIT')
-  }
+  function handleEditSale(sale: Sale) {}
 
   const columns: Column[] = useColumns({
     handleEditSale,

@@ -57,6 +57,7 @@
 
     li {
       list-style-type: none;
+
       transition: filter 0.2s, color 0.2s;
       filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
       cursor: pointer;

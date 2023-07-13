@@ -1,7 +1,8 @@
+import { NextRequest } from 'next/server'
 import http from '../api/http'
 import { NewUser } from '../screens/CreateAccount'
 import { LoginUserData } from '../screens/Login'
-import { setCookie, destroyCookie, parseCookies } from 'nookies'
+import { setCookie, destroyCookie } from 'nookies'
 
 const USER_INFO = 'userInfo'
 const ACCESS_TOKEN_KEY = ':sis-vendas[v1]:'
@@ -15,8 +16,8 @@ interface RegisterParams {
 }
 
 export const usersService = {
-  async getSession() {
-    const token = await this.getToken()
+  async getSession(request: NextRequest) {
+    const token = await this.getToken(request)
 
     if (token) {
       return await this.verifyToken(token)
@@ -26,34 +27,21 @@ export const usersService = {
   async login({ userData }: LoginParams) {
     const body: any = { ...userData }
 
-    return http
-      .post('/users/login', {
-        ...body,
-      })
-      .then(async (res) => {
-        await this.saveUser(res.data)
-        return res.data
-      })
-      .catch((err) => err.response.data)
+    return http.post('/users/login', {
+      ...body,
+    })
   },
 
   async register({ newUser }: RegisterParams) {
     const body = { ...newUser }
 
-    return http
-      .post('/users/register', {
-        ...body,
-      })
-      .then(async (res) => {
-        await this.saveUser(res.data)
-        return res.data
-      })
-      .catch((err) => err.response.data)
+    return http.post('/users/register', {
+      ...body,
+    })
   },
 
-  async getToken() {
-    const cookies = parseCookies()
-    const token = cookies[ACCESS_TOKEN_KEY]
+  async getToken(request: NextRequest) {
+    const token = request.cookies.get(ACCESS_TOKEN_KEY)
 
     return token || undefined
   },
@@ -69,8 +57,8 @@ export const usersService = {
 
   async saveUser(userData: any) {
     globalThis?.localStorage?.setItem(USER_INFO, JSON.stringify(userData))
-    globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, userData?.token)
-    setCookie(undefined, ACCESS_TOKEN_KEY, userData?.token, {
+    globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, userData?._id)
+    setCookie(undefined, ACCESS_TOKEN_KEY, userData?._id, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
     })

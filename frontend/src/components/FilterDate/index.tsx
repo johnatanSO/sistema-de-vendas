@@ -12,11 +12,6 @@ export function FilterDate() {
     dayjs().endOf('month').toISOString(),
   )
 
-  console.log({
-    startDate,
-    endDate,
-  })
-
   const router = useRouter()
 
   function onFilterByDate(event: FormEvent<HTMLFormElement>) {

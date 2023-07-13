@@ -58,11 +58,12 @@ export function CreateAccount() {
     setLoading(true)
     usersService
       .register({ newUser })
-      .then(() => {
+      .then((res) => {
+        usersService.saveUser(res.data.item)
         router.push('/')
       })
       .catch((err) => {
-        console.log(err)
+        console.log('ERRO AO TENTAR CADASTRAR USUÁRIO, ', err)
       })
       .finally(() => {
         setLoading(false)
