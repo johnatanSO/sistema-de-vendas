@@ -69,4 +69,10 @@ export const usersService = {
     globalThis?.localStorage?.removeItem(ACCESS_TOKEN_KEY)
     destroyCookie(null, ACCESS_TOKEN_KEY)
   },
+
+  async getUserInfo() {
+    return await JSON.parse(
+      globalThis?.localStorage?.getItem(USER_INFO) || '{}',
+    )
+  },
 }

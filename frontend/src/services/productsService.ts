@@ -1,5 +1,6 @@
 import http from '../api/http'
 import { NewProductData } from '../screens/Products/ModalCreateNewProduct'
+import { usersService } from './usersService'
 
 interface GetAllParams {
   filters: any
@@ -18,9 +19,11 @@ interface DeleteParams {
 }
 
 export const productsService = {
+  userInfo: usersService.getUserInfo(),
   async getAll({ filters }: GetAllParams) {
     const params = {
       ...filters,
+      userInfo: await this.userInfo,
     }
     return await http.get('/produtos/', {
       params,
@@ -32,6 +35,7 @@ export const productsService = {
       ...newProductData,
       stock: Number(newProductData?.stock),
       value: Number(newProductData?.value),
+      userInfo: await this?.userInfo,
     }
 
     return await http.post('/produtos', {
