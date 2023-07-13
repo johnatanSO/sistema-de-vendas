@@ -3,10 +3,12 @@ import { IProductsRepository, Product, QueryList } from './IProductsRepository'
 
 export class ProductsRepository implements IProductsRepository {
   async list({ searchString, userId }: QueryList): Promise<Product[]> {
-    return await ProductModel.find({
-      name: new RegExp('^' + searchString),
+    const query = {
       userId,
-    })
+      ...(searchString ? { name: new RegExp('^' + searchString) } : {}),
+    }
+    console.log('QUERY: ', query)
+    return await ProductModel.find(query)
   }
 
   async create(ProductData: Product): Promise<Product> {
@@ -42,7 +44,7 @@ export class ProductsRepository implements IProductsRepository {
     )
   }
 
-  async getEntries(): Promise<number> {
-    return ProductModel.countDocuments({})
+  async getEntries(userId: string): Promise<number> {
+    return ProductModel.countDocuments({ userId })
   }
 }

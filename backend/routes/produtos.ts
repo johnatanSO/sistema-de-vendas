@@ -9,10 +9,10 @@ const productsRepository = new ProductsRepository()
 
 produtosRoutes.get('/', async (req: Request, res: Response) => {
   try {
-    const { searchString, userInfo } = req.query as any
+    const { searchString, userId } = req.query as any
     const products = await productsRepository.list({
       searchString,
-      userId: userInfo?._id,
+      userId,
     })
 
     res.status(200).json({
