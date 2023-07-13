@@ -19,11 +19,11 @@ interface DeleteParams {
 }
 
 export const productsService = {
-  userInfo: usersService.getUserInfo(),
   async getAll({ filters }: GetAllParams) {
+    const userInfo = await usersService.getUserInfo()
     const params = {
       ...filters,
-      userInfo: await this.userInfo,
+      userId: userInfo?._id,
     }
     return await http.get('/produtos/', {
       params,
@@ -31,11 +31,12 @@ export const productsService = {
   },
 
   async create({ newProductData }: CreateParams) {
+    const userInfo = await usersService.getUserInfo()
     const body = {
       ...newProductData,
       stock: Number(newProductData?.stock),
       value: Number(newProductData?.value),
-      userInfo: await this?.userInfo,
+      userInfo,
     }
 
     return await http.post('/produtos', {
