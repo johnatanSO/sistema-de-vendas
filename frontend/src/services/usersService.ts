@@ -70,9 +70,7 @@ export const usersService = {
     destroyCookie(null, ACCESS_TOKEN_KEY)
   },
 
-  async getUserInfo() {
-    return await JSON.parse(
-      globalThis?.localStorage?.getItem(USER_INFO) || '{}',
-    )
+  getUserInfo() {
+    return JSON.parse(globalThis?.localStorage?.getItem(USER_INFO) || '{}')
   },
 }

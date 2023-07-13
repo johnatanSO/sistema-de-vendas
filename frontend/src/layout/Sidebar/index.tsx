@@ -1,7 +1,11 @@
 import { useRouter } from 'next/router'
 import style from './Sidebar.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons'
+import {
+  faEnvelope,
+  faRightFromBracket,
+  faUser,
+} from '@fortawesome/free-solid-svg-icons'
 import { menuOptions } from './menuOptions'
 import { usersService } from '../../../src/services/usersService'
 import Link from 'next/link'
@@ -14,11 +18,24 @@ export function Sidebar() {
     router.push('/login')
   }
 
+  const userInfo = usersService.getUserInfo()
+
   return (
     <aside className={style.sidebarContainer}>
       <div className={style.userButton}>
         <FontAwesomeIcon className={style.userIcon} icon={faUser} />
         <div className={style.notification}>2</div>
+        <div className={style.userInfoContainer}>
+          <span>
+            <FontAwesomeIcon className={style.icon} icon={faUser} />
+            {userInfo?.name || '--'}
+          </span>
+          <span>
+            {' '}
+            <FontAwesomeIcon className={style.icon} icon={faEnvelope} />
+            {userInfo?.email || '--'}
+          </span>
+        </div>
       </div>
 
       <ul className={style.menuList}>
