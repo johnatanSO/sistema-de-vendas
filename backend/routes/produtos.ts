@@ -9,8 +9,11 @@ const productsRepository = new ProductsRepository()
 
 produtosRoutes.get('/', async (req: Request, res: Response) => {
   try {
-    const { searchString = '' } = req.query
-    const products = await productsRepository.list(searchString)
+    const { searchString, userInfo } = req.query as any
+    const products = await productsRepository.list({
+      searchString,
+      userId: userInfo?._id,
+    })
 
     res.status(200).json({
       items: products,
@@ -22,7 +25,7 @@ produtosRoutes.get('/', async (req: Request, res: Response) => {
 })
 
 produtosRoutes.post('/', async (req: Request, res: Response) => {
-  const { name, value, stock } = req.body
+  const { name, value, stock, userInfo } = req.body
   try {
     const createNewProductService = new CreateNewProductService(
       productsRepository,
@@ -32,6 +35,7 @@ produtosRoutes.post('/', async (req: Request, res: Response) => {
       name,
       value,
       stock,
+      userId: userInfo?._id,
     })
 
     res.status(201).json({
@@ -45,7 +49,6 @@ produtosRoutes.post('/', async (req: Request, res: Response) => {
   }
 })
 
-// [X] - TODO: Refactor and move logic to services.
 produtosRoutes.put('/', async (req: Request, res: Response) => {
   const { name, _id, value, stock } = req.body
 

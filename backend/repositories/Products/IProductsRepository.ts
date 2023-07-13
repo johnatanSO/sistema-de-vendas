@@ -6,11 +6,17 @@ export interface Product {
   value: number
   stock: number
   amount?: number
-  code: string
+  code?: string
+  userId: string
+}
+
+export interface QueryList {
+  searchString: string
+  userId: string
 }
 
 export interface IProductsRepository {
-  list: (searchString: string) => Promise<Product[]>
+  list: (QueryList: QueryList) => Promise<Product[]>
   create: (ProductData: Product) => Promise<Product>
   update: (ProductData: Product) => Promise<Product>
   delete: (idProduct: string) => void
