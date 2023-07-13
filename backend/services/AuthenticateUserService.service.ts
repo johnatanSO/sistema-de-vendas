@@ -7,14 +7,9 @@ export class AuthenticateUserService {
   }
 
   async execute({ email, password }: any): Promise<any> {
-    const emailFinded = await this.usersRepository.findByEmail(email)
-    if (!emailFinded) {
-      throw new Error('Nenhum usuário encontrado com este e-mail')
-    }
-
-    const user = await this.usersRepository.authenticate(password)
+    const user = await this.usersRepository.authenticate({ email, password })
     if (!user) {
-      throw new Error('Senha incorreta')
+      throw new Error('E-mail e/ou senha incorretos.')
     }
 
     return user

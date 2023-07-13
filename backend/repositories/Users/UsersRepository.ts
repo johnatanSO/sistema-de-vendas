@@ -16,7 +16,7 @@ export class UsersRepository implements IUsersRepository {
     return await UserModel.findOne({ email })
   }
 
-  async authenticate(password: string): Promise<any> {
-    return await UserModel.findOne({ password })
+  async authenticate({ email, password }): Promise<any> {
+    return await UserModel.findOne({ email, password })
   }
 }
