@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { Column, ValueFormatterParams } from '../../../../src/models/columns'
+import { Column, CellFunctionParams } from '../../../../src/models/columns'
 import { format } from '../../../../src/utils/format'
 import { faBan, faPen } from '@fortawesome/free-solid-svg-icons'
 import { ActionButtons } from '../../../../src/components/ActionButtons'
@@ -34,7 +34,7 @@ export function useColumns({
     {
       headerName: 'Nº pedido',
       field: 'code',
-      valueFormatter: (params: ValueFormatterParams) => params.value,
+      valueFormatter: (params: CellFunctionParams) => params.value,
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
           return style.canceledText
@@ -44,7 +44,7 @@ export function useColumns({
     {
       headerName: 'Cliente',
       field: 'client',
-      valueFormatter: (params: ValueFormatterParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams) => params.value || '--',
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
           return style.canceledText
@@ -54,7 +54,7 @@ export function useColumns({
     {
       headerName: 'Data da venda',
       field: 'date',
-      valueFormatter: (params: ValueFormatterParams) =>
+      valueFormatter: (params: CellFunctionParams) =>
         dayjs(params.value).format('DD/MM/YYYY - HH:mm'),
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -65,7 +65,7 @@ export function useColumns({
     {
       headerName: 'Valor total',
       field: 'totalValue',
-      valueFormatter: (params: ValueFormatterParams) =>
+      valueFormatter: (params: CellFunctionParams) =>
         format.formatarReal(params.value),
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -76,7 +76,7 @@ export function useColumns({
     {
       headerName: '',
       field: 'acoes',
-      cellRenderer: (params: ValueFormatterParams) => {
+      cellRenderer: (params: CellFunctionParams) => {
         return <ActionButtons actions={actions} params={params} />
       },
     },

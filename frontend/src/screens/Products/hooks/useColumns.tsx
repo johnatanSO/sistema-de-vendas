@@ -1,4 +1,4 @@
-import { Column, ValueFormatterParams } from '../../../../src/models/columns'
+import { Column, CellFunctionParams } from '../../../../src/models/columns'
 import { format } from '../../../../src/utils/format'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { ActionButtons } from '../../../../src/components/ActionButtons'
@@ -32,28 +32,28 @@ export function useColumns({
     {
       headerName: 'Código',
       field: 'code',
-      valueFormatter: (params: ValueFormatterParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams) => params.value || '--',
     },
     {
       headerName: 'Nome do produto',
       field: 'name',
-      valueFormatter: (params: ValueFormatterParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams) => params.value || '--',
     },
     {
       headerName: 'Quantidade',
       field: 'stock',
-      valueFormatter: (params: ValueFormatterParams) => params.value || 0,
+      valueFormatter: (params: CellFunctionParams) => params.value || 0,
     },
     {
       headerName: 'Valor',
       field: 'value',
-      valueFormatter: (params: ValueFormatterParams) =>
+      valueFormatter: (params: CellFunctionParams) =>
         format.formatarReal(params.value || 0),
     },
     {
       headerName: '',
       field: 'acoes',
-      cellRenderer: (params: ValueFormatterParams) => {
+      cellRenderer: (params: CellFunctionParams) => {
         return <ActionButtons actions={actions} params={params} />
       },
     },

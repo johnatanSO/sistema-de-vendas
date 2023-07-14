@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Modal, Box } from '@mui/material'
 import { ReactNode, FormEvent } from 'react'
 import style from './ModalLayout.module.scss'
+import { Loading } from '../Loading'
 
 interface Props {
   title: string
@@ -46,7 +47,7 @@ export function ModalLayout({
         </Box>
         <Box className={style.footer} component="footer">
           <button disabled={loading} type="submit">
-            {loading ? 'carregando...' : submitButtonText || 'Confirmar'}
+            {loading ? <Loading /> : submitButtonText || 'Confirmar'}
           </button>
         </Box>
       </Box>
