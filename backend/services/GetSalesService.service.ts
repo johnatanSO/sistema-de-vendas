@@ -10,8 +10,12 @@ export class GetSalesService {
     this.salesRepository = salesRepository
   }
 
-  async execute({ startDate, endDate }: FiltersGetSales): Promise<Sale[]> {
-    const sales = this.salesRepository.list({ startDate, endDate })
+  async execute({
+    startDate,
+    endDate,
+    userId,
+  }: FiltersGetSales): Promise<Sale[]> {
+    const sales = this.salesRepository.list({ startDate, endDate, userId })
 
     return sales
   }

@@ -13,9 +13,9 @@ const productsRepository = new ProductsRepository()
 
 vendasRoutes.get('/', async (req, res) => {
   try {
-    const { startDate, endDate } = req.query
+    const { startDate, endDate, userId } = req.query as any
     const getSalesService = new GetSalesService(salesRepository)
-    const sales = await getSalesService.execute({ startDate, endDate })
+    const sales = await getSalesService.execute({ startDate, endDate, userId })
 
     res.status(200).json({
       items: sales,
@@ -29,7 +29,13 @@ vendasRoutes.get('/', async (req, res) => {
 })
 
 vendasRoutes.post('/', async (req: Request, res: Response) => {
-  const { client, products, paymentType, totalValue = 0 } = req.body
+  const {
+    client,
+    products,
+    paymentType,
+    totalValue = 0,
+    userInfo,
+  } = req.body as any
 
   try {
     const createNewSaleService = new CreateNewSaleService(salesRepository)
@@ -38,6 +44,7 @@ vendasRoutes.post('/', async (req: Request, res: Response) => {
       products,
       paymentType,
       totalValue,
+      userId: userInfo?._id,
     })
 
     const updateProductsStock = new UpdateProductsStock(productsRepository)

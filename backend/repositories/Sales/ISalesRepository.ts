@@ -7,6 +7,7 @@ interface SaleProduct {
 export interface FiltersGetSales {
   startDate: any
   endDate: any
+  userId: string
 }
 
 export interface Sale {
@@ -14,10 +15,13 @@ export interface Sale {
   products: SaleProduct[]
   paymentType: string
   totalValue: number
+  userId: string
+  code: string
 }
 
 export interface ISalesRepository {
   list: (filters: FiltersGetSales) => Promise<Sale[]>
+  getEntries: (userId: string) => Promise<number>
   create: (SaleData: Sale) => Promise<Sale>
   cancel: (idSale: string) => void
 }

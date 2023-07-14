@@ -19,6 +19,8 @@ const saleSchema = new mongoose.Schema({
     default: Date.now,
   },
   status: { type: String, default: null },
+  userId: { type: String, default: null },
+  code: { type: String, default: null },
 })
 
 export const SaleModel = mongoose.model('Sale', saleSchema)
