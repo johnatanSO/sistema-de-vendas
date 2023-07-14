@@ -12,6 +12,7 @@ interface Props {
   children: ReactNode
   onSubmit: (event: FormEvent<HTMLFormElement>) => void
   loading: boolean
+  customStyle?: any
 }
 export function ModalLayout({
   title,
@@ -21,10 +22,16 @@ export function ModalLayout({
   children,
   onSubmit,
   loading,
+  customStyle,
 }: Props) {
   return (
     <Modal className={style.overlay} open={open} onClose={handleClose}>
-      <Box className={style.container} onSubmit={onSubmit} component="form">
+      <Box
+        style={customStyle ?? customStyle}
+        className={style.container}
+        onSubmit={onSubmit}
+        component="form"
+      >
         <Box className={style.header} component="header">
           <h3>{title || 'Modal'}</h3>
           <FontAwesomeIcon

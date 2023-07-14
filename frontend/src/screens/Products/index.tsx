@@ -12,6 +12,7 @@ import { AlertContext } from '../../../src/contexts/alertContext'
 
 export interface Product {
   _id: string
+  name: string
 }
 
 export function Products() {

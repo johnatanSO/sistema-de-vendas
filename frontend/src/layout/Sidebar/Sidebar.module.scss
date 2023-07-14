@@ -69,12 +69,14 @@
       border-radius: 10px;
       cursor: auto;
 
+      animation: fadeIn 0.2s;
+
       .icon {
         height: 1rem;
         width: 1rem;
       }
 
-      span{
+      span {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -141,5 +143,14 @@
     &:hover {
       filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.7)) brightness(0.7);
     }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
   }
 }

@@ -1,7 +1,44 @@
-@import '../../../../styles/colors.scss';
+@import "../../../../styles/colors.scss";
 
-.fieldsContainer{
+.content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
+
+  section {
+    display: inherit;
+    flex-direction: inherit;
+    gap: inherit;
+
+    padding: 15px;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $gray-color-300;
+    }
+
+    .fieldsContainer {
+      display: flex;
+      gap: 12px;
+    }
+
+    .listProducts {
+      li {
+        list-style-type: none;
+      }
+    }
+  }
+}
+
+.input {
+  width: 180px;
+}
+
+@media (max-width: 840px) {
+  .fieldsContainer {
+    flex-direction: column;
+
+    .input {
+      width: 100%;
+    }
+  }
 }

@@ -9,8 +9,17 @@ import {
 import { menuOptions } from './menuOptions'
 import { usersService } from '../../../src/services/usersService'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
+export interface UserInfo {
+  name: string
+  email: string
+  password: string
+}
 
 export function Sidebar() {
+  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
+  const [userInfoCardOpened, setUserInfoCardOpened] = useState<boolean>(false)
   const router = useRouter()
 
   async function handleLogout() {
@@ -18,24 +27,34 @@ export function Sidebar() {
     router.push('/login')
   }
 
-  const userInfo = usersService.getUserInfo()
+  useEffect(() => {
+    const userData = usersService.getUserInfo()
+    setUserInfo(userData)
+  }, [])
+
+  function handleOpenUserInfoCard() {
+    setUserInfoCardOpened(!userInfoCardOpened)
+  }
 
   return (
     <aside className={style.sidebarContainer}>
-      <div className={style.userButton}>
+      <div onClick={handleOpenUserInfoCard} className={style.userButton}>
         <FontAwesomeIcon className={style.userIcon} icon={faUser} />
         <div className={style.notification}>2</div>
-        <div className={style.userInfoContainer}>
-          <span>
-            <FontAwesomeIcon className={style.icon} icon={faUser} />
-            {userInfo?.name || '--'}
-          </span>
-          <span>
-            {' '}
-            <FontAwesomeIcon className={style.icon} icon={faEnvelope} />
-            {userInfo?.email || '--'}
-          </span>
-        </div>
+
+        {userInfoCardOpened && (
+          <div className={style.userInfoContainer}>
+            <span>
+              <FontAwesomeIcon className={style.icon} icon={faUser} />
+              {userInfo?.name || '--'}
+            </span>
+            <span>
+              {' '}
+              <FontAwesomeIcon className={style.icon} icon={faEnvelope} />
+              {userInfo?.email || '--'}
+            </span>
+          </div>
+        )}
       </div>
 
       <ul className={style.menuList}>

@@ -1,16 +1,6 @@
 import { ReactNode } from 'react'
 
-export interface ValueFormatterParams {
-  data: any
-  value: any
-}
-
-export interface CellRendererParams {
-  data: any
-  value: any
-}
-
-export interface CellClassParams {
+export interface CellFunctionParams {
   data: any
   value: any
 }
@@ -18,7 +8,7 @@ export interface CellClassParams {
 export interface Column {
   headerName: string
   field: string
-  valueFormatter?: (params: ValueFormatterParams) => any
-  cellRenderer?: (params: CellRendererParams) => ReactNode
-  cellClass?: (params: CellClassParams) => any
+  valueFormatter?: (params: CellFunctionParams) => any
+  cellRenderer?: (params: CellFunctionParams) => ReactNode
+  cellClass?: (params: CellFunctionParams) => any
 }
