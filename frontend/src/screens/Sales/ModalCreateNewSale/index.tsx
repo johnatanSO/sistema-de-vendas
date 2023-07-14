@@ -1,11 +1,17 @@
 import { ModalLayout } from '../../../components/ModalLayout'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useState, ChangeEvent, useContext } from 'react'
 import style from './ModalCreateNewSale.module.scss'
 import { CustomTextField } from '../../../components/CustomTextField'
 import { MenuItem } from '@mui/material'
 import { paymentTypesList } from '../../../models/paymentTypesList'
 import { productsService } from '../../../services/productsService'
 import { Product } from '../../Products'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { format } from '../../../utils/format'
+import { AlertContext } from '../../../contexts/alertContext'
+import { salesService } from '../../../services/salesService'
+import { useRouter } from 'next/router'
 
 interface Props {
   open: boolean
@@ -24,6 +30,9 @@ interface NewSaleData {
 }
 
 export function ModalCreateNewSale({ open, handleClose }: Props) {
+  const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
+  const [loading, setLoading] = useState<boolean>(false)
+  const router = useRouter()
   const defaultValuesNewSale = {
     client: '',
     paymentType: '',
@@ -33,10 +42,6 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
   const [newSaleData, setNewSaleData] =
     useState<NewSaleData>(defaultValuesNewSale)
   const [productsList, setProductsList] = useState<ProductSale[]>([])
-
-  function onCreateNewSale(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-  }
 
   function getProducts() {
     productsService
@@ -49,7 +54,8 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
       })
   }
 
-  function handleAddNewProduct({ value }: any) {
+  function handleAddNewProduct(event: any) {
+    const { value } = event.target
     const newProduct = productsList.find((prodItem) => prodItem?._id === value)
     if (!newProduct) return
 
@@ -65,6 +71,86 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
     })
   }
 
+  function handleChangeProduct(
+    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    index: number,
+  ) {
+    const { name, value } = event.target
+
+    const copyNewSaleData: any = { ...newSaleData }
+    copyNewSaleData.products[index][name] = value
+    setNewSaleData(copyNewSaleData)
+  }
+
+  function handleRemoveProduct(productId: string) {
+    const newProducts = newSaleData.products.filter(
+      (prod) => prod._id !== productId,
+    )
+    setNewSaleData({
+      ...newSaleData,
+      products: newProducts,
+    })
+  }
+
+  const totalValue = newSaleData?.products?.reduce((acc, prod) => {
+    acc += Number(prod.value) * Number(prod.amount)
+    return acc
+  }, 0)
+
+  function onCreateNewSale(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!newSaleData.paymentType) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        open: true,
+        text: 'Forma de pagamento não informada',
+      })
+      console.log('Forma de pagamento não informada')
+      return
+    }
+    if (newSaleData.products.length === 0) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        open: true,
+        text: 'Nenhum produto selecionado',
+      })
+      console.log('Nenhum produto selecionado')
+      return
+    }
+
+    setLoading(true)
+    salesService
+      .create({ newSaleData, totalValue })
+      .then(() => {
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'success',
+          open: true,
+          text: 'Venda realizada com sucesso',
+        })
+        setNewSaleData(defaultValuesNewSale)
+        router.push({
+          pathname: router.route,
+          query: router.query,
+        })
+        handleClose()
+      })
+      .catch((err) => {
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'error',
+          open: true,
+          text: 'Erro ao tentar realizar venda' + err.response.data.message,
+        })
+        console.log('[ERROR]: ', err.response.data.message)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
   return (
     <ModalLayout
       open={open}
@@ -72,7 +158,7 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
       onSubmit={onCreateNewSale}
       title="Realizar nova venda"
       submitButtonText="Finalizar"
-      loading={true}
+      loading={loading}
     >
       <div className={style.content}>
         <section className={style.sectionContainer}>
@@ -121,7 +207,6 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
               label="Produtos"
               select
               placeholder="Selecione um produto"
-              value={undefined}
               onChange={handleAddNewProduct}
               onFocus={getProducts}
             >
@@ -136,11 +221,49 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
           </div>
         </section>
         <section className={style.sectionContainer}>
-          <h3>Produtos</h3>
+          <div className={style.headerProductsList}>
+            <h3>Produtos</h3>
+            {newSaleData.products.length > 0 && (
+              <span>{format.formatarReal(totalValue || 0)}</span>
+            )}
+          </div>
           {newSaleData.products.length > 0 ? (
             <ul className={style.listProducts}>
-              {newSaleData.products.map((product) => {
-                return <li key={product?._id}></li>
+              {newSaleData.products.map((product, index) => {
+                return (
+                  <li key={product?._id}>
+                    <span>{product?.name}</span>
+                    <CustomTextField
+                      className={style.inputProduct}
+                      label="Quantidade"
+                      size="small"
+                      InputLabelProps={{ shrink: true }}
+                      value={product?.amount}
+                      name="amount"
+                      onChange={(event) => {
+                        handleChangeProduct(event, index)
+                      }}
+                    />
+                    <CustomTextField
+                      className={style.inputProduct}
+                      label="Valor"
+                      size="small"
+                      InputLabelProps={{ shrink: true }}
+                      value={product?.value}
+                      name="value"
+                      onChange={(event) => {
+                        handleChangeProduct(event, index)
+                      }}
+                    />
+                    <FontAwesomeIcon
+                      className={style.removeProductIcon}
+                      icon={faTrash}
+                      onClick={() => {
+                        handleRemoveProduct(product?._id)
+                      }}
+                    />
+                  </li>
+                )
               })}
             </ul>
           ) : (

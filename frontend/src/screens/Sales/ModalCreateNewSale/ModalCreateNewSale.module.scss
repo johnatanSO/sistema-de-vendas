@@ -21,16 +21,55 @@
       gap: 12px;
     }
 
+    .headerProductsList{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     .listProducts {
       li {
         list-style-type: none;
+        background: $gray-color-400;
+        border: 1px solid $gray-color-300;
+        box-shadow: 1px 3px 5px rgb(0 0 0 / 0.4);
+
+        border-radius: 10px;
+        padding: 0.9rem 1.2rem;
+
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        span{
+          margin-right: auto;
+        }
+
+        .inputProduct{
+          background: $gray-color-500;
+          width: 120px;
+        }
+
+        .removeProductIcon{
+          height: 1.2rem;
+
+          color: $red-color-500;
+
+          transition: filter .2s;
+          cursor: pointer;
+
+          &:hover{
+            filter: brightness(0.8);
+          }
+        }
       }
     }
   }
 }
 
 .input {
-  width: 180px;
+  width: 190px;
+  background: $gray-color-600;
 }
 
 @media (max-width: 840px) {

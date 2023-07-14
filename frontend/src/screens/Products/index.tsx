@@ -13,6 +13,7 @@ import { AlertContext } from '../../../src/contexts/alertContext'
 export interface Product {
   _id: string
   name: string
+  value: number
 }
 
 export function Products() {

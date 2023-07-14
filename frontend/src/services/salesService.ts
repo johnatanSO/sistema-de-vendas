@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import http from '../api/http'
+import { usersService } from './usersService'
 
 interface GetAllParams {
   filters: any
@@ -7,6 +8,7 @@ interface GetAllParams {
 
 interface CreateParams {
   newSaleData: any
+  totalValue: number
 }
 
 interface UpdateParams {
@@ -19,6 +21,7 @@ interface DeleteParams {
 
 export const salesService = {
   async getAll({ filters }: GetAllParams) {
+    const userInfo = await usersService.getUserInfo()
     const params = {
       ...(filters?.startDate
         ? { startDate: filters?.startDate }
@@ -26,15 +29,19 @@ export const salesService = {
       ...(filters?.endDate
         ? { endDate: filters?.endDate }
         : { endDate: dayjs().endOf('month').toISOString() }),
+      userId: userInfo?._id,
     }
     return await http.get('/vendas/', {
       params,
     })
   },
 
-  async create({ newSaleData }: CreateParams) {
+  async create({ newSaleData, totalValue }: CreateParams) {
+    const userInfo = await usersService.getUserInfo()
     const body = {
       ...newSaleData,
+      totalValue,
+      userInfo,
     }
 
     return await http.post('/vendas', {

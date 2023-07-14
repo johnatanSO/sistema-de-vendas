@@ -33,7 +33,7 @@ export function useColumns({
   return [
     {
       headerName: 'Nº pedido',
-      field: '_id',
+      field: 'code',
       valueFormatter: (params: ValueFormatterParams) => params.value,
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
