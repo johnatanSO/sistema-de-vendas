@@ -27,6 +27,7 @@ export function Sales() {
   const [sales, setSales] = useState<Sale[]>([])
   const [loadingSales, setLoadingSales] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
+  const [saleToEditData, setSaleToEditData] = useState<any>(undefined)
   const router = useRouter()
 
   function getSales() {
@@ -81,7 +82,10 @@ export function Sales() {
     })
   }
 
-  function handleEditSale(sale: Sale) {}
+  function handleEditSale(sale: Sale) {
+    setSaleToEditData(sale)
+    setFormModalOpened(true)
+  }
 
   const columns: Column[] = useColumns({
     handleEditSale,
@@ -109,8 +113,10 @@ export function Sales() {
       {formModalOpened && (
         <ModalCreateNewSale
           open={formModalOpened}
+          saleToEditData={saleToEditData}
           handleClose={() => {
             setFormModalOpened(false)
+            setSaleToEditData(undefined)
           }}
         />
       )}

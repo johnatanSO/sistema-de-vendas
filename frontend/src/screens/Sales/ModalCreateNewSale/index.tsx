@@ -13,23 +13,28 @@ import { AlertContext } from '../../../contexts/alertContext'
 import { salesService } from '../../../services/salesService'
 import { useRouter } from 'next/router'
 
-interface Props {
-  open: boolean
-  handleClose: () => void
-}
-
 interface ProductSale extends Product {
   amount: number
 }
 
-interface NewSaleData {
+export interface NewSaleData {
   client: string
   paymentType: string
   products: ProductSale[]
   totalValue: number
 }
 
-export function ModalCreateNewSale({ open, handleClose }: Props) {
+interface Props {
+  saleToEditData: NewSaleData | undefined
+  open: boolean
+  handleClose: () => void
+}
+
+export function ModalCreateNewSale({
+  open,
+  handleClose,
+  saleToEditData,
+}: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
@@ -39,8 +44,9 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
     products: [],
     totalValue: 0,
   }
-  const [newSaleData, setNewSaleData] =
-    useState<NewSaleData>(defaultValuesNewSale)
+  const [newSaleData, setNewSaleData] = useState<NewSaleData>(
+    saleToEditData || defaultValuesNewSale,
+  )
   const [productsList, setProductsList] = useState<ProductSale[]>([])
 
   function getProducts() {
@@ -151,11 +157,65 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
       })
   }
 
+  function onEditSale(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!newSaleData.paymentType) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        open: true,
+        text: 'Forma de pagamento não informada',
+      })
+      console.log('Forma de pagamento não informada')
+      return
+    }
+    if (newSaleData.products.length === 0) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: 'error',
+        open: true,
+        text: 'Nenhum produto selecionado',
+      })
+      console.log('Nenhum produto selecionado')
+      return
+    }
+
+    setLoading(true)
+    salesService
+      .update({ saleData: newSaleData })
+      .then(() => {
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'success',
+          open: true,
+          text: 'Venda atualizada com sucesso',
+        })
+        setNewSaleData(defaultValuesNewSale)
+        router.push({
+          pathname: router.route,
+          query: router.query,
+        })
+        handleClose()
+      })
+      .catch((err) => {
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'error',
+          open: true,
+          text: 'Erro ao tentar atualizar venda' + err.response.data.message,
+        })
+        console.log('[ERROR]: ', err.response.data.message)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
   return (
     <ModalLayout
       open={open}
       handleClose={handleClose}
-      onSubmit={onCreateNewSale}
+      onSubmit={saleToEditData ? onEditSale : onCreateNewSale}
       title="Realizar nova venda"
       submitButtonText="Finalizar"
       loading={loading}
@@ -240,6 +300,7 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
                       InputLabelProps={{ shrink: true }}
                       value={product?.amount}
                       name="amount"
+                      type="number"
                       onChange={(event) => {
                         handleChangeProduct(event, index)
                       }}
@@ -247,6 +308,7 @@ export function ModalCreateNewSale({ open, handleClose }: Props) {
                     <CustomTextField
                       className={style.inputProduct}
                       label="Valor"
+                      type="number"
                       size="small"
                       InputLabelProps={{ shrink: true }}
                       value={product?.value}
