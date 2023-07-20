@@ -65,6 +65,7 @@ export function Sidebar() {
                 className={
                   router.pathname === option.link ? style.activeMenu : undefined
                 }
+                title={option?.title}
               >
                 <FontAwesomeIcon className={style.icon} icon={option.icon} />
               </li>
