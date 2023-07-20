@@ -28,6 +28,10 @@
     }
 
     .listProducts {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      
       li {
         list-style-type: none;
         background: $gray-color-400;
