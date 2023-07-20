@@ -242,6 +242,7 @@ export function ModalCreateNewSale({
               size="small"
               className={style.input}
               label="Forma de pagamento"
+              required
               select
               placeholder="Escolha a forma de pagamento"
               value={newSaleData?.paymentType}
