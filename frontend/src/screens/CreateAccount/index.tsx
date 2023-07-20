@@ -5,6 +5,7 @@ import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../../src/contexts/alertContext'
 import { CustomTextField } from '../../components/CustomTextField'
+import { Loading } from '../../components/Loading'
 
 export interface NewUser {
   name: string
@@ -118,7 +119,7 @@ export function CreateAccount() {
           placeholder="Digite uma senha"
         />
         <button disabled={loading} type="submit">
-          {loading ? <>Carregando...</> : 'Cadastrar'}
+          {loading ? <Loading /> : 'Cadastrar'}
         </button>
       </form>
       <Link href="/login" className={style.loginAccountLink}>
