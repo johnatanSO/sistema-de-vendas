@@ -26,6 +26,7 @@ export function Products() {
   const [products, setProducts] = useState<Product[]>([])
   const [loadingProducts, setLoadingProducts] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
+  const [productDataToEdit, setProductDataToEdit] = useState<any>(undefined)
   const router = useRouter()
 
   function getProducts() {
@@ -80,7 +81,10 @@ export function Products() {
     })
   }
 
-  function handleEditProduct(product: Product) {}
+  function handleEditProduct(product: Product) {
+    setProductDataToEdit(product)
+    setFormModalOpened(true)
+  }
 
   const columns: Column[] = useColumns({
     handleEditProduct,
@@ -111,9 +115,11 @@ export function Products() {
 
       {formModalOpened && (
         <ModalCreateNewProduct
+          productDataToEdit={productDataToEdit}
           open={formModalOpened}
           handleClose={() => {
             setFormModalOpened(false)
+            setProductDataToEdit(undefined)
           }}
         />
       )}

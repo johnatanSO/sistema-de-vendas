@@ -6,18 +6,23 @@ import { productsService } from '../../../../src/services/productsService'
 import { AlertContext } from '../../../../src/contexts/alertContext'
 import { useRouter } from 'next/router'
 
-interface Props {
-  open: boolean
-  handleClose: () => void
-}
-
 export interface NewProductData {
   name: string
   stock: string
   value: string
 }
 
-export function ModalCreateNewProduct({ open, handleClose }: Props) {
+interface Props {
+  productDataToEdit: NewProductData
+  open: boolean
+  handleClose: () => void
+}
+
+export function ModalCreateNewProduct({
+  open,
+  handleClose,
+  productDataToEdit,
+}: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const defaultNewProductValues = {
     name: '',
@@ -25,14 +30,14 @@ export function ModalCreateNewProduct({ open, handleClose }: Props) {
     value: '0',
   }
   const [newProductData, setNewProductData] = useState<NewProductData>(
-    defaultNewProductValues,
+    productDataToEdit || defaultNewProductValues,
   )
   const [loadingCreateNewProduct, setLoadingCreateNewProduct] =
     useState<boolean>(false)
   const router = useRouter()
   function onCreateNewProduct(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    /* if (!newProductData?.name) {
+    if (!newProductData?.name) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
         open: true,
@@ -40,7 +45,7 @@ export function ModalCreateNewProduct({ open, handleClose }: Props) {
         text: 'Nenhum nome foi informado',
       })
       return
-    } */
+    }
     productsService
       .create({ newProductData })
       .then(() => {
@@ -72,11 +77,53 @@ export function ModalCreateNewProduct({ open, handleClose }: Props) {
       })
   }
 
+  function onEditProduct(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!newProductData?.name) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        open: true,
+        type: 'error',
+        text: 'Nenhum nome foi informado',
+      })
+      return
+    }
+    productsService
+      .update({ productData: newProductData })
+      .then(() => {
+        router.push({
+          pathname: router.route,
+          query: router.query,
+        })
+        setNewProductData(defaultNewProductValues)
+        handleClose()
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          open: true,
+          type: 'success',
+          text: 'Dados do produto atualizado com sucesso',
+        })
+      })
+      .catch((err) => {
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          open: true,
+          type: 'error',
+          text:
+            'Erro ao tentar atualizar dados produto ' +
+            `(${err.response.data.message})`,
+        })
+      })
+      .finally(() => {
+        setLoadingCreateNewProduct(false)
+      })
+  }
+
   return (
     <ModalLayout
       open={open}
       handleClose={handleClose}
-      onSubmit={onCreateNewProduct}
+      onSubmit={productDataToEdit ? onEditProduct : onCreateNewProduct}
       title="Cadastro de produto"
       submitButtonText="Cadastrar"
       loading={loadingCreateNewProduct}
@@ -84,6 +131,7 @@ export function ModalCreateNewProduct({ open, handleClose }: Props) {
       <div className={style.fieldsContainer}>
         <CustomTextField
           size="small"
+          required
           label="Nome"
           type="text"
           placeholder="Digite o nome"
