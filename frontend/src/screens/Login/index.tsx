@@ -4,6 +4,7 @@ import { FormEvent, useContext, useState } from 'react'
 import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../../src/contexts/alertContext'
+import { CustomTextField } from '../../components/CustomTextField'
 
 export interface LoginUserData {
   email: string
@@ -75,9 +76,12 @@ export function Login() {
     <div className={style.loginContainer}>
       <h2>Entrar com uma conta existente</h2>
       <form onSubmit={onLogin} className={style.formContainer}>
-        <input
+        <CustomTextField
+          size="medium"
           value={userData?.email}
+          className={style.input}
           type="text"
+          label="E-mail"
           placeholder="Digite seu E-mail"
           onChange={(event) => {
             setUserData({
@@ -86,7 +90,10 @@ export function Login() {
             })
           }}
         />
-        <input
+        <CustomTextField
+          label="Senha"
+          size="medium"
+          className={style.input}
           value={userData?.password}
           type="password"
           placeholder="Senha"

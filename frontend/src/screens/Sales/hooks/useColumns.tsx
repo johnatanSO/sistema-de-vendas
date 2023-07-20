@@ -32,7 +32,7 @@ export function useColumns({
 
   return [
     {
-      headerName: 'Nº pedido',
+      headerName: 'Nº da venda',
       field: 'code',
       valueFormatter: (params: CellFunctionParams) => params.value,
       cellClass: (params) => {

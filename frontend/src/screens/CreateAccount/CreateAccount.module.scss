@@ -24,35 +24,25 @@
   .formContainer {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 
-    input {
+    .input {
       background: $gray-color-600;
       color: $gray-color-200;
-      height: 50px;
-      font-size: 1rem;
-      border: 1px solid transparent;
-      padding: 15px;
-      border-radius: 8px;
-      outline: none;
-      transition: border 0.2s;
 
-      &:focus {
-        border: 1px solid $primary-color;
-      }
-      &:hover {
-        filter: brightness(0.9);
-      }
+      border-radius: 8px;
     }
 
     button {
-      height: 50px;
       font-size: 0.875rem;
+      font-weight: 500;
+
       background-color: $primary-color;
       color: white;
+
       border: none;
       border-radius: 8px;
-      font-weight: 500;
+      padding: 1.2rem 0px;
       margin-top: 5px;
       line-height: 1;
 
@@ -64,7 +54,8 @@
       }
 
       &:disabled {
-        filter: opacity(0.6);
+        filter: brightness(0.6);
+        pointer-events: none;
         cursor: not-allowed;
       }
     }

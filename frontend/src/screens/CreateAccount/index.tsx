@@ -4,6 +4,7 @@ import { FormEvent, useContext, useState } from 'react'
 import { usersService } from '../../services/usersService'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../../src/contexts/alertContext'
+import { CustomTextField } from '../../components/CustomTextField'
 
 export interface NewUser {
   name: string
@@ -74,7 +75,7 @@ export function CreateAccount() {
     <div className={style.createAccountContainer}>
       <h2>Criar uma nova conta</h2>
       <form onSubmit={onCreateAccount} className={style.formContainer}>
-        <input
+        <CustomTextField
           onChange={(e) => {
             setNewUser({
               ...newUser,
@@ -84,10 +85,14 @@ export function CreateAccount() {
           required
           value={newUser.name}
           type="text"
+          label="Nome"
+          className={style.input}
           placeholder="Digite seu nome"
         />
-        <input
+        <CustomTextField
           required
+          label="E-mail"
+          className={style.input}
           onChange={(e) => {
             setNewUser({
               ...newUser,
@@ -98,8 +103,10 @@ export function CreateAccount() {
           type="text"
           placeholder="Digite seu E-mail"
         />
-        <input
+        <CustomTextField
           required
+          label="Senha"
+          className={style.input}
           value={newUser.password}
           onChange={(e) => {
             setNewUser({
