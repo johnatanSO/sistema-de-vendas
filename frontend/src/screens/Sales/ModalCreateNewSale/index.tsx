@@ -211,14 +211,23 @@ export function ModalCreateNewSale({
       })
   }
 
+  console.log('PRODUTOS', newSaleData.products)
+  console.log('Nova venda', newSaleData)
   useEffect(() => {
     if (!saleToEditData)
       productsService
         .getDefaultProducts()
         .then((res) => {
+          const defaultProducts = res.data.items
+          const defaultProductsList = defaultProducts.map(
+            (product: Product) => ({
+              ...product,
+              amount: 1,
+            }),
+          )
           setNewSaleData({
             ...newSaleData,
-            products: res.data.items,
+            products: defaultProductsList,
           })
         })
         .catch((err) => {
