@@ -29,8 +29,16 @@ export class SalesRepository implements ISalesRepository {
     return newSale
   }
 
+  async update(SaleData: Sale): Promise<any> {
+    return await SaleModel.updateOne({ _id: SaleData?._id }, { $set: SaleData })
+  }
+
   async cancel(idSale: string) {
     await SaleModel.updateOne({ _id: idSale }, { $set: { status: 'canceled' } })
+  }
+
+  async findById(saleId: string): Promise<Sale | null> {
+    return await SaleModel.findOne({ _id: saleId })
   }
 
   async getEntries(userId: string): Promise<number> {

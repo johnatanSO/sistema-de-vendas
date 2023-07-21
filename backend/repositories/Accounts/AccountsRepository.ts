@@ -29,20 +29,9 @@ export class AccountsRepository implements IAccountsRepository {
     await AccountModel.deleteOne({ _id: idAccount })
   }
 
-  async findByName(name: string): Promise<Account | null> {
-    return await AccountModel.findOne({ name })
-  }
-
   async findById(accountId: string): Promise<Account | null> {
     return await AccountModel.findOne({ _id: accountId })
   }
-
-  /* async updateStock(account: Account) {
-    await AccountModel.updateOne(
-      { _id: account._id },
-      { $inc: { stock: -Number(account.amount) } },
-    )
-  } */
 
   async getEntries(userId: string): Promise<number> {
     return AccountModel.countDocuments({ userId })

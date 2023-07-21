@@ -6,6 +6,7 @@ import { GetSalesService } from '../services/GetSalesService.service'
 
 import { UpdateProductsStock } from '../services/UpdateProductsStock.service'
 import { CancelSaleService } from '../services/CancelSaleService.service'
+import { UpdateNewSaleService } from '../services/UpdateSaleService.service'
 
 const vendasRoutes = express.Router()
 const salesRepository = new SalesRepository()
@@ -40,6 +41,39 @@ vendasRoutes.post('/', async (req: Request, res: Response) => {
   try {
     const createNewSaleService = new CreateNewSaleService(salesRepository)
     const newSale = await createNewSaleService.execute({
+      client,
+      products,
+      paymentType,
+      totalValue,
+      userId: userInfo?._id,
+    })
+
+    const updateProductsStock = new UpdateProductsStock(productsRepository)
+    await updateProductsStock.execute(products)
+
+    res.status(201).json({
+      item: newSale,
+      message: 'Venda cadastrada com sucesso!',
+    })
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+})
+
+vendasRoutes.put('/', async (req: Request, res: Response) => {
+  const {
+    _id,
+    client,
+    products,
+    paymentType,
+    totalValue = 0,
+    userInfo,
+  } = req.body as any
+
+  try {
+    const updateNewSaleService = new UpdateNewSaleService(salesRepository)
+    const newSale = await updateNewSaleService.execute({
+      _id,
       client,
       products,
       paymentType,
