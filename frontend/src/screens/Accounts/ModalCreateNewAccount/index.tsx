@@ -5,10 +5,13 @@ import { CustomTextField } from '../../../components/CustomTextField'
 import { accountsService } from '../../../services/accountsService'
 import { AlertContext } from '../../../contexts/alertContext'
 import { useRouter } from 'next/router'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 
 export interface NewAccountData {
-  name: string
-  stock: string
+  description: string
+  type: string
+  category: string
   value: string
 }
 
@@ -25,8 +28,9 @@ export function ModalCreateNewAccount({
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const defaultNewAccountValues = {
-    name: '',
-    stock: '0',
+    description: '',
+    type: 'in',
+    category: '',
     value: '0',
   }
   const [newAccountData, setNewAccountData] = useState<NewAccountData>(
@@ -37,15 +41,6 @@ export function ModalCreateNewAccount({
   const router = useRouter()
   function onCreateNewAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (!newAccountData?.name) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        open: true,
-        type: 'error',
-        text: 'Nenhum nome foi informado',
-      })
-      return
-    }
     accountsService
       .create({ newAccountData })
       .then(() => {
@@ -79,15 +74,6 @@ export function ModalCreateNewAccount({
 
   function onEditAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (!newAccountData?.name) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        open: true,
-        type: 'error',
-        text: 'Nenhum nome foi informado',
-      })
-      return
-    }
     accountsService
       .update({ accountData: newAccountData })
       .then(() => {
@@ -131,31 +117,46 @@ export function ModalCreateNewAccount({
       <div className={style.fieldsContainer}>
         <CustomTextField
           size="small"
-          required
-          label="Nome"
+          label="Descrição"
           type="text"
-          placeholder="Digite o nome"
-          value={newAccountData?.name}
+          placeholder="Digite uma descrição para a conta"
+          value={newAccountData?.description}
           onChange={(event) => {
             setNewAccountData({
               ...newAccountData,
-              name: event.target.value,
+              description: event.target.value,
             })
           }}
         />
         <CustomTextField
           size="small"
-          label="Quantidade"
-          type="number"
-          placeholder="Digite a quantidade"
-          value={newAccountData?.stock}
+          label="Categoria"
+          type="text"
+          placeholder="Digite uma categoria para a conta"
+          value={newAccountData?.category}
           onChange={(event) => {
             setNewAccountData({
               ...newAccountData,
-              stock: event.target.value,
+              category: event.target.value,
             })
           }}
         />
+
+        <div className={style.selectTypeContainer}>
+          <button
+            style={{ opacity: newAccountData?.type === 'in' ? 1 : 0.5 }}
+            className={`${style.typeButton} ${style.inButton}`}
+          >
+            <FontAwesomeIcon className={style.icon} icon={faAngleUp} /> Entrada
+          </button>
+          <button
+            style={{ opacity: newAccountData?.type === 'out' ? 1 : 0.5 }}
+            className={`${style.typeButton} ${style.outButton}`}
+          >
+            <FontAwesomeIcon className={style.icon} icon={faAngleDown} /> Saída
+          </button>
+        </div>
+
         <CustomTextField
           size="small"
           label="Valor"

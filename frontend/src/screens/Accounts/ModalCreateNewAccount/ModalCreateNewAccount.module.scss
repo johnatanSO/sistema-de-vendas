@@ -1,7 +1,45 @@
-@import '../../../../styles/colors.scss';
+@import "../../../../styles/colors.scss";
 
-.fieldsContainer{
+.fieldsContainer {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.selectTypeContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  border-top: 1px solid $gray-color-300;
+  border-bottom: 1px solid $gray-color-300;
+
+  .typeButton {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+
+    color: $white-color;
+    padding: 0.7rem;
+    border: 0;
+    border-radius: 10px;
+
+    cursor: pointer;
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+
+    .icon {
+      font-size: 0.5rem;
+    }
+  }
+  .inButton {
+    background: $green-color-500;
+  }
+  .outButton {
+    background: $red-color-500;
+  }
 }
