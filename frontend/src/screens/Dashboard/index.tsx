@@ -13,6 +13,12 @@ import {
 } from 'recharts'
 import { CustomLabel } from './tools/CustomLabel'
 import { CustomTooltip } from './tools/CustomToolTip'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faAngleDown,
+  faAngleUp,
+  faDollarSign,
+} from '@fortawesome/free-solid-svg-icons'
 
 interface PaymentType {
   type: string
@@ -118,12 +124,32 @@ export function Dashboard() {
 
         <div className={style.sideRightContainer}>
           <ul className={style.accountsCardsContainer}>
-            <li className={style.card}>Entradas</li>
-            <li className={style.card}>Saídas</li>
-            <li className={style.card}>Total</li>
+            <li className={style.card}>
+              <header>
+                <h4>Entradas</h4>
+                <FontAwesomeIcon className={style.icon} icon={faAngleUp} />
+              </header>
+              <span>R$100,00</span>
+            </li>
+            <li className={style.card}>
+              <header>
+                <h4>Saídas</h4>
+                <FontAwesomeIcon className={style.icon} icon={faAngleDown} />
+              </header>
+              <span>R$50,00</span>
+            </li>
+            <li className={style.card}>
+              <header>
+                <h4>Total</h4>
+                <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
+              </header>
+              <span>R$50,00</span>
+            </li>
           </ul>
 
-          <div>gráfico de pizza de produtos</div>
+          <div style={{ minHeight: '300px', minWidth: '260px' }}>
+            gráfico de pizza de produtos
+          </div>
         </div>
       </div>
     </>

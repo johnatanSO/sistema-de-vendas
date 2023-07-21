@@ -14,7 +14,7 @@
     border: 1px solid $gray-color-300;
     box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
 
-    min-height: 400px;
+    min-height: 650px;
     height: 100%;
 
     flex: 1;
@@ -57,6 +57,29 @@
       .card {
         background: $gray-color-400;
         border: 1px solid $gray-color-200;
+      }
+    }
+  }
+}
+
+.sideRightContainer{
+  .accountsCardsContainer{
+    .card{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      padding: 10px;
+      border-radius: 10px;
+
+      header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .icon{
+          height: 1rem;
+        }
       }
     }
   }
