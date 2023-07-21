@@ -3,6 +3,7 @@ import {
   faDollarSign,
   faBox,
   faClipboardUser,
+  faFileInvoiceDollar,
 } from '@fortawesome/free-solid-svg-icons'
 
 interface MenuOption {
@@ -36,5 +37,11 @@ export const menuOptions: MenuOption[] = [
     link: '/clientes',
     icon: faClipboardUser,
     name: 'clientes',
+  },
+  {
+    title: 'Contas',
+    link: '/contas',
+    icon: faFileInvoiceDollar,
+    name: 'contas',
   },
 ]
