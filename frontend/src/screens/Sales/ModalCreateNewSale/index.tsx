@@ -182,7 +182,7 @@ export function ModalCreateNewSale({
 
     setLoading(true)
     salesService
-      .update({ saleData: newSaleData })
+      .update({ saleData: newSaleData, totalValue })
       .then(() => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,

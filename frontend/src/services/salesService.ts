@@ -13,6 +13,7 @@ interface CreateParams {
 
 interface UpdateParams {
   saleData: any
+  totalValue: number
 }
 
 interface DeleteParams {
@@ -49,9 +50,10 @@ export const salesService = {
     })
   },
 
-  async update({ saleData }: UpdateParams) {
+  async update({ saleData, totalValue }: UpdateParams) {
     const body = {
       ...saleData,
+      totalValue,
     }
 
     return await http.put('/vendas', {
