@@ -5,11 +5,13 @@ import { CustomTextField } from '../../../../src/components/CustomTextField'
 import { productsService } from '../../../../src/services/productsService'
 import { AlertContext } from '../../../../src/contexts/alertContext'
 import { useRouter } from 'next/router'
+import { Checkbox, FormControlLabel } from '@mui/material'
 
 export interface NewProductData {
   name: string
   stock: string
   value: string
+  isDefault: boolean
 }
 
 interface Props {
@@ -28,6 +30,7 @@ export function ModalCreateNewProduct({
     name: '',
     stock: '0',
     value: '0',
+    isDefault: false,
   }
   const [newProductData, setNewProductData] = useState<NewProductData>(
     productDataToEdit || defaultNewProductValues,
@@ -155,6 +158,23 @@ export function ModalCreateNewProduct({
               stock: event.target.value,
             })
           }}
+        />
+        <FormControlLabel
+          onChange={(event: any) => {
+            setNewProductData({
+              ...newProductData,
+              isDefault: event.target.checked,
+            })
+          }}
+          control={
+            <Checkbox
+              checked={newProductData?.isDefault}
+              sx={{
+                '&.Mui-checked': { color: '#ff6600' },
+              }}
+            />
+          }
+          label="Tornar esteproduto padrão"
         />
         <CustomTextField
           size="small"

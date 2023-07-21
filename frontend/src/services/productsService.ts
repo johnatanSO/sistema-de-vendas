@@ -29,6 +29,15 @@ export const productsService = {
       params,
     })
   },
+  async getDefaultProducts() {
+    const userInfo = await usersService.getUserInfo()
+    const params = {
+      userId: userInfo?._id,
+    }
+    return await http.get('/produtos/padroes/', {
+      params,
+    })
+  },
 
   async create({ newProductData }: CreateParams) {
     const userInfo = await usersService.getUserInfo()

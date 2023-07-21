@@ -1,5 +1,5 @@
 import { ModalLayout } from '../../../components/ModalLayout'
-import { FormEvent, useState, ChangeEvent, useContext } from 'react'
+import { FormEvent, useState, ChangeEvent, useContext, useEffect } from 'react'
 import style from './ModalCreateNewSale.module.scss'
 import { CustomTextField } from '../../../components/CustomTextField'
 import { MenuItem } from '@mui/material'
@@ -210,6 +210,23 @@ export function ModalCreateNewSale({
         setLoading(false)
       })
   }
+
+  useEffect(() => {
+    if (!saleToEditData)
+      productsService
+        .getDefaultProducts()
+        .then((res) => {
+          setNewSaleData({
+            ...newSaleData,
+            products: res.data.items,
+          })
+        })
+        .catch((err) => {
+          console.log(
+            'ERRO AO BUSCAR PRODUTO PADRÃO, ' + err.response.data.message,
+          )
+        })
+  }, [saleToEditData])
 
   return (
     <ModalLayout

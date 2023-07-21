@@ -11,12 +11,16 @@ export function FilterByName() {
 
   function onFilterByName(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    router.push({
-      pathname: router.route,
-      query: {
-        searchString,
-      },
-    })
+    if (searchString) {
+      router.push({
+        pathname: router.route,
+        query: {
+          searchString,
+        },
+      })
+    } else {
+      router.push(router.route)
+    }
   }
 
   return (

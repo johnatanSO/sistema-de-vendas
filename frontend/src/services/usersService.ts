@@ -47,7 +47,6 @@ export const usersService = {
   },
 
   async verifyToken(token: string) {
-    console.log('TOKEN ACCESS, ', token)
     /* TODO: Criar requisição para verificar o token no back-end. */
     /* const tokenIsValid = await http.post('/users/verify_token/', { token })
     if (tokenIsValid) return true
