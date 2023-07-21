@@ -12,7 +12,8 @@ import { accountsService } from '../../services/accountsService'
 
 export interface Account {
   _id: string
-  name: string
+  description: string
+  type: 'in' | 'out'
   value: number
 }
 

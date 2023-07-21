@@ -1,0 +1,63 @@
+@import "../../../styles/colors.scss";
+
+.headerContainer {
+  width: 100%;
+  display: flex;
+}
+
+.graphsContainer {
+  display: flex;
+  gap: 20px;
+
+  .graph {
+    background: $gray-color-400;
+    border: 1px solid $gray-color-300;
+    box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
+
+    min-height: 400px;
+    height: 100%;
+
+    flex: 1;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+
+    header {
+      padding: 15px;
+
+      h4 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: $gray-color-200;
+      }
+    }
+
+    main {
+      height: 100%;
+      border-top: 1px solid rgb(148, 148, 148);
+    }
+  }
+
+  .sideRightContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    border: 1px solid $gray-color-200;
+
+    .accountsCardsContainer {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 10px;
+      border: 1px solid $gray-color-200;
+
+      list-style-type: none;
+
+      .card {
+        background: $gray-color-400;
+        border: 1px solid $gray-color-200;
+      }
+    }
+  }
+}
