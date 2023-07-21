@@ -50,7 +50,7 @@ produtosRoutes.post('/', async (req: Request, res: Response) => {
 })
 
 produtosRoutes.put('/', async (req: Request, res: Response) => {
-  const { name, _id, value, stock } = req.body
+  const { name, _id, value, stock, userId } = req.body
 
   try {
     const updateNewProductService = new UpdateNewProductService(
@@ -62,6 +62,7 @@ produtosRoutes.put('/', async (req: Request, res: Response) => {
       _id,
       value,
       stock,
+      userId,
     })
 
     res.status(202).json({

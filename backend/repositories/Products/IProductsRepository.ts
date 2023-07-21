@@ -21,7 +21,7 @@ export interface IProductsRepository {
   update: (ProductData: Product) => Promise<Product>
   delete: (idProduct: string) => void
   findByName: (name: string) => Promise<Product | null>
-  findById: (productId: string) => Promise<Product | null>
+  findById: (productId: string | Types.ObjectId) => Promise<Product | null>
   updateStock: (product: Product) => void
   getEntries: (userId: String) => Promise<number>
 }

@@ -7,7 +7,7 @@ export class ProductsRepository implements IProductsRepository {
       userId,
       ...(searchString ? { name: new RegExp('^' + searchString) } : {}),
     }
-    console.log('QUERY: ', query)
+
     return await ProductModel.find(query)
   }
 
@@ -18,10 +18,10 @@ export class ProductsRepository implements IProductsRepository {
     return newProduct
   }
 
-  async update({ _id, name, value, stock }: Product): Promise<any> {
+  async update(ProductData: Product): Promise<any> {
     return await ProductModel.updateOne(
-      { _id },
-      { $set: { name, value, stock } },
+      { _id: ProductData?._id },
+      { $set: ProductData },
     )
   }
 

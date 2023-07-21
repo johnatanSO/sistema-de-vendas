@@ -5,6 +5,7 @@ import { vendasRoutes } from './routes/vendas'
 import { dashboardRoutes } from './routes/dashboard'
 import { produtosRoutes } from './routes/produtos'
 import { usersRoutes } from './routes/users'
+import { contasRoutes } from './routes/contas'
 
 interface CustomExpress extends Express {
   mongo?: any
@@ -23,6 +24,7 @@ app.use('/vendas', vendasRoutes)
 app.use('/dashboard', dashboardRoutes)
 app.use('/produtos', produtosRoutes)
 app.use('/users', usersRoutes)
+app.use('/contas', contasRoutes)
 
 /* Não adicionei nenhum middleware em nenhuma das rotas (authentication || permission) 
 pois o sistema é bem simples e para fins de estudo. */
