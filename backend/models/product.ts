@@ -6,6 +6,7 @@ const productSchema = new mongoose.Schema({
   value: { type: Number, default: null },
   stock: { type: Number, default: null },
   userId: { type: String, default: null },
+  isDefault: { type: Boolean, default: false },
 })
 
 export const ProductModel = mongoose.model('Product', productSchema)

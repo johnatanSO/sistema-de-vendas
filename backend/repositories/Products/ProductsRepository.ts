@@ -2,13 +2,8 @@ import { ProductModel } from '../../models/product'
 import { IProductsRepository, Product, QueryList } from './IProductsRepository'
 
 export class ProductsRepository implements IProductsRepository {
-  async list({ searchString, userId }: QueryList): Promise<Product[]> {
-    const query = {
-      userId,
-      ...(searchString ? { name: new RegExp('^' + searchString) } : {}),
-    }
-
-    return await ProductModel.find(query)
+  async list(queryList: QueryList): Promise<Product[]> {
+    return await ProductModel.find(queryList)
   }
 
   async create(ProductData: Product): Promise<Product> {

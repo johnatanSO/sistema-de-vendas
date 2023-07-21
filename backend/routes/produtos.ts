@@ -10,9 +10,32 @@ const productsRepository = new ProductsRepository()
 produtosRoutes.get('/', async (req: Request, res: Response) => {
   try {
     const { searchString, userId } = req.query as any
+    const queryList = {
+      ...(searchString ? { name: new RegExp('^' + searchString) } : {}),
+    }
     const products = await productsRepository.list({
-      searchString,
       userId,
+      ...queryList,
+    })
+
+    res.status(200).json({
+      items: products,
+      message: 'Busca concluída com sucesso!',
+    })
+  } catch ({ message }) {
+    res.status(500).json({ message })
+  }
+})
+
+produtosRoutes.get('/padroes', async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.query as any
+    const queryList = {
+      isDefault: true,
+    }
+    const products = await productsRepository.list({
+      userId,
+      ...queryList,
     })
 
     res.status(200).json({
@@ -25,7 +48,7 @@ produtosRoutes.get('/', async (req: Request, res: Response) => {
 })
 
 produtosRoutes.post('/', async (req: Request, res: Response) => {
-  const { name, value, stock, userInfo } = req.body
+  const { name, value, stock, isDefault, userInfo } = req.body
   try {
     const createNewProductService = new CreateNewProductService(
       productsRepository,
@@ -35,6 +58,7 @@ produtosRoutes.post('/', async (req: Request, res: Response) => {
       name,
       value,
       stock,
+      isDefault,
       userId: userInfo?._id,
     })
 
@@ -50,7 +74,7 @@ produtosRoutes.post('/', async (req: Request, res: Response) => {
 })
 
 produtosRoutes.put('/', async (req: Request, res: Response) => {
-  const { name, _id, value, stock, userId } = req.body
+  const { name, _id, value, stock, userId, isDefault } = req.body
 
   try {
     const updateNewProductService = new UpdateNewProductService(
@@ -63,6 +87,7 @@ produtosRoutes.put('/', async (req: Request, res: Response) => {
       value,
       stock,
       userId,
+      isDefault,
     })
 
     res.status(202).json({

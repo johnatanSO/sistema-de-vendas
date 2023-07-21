@@ -8,10 +8,12 @@ export interface Product {
   amount?: number
   code?: string
   userId: string
+  isDefault: boolean
 }
 
 export interface QueryList {
-  searchString: string
+  searchString?: string
+  isDefault?: boolean
   userId: string
 }
 

@@ -7,7 +7,13 @@ export class CreateNewProductService {
     this.productsRepository = productsRepository
   }
 
-  async execute({ name, value, stock, userId }: Product): Promise<Product> {
+  async execute({
+    name,
+    value,
+    stock,
+    isDefault,
+    userId,
+  }: Product): Promise<Product> {
     const alreadExistProduct = await this.productsRepository.findByName(name)
 
     if (alreadExistProduct) {
@@ -27,6 +33,7 @@ export class CreateNewProductService {
       value,
       stock,
       userId,
+      isDefault,
     })
 
     return newProduct
