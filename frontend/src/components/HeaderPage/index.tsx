@@ -19,7 +19,9 @@ export function HeaderPage({
         <button className={style.createNewButton} onClick={onClickFunction}>
           {buttonText || 'Cadastrar'}
         </button>
-        <button className={style.filtersButton}>Filtros</button>
+        <button disabled className={style.filtersButton}>
+          Filtros
+        </button>
       </div>
     </header>
   )
