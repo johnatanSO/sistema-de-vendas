@@ -5,11 +5,11 @@ import { useRouter } from 'next/router'
 import { MenuItem } from '@mui/material'
 
 export function FilterByAccountType() {
-  const [accountType, setAccountType] = useState<'in' | 'out' | ''>('')
+  const [accountType, setAccountType] = useState<'in' | 'out' | 'all'>('all')
   const router = useRouter()
 
   useEffect(() => {
-    if (accountType) {
+    if (accountType !== 'all') {
       router.push({
         pathname: router.route,
         query: {
@@ -34,7 +34,7 @@ export function FilterByAccountType() {
           setAccountType(event?.target.value)
         }}
       >
-        <MenuItem value="">Todas</MenuItem>
+        <MenuItem value={'all'}>Todas</MenuItem>
         <MenuItem value="in">Entrada</MenuItem>
         <MenuItem value="out">Saída</MenuItem>
       </CustomTextField>
