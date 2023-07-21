@@ -34,7 +34,6 @@ export const accountsService = {
     const userInfo = await usersService.getUserInfo()
     const body = {
       ...newAccountData,
-      stock: Number(newAccountData?.stock),
       value: Number(newAccountData?.value),
       userInfo,
     }

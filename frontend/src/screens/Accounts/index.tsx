@@ -6,7 +6,7 @@ import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
 import { EmptyItems } from '../../../src/components/EmptyItems'
 import { useRouter } from 'next/router'
-import { FilterByName } from '../../../src/components/FilterByName'
+import { FilterByAccountType } from '../../components/FilterByAccountType'
 import { AlertContext } from '../../../src/contexts/alertContext'
 import { accountsService } from '../../services/accountsService'
 
@@ -98,7 +98,7 @@ export function Accounts() {
           setFormModalOpened(true)
         }}
         buttonText="Nova conta"
-        InputFilter={<FilterByName />}
+        InputFilter={<FilterByAccountType />}
       />
 
       {accounts?.length > 0 && (

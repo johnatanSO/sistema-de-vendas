@@ -1,0 +1,13 @@
+@import '../../../styles/colors.scss';
+
+.filterContainer{
+  display: flex;
+  gap: 10px;
+  border-radius: 10px;
+  
+  .input{
+    background: $gray-color-600;
+    border-radius: 10px;
+    width: 222px;
+  }
+}

@@ -144,14 +144,30 @@ export function ModalCreateNewAccount({
 
         <div className={style.selectTypeContainer}>
           <button
+            type="button"
             style={{ opacity: newAccountData?.type === 'in' ? 1 : 0.5 }}
+            disabled={newAccountData?.type === 'in'}
             className={`${style.typeButton} ${style.inButton}`}
+            onClick={() => {
+              setNewAccountData({
+                ...newAccountData,
+                type: 'in',
+              })
+            }}
           >
             <FontAwesomeIcon className={style.icon} icon={faAngleUp} /> Entrada
           </button>
           <button
+            type="button"
             style={{ opacity: newAccountData?.type === 'out' ? 1 : 0.5 }}
+            disabled={newAccountData?.type === 'out'}
             className={`${style.typeButton} ${style.outButton}`}
+            onClick={() => {
+              setNewAccountData({
+                ...newAccountData,
+                type: 'out',
+              })
+            }}
           >
             <FontAwesomeIcon className={style.icon} icon={faAngleDown} /> Saída
           </button>

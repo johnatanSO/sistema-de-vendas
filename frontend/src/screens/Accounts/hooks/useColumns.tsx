@@ -32,9 +32,16 @@ export function useColumns({
 
   return [
     {
-      headerName: 'Código',
-      field: 'code',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      headerName: 'Tipo',
+      field: 'type',
+      valueFormatter: (params: CellFunctionParams) =>
+        params.value === 'in' ? 'Entrada' : 'Saída' || '--',
+      cellClass: (params) => {
+        if (params?.data?.type === 'in') {
+          return style.positiveText
+        }
+        return style.negativeText
+      },
     },
     {
       headerName: 'Descrição',
