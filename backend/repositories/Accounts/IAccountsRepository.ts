@@ -11,7 +11,7 @@ export interface Account {
 }
 
 export interface QueryList {
-  searchString: string
+  accountType: 'in' | 'out' | ''
   userId: string
 }
 

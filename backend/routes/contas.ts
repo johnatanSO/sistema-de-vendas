@@ -9,9 +9,9 @@ const accountsRepository = new AccountsRepository()
 
 contasRoutes.get('/', async (req: Request, res: Response) => {
   try {
-    const { searchString, userId } = req.query as any
+    const { accountType, userId } = req.query as any
     const accounts = await accountsRepository.list({
-      searchString,
+      accountType,
       userId,
     })
 

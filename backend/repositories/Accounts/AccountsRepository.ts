@@ -2,10 +2,10 @@ import { AccountModel } from '../../models/account'
 import { IAccountsRepository, Account, QueryList } from './IAccountsRepository'
 
 export class AccountsRepository implements IAccountsRepository {
-  async list({ searchString, userId }: QueryList): Promise<Account[]> {
+  async list({ accountType, userId }: QueryList): Promise<Account[]> {
     const query = {
       userId,
-      ...(searchString ? { name: new RegExp('^' + searchString) } : {}),
+      ...(accountType ? { type: accountType } : {}),
     }
 
     return await AccountModel.find(query)
