@@ -9,16 +9,21 @@ import {
   BarChart,
   Bar,
   ResponsiveContainer,
+  YAxis,
   LabelList,
 } from 'recharts'
-import { CustomLabel } from './tools/CustomLabel'
-import { CustomTooltip } from './tools/CustomToolTip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAngleDown,
   faAngleUp,
+  faBagShopping,
+  faCancel,
   faDollarSign,
 } from '@fortawesome/free-solid-svg-icons'
+import { CustomLabel } from './tools/CustomLabel'
+import { CustomTooltip } from './tools/CustomToolTip'
+import { accountsService } from '../../services/accountsService'
+import { useRouter } from 'next/router'
 
 interface PaymentType {
   type: string
@@ -28,6 +33,7 @@ interface PaymentType {
 export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<PaymentType[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const router = useRouter()
   console.log('LOADING, ', loading)
 
   function getPaymentTypes() {
@@ -37,9 +43,9 @@ export function Dashboard() {
       .then((res) => {
         const formatedPayments = res.data.items?.map((payment: any) => {
           return {
-            label: payment.type,
-            formatedData: format.formatarReal(payment.value || 0),
-            rawData: payment.value || 0,
+            label: format.formatarFormaDePagamento(payment.type),
+            formatedData: format.formatarReal(payment.value || 0) + ' | 11',
+            Valor: payment.value || 0,
           }
         })
         setPaymentTypes(formatedPayments)
@@ -51,10 +57,13 @@ export function Dashboard() {
         setLoading(false)
       })
   }
+  function getAccounts() {
+    accountsService.getAll({ filters: {} })
+  }
 
   useEffect(() => {
-    getPaymentTypes()
-  }, [])
+    Promise.all([getPaymentTypes(), getAccounts()])
+  }, [router.query])
 
   return (
     <>
@@ -63,9 +72,27 @@ export function Dashboard() {
       </header>
 
       <ul className={style.salesCardsContainer}>
-        <li>Quantidade de vendas</li>
-        <li>Valor das vendas</li>
-        <li>Vendas canceladas</li>
+        <li className={`${style.card} ${style.amountCard}`}>
+          <header>
+            <h4>Quantidade de vendas</h4>
+            <FontAwesomeIcon className={style.icon} icon={faBagShopping} />
+          </header>
+          <span>50</span>
+        </li>
+        <li className={`${style.card} ${style.valueCard}`}>
+          <header>
+            <h4>Valor de vendas</h4>
+            <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
+          </header>
+          <span>R$100,00</span>
+        </li>
+        <li className={`${style.card} ${style.valueCanceledCard}`}>
+          <header>
+            <h4>Vendas canceladas</h4>
+            <FontAwesomeIcon className={style.icon} icon={faCancel} />
+          </header>
+          <span>R$100,00</span>
+        </li>
       </ul>
 
       <div className={style.graphsContainer}>
@@ -74,18 +101,17 @@ export function Dashboard() {
             <h4>Tipos de pagamento</h4>
           </header>
           <main>
-            {(paymentTypes || []).length > 1 && (
+            {paymentTypes.length > 0 && (
               <div
                 style={{
-                  height: '98%',
-                  width: '95%',
+                  height: '580px',
+                  width: '100%',
                   margin: '0 auto',
-                  borderBottom: '1px solid rgb(148, 148, 148)',
                 }}
               >
                 <ResponsiveContainer>
                   <BarChart
-                    margin={{ top: 20, right: 0, bottom: 0, left: 0 }}
+                    margin={{ top: 40, right: 0, bottom: 0, left: 0 }}
                     data={paymentTypes}
                   >
                     <Tooltip
@@ -94,15 +120,12 @@ export function Dashboard() {
                       }
                     />
                     <XAxis
+                      tick={{ fill: '#c4c4cc', fontWeight: '600' }}
                       dataKey="label"
-                      tick={{ fill: '#292929', fontWeight: '600' }}
-                      hide={true}
                     />
-                    <Bar
-                      dataKey="rawData"
-                      fill="#39D4B9"
-                      radius={[10, 10, 0, 0]}
-                    >
+                    <YAxis />
+                    <Tooltip />
+                    <Bar radius={[10, 10, 0, 0]} dataKey="Valor" fill="#ff6600">
                       <LabelList
                         position="top"
                         content={
@@ -110,7 +133,7 @@ export function Dashboard() {
                             usarLabel={true}
                             formatarReal={true}
                             position="top"
-                            fill="#2e2e2e"
+                            fill="#FFF"
                           />
                         }
                       />
@@ -124,21 +147,21 @@ export function Dashboard() {
 
         <div className={style.sideRightContainer}>
           <ul className={style.accountsCardsContainer}>
-            <li className={style.card}>
+            <li className={`${style.card} ${style.inCard}`}>
               <header>
                 <h4>Entradas</h4>
                 <FontAwesomeIcon className={style.icon} icon={faAngleUp} />
               </header>
               <span>R$100,00</span>
             </li>
-            <li className={style.card}>
+            <li className={`${style.card} ${style.outCard}`}>
               <header>
                 <h4>Saídas</h4>
                 <FontAwesomeIcon className={style.icon} icon={faAngleDown} />
               </header>
               <span>R$50,00</span>
             </li>
-            <li className={style.card}>
+            <li className={`${style.card} ${style.totalCard}`}>
               <header>
                 <h4>Total</h4>
                 <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
@@ -147,9 +170,7 @@ export function Dashboard() {
             </li>
           </ul>
 
-          <div style={{ minHeight: '300px', minWidth: '260px' }}>
-            gráfico de pizza de produtos
-          </div>
+          <div className={style.pizzaGraph}>gráfico de pizza de produtos</div>
         </div>
       </div>
     </>
