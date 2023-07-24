@@ -81,7 +81,6 @@ export function Dashboard() {
       .getAll({ filters: { ...datesFilter } })
       .then((res) => {
         setAccounts(res.data.items)
-        console.log('ACCOUNTS', res.data.items)
       })
       .catch((err) => {
         console.log('ERRO AO BUSCAR CONTAS,', err)
@@ -93,7 +92,6 @@ export function Dashboard() {
       .getAll({ filters: { ...datesFilter } })
       .then((res) => {
         setSales(res.data.items)
-        console.log('SALES,', res.data.items)
       })
       .catch((err) => {
         console.log('ERRO AO BUSCAR VENDAS, ', err)
@@ -130,7 +128,9 @@ export function Dashboard() {
     },
   )
 
-  console.log('totalSales', totalSales)
+  function handleClickCard(routeParams: { pathname: string; query?: any }) {
+    router.push(routeParams)
+  }
 
   return (
     <>
@@ -139,21 +139,45 @@ export function Dashboard() {
       </header>
 
       <ul className={style.salesCardsContainer}>
-        <li className={`${style.card} ${style.amountCard}`}>
+        <li
+          className={`${style.card} ${style.amountCard}`}
+          onClick={() => {
+            handleClickCard({
+              pathname: '/sales/',
+            })
+          }}
+        >
           <header>
             <h4>Quantidade de vendas</h4>
             <FontAwesomeIcon className={style.icon} icon={faBagShopping} />
           </header>
           <span>{sales?.length || 0}</span>
         </li>
-        <li className={`${style.card} ${style.valueCard}`}>
+        <li
+          className={`${style.card} ${style.valueCard}`}
+          onClick={() => {
+            handleClickCard({
+              pathname: '/sales/',
+            })
+          }}
+        >
           <header>
             <h4>Valor de vendas</h4>
             <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
           </header>
           <span>{format.formatarReal(totalSales.totalValueSales || 0)}</span>
         </li>
-        <li className={`${style.card} ${style.valueCanceledCard}`}>
+        <li
+          className={`${style.card} ${style.valueCanceledCard}`}
+          onClick={() => {
+            handleClickCard({
+              pathname: '/sales/',
+              query: {
+                status: 'canceled',
+              },
+            })
+          }}
+        >
           <header>
             <h4>Vendas canceladas</h4>
             <FontAwesomeIcon className={style.icon} icon={faCancel} />
@@ -214,7 +238,17 @@ export function Dashboard() {
 
         <div className={style.sideRightContainer}>
           <ul className={style.accountsCardsContainer}>
-            <li className={`${style.card} ${style.inCard}`}>
+            <li
+              className={`${style.card} ${style.inCard}`}
+              onClick={() => {
+                handleClickCard({
+                  pathname: '/accounts/',
+                  query: {
+                    accountType: 'in',
+                  },
+                })
+              }}
+            >
               <header>
                 <h4>Entradas</h4>
                 <FontAwesomeIcon className={style.icon} icon={faAngleUp} />
@@ -223,7 +257,17 @@ export function Dashboard() {
                 {format.formatarReal(totalAccounts.inTotalValue || 0)}
               </span>
             </li>
-            <li className={`${style.card} ${style.outCard}`}>
+            <li
+              className={`${style.card} ${style.outCard}`}
+              onClick={() => {
+                handleClickCard({
+                  pathname: '/accounts/',
+                  query: {
+                    accountType: 'out',
+                  },
+                })
+              }}
+            >
               <header>
                 <h4>Saídas</h4>
                 <FontAwesomeIcon className={style.icon} icon={faAngleDown} />
@@ -232,7 +276,14 @@ export function Dashboard() {
                 {format.formatarReal(totalAccounts.outTotalValue || 0)}
               </span>
             </li>
-            <li className={`${style.card} ${style.totalCard}`}>
+            <li
+              className={`${style.card} ${style.totalCard}`}
+              onClick={() => {
+                handleClickCard({
+                  pathname: '/accounts/',
+                })
+              }}
+            >
               <header>
                 <h4>Total</h4>
                 <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
