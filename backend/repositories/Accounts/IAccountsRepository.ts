@@ -13,6 +13,8 @@ export interface Account {
 export interface QueryList {
   accountType: 'in' | 'out' | ''
   userId: string
+  startDate: any
+  endDate: any
 }
 
 export interface IAccountsRepository {

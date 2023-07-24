@@ -2,10 +2,16 @@ import { AccountModel } from '../../models/account'
 import { IAccountsRepository, Account, QueryList } from './IAccountsRepository'
 
 export class AccountsRepository implements IAccountsRepository {
-  async list({ accountType, userId }: QueryList): Promise<Account[]> {
+  async list({
+    startDate,
+    endDate,
+    accountType,
+    userId,
+  }: QueryList): Promise<Account[]> {
     const query = {
       userId,
       ...(accountType ? { type: accountType } : {}),
+      date: { $gte: startDate, $lt: endDate },
     }
 
     return await AccountModel.find(query)

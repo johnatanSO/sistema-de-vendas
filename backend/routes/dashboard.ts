@@ -1,5 +1,5 @@
 import express from 'express'
-import { SaleModel } from '../models/sale'
+import { SalesRepository } from '../repositories/Sales/SalesRepository'
 
 const dashboardRoutes = express.Router()
 
@@ -8,9 +8,13 @@ interface Sale {
   totalValue: number
 }
 
+const salesRepository = new SalesRepository()
+
 dashboardRoutes.get('/formasDePagamento', async (req, res) => {
   try {
-    const sales = await SaleModel.find().sort({ totalValue: -1 })
+    const { startDate, endDate, userId } = req.body as any
+    const sales = await salesRepository.list({ startDate, endDate, userId })
+
     const paymentTypes = sales?.reduce(
       (acc: { type: string; value: number }[], sale: Sale) => {
         const paymentAlreadyExists = !!acc.find(
