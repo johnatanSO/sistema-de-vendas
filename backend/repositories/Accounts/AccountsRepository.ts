@@ -11,7 +11,9 @@ export class AccountsRepository implements IAccountsRepository {
     const query = {
       userId,
       ...(accountType ? { type: accountType } : {}),
-      date: { $gte: startDate, $lt: endDate },
+      ...(startDate && endDate
+        ? { date: { $gte: startDate, $lt: endDate } }
+        : {}),
     }
 
     return await AccountModel.find(query)
