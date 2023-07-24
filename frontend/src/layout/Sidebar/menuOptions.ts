@@ -11,6 +11,7 @@ interface MenuOption {
   link: string
   icon: any
   name: string
+  disabled?: boolean
 }
 
 export const menuOptions: MenuOption[] = [
@@ -37,6 +38,7 @@ export const menuOptions: MenuOption[] = [
     link: '/clientes',
     icon: faClipboardUser,
     name: 'clientes',
+    disabled: true,
   },
   {
     title: 'Contas',

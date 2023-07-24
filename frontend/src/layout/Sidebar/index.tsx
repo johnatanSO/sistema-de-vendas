@@ -58,10 +58,19 @@ export function Sidebar() {
       </div>
 
       <ul className={style.menuList}>
-        {menuOptions.map((option) => {
+        {menuOptions.map(({ disabled, ...option }) => {
           return (
             <Link href={option.link} key={option.name} title="Dashboard">
               <li
+                style={
+                  disabled
+                    ? {
+                        opacity: 0.4,
+                        cursor: 'not-allowed',
+                        pointerEvents: 'none',
+                      }
+                    : {}
+                }
                 className={
                   router.pathname === option.link ? style.activeMenu : undefined
                 }
