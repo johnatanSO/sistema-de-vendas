@@ -24,27 +24,47 @@ import { CustomLabel } from './tools/CustomLabel'
 import { CustomTooltip } from './tools/CustomToolTip'
 import { accountsService } from '../../services/accountsService'
 import { useRouter } from 'next/router'
+import { salesService } from '../../services/salesService'
+import dayjs from 'dayjs'
 
 interface PaymentType {
   type: string
   value: number
 }
 
+interface Account {
+  type: string
+  value: number
+}
+
+interface Sale {
+  status: string
+  totalValue: number
+}
+
 export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<PaymentType[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const [accounts, setAccounts] = useState<Account[]>([])
+  const [sales, setSales] = useState<Sale[]>([])
   const router = useRouter()
-  console.log('LOADING, ', loading)
+
+  const datesFilter = {
+    startDate: router.query.startDate
+      ? router.query.startDate
+      : dayjs().startOf('month').toISOString(),
+    endDate: router.query.endDate
+      ? router.query.endDate
+      : dayjs().endOf('month').toISOString(),
+  }
 
   function getPaymentTypes() {
-    setLoading(true)
     dashboardService
-      .getPaymentTypes({ filters: {} })
+      .getPaymentTypes({ filters: { ...datesFilter } })
       .then((res) => {
         const formatedPayments = res.data.items?.map((payment: any) => {
           return {
             label: format.formatarFormaDePagamento(payment.type),
-            formatedData: format.formatarReal(payment.value || 0) + ' | 11',
+            formatedData: format.formatarReal(payment.value || 0),
             Valor: payment.value || 0,
           }
         })
@@ -53,17 +73,64 @@ export function Dashboard() {
       .catch((err) => {
         console.log('ERRO AO BUSCAR FORMAS DE PAGAMENTO, ', err)
       })
-      .finally(() => {
-        setLoading(false)
+      .finally(() => {})
+  }
+
+  function getAccounts() {
+    accountsService
+      .getAll({ filters: { ...datesFilter } })
+      .then((res) => {
+        setAccounts(res.data.items)
+        console.log('ACCOUNTS', res.data.items)
+      })
+      .catch((err) => {
+        console.log('ERRO AO BUSCAR CONTAS,', err)
       })
   }
-  function getAccounts() {
-    accountsService.getAll({ filters: {} })
+
+  function getSales() {
+    salesService
+      .getAll({ filters: { ...datesFilter } })
+      .then((res) => {
+        setSales(res.data.items)
+        console.log('SALES,', res.data.items)
+      })
+      .catch((err) => {
+        console.log('ERRO AO BUSCAR VENDAS, ', err)
+      })
   }
 
   useEffect(() => {
-    Promise.all([getPaymentTypes(), getAccounts()])
+    Promise.all([getPaymentTypes(), getAccounts(), getSales()])
   }, [router.query])
+
+  const totalAccounts = accounts.reduce(
+    (acc, account) => {
+      if (account.type === 'in') acc.inTotalValue += account.value
+      if (account.type === 'out') acc.outTotalValue += account.value
+      acc.totalValueAccounts = account.value
+      return acc
+    },
+    {
+      inTotalValue: 0,
+      outTotalValue: 0,
+      totalValueAccounts: 0,
+    },
+  )
+
+  const totalSales = sales.reduce(
+    (acc, sale) => {
+      if (sale.status === 'canceled') acc.totalValueCanceled += sale.totalValue
+      acc.totalValueSales = sale.totalValue
+      return acc
+    },
+    {
+      totalValueSales: 0,
+      totalValueCanceled: 0,
+    },
+  )
+
+  console.log('totalSales', totalSales)
 
   return (
     <>
@@ -77,21 +144,21 @@ export function Dashboard() {
             <h4>Quantidade de vendas</h4>
             <FontAwesomeIcon className={style.icon} icon={faBagShopping} />
           </header>
-          <span>50</span>
+          <span>{sales?.length || 0}</span>
         </li>
         <li className={`${style.card} ${style.valueCard}`}>
           <header>
             <h4>Valor de vendas</h4>
             <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
           </header>
-          <span>R$100,00</span>
+          <span>{format.formatarReal(totalSales.totalValueSales || 0)}</span>
         </li>
         <li className={`${style.card} ${style.valueCanceledCard}`}>
           <header>
             <h4>Vendas canceladas</h4>
             <FontAwesomeIcon className={style.icon} icon={faCancel} />
           </header>
-          <span>R$100,00</span>
+          <span>{format.formatarReal(totalSales.totalValueCanceled || 0)}</span>
         </li>
       </ul>
 
@@ -152,21 +219,27 @@ export function Dashboard() {
                 <h4>Entradas</h4>
                 <FontAwesomeIcon className={style.icon} icon={faAngleUp} />
               </header>
-              <span>R$100,00</span>
+              <span>
+                {format.formatarReal(totalAccounts.inTotalValue || 0)}
+              </span>
             </li>
             <li className={`${style.card} ${style.outCard}`}>
               <header>
                 <h4>Saídas</h4>
                 <FontAwesomeIcon className={style.icon} icon={faAngleDown} />
               </header>
-              <span>R$50,00</span>
+              <span>
+                {format.formatarReal(totalAccounts.outTotalValue || 0)}
+              </span>
             </li>
             <li className={`${style.card} ${style.totalCard}`}>
               <header>
                 <h4>Total</h4>
                 <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
               </header>
-              <span>R$50,00</span>
+              <span>
+                {format.formatarReal(totalAccounts.totalValueAccounts || 0)}
+              </span>
             </li>
           </ul>
 
