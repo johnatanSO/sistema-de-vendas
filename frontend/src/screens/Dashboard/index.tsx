@@ -58,6 +58,7 @@ export function Dashboard() {
   const [sales, setSales] = useState<Sale[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const router = useRouter()
+  console.log('SALES,', sales)
 
   const datesFilter = {
     startDate: router.query.startDate
@@ -112,7 +113,7 @@ export function Dashboard() {
 
   function getProducts(sales: Sale[]) {
     const products = sales.reduce((acc: any, sale) => {
-      acc = [...acc, sale.products]
+      acc = [...acc, ...sale.products]
       return acc
     }, [])
     setProducts(products)
