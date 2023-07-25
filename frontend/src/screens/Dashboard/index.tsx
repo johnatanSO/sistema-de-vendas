@@ -11,6 +11,10 @@ import {
   ResponsiveContainer,
   YAxis,
   LabelList,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
 } from 'recharts'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -37,15 +41,19 @@ interface Account {
   value: number
 }
 
+interface Product {}
+
 interface Sale {
   status: string
   totalValue: number
+  products: Product[]
 }
 
 export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<PaymentType[]>([])
   const [accounts, setAccounts] = useState<Account[]>([])
   const [sales, setSales] = useState<Sale[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const router = useRouter()
 
   const datesFilter = {
@@ -92,10 +100,19 @@ export function Dashboard() {
       .getAll({ filters: { ...datesFilter } })
       .then((res) => {
         setSales(res.data.items)
+        getProducts(res.data.items)
       })
       .catch((err) => {
         console.log('ERRO AO BUSCAR VENDAS, ', err)
       })
+  }
+
+  function getProducts(sales: Sale[]) {
+    const products = sales.reduce((acc: Product[], sale) => {
+      acc.push([...sale.products])
+      return acc
+    }, [])
+    setProducts(products)
   }
 
   useEffect(() => {
@@ -131,6 +148,8 @@ export function Dashboard() {
   function handleClickCard(routeParams: { pathname: string; query?: any }) {
     router.push(routeParams)
   }
+
+  console.log('PRODUTOS,', products)
 
   return (
     <>
@@ -294,7 +313,44 @@ export function Dashboard() {
             </li>
           </ul>
 
-          <div className={style.pizzaGraph}>gráfico de pizza de produtos</div>
+          <div className={style.pizzaGraph}>
+            <header className={style.outTitleGraph}>
+              <h4>Vendas por produtos</h4>
+            </header>
+            <main>
+              {products?.map((pizza: any, key) => (
+                <div key={key}>
+                  <PieChart width={350} height={200}>
+                    <Pie
+                      data={pizza.values}
+                      innerRadius={40}
+                      outerRadius={55}
+                      fill="#8884d8"
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {pizza.values.map((entry: any, index: number) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={pizza.colors[index % pizza.colors.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend
+                      verticalAlign="bottom"
+                      height={38}
+                      wrapperStyle={{
+                        fontSize: '10px',
+                        fontWeight: '500',
+                        margin: '10px 0px',
+                      }}
+                    />
+                    <Tooltip content={<CustomTooltip formatarReal={true} />} />
+                  </PieChart>
+                </div>
+              ))}
+            </main>
+          </div>
         </div>
       </div>
     </>
