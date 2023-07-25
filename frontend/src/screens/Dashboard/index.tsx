@@ -42,7 +42,9 @@ interface Account {
 }
 
 interface Product {
+  _id: string
   name: string
+  amount: number
   value: number
 }
 
@@ -58,7 +60,6 @@ export function Dashboard() {
   const [sales, setSales] = useState<Sale[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const router = useRouter()
-  console.log('SALES,', sales)
 
   const datesFilter = {
     startDate: router.query.startDate
@@ -113,7 +114,24 @@ export function Dashboard() {
 
   function getProducts(sales: Sale[]) {
     const products = sales.reduce((acc: any, sale) => {
-      acc = [...acc, ...sale.products]
+      sale.products.forEach((product) => {
+        const productAlreadyExist = !!acc.find(
+          (accProduct: any) => accProduct._id === product._id,
+        )
+        if (!productAlreadyExist) {
+          acc.push({
+            ...product,
+          })
+        } else {
+          acc.forEach((accProduct: any) => {
+            if (accProduct._id === product._id) {
+              accProduct.amount += product.amount
+              accProduct.value += product.value
+            }
+          })
+        }
+      })
+
       return acc
     }, [])
     setProducts(products)
@@ -153,8 +171,6 @@ export function Dashboard() {
     router.push(routeParams)
   }
 
-  console.log('PRODUTOS,', products)
-
   const graphPizzaData = [
     {
       title: 'Vendas por produto',
@@ -163,6 +179,7 @@ export function Dashboard() {
         return {
           name: product?.name || '',
           value: product?.value,
+          amount: product?.amount,
         }
       }),
     },
@@ -344,7 +361,7 @@ export function Dashboard() {
                       outerRadius={55}
                       fill="#8884d8"
                       paddingAngle={5}
-                      dataKey="value"
+                      dataKey="amount"
                     >
                       {pizza.values.map((entry: any, index: number) => (
                         <Cell
