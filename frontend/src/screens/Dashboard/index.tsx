@@ -41,7 +41,10 @@ interface Account {
   value: number
 }
 
-interface Product {}
+interface Product {
+  name: string
+  value: number
+}
 
 interface Sale {
   status: string
@@ -108,8 +111,8 @@ export function Dashboard() {
   }
 
   function getProducts(sales: Sale[]) {
-    const products = sales.reduce((acc: Product[], sale) => {
-      acc.push([...sale.products])
+    const products = sales.reduce((acc: any, sale) => {
+      acc = [...acc, sale.products]
       return acc
     }, [])
     setProducts(products)
@@ -150,6 +153,19 @@ export function Dashboard() {
   }
 
   console.log('PRODUTOS,', products)
+
+  const graphPizzaData = [
+    {
+      title: 'Vendas por produto',
+      colors: ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'],
+      values: products.map((product) => {
+        return {
+          name: product?.name || '',
+          value: product?.value,
+        }
+      }),
+    },
+  ]
 
   return (
     <>
@@ -318,7 +334,7 @@ export function Dashboard() {
               <h4>Vendas por produtos</h4>
             </header>
             <main>
-              {products?.map((pizza: any, key) => (
+              {graphPizzaData?.map((pizza: any, key) => (
                 <div key={key}>
                   <PieChart width={350} height={200}>
                     <Pie
