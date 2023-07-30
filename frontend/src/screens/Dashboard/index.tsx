@@ -185,8 +185,6 @@ export function Dashboard() {
     },
   ]
 
-  console.log('paymentTypes', paymentTypes)
-
   return (
     <>
       <header className={style.headerPage}>

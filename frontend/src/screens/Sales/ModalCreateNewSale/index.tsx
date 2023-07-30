@@ -211,8 +211,6 @@ export function ModalCreateNewSale({
       })
   }
 
-  console.log('PRODUTOS', newSaleData.products)
-  console.log('Nova venda', newSaleData)
   useEffect(() => {
     if (!saleToEditData)
       productsService
