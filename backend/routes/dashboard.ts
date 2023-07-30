@@ -1,5 +1,6 @@
 import express from 'express'
 import { SalesRepository } from '../repositories/Sales/SalesRepository'
+import { GetSalesService } from '../services/GetSalesService.service'
 
 const dashboardRoutes = express.Router()
 
@@ -12,8 +13,10 @@ const salesRepository = new SalesRepository()
 
 dashboardRoutes.get('/formasDePagamento', async (req, res) => {
   try {
-    const { startDate, endDate, userId } = req.body as any
-    const sales = await salesRepository.list({ startDate, endDate, userId })
+    const { startDate, endDate, userId } = req.query as any
+
+    const getSalesService = new GetSalesService(salesRepository)
+    const sales = await getSalesService.execute({ startDate, endDate, userId })
 
     const paymentTypes = sales?.reduce(
       (acc: { type: string; value: number }[], sale: Sale) => {
