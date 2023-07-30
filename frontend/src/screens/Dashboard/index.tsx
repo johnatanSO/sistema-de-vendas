@@ -158,7 +158,7 @@ export function Dashboard() {
   const totalSales = sales.reduce(
     (acc, sale) => {
       if (sale.status === 'canceled') acc.totalValueCanceled += sale.totalValue
-      acc.totalValueSales = sale.totalValue
+      acc.totalValueSales += sale.totalValue
       return acc
     },
     {
@@ -185,6 +185,8 @@ export function Dashboard() {
     },
   ]
 
+  console.log('paymentTypes', paymentTypes)
+
   return (
     <>
       <header className={style.headerPage}>
@@ -196,7 +198,7 @@ export function Dashboard() {
           className={`${style.card} ${style.amountCard}`}
           onClick={() => {
             handleClickCard({
-              pathname: '/sales/',
+              pathname: '/vendas/',
             })
           }}
         >
@@ -210,7 +212,7 @@ export function Dashboard() {
           className={`${style.card} ${style.valueCard}`}
           onClick={() => {
             handleClickCard({
-              pathname: '/sales/',
+              pathname: '/vendas/',
             })
           }}
         >
@@ -224,7 +226,7 @@ export function Dashboard() {
           className={`${style.card} ${style.valueCanceledCard}`}
           onClick={() => {
             handleClickCard({
-              pathname: '/sales/',
+              pathname: '/vendas/',
               query: {
                 status: 'canceled',
               },
@@ -295,7 +297,7 @@ export function Dashboard() {
               className={`${style.card} ${style.inCard}`}
               onClick={() => {
                 handleClickCard({
-                  pathname: '/accounts/',
+                  pathname: '/contas/',
                   query: {
                     accountType: 'in',
                   },
@@ -314,7 +316,7 @@ export function Dashboard() {
               className={`${style.card} ${style.outCard}`}
               onClick={() => {
                 handleClickCard({
-                  pathname: '/accounts/',
+                  pathname: '/contas/',
                   query: {
                     accountType: 'out',
                   },
@@ -333,7 +335,7 @@ export function Dashboard() {
               className={`${style.card} ${style.totalCard}`}
               onClick={() => {
                 handleClickCard({
-                  pathname: '/accounts/',
+                  pathname: '/contas/',
                 })
               }}
             >
@@ -353,8 +355,8 @@ export function Dashboard() {
             </header>
             <main>
               {graphPizzaData?.map((pizza: any, key) => (
-                <div key={key}>
-                  <PieChart width={350} height={200}>
+                <div style={{ height: '100%' }} key={key}>
+                  <PieChart width={350} height={230}>
                     <Pie
                       data={pizza.values}
                       innerRadius={40}

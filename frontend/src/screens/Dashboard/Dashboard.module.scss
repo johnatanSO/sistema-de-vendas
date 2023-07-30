@@ -71,7 +71,7 @@
 
     min-height: 650px;
     height: 100%;
-    
+
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -142,11 +142,28 @@
     }
 
     .pizzaGraph {
-      border: 1px solid $gray-color-200;
+      background: $gray-color-400;
+      border: 1px solid $gray-color-300;
+      box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
+
       flex: 1;
 
-      min-height: 300px;
-      min-width: 260px;
+      border-radius: 10px;
+      overflow: hidden;
+
+      header {
+        padding: 15px;
+        background: $primary-color;
+
+        h4 {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: $white-color;
+        }
+      }
+      main {
+        height: 100%;
+      }
     }
   }
 }
