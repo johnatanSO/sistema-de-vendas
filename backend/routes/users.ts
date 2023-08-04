@@ -6,6 +6,7 @@ const usersRoutes = express.Router()
 
 const usersRepository = new UsersRepository()
 
+// TO-DO: Implementar verificação de sessão do usuário.
 usersRoutes.get('/session', async (req: Request, res: Response) => {
   try {
     const token = ''
@@ -41,6 +42,7 @@ usersRoutes.post('/register', async (req: Request, res: Response) => {
   }
 })
 
+// TO-DO: Implementar token JWT.
 usersRoutes.post('/login', async (req: Request, res: Response) => {
   const { email, password } = req.body
   try {
