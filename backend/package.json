@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Servidor para trabalho da faculdade",
+  "description": "Servidor para sistema de vendas. ",
   "main": "server.js",
   "scripts": {
     "start": "ts-node-dev --transpile-only server.ts",
