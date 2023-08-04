@@ -9,6 +9,7 @@ import { EmptyItems } from '../../../src/components/EmptyItems'
 import { useRouter } from 'next/router'
 import { FilterByName } from '../../../src/components/FilterByName'
 import { AlertContext } from '../../../src/contexts/alertContext'
+import { Loading } from '../../components/Loading'
 
 export interface Product {
   _id: string
@@ -100,6 +101,10 @@ export function Products() {
         buttonText="Novo produto"
         InputFilter={<FilterByName />}
       />
+
+      {products?.length === 0 && loadingProducts && (
+        <Loading size={30} color="#ff6600" />
+      )}
 
       {products?.length > 0 && (
         <TableComponent

@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { FilterByAccountType } from '../../components/FilterByAccountType'
 import { AlertContext } from '../../../src/contexts/alertContext'
 import { accountsService } from '../../services/accountsService'
+import { Loading } from '../../components/Loading'
 
 export interface Account {
   _id: string
@@ -101,6 +102,10 @@ export function Accounts() {
         buttonText="Nova conta"
         InputFilter={<FilterByAccountType />}
       />
+
+      {accounts?.length === 0 && loadingAccounts && (
+        <Loading size={30} color="#ff6600" />
+      )}
 
       {accounts?.length > 0 && (
         <TableComponent

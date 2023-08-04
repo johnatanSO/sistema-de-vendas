@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { FilterDate } from '../../../src/components/FilterDate'
 import { AlertContext } from '../../../src/contexts/alertContext'
 import { EmptyItems } from '../../../src/components/EmptyItems'
+import { Loading } from '../../components/Loading'
 
 export interface Sale {
   _id: string
@@ -101,6 +102,10 @@ export function Sales() {
         buttonText="Nova venda"
         InputFilter={<FilterDate />}
       />
+
+      {sales?.length === 0 && loadingSales && (
+        <Loading size={30} color="#ff6600" />
+      )}
 
       {sales?.length > 0 && (
         <TableComponent loading={loadingSales} columns={columns} rows={sales} />
