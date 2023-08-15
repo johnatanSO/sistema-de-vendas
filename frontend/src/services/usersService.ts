@@ -1,8 +1,7 @@
-import { NextRequest } from 'next/server'
 import http from '../api/http'
 import { NewUser } from '../screens/CreateAccount'
 import { LoginUserData } from '../screens/Login'
-import { setCookie, destroyCookie } from 'nookies'
+import nookies, { setCookie, destroyCookie } from 'nookies'
 
 const USER_INFO = 'userInfo'
 const ACCESS_TOKEN_KEY = ':sis-vendas[v1]:'
@@ -16,8 +15,8 @@ interface RegisterParams {
 }
 
 export const usersService = {
-  async getSession(request: NextRequest) {
-    const token = await this.getToken(request)
+  async getSession() {
+    const token = this.getToken()
 
     if (token) {
       return await this.verifyToken(token)
@@ -40,10 +39,9 @@ export const usersService = {
     })
   },
 
-  async getToken(request: NextRequest) {
-    const token = request.cookies.get(ACCESS_TOKEN_KEY)
-
-    return token || undefined
+  getToken(ctx = null) {
+    const cookies = nookies.get(ctx)
+    return cookies ? cookies[ACCESS_TOKEN_KEY] : null
   },
 
   async verifyToken(token: string) {
@@ -54,10 +52,13 @@ export const usersService = {
     return true
   },
 
-  async saveUser(userData: any) {
-    globalThis?.localStorage?.setItem(USER_INFO, JSON.stringify(userData))
-    globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, userData?._id)
-    setCookie(undefined, ACCESS_TOKEN_KEY, userData?._id, {
+  async saveUser(responseUser: any) {
+    globalThis?.localStorage?.setItem(
+      USER_INFO,
+      JSON.stringify(responseUser.item),
+    )
+    globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, responseUser?.token)
+    setCookie(undefined, ACCESS_TOKEN_KEY, responseUser?.token, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
     })

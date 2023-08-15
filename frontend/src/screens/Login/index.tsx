@@ -54,7 +54,7 @@ export function Login() {
           text: 'Usuário autenticado com sucesso',
           open: 'true',
         })
-        usersService.saveUser(res.data.item)
+        usersService.saveUser(res.data)
         router.push('/')
       })
       .catch((err) => {
