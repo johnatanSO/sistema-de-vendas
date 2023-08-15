@@ -9,14 +9,14 @@
   text-align: center;
   align-self: center;
 
-  width: 100%;
+  width: 100% !important;
 
   background: $gray-color-500;
   color: $gray-color-300;
   box-shadow: 1px 4px 7px rgba(0, 0, 0, 0.334);
 
   border-radius: 15px;
-  padding: 45px 10px;
+  padding: 45px 10px !important;
   //margin-top: 20px;
 
   h2 {
