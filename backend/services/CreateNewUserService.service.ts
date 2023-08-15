@@ -11,6 +11,7 @@ export class CreateNewUserService {
 
   async execute({ name, email, password }: NewUser): Promise<NewUser> {
     const alreadExistUser = await this.usersRepository.findByEmail(name)
+    console.log('ENV: ', process.env.SECRET)
 
     if (alreadExistUser) {
       throw new Error('Já existe um usuário cadastrado com este e-mail!')

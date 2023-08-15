@@ -52,13 +52,17 @@ usersRoutes.post('/login', async (req: Request, res: Response) => {
       password,
     })
 
+    const token = authenticateUserService.getToken(user)
+
     res.status(200).json({
       item: user,
-      message: 'Usuário encontrado com sucesso',
+      token,
+      message: 'Usuário autenticado com sucesso',
     })
   } catch (error: any) {
     res.status(400).json({
       error: error.message,
+      token: null,
     })
   }
 })
