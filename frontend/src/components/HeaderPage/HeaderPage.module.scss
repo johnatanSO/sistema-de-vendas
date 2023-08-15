@@ -4,14 +4,14 @@
   width: 100%;
 
   display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 
   margin-bottom: 1rem;
 
   .buttonsContainer {
     display: flex;
     gap: 15px;
-
-    margin-left: auto;
 
     button {
       border-radius: 10px;
@@ -45,4 +45,8 @@
       background: $blue-color-500;
     }
   }
+}
+
+@media (max-width: 980px) {
+  
 }

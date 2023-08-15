@@ -15,8 +15,8 @@ interface RegisterParams {
 }
 
 export const usersService = {
-  async getSession() {
-    const token = this.getToken()
+  async getSession(ctx = null) {
+    const token = this.getToken(ctx)
 
     if (token) {
       return await this.verifyToken(token)

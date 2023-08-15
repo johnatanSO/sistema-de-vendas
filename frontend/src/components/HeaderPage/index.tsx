@@ -14,7 +14,7 @@ export function HeaderPage({
 }: HeaderPageProps) {
   return (
     <header className={style.headerContainer}>
-      {InputFilter && InputFilter}
+      <div style={{ marginRight: 'auto' }}>{InputFilter && InputFilter}</div>
       <div className={style.buttonsContainer}>
         <button className={style.createNewButton} onClick={onClickFunction}>
           {buttonText || 'Cadastrar'}

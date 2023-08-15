@@ -8,6 +8,7 @@ const http = axios.create({
 http.interceptors.request.use(
   (config: any) => {
     const token = usersService.getToken()
+    console.log('TOKEN INTERCEPTOR: ', token)
     if (token) {
       config.headers = {
         ...config.headers,

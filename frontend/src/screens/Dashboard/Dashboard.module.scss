@@ -167,3 +167,17 @@
     }
   }
 }
+
+@media (max-width: 980px) {
+  .salesCardsContainer {
+    flex-direction: column;
+
+    .card {
+      max-width: 100%;
+    }
+  }
+
+  .graphsContainer {
+    flex-direction: column;
+  }
+}
