@@ -2,10 +2,10 @@ import style from './CreateAccount.module.scss'
 import Link from 'next/link'
 import { FormEvent, useContext, useState } from 'react'
 import { usersService } from '../../services/usersService'
-import { useRouter } from 'next/router'
 import { AlertContext } from '../../../src/contexts/alertContext'
 import { CustomTextField } from '../../components/CustomTextField'
 import { Loading } from '../../components/Loading'
+import { useRouter } from 'next/router'
 
 export interface NewUser {
   name: string
@@ -61,11 +61,24 @@ export function CreateAccount() {
     usersService
       .register({ newUser })
       .then((res) => {
-        usersService.saveUser(res.data.item)
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'success',
+          text: 'Usuário cadastrado com sucesso',
+          open: 'true',
+        })
+        usersService.saveUser(res.data)
         router.push('/')
       })
       .catch((err) => {
         console.log('ERRO AO TENTAR CADASTRAR USUÁRIO, ', err)
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'error',
+          text:
+            'Erro ao tentar cadastrar usuário ' + err?.response?.data?.message,
+          open: 'true',
+        })
       })
       .finally(() => {
         setLoading(false)
