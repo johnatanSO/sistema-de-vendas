@@ -17,12 +17,12 @@ export class CreateNewUserService {
       throw new Error('Já existe um usuário cadastrado com este e-mail!')
     }
 
-    const newProduct = this.usersRepository.create({
+    const newUser = this.usersRepository.create({
       name,
       email,
       password,
     })
 
-    return newProduct
+    return newUser
   }
 }
