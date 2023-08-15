@@ -83,6 +83,7 @@ export function Login() {
           className={style.input}
           type="text"
           label="E-mail"
+          required
           placeholder="Digite seu E-mail"
           onChange={(event) => {
             setUserData({
@@ -94,6 +95,7 @@ export function Login() {
         <CustomTextField
           label="Senha"
           size="medium"
+          required
           className={style.input}
           value={userData?.password}
           type="password"
