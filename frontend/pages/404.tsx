@@ -1,5 +1,3 @@
-import { usersService } from '../src/services/usersService'
-
 export default function NotFoundPage() {
   return (
     <>
