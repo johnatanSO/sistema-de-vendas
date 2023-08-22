@@ -174,7 +174,7 @@ export function ModalCreateNewProduct({
               }}
             />
           }
-          label="Tornar esteproduto padrão"
+          label="Tornar este produto padrão"
         />
         <CustomTextField
           size="small"
