@@ -1,12 +1,17 @@
 import jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
-import { IUsersRepository, User } from '../repositories/Users/IUsersRepository'
+import {
+  IUsersRepository,
+  User,
+} from '../../repositories/Users/IUsersRepository'
+import { inject, injectable } from 'tsyringe'
 dotenv.config()
 
+@injectable()
 export class AuthenticateUserService {
   usersRepository: IUsersRepository
-  constructor(productsRepository: IUsersRepository) {
-    this.usersRepository = productsRepository
+  constructor(@inject('UsersRepository') usersRepository: IUsersRepository) {
+    this.usersRepository = usersRepository
   }
 
   async execute({ email, password }: any): Promise<any> {

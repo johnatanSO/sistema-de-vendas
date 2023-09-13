@@ -1,8 +1,13 @@
-import { ISalesRepository, Sale } from '../repositories/Sales/ISalesRepository'
+import { inject, injectable } from 'tsyringe'
+import {
+  ISalesRepository,
+  Sale,
+} from '../../repositories/Sales/ISalesRepository'
 
+@injectable()
 export class UpdateNewSaleService {
   salesRepository: ISalesRepository
-  constructor(salesRepository: ISalesRepository) {
+  constructor(@inject('SalesRepository') salesRepository: ISalesRepository) {
     this.salesRepository = salesRepository
   }
 
