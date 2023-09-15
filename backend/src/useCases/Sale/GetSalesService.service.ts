@@ -16,8 +16,14 @@ export class GetSalesService {
     startDate,
     endDate,
     userId,
+    status,
   }: FiltersGetSales): Promise<Sale[]> {
-    const sales = this.salesRepository.list({ startDate, endDate, userId })
+    const sales = this.salesRepository.list({
+      startDate,
+      endDate,
+      userId,
+      status,
+    })
 
     return sales
   }

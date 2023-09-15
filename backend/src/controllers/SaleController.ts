@@ -9,13 +9,14 @@ import { UpdateNewSaleService } from '../useCases/Sale/UpdateSaleService.service
 export class SaleController {
   async listSales(req: Request, res: Response): Promise<Response> {
     try {
-      const { startDate, endDate, userId } = req.query as any
+      const { startDate, endDate, status, userId } = req.query as any
 
       const getSalesService = container.resolve(GetSalesService)
       const sales = await getSalesService.execute({
         startDate,
         endDate,
         userId,
+        status,
       })
 
       return res.status(200).json({

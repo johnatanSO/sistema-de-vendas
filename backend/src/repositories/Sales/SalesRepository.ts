@@ -2,10 +2,11 @@ import { SaleModel } from '../../entities/sale'
 import { ISalesRepository, Sale } from './ISalesRepository'
 
 export class SalesRepository implements ISalesRepository {
-  async list({ startDate, endDate, userId }): Promise<Sale[]> {
+  async list({ startDate, endDate, userId, status }): Promise<Sale[]> {
     return await SaleModel.find({
       date: { $gte: startDate, $lt: endDate },
       userId,
+      ...(status ? { status } : {}),
     }).sort({ date: -1 })
   }
 

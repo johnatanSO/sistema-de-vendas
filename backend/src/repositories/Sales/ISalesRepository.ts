@@ -10,6 +10,7 @@ export interface FiltersGetSales {
   startDate: any
   endDate: any
   userId: string
+  status: string
 }
 
 export interface Sale {
