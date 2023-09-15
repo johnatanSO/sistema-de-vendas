@@ -26,7 +26,7 @@ export const usersService = {
   async login({ userData }: LoginParams) {
     const body: any = { ...userData }
 
-    return http.post('/users/login', {
+    return http.post('/signIn', {
       ...body,
     })
   },
@@ -34,7 +34,7 @@ export const usersService = {
   async register({ newUser }: RegisterParams) {
     const body = { ...newUser }
 
-    return http.post('/users/register', {
+    return http.post('/users', {
       ...body,
     })
   },
@@ -55,7 +55,7 @@ export const usersService = {
   async saveUser(responseUser: any) {
     globalThis?.localStorage?.setItem(
       USER_INFO,
-      JSON.stringify(responseUser.item),
+      JSON.stringify(responseUser.user),
     )
     globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, responseUser?.token)
     setCookie(undefined, ACCESS_TOKEN_KEY, responseUser?.token, {

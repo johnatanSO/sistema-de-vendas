@@ -64,7 +64,7 @@ export function Accounts() {
               ...alertNotifyConfigs,
               open: true,
               type: 'success',
-              text: 'Conta excluído com sucesso',
+              text: 'Conta excluída com sucesso',
             })
             router.push({
               pathname: router.route,

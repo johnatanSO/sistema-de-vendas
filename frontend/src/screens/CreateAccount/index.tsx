@@ -67,8 +67,7 @@ export function CreateAccount() {
           text: 'Usuário cadastrado com sucesso',
           open: 'true',
         })
-        usersService.saveUser(res.data)
-        router.push('/')
+        router.push('/login')
       })
       .catch((err) => {
         console.log('ERRO AO TENTAR CADASTRAR USUÁRIO, ', err)
