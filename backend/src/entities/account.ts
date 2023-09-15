@@ -7,6 +7,7 @@ const accountSchema = new mongoose.Schema({
   description: { type: String, default: null },
   category: { type: String, default: null },
   value: { type: Number, default: null },
+  status: { type: String, default: 'pending' },
   date: {
     type: Date || String,
     default: Date.now,
