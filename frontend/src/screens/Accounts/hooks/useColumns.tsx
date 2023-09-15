@@ -30,6 +30,19 @@ export function useColumns({
     },
   ]
 
+  function formatStatus(status: string) {
+    switch (status) {
+      case 'pending':
+        return 'Pendente'
+      case 'overdue':
+        return 'Vencida'
+      case 'paid':
+        return 'Paga'
+      default:
+        return '--'
+    }
+  }
+
   return [
     {
       headerName: 'Tipo',
@@ -56,7 +69,9 @@ export function useColumns({
     {
       headerName: 'Status',
       field: 'status',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams) =>
+        formatStatus(params.value) || '--',
+      cellClass: (params: CellFunctionParams) => style[params.value],
     },
     {
       headerName: 'Data',

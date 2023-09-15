@@ -3,6 +3,26 @@
 .positiveText {
   color: $green-color-500;
 }
+
 .negativeText {
   color: $red-color-500;
+}
+
+.paid {
+  background: $green-color-500;
+}
+
+.overdue {
+  background: $red-color-500;
+}
+
+.pending {
+  background: $blue-color-500;
+}
+
+.pending,
+.overdue,
+.paid {
+  border-radius: 10px;
+  color: white;
 }

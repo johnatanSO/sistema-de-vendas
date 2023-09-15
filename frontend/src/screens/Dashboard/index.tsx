@@ -303,7 +303,7 @@ export function Dashboard() {
               }}
             >
               <header>
-                <h4>Entradas</h4>
+                <h4>Contas de entrada</h4>
                 <FontAwesomeIcon className={style.icon} icon={faAngleUp} />
               </header>
               <span>
@@ -322,7 +322,7 @@ export function Dashboard() {
               }}
             >
               <header>
-                <h4>Saídas</h4>
+                <h4>Contas de saídas</h4>
                 <FontAwesomeIcon className={style.icon} icon={faAngleDown} />
               </header>
               <span>
