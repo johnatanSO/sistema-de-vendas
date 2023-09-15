@@ -24,6 +24,7 @@ export const salesService = {
   async getAll({ filters }: GetAllParams) {
     const userInfo = await usersService.getUserInfo()
     const params = {
+      ...(filters.status ? { status: filters?.status } : {}),
       ...(filters?.startDate
         ? { startDate: filters?.startDate }
         : { startDate: dayjs().startOf('month').toISOString() }),
@@ -32,6 +33,7 @@ export const salesService = {
         : { endDate: dayjs().endOf('month').toISOString() }),
       userId: userInfo?._id,
     }
+
     return await http.get('/vendas/', {
       params,
     })
