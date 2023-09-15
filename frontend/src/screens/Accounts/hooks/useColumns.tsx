@@ -51,7 +51,12 @@ export function useColumns({
     {
       headerName: 'Categoria',
       field: 'category',
-      valueFormatter: (params: CellFunctionParams) => params.value || 0,
+      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+    },
+    {
+      headerName: 'Status',
+      field: 'status',
+      valueFormatter: (params: CellFunctionParams) => params.value || '--',
     },
     {
       headerName: 'Data',

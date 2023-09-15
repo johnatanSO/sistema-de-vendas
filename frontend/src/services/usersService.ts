@@ -45,11 +45,15 @@ export const usersService = {
   },
 
   async verifyToken(token: string) {
-    /* TODO: Criar requisição para verificar o token no back-end. */
-    /* const tokenIsValid = await http.post('/users/verify_token/', { token })
-    if (tokenIsValid) return true
-    return false */
-    return true
+    const res = await http.post('/verify_token', {
+      token,
+    })
+
+    const { hasSession } = res.data
+
+    if (hasSession) return true
+
+    return false
   },
 
   async saveUser(responseUser: any) {
