@@ -1,9 +1,11 @@
 import 'reflect-metadata'
+import express, { Express } from 'express'
+import 'express-async-errors'
+import { routes } from './src/routes'
 import './src/shared/containers'
 import dbConnection from './src/database/mongoConfigs'
-import { routes } from './src/routes'
 import cors from 'cors'
-import express, { Express } from 'express'
+import { handleErrors } from './src/middlewares/handleErrors'
 
 interface CustomExpress extends Express {
   mongo?: any
@@ -16,10 +18,12 @@ const PORT = 3333
 app.mongo = dbConnection
 app.use(express.json())
 app.use(cors())
-app.listen(PORT, () => console.log(`SERVIDOR RODANDO NA PORTA ${PORT}!`))
 
 // Rotas
 app.use(routes)
+app.use(handleErrors)
+
+app.listen(PORT, () => console.log(`SERVIDOR RODANDO NA PORTA ${PORT}!`))
 
 app.get('/', async (req: any, res: any) => {
   try {

@@ -1,8 +1,12 @@
-import { IAccountsRepository } from '../repositories/Accounts/IAccountsRepository'
+import { inject, injectable } from 'tsyringe'
+import { IAccountsRepository } from '../../repositories/Accounts/IAccountsRepository'
 
+@injectable()
 export class DeleteAccountService {
   accountsRepository: IAccountsRepository
-  constructor(accountsRepository: IAccountsRepository) {
+  constructor(
+    @inject('AccountsRepository') accountsRepository: IAccountsRepository,
+  ) {
     this.accountsRepository = accountsRepository
   }
 

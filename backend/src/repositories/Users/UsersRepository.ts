@@ -1,8 +1,8 @@
 import { UserModel } from '../../entities/user'
-import { IUsersRepository, NewUser } from './IUsersRepository'
+import { IUsersRepository, NewUser, User } from './IUsersRepository'
 
 export class UsersRepository implements IUsersRepository {
-  async create({ name, password, email }: NewUser): Promise<NewUser> {
+  async create({ name, password, email }: NewUser): Promise<User> {
     const newUser = new UserModel({
       name,
       password,
@@ -12,11 +12,11 @@ export class UsersRepository implements IUsersRepository {
     return newUser
   }
 
-  async findByEmail(email: string): Promise<NewUser> {
+  async findByEmail(email: string): Promise<User> {
     return await UserModel.findOne({ email })
   }
 
-  async authenticate({ email, password }): Promise<any> {
-    return await UserModel.findOne({ email, password })
+  async findById(_id: string): Promise<User> {
+    return await UserModel.findOne({ _id })
   }
 }

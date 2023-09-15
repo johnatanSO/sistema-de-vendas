@@ -7,13 +7,14 @@ export interface NewUser {
 }
 
 export interface User {
-  _id?: Types.ObjectId
+  _id: Types.ObjectId
   email: string
   password: string
+  name: string
 }
 
 export interface IUsersRepository {
-  create: (newUserData: NewUser) => Promise<NewUser>
-  findByEmail: (email: string) => Promise<NewUser>
-  authenticate: (userDataLogin: User) => Promise<User>
+  create: (newUserData: NewUser) => Promise<User>
+  findByEmail: (email: string) => Promise<User>
+  findById: (_id: string) => Promise<User>
 }
