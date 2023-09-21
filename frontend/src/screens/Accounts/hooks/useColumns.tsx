@@ -5,6 +5,7 @@ import { ActionButtons } from '../../../../src/components/ActionButtons'
 import { Account } from '..'
 import dayjs from 'dayjs'
 import style from '../Accounts.module.scss'
+import { ChangeStatusAccount } from '../ChangeStatusAccount'
 
 interface UseColumnsParams {
   handleEditAccount: (account: Account) => void
@@ -29,19 +30,6 @@ export function useColumns({
       onClickFunction: handleDeleteAccount,
     },
   ]
-
-  function formatStatus(status: string) {
-    switch (status) {
-      case 'pending':
-        return 'Pendente'
-      case 'overdue':
-        return 'Vencida'
-      case 'paid':
-        return 'Paga'
-      default:
-        return '--'
-    }
-  }
 
   return [
     {
@@ -69,9 +57,9 @@ export function useColumns({
     {
       headerName: 'Status',
       field: 'status',
-      valueFormatter: (params: CellFunctionParams) =>
-        formatStatus(params.value) || '--',
-      cellClass: (params: CellFunctionParams) => style[params.value],
+      cellRenderer: (params: CellFunctionParams) => {
+        return <ChangeStatusAccount params={params} />
+      },
     },
     {
       headerName: 'Data',
@@ -84,12 +72,6 @@ export function useColumns({
       field: 'value',
       valueFormatter: (params: CellFunctionParams) =>
         format.formatarReal(params.value || 0),
-      cellClass: (params) => {
-        if (params?.data?.type === 'in') {
-          return style.positiveText
-        }
-        return style.negativeText
-      },
     },
     {
       headerName: '',

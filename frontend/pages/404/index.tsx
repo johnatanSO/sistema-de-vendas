@@ -17,6 +17,11 @@ export const getServerSideProps = async (context: any) => {
         permanent: false,
         destination: '/login',
       },
+      props: {},
     }
+  }
+
+  return {
+    props: {},
   }
 }

@@ -2,10 +2,12 @@
 
 .positiveText {
   color: $green-color-500;
+  font-weight: 600;
 }
 
 .negativeText {
   color: $red-color-500;
+  font-weight: 600;
 }
 
 .paid {
@@ -25,4 +27,12 @@
 .paid {
   border-radius: 10px;
   color: white;
+  padding: 0px;
+
+  transition: filter 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
 }
