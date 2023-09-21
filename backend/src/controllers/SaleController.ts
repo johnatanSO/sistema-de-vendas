@@ -40,7 +40,7 @@ export class SaleController {
     })
 
     const updateProductsStock = container.resolve(UpdateProductsStock)
-    await updateProductsStock.execute(products)
+    await updateProductsStock.execute({ products })
 
     return res.status(201).json({
       success: true,
@@ -70,7 +70,7 @@ export class SaleController {
     })
 
     const updateProductsStock = container.resolve(UpdateProductsStock)
-    await updateProductsStock.execute(products)
+    await updateProductsStock.execute({ products })
 
     return res.status(201).json({
       success: true,

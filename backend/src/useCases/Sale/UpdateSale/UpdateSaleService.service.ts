@@ -50,6 +50,8 @@ export class UpdateNewSaleService {
       updateFields,
     })
 
+    console.log('products', products)
+
     return updatedSale
   }
 }
