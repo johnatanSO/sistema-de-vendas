@@ -4,6 +4,7 @@ import {
   IAccountsRepository,
   INewAccountDTO,
   QueryList,
+  UpdateParams,
 } from './IAccountsRepository'
 
 export class AccountsRepository implements IAccountsRepository {
@@ -51,7 +52,7 @@ export class AccountsRepository implements IAccountsRepository {
     return newAccount
   }
 
-  async update({ filters, updateFields }: any): Promise<void> {
+  async update({ filters, updateFields }: UpdateParams): Promise<void> {
     await this.model.updateMany(filters, updateFields)
   }
 

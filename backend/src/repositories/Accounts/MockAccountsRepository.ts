@@ -1,11 +1,12 @@
-import { Types } from 'mongoose'
-import { Account, IAccountsRepository, QueryList } from './IAccountsRepository'
+import {
+  IAccountsRepository,
+  QueryList,
+  UpdateParams,
+} from './IAccountsRepository'
+import { Account } from '../../entities/account'
 
 export class MockAccountsRepository implements IAccountsRepository {
-  accounts: Account[]
-  constructor() {
-    this.accounts = []
-  }
+  accounts: Account[] = []
 
   async list(QueryList: QueryList): Promise<Account[]> {
     const accounts = this.accounts
@@ -20,41 +21,34 @@ export class MockAccountsRepository implements IAccountsRepository {
     return newAccount
   }
 
-  async update(AccountData: Account): Promise<Account> {
-    this.accounts.forEach((account) => {
-      if (account._id === AccountData._id) {
-        account = {
-          ...account,
-          ...AccountData,
-        }
-      }
-    })
+  async update({ filters, updateFields }: UpdateParams): Promise<void> {
+    const fields = updateFields.$set
 
-    const updatedAccount: any = this.accounts.find(
-      (account) => account._id === AccountData._id,
+    const indexAccount = this.accounts.findIndex(
+      (account) => account._id.toString() === filters._id.toString(),
     )
 
-    return updatedAccount
+    if (indexAccount !== -1) {
+      this.accounts[indexAccount] = {
+        ...this.accounts[indexAccount],
+        ...fields,
+      }
+    }
   }
 
-  async delete(idAccount: string) {
-    const newAccounts = this.accounts.filter(
+  async delete(idAccount: string): Promise<void> {
+    this.accounts = this.accounts.filter(
       (account) => account._id.toString() !== idAccount,
     )
-    this.accounts = newAccounts
   }
 
-  async findById(accountId: string | Types.ObjectId): Promise<Account> {
-    const account: any = this.accounts.find(
-      (account) => account._id === accountId,
-    )
-
-    return account
+  async findById(accountId: string): Promise<Account> {
+    return this.accounts.find((account) => account._id === accountId)
   }
 
-  async getEntries(userId: String): Promise<number> {
-    const accountsAmount: any = this.accounts.length
-
-    return accountsAmount
+  async getEntries(userId: string): Promise<number> {
+    return this.accounts.filter(
+      (account) => account.userId.toString() === userId,
+    ).length
   }
 }
