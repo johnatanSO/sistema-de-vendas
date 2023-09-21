@@ -15,6 +15,7 @@ export class DashboardController {
       userId,
       status,
     })
+
     const paymentTypes = sales?.reduce(
       (acc: { type: string; value: number }[], sale) => {
         const paymentAlreadyExists = !!acc.find(
@@ -39,6 +40,7 @@ export class DashboardController {
     )
 
     return res.status(200).json({
+      success: true,
       items: paymentTypes,
       message: 'Busca de pagamentos concluída com sucesso',
     })
