@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { AuthenticateUserService } from '../useCases/Authenticate/AuthenticateUser/AuthenticateUserService.service'
 import { VerifyTokenService } from '../useCases/Authenticate/VerifyToken/VerifyTokenService.service'
+import { AppError } from '../errors/AppError'
 
 export class AuthenticateController {
   async authenticateUser(req: Request, res: Response): Promise<Response> {
@@ -24,12 +25,12 @@ export class AuthenticateController {
   async verifyToken(req: Request, res: Response): Promise<Response> {
     const { token } = req.body
 
-    if (!token) throw new Error('Token não informado')
+    if (!token) throw new AppError('Token não informado')
 
     const verifyTokenService = container.resolve(VerifyTokenService)
     const hasSession = await verifyTokenService.execute(token)
 
-    if (!hasSession) throw new Error('Sessão inválida')
+    if (!hasSession) throw new AppError('Sessão inválida')
 
     return res.status(200).json({
       success: true,

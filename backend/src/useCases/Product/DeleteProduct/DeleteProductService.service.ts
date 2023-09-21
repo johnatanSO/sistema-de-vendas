@@ -16,7 +16,7 @@ export class DeleteProductService {
 
     const productNotFound = await this.productsRepository.findById(idProduct)
 
-    if (!productNotFound) throw new Error('Produto não encontrado')
+    if (!productNotFound) throw new AppError('Produto não encontrado')
 
     await this.productsRepository.delete(idProduct)
   }
