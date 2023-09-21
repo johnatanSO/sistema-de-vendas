@@ -13,7 +13,7 @@ contasRoutes.get('/', accountController.listAccounts)
 contasRoutes.post('/', accountController.createNewAccount)
 contasRoutes.put('/', accountController.updateAccount)
 contasRoutes.patch(
-  '/contas/updateStatus/:idAccount',
+  '/updateStatus/:idAccount',
   accountController.updateStatusAccount,
 )
 contasRoutes.delete('/', accountController.deleteAccount)
