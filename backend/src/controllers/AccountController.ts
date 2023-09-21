@@ -22,7 +22,7 @@ export class AccountController {
     return res.status(200).json({
       success: true,
       items: accounts,
-      message: 'Busca concluída com sucesso!',
+      message: 'Busca concluída com sucesso',
     })
   }
 

@@ -18,8 +18,9 @@ export class ProductController {
     })
 
     return res.status(200).json({
+      success: true,
       items: products,
-      message: 'Busca concluída com sucesso!',
+      message: 'Busca de produtos concluída com sucesso',
     })
   }
 
@@ -37,7 +38,7 @@ export class ProductController {
     return res.status(200).json({
       success: true,
       items: products,
-      message: 'Busca concluída com sucesso!',
+      message: 'Busca de produtos concluída com sucesso',
     })
   }
 
@@ -56,7 +57,7 @@ export class ProductController {
     return res.status(201).json({
       success: true,
       item: newProduct,
-      message: 'Produto cadastrado com sucesso!',
+      message: 'Produto cadastrado com sucesso',
     })
   }
 

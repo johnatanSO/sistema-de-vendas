@@ -35,6 +35,7 @@ export class AuthenticateController {
     return res.status(200).json({
       success: true,
       hasSession,
+      message: 'Usuário possui uma sessão válida',
     })
   }
 }

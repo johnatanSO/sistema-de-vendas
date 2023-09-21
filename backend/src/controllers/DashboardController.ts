@@ -7,7 +7,7 @@ export class DashboardController {
     const { startDate, endDate, status } = req.query as any
     const { userId } = req.user
 
-    // REFATORAR ISSO DAQUI PARA UM CASO DE USO
+    // REFATORAR E MOVER TODA ESSA FUNÇÃO PARA UM CASO DE USO;
     const getSalesService = container.resolve(GetSalesService)
     const sales = await getSalesService.execute({
       startDate,

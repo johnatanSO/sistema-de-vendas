@@ -22,7 +22,7 @@ export class SaleController {
     return res.status(200).json({
       success: true,
       items: sales,
-      message: 'Busca de vendas concluída com sucesso!',
+      message: 'Busca de vendas concluída com sucesso',
     })
   }
 
@@ -75,7 +75,7 @@ export class SaleController {
     return res.status(201).json({
       success: true,
       item: newSale,
-      message: 'Venda cadastrada com sucesso!',
+      message: 'Venda atualizada com sucesso',
     })
   }
 
