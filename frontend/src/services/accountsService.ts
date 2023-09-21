@@ -1,4 +1,5 @@
 import http from '../api/http'
+import { Account } from '../screens/Accounts'
 import { NewAccountData } from '../screens/Accounts/ModalCreateNewAccount'
 import { usersService } from './usersService'
 
@@ -11,7 +12,12 @@ interface CreateParams {
 }
 
 interface UpdateParams {
-  accountData: any
+  accountData: Account
+}
+
+interface UpdateStatusParams {
+  idAccount: string
+  status: string
 }
 
 interface DeleteParams {
@@ -50,6 +56,12 @@ export const accountsService = {
 
     return await http.put('/contas/', {
       ...body,
+    })
+  },
+
+  async updateStatus({ idAccount, status }: UpdateStatusParams) {
+    return http.patch(`/contas/updateStatus/${idAccount}`, {
+      status,
     })
   },
 

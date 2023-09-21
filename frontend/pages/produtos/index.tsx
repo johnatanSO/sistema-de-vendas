@@ -1,6 +1,6 @@
-import { Products } from '../src/screens/Products'
-import { usersService } from '../src/services/usersService'
-import { PageProps } from './_app'
+import { Products } from '../../src/screens/Products'
+import { usersService } from '../../src/services/usersService'
+import { PageProps } from '../_app'
 
 export default function ProductsPage({ setTitle }: PageProps) {
   setTitle('Produtos')

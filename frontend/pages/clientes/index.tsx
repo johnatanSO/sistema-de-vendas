@@ -1,6 +1,6 @@
-import { Clients } from '../src/screens/Clients'
-import { usersService } from '../src/services/usersService'
-import { PageProps } from './_app'
+import { Clients } from '../../src/screens/Clients'
+import { usersService } from '../../src/services/usersService'
+import { PageProps } from '../_app'
 
 export default function ClientsPage({ setTitle }: PageProps) {
   setTitle('Clientes')
@@ -19,10 +19,6 @@ export const getServerSideProps = async (context: any) => {
         permanent: false,
         destination: '/login',
       },
-      props: {},
     }
-  }
-  return {
-    props: {},
   }
 }

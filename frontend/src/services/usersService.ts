@@ -49,11 +49,7 @@ export const usersService = {
       token,
     })
 
-    const { hasSession } = res.data
-
-    if (hasSession) return true
-
-    return false
+    return res.data.hasSession
   },
 
   async saveUser(responseUser: any) {
