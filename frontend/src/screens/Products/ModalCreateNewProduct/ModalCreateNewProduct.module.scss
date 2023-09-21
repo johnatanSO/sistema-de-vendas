@@ -1,7 +1,29 @@
-@import '../../../../styles/colors.scss';
+@import "../../../../styles/colors.scss";
 
-.fieldsContainer{
+.fieldsContainer {
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.labelDefaultProduct {
+  display: flex;
+  align-items: center;
+
+  .infoIcon {
+    height: 1rem;
+
+    transition: filter 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+}
+
+.popover {
+  font-size: 0.9rem !important;
+  background: $gray-color-300 !important;
+  color: white !important;
 }

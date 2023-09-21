@@ -5,7 +5,9 @@ import { CustomTextField } from '../../../../src/components/CustomTextField'
 import { productsService } from '../../../../src/services/productsService'
 import { AlertContext } from '../../../../src/contexts/alertContext'
 import { useRouter } from 'next/router'
-import { Checkbox, FormControlLabel } from '@mui/material'
+import { Checkbox, FormControlLabel, Popover, Typography } from '@mui/material'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 export interface NewProductData {
   name: string
@@ -38,6 +40,8 @@ export function ModalCreateNewProduct({
   const [loadingCreateNewProduct, setLoadingCreateNewProduct] =
     useState<boolean>(false)
   const router = useRouter()
+  const [anchorEl, setAnchorEl] = useState<any>(null)
+
   function onCreateNewProduct(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!newProductData?.name) {
@@ -146,6 +150,7 @@ export function ModalCreateNewProduct({
             })
           }}
         />
+
         <CustomTextField
           size="small"
           label="Quantidade"
@@ -159,23 +164,52 @@ export function ModalCreateNewProduct({
             })
           }}
         />
-        <FormControlLabel
-          onChange={(event: any) => {
-            setNewProductData({
-              ...newProductData,
-              isDefault: event.target.checked,
-            })
-          }}
-          control={
-            <Checkbox
-              checked={newProductData?.isDefault}
-              sx={{
-                '&.Mui-checked': { color: '#ff6600' },
-              }}
-            />
-          }
-          label="Tornar este produto padrão"
-        />
+
+        <div className={style.labelDefaultProduct}>
+          <FormControlLabel
+            onChange={(event: any) => {
+              setNewProductData({
+                ...newProductData,
+                isDefault: event.target.checked,
+              })
+            }}
+            control={
+              <Checkbox
+                checked={newProductData?.isDefault}
+                sx={{
+                  '&.Mui-checked': { color: '#ff6600' },
+                }}
+              />
+            }
+            label="Tornar este produto padrão"
+          />
+          <FontAwesomeIcon
+            onClick={(event) => {
+              setAnchorEl(event.currentTarget)
+            }}
+            className={style.infoIcon}
+            icon={faInfoCircle}
+          />
+
+          <Popover
+            id="simple-popover"
+            open={!!anchorEl}
+            anchorEl={anchorEl}
+            onClose={() => {
+              setAnchorEl(null)
+            }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+          >
+            <Typography sx={{ p: 2 }} className={style.popover}>
+              Ao definir um produto como padrão, ele será selecionado
+              automaticamente no momento de realizar uma venda.
+            </Typography>
+          </Popover>
+        </div>
+
         <CustomTextField
           size="small"
           label="Valor"

@@ -14,7 +14,7 @@ export function Loading({ size, color }: Props) {
         justifyContent: 'center',
       }}
     >
-      <CircularProgress style={{ color: color || 'white' }} size={size || 10} />
+      <CircularProgress style={{ color: color || 'white' }} size={size || 17} />
     </Box>
   )
 }

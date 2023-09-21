@@ -112,7 +112,6 @@ export function ModalCreateNewSale({
         open: true,
         text: 'Forma de pagamento não informada',
       })
-      console.log('Forma de pagamento não informada')
       return
     }
     if (newSaleData.products.length === 0) {
@@ -122,7 +121,6 @@ export function ModalCreateNewSale({
         open: true,
         text: 'Nenhum produto selecionado',
       })
-      console.log('Nenhum produto selecionado')
       return
     }
 
@@ -240,8 +238,8 @@ export function ModalCreateNewSale({
       open={open}
       handleClose={handleClose}
       onSubmit={saleToEditData ? onEditSale : onCreateNewSale}
-      title="Realizar nova venda"
-      submitButtonText="Finalizar"
+      title={saleToEditData ? 'Editar venda' : 'Realizar nova venda'}
+      submitButtonText={saleToEditData ? 'Atualizar' : 'Finalizar'}
       loading={loading}
     >
       <div className={style.content}>
