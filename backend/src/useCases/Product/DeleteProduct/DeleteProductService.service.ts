@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe'
-import { IProductsRepository } from '../../repositories/Products/IProductsRepository'
+import { IProductsRepository } from '../../../repositories/Products/IProductsRepository'
+import { AppError } from '../../../errors/AppError'
 
 @injectable()
 export class DeleteProductService {
@@ -10,12 +11,13 @@ export class DeleteProductService {
     this.productsRepository = productsRepository
   }
 
-  async execute(idProduct: any) {
+  async execute(idProduct: string): Promise<void> {
+    if (!idProduct) throw new AppError('_id do produto não informado')
+
     const productNotFound = await this.productsRepository.findById(idProduct)
 
-    if (!productNotFound) {
-      throw new Error('Produto não encontrado')
-    }
+    if (!productNotFound) throw new Error('Produto não encontrado')
+
     await this.productsRepository.delete(idProduct)
   }
 }

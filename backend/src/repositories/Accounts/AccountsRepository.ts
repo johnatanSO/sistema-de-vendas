@@ -1,7 +1,17 @@
-import { AccountModel } from '../../entities/account'
-import { IAccountsRepository, Account, QueryList } from './IAccountsRepository'
+import { Model } from 'mongoose'
+import { Account, AccountModel } from '../../entities/account'
+import {
+  IAccountsRepository,
+  INewAccountDTO,
+  QueryList,
+} from './IAccountsRepository'
 
 export class AccountsRepository implements IAccountsRepository {
+  model: Model<Account>
+  constructor() {
+    this.model = AccountModel
+  }
+
   async list({
     startDate,
     endDate,
@@ -16,32 +26,44 @@ export class AccountsRepository implements IAccountsRepository {
         : {}),
     }
 
-    return await AccountModel.find(query)
+    return await this.model.find(query)
   }
 
-  async create(AccountData: Account): Promise<Account> {
-    const newAccount = new AccountModel(AccountData)
+  async create({
+    code,
+    type,
+    description,
+    category,
+    value,
+    userId,
+  }: INewAccountDTO): Promise<Account> {
+    const newAccount = await this.model.create({
+      code,
+      type,
+      description,
+      category,
+      value,
+      userId,
+    })
+
     await newAccount.save()
 
     return newAccount
   }
 
-  async update(AccountData: Account): Promise<any> {
-    return await AccountModel.updateOne(
-      { _id: AccountData?._id },
-      { $set: AccountData },
-    )
+  async update({ filters, updateFields }: any): Promise<void> {
+    await this.model.updateMany(filters, updateFields)
   }
 
-  async delete(idAccount: string) {
-    await AccountModel.deleteOne({ _id: idAccount })
+  async delete(idAccount: string): Promise<void> {
+    await this.model.deleteOne({ _id: idAccount })
   }
 
-  async findById(accountId: string): Promise<Account | null> {
-    return await AccountModel.findOne({ _id: accountId })
+  async findById(accountId: string): Promise<Account> {
+    return await this.model.findOne({ _id: accountId })
   }
 
   async getEntries(userId: string): Promise<number> {
-    return AccountModel.countDocuments({ userId })
+    return await this.model.countDocuments({ userId })
   }
 }

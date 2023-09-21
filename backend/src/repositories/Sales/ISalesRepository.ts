@@ -1,9 +1,12 @@
-import { Types } from 'mongoose'
+import { ProductInSale, Sale } from '../../entities/sale'
 
-interface SaleProduct {
-  name: string
-  amount: number
-  value: number
+export interface INewSaleDTO {
+  client: string
+  products: ProductInSale[]
+  paymentType: string
+  totalValue: number
+  userId: string
+  code: string
 }
 
 export interface FiltersGetSales {
@@ -13,21 +16,15 @@ export interface FiltersGetSales {
   status: string
 }
 
-export interface Sale {
-  _id?: Types.ObjectId
-  client: string
-  products: SaleProduct[]
-  paymentType: string
-  totalValue: number
-  userId: string
-  code?: string
+export interface UpdateParams {
+  filters: any
+  updateFields: any
 }
 
 export interface ISalesRepository {
   list: (filters: FiltersGetSales) => Promise<Sale[]>
   getEntries: (userId: string) => Promise<number>
-  create: (SaleData: Sale) => Promise<Sale>
-  update: (SaleData: Sale) => Promise<Sale>
-  findById: (saleId: string | Types.ObjectId) => Promise<Sale | null>
-  cancel: (idSale: string) => void
+  create: (SaleData: INewSaleDTO) => Promise<Sale>
+  update: (updateParams: UpdateParams) => Promise<void>
+  findById: (saleId: string) => Promise<Sale>
 }

@@ -1,5 +1,13 @@
 import { inject, injectable } from 'tsyringe'
-import { IAccountsRepository } from '../../repositories/Accounts/IAccountsRepository'
+import { IAccountsRepository } from '../../../repositories/Accounts/IAccountsRepository'
+import { Account } from '../../../entities/account'
+
+interface IRequest {
+  accountType: 'in' | 'out' | ''
+  userId: string
+  startDate: string
+  endDate: string
+}
 
 @injectable()
 export class ListAccountsService {
@@ -15,7 +23,7 @@ export class ListAccountsService {
     userId,
     startDate,
     endDate,
-  }: any): Promise<any> {
+  }: IRequest): Promise<Account[]> {
     const accounts = await this.accountsRepository.list({
       accountType,
       userId,

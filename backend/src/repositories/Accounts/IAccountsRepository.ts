@@ -1,10 +1,10 @@
 import { Types } from 'mongoose'
+import { Account } from '../../entities/account'
 
-export interface Account {
-  _id?: Types.ObjectId
+export interface INewAccountDTO {
   type: string
   userId: string
-  code?: string
+  code: string
   description: string
   category: string
   value: number
@@ -17,11 +17,16 @@ export interface QueryList {
   endDate: any
 }
 
+export interface UpdateParams {
+  filters: any
+  updateFields: any
+}
+
 export interface IAccountsRepository {
   list: (QueryList: QueryList) => Promise<Account[]>
-  create: (AccountData: Account) => Promise<Account>
-  update: (AccountData: Account) => Promise<Account>
-  delete: (idAccount: string) => void
-  findById: (accountId: string | Types.ObjectId) => Promise<Account | null>
-  getEntries: (userId: String) => Promise<number>
+  create: (AccountData: INewAccountDTO) => Promise<Account>
+  update: (updateParams: UpdateParams) => Promise<void>
+  delete: (idAccount: string) => Promise<void>
+  findById: (accountId: string | Types.ObjectId) => Promise<Account>
+  getEntries: (userId: string) => Promise<number>
 }

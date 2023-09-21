@@ -2,8 +2,14 @@ import { inject, injectable } from 'tsyringe'
 import {
   ISalesRepository,
   Sale,
-  FiltersGetSales,
-} from '../../repositories/Sales/ISalesRepository'
+} from '../../../repositories/Sales/ISalesRepository'
+
+interface IRequest {
+  startDate: string
+  endDate: string
+  userId: string
+  status: string
+}
 
 @injectable()
 export class GetSalesService {
@@ -17,7 +23,7 @@ export class GetSalesService {
     endDate,
     userId,
     status,
-  }: FiltersGetSales): Promise<Sale[]> {
+  }: IRequest): Promise<Sale[]> {
     const sales = this.salesRepository.list({
       startDate,
       endDate,

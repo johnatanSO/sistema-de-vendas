@@ -1,12 +1,11 @@
 import { Types } from 'mongoose'
+import { Product } from '../../entities/product'
 
-export interface Product {
-  _id?: Types.ObjectId
+export interface INewProductDTO {
   name: string
   value: number
   stock: number
-  amount?: number
-  code?: string
+  code: string
   userId: string
   isDefault: boolean
 }
@@ -17,13 +16,22 @@ export interface QueryList {
   userId: string
 }
 
+export interface UpdateStockParams {
+  productId: string
+  amount: number
+}
+
+export interface UpdateParams {
+  filters: any
+  updateFields: any
+}
+
 export interface IProductsRepository {
   list: (QueryList: QueryList) => Promise<Product[]>
-  create: (ProductData: Product) => Promise<Product>
-  update: (ProductData: Product) => Promise<Product>
-  delete: (idProduct: string) => void
-  findByName: (name: string) => Promise<Product | null>
-  findById: (productId: string | Types.ObjectId) => Promise<Product | null>
-  updateStock: (product: Product) => void
-  getEntries: (userId: String) => Promise<number>
+  create: (ProductData: INewProductDTO) => Promise<Product>
+  delete: (idProduct: string) => Promise<void>
+  findByName: (name: string) => Promise<Product>
+  findById: (productId: string | Types.ObjectId) => Promise<Product>
+  update: (updateParams: UpdateParams) => Promise<void>
+  getEntries: (userId: string) => Promise<number>
 }

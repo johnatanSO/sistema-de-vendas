@@ -1,8 +1,15 @@
 import { inject, injectable } from 'tsyringe'
-import {
-  ISalesRepository,
-  Sale,
-} from '../../repositories/Sales/ISalesRepository'
+import { ISalesRepository } from '../../../repositories/Sales/ISalesRepository'
+import { ProductInSale, Sale } from '../../../entities/sale'
+import { AppError } from '../../../errors/AppError'
+
+interface IRequest {
+  client: string
+  products: ProductInSale[]
+  paymentType: string
+  totalValue: number
+  userId: string
+}
 
 @injectable()
 export class CreateNewSaleService {
@@ -17,15 +24,15 @@ export class CreateNewSaleService {
     paymentType,
     totalValue,
     userId,
-  }: Sale): Promise<Sale> {
-    if (!paymentType) throw new Error('Forma de pagamento não informada')
+  }: IRequest): Promise<Sale> {
+    if (!paymentType) throw new AppError('Forma de pagamento não informada')
     if (!products || products?.length === 0)
-      throw new Error('Nenhum produto selecionado')
+      throw new AppError('Nenhum produto selecionado')
 
     const salesAmount = await this.salesRepository.getEntries(userId)
     const code = (salesAmount + 1).toString()
 
-    const newSale = this.salesRepository.create({
+    const newSale = await this.salesRepository.create({
       client,
       products,
       paymentType,

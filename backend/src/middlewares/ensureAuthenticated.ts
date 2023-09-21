@@ -21,5 +21,9 @@ export async function ensureAuthenticated(
 
   if (!user) throw new AppError('Usuário inválido', 401)
 
+  req.user = {
+    userId: userId.toString(),
+  }
+
   next()
 }

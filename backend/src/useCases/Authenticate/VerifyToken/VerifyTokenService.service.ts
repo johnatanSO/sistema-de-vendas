@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv'
-import { IUsersRepository } from '../../repositories/Users/IUsersRepository'
+import { IUsersRepository } from '../../../repositories/Users/IUsersRepository'
 import { inject, injectable } from 'tsyringe'
 import { verify } from 'jsonwebtoken'
 dotenv.config()

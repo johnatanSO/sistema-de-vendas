@@ -1,13 +1,27 @@
-import { SaleModel } from '../../entities/sale'
-import { ISalesRepository, Sale } from './ISalesRepository'
+import { Model } from 'mongoose'
+import { Sale, SaleModel } from '../../entities/sale'
+import {
+  FiltersGetSales,
+  INewSaleDTO,
+  ISalesRepository,
+  UpdateParams,
+} from './ISalesRepository'
 
 export class SalesRepository implements ISalesRepository {
-  async list({ startDate, endDate, userId, status }): Promise<Sale[]> {
-    return await SaleModel.find({
-      date: { $gte: startDate, $lt: endDate },
-      userId,
-      ...(status ? { status } : {}),
-    }).sort({ date: -1 })
+  model: Model<Sale> = SaleModel
+  async list({
+    startDate,
+    endDate,
+    userId,
+    status,
+  }: FiltersGetSales): Promise<Sale[]> {
+    return await this.model
+      .find({
+        date: { $gte: startDate, $lt: endDate },
+        userId,
+        ...(status ? { status } : {}),
+      })
+      .sort({ date: -1 })
   }
 
   async create({
@@ -17,8 +31,8 @@ export class SalesRepository implements ISalesRepository {
     totalValue,
     userId,
     code,
-  }: Sale): Promise<Sale> {
-    const newSale = new SaleModel({
+  }: INewSaleDTO): Promise<Sale> {
+    const newSale = await this.model.create({
       client,
       products,
       paymentType,
@@ -26,23 +40,21 @@ export class SalesRepository implements ISalesRepository {
       userId,
       code,
     })
+
     await newSale.save()
+
     return newSale
   }
 
-  async update(SaleData: Sale): Promise<any> {
-    return await SaleModel.updateOne({ _id: SaleData?._id }, { $set: SaleData })
+  async update({ filters, updateFields }: UpdateParams): Promise<void> {
+    await this.model.updateOne(filters, updateFields)
   }
 
-  async cancel(idSale: string) {
-    await SaleModel.updateOne({ _id: idSale }, { $set: { status: 'canceled' } })
-  }
-
-  async findById(saleId: string): Promise<Sale | null> {
-    return await SaleModel.findOne({ _id: saleId })
+  async findById(saleId: string): Promise<Sale> {
+    return await this.model.findOne({ _id: saleId })
   }
 
   async getEntries(userId: string): Promise<number> {
-    return SaleModel.countDocuments({ userId })
+    return await this.model.countDocuments({ userId })
   }
 }

@@ -1,111 +1,93 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-import { GetSalesService } from '../useCases/Sale/GetSalesService.service'
-import { CreateNewSaleService } from '../useCases/Sale/CreateNewSale.service'
-import { UpdateProductsStock } from '../useCases/Product/UpdateProductsStock.service'
-import { CancelSaleService } from '../useCases/Sale/CancelSaleService.service'
-import { UpdateNewSaleService } from '../useCases/Sale/UpdateSaleService.service'
+import { GetSalesService } from '../useCases/Sale/GetSales/GetSalesService.service'
+import { CreateNewSaleService } from '../useCases/Sale/CreateNewSale/CreateNewSale.service'
+import { CancelSaleService } from '../useCases/Sale/CancelSale/CancelSaleService.service'
+import { UpdateNewSaleService } from '../useCases/Sale/UpdateSale/UpdateSaleService.service'
+import { UpdateProductsStock } from '../useCases/Product/UpdateProductStock/UpdateProductsStock.service'
 
 export class SaleController {
   async listSales(req: Request, res: Response): Promise<Response> {
-    try {
-      const { startDate, endDate, status, userId } = req.query as any
+    const { startDate, endDate, status } = req.query as any
+    const { userId } = req.user
 
-      const getSalesService = container.resolve(GetSalesService)
-      const sales = await getSalesService.execute({
-        startDate,
-        endDate,
-        userId,
-        status,
-      })
+    const getSalesService = container.resolve(GetSalesService)
+    const sales = await getSalesService.execute({
+      startDate,
+      endDate,
+      userId,
+      status,
+    })
 
-      return res.status(200).json({
-        items: sales,
-        message: 'Busca concluída com sucesso!',
-      })
-    } catch (err) {
-      return res
-        .status(500)
-        .json({ error: err, message: 'Falha ao buscar dados', items: [] })
-    }
+    return res.status(200).json({
+      success: true,
+      items: sales,
+      message: 'Busca de vendas concluída com sucesso!',
+    })
   }
 
   async createNewSale(req: Request, res: Response): Promise<Response> {
-    try {
-      const {
-        client,
-        products,
-        paymentType,
-        totalValue = 0,
-        userInfo,
-      } = req.body as any
+    const { client, products, paymentType, totalValue = 0 } = req.body
+    const { userId } = req.user
 
-      const createNewSaleService = container.resolve(CreateNewSaleService)
-      const newSale = await createNewSaleService.execute({
-        client,
-        products,
-        paymentType,
-        totalValue,
-        userId: userInfo?._id,
-      })
+    const createNewSaleService = container.resolve(CreateNewSaleService)
+    const newSale = await createNewSaleService.execute({
+      client,
+      products,
+      paymentType,
+      totalValue,
+      userId,
+    })
 
-      const updateProductsStock = container.resolve(UpdateProductsStock)
-      await updateProductsStock.execute(products)
+    const updateProductsStock = container.resolve(UpdateProductsStock)
+    await updateProductsStock.execute(products)
 
-      return res.status(201).json({
-        item: newSale,
-        message: 'Venda cadastrada com sucesso!',
-      })
-    } catch (error) {
-      return res.status(400).json({ message: error.message })
-    }
+    return res.status(201).json({
+      success: true,
+      item: newSale,
+      message: 'Venda cadastrada com sucesso',
+    })
   }
 
   async updateSale(req: Request, res: Response): Promise<Response> {
-    try {
-      const {
-        _id,
-        client,
-        products,
-        paymentType,
-        totalValue = 0,
-        userInfo,
-      } = req.body as any
+    const {
+      _id: idSale,
+      client,
+      products,
+      paymentType,
+      totalValue = 0,
+      status,
+    } = req.body
 
-      const updateNewSaleService = container.resolve(UpdateNewSaleService)
-      const newSale = await updateNewSaleService.execute({
-        _id,
-        client,
-        products,
-        paymentType,
-        totalValue,
-        userId: userInfo?._id,
-      })
+    const updateNewSaleService = container.resolve(UpdateNewSaleService)
+    const newSale = await updateNewSaleService.execute({
+      idSale,
+      client,
+      products,
+      paymentType,
+      totalValue,
+      status,
+    })
 
-      const updateProductsStock = container.resolve(UpdateProductsStock)
-      await updateProductsStock.execute(products)
+    const updateProductsStock = container.resolve(UpdateProductsStock)
+    await updateProductsStock.execute(products)
 
-      return res.status(201).json({
-        item: newSale,
-        message: 'Venda cadastrada com sucesso!',
-      })
-    } catch (error) {
-      return res.status(400).json({ message: error.message })
-    }
+    return res.status(201).json({
+      success: true,
+      item: newSale,
+      message: 'Venda cadastrada com sucesso!',
+    })
   }
 
   async cancelSale(req: Request, res: Response): Promise<Response> {
-    try {
-      const { _id } = req.body
+    const { _id: idSale } = req.body
 
-      const cancelSaleService = container.resolve(CancelSaleService)
-      cancelSaleService.execute(_id)
+    const cancelSaleService = container.resolve(CancelSaleService)
+    await cancelSaleService.execute(idSale)
 
-      return res.status(201).json({
-        message: 'Venda cancelada com sucesso!',
-      })
-    } catch (error) {
-      return res.status(400).json({ message: error.message })
-    }
+    return res.status(201).json({
+      success: true,
+      message: 'Venda cancelada com sucesso',
+    })
   }
 }
