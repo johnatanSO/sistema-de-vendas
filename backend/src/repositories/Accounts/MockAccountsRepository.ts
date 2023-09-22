@@ -1,9 +1,11 @@
 import {
   IAccountsRepository,
+  INewAccountDTO,
   QueryList,
   UpdateParams,
 } from './IAccountsRepository'
 import { Account } from '../../entities/account'
+import { Types } from 'mongoose'
 
 export class MockAccountsRepository implements IAccountsRepository {
   accounts: Account[] = []
@@ -13,8 +15,25 @@ export class MockAccountsRepository implements IAccountsRepository {
     return accounts
   }
 
-  async create(AccountData: Account): Promise<Account> {
-    const newAccount: any = AccountData
+  async create({
+    category,
+    code,
+    description,
+    userId,
+    type,
+    value,
+  }: INewAccountDTO): Promise<Account> {
+    const newAccount = {
+      category,
+      code,
+      description,
+      userId,
+      type,
+      value,
+      _id: new Types.ObjectId(),
+      status: 'pending',
+      date: new Date(),
+    }
 
     this.accounts.push(newAccount)
 

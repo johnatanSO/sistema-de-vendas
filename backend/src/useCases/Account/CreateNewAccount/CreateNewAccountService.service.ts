@@ -4,7 +4,7 @@ import { Account } from '../../../entities/account'
 import { AppError } from '../../../errors/AppError'
 
 interface IRequest {
-  type: string
+  type: 'in' | 'out'
   description: string
   category: string
   value: number

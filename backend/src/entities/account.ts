@@ -9,6 +9,7 @@ export interface Account {
   category: string
   value: number
   status: string
+  date: Date
 }
 
 const accountSchema = new mongoose.Schema({

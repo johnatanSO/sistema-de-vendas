@@ -2,7 +2,7 @@ import { Types } from 'mongoose'
 import { Account } from '../../entities/account'
 
 export interface INewAccountDTO {
-  type: string
+  type: 'in' | 'out'
   userId: string
   code: string
   description: string
