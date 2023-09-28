@@ -12,7 +12,7 @@ interface IRequest {
 }
 
 @injectable()
-export class UpdateNewAccountService {
+export class UpdateAccountService {
   accountsRepository: IAccountsRepository
   constructor(
     @inject('AccountsRepository') accountsRepository: IAccountsRepository,

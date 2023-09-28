@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { ListAccountsService } from '../useCases/Account/ListAccounts/ListAccountsService.service'
 import { container } from 'tsyringe'
 import { CreateNewAccountService } from '../useCases/Account/CreateNewAccount/CreateNewAccountService.service'
-import { UpdateNewAccountService } from '../useCases/Account/UpdateAccount/UpdateAccountService.service'
+import { UpdateAccountService } from '../useCases/Account/UpdateAccount/UpdateAccountService.service'
 import { DeleteAccountService } from '../useCases/Account/DeleteAccount/DeleteAccountService.service'
 import { UpdateStatusAccountService } from '../useCases/Account/UpdateStatusAccount/UpdateStatusAccountService.service'
 
@@ -49,7 +49,7 @@ export class AccountController {
   async updateAccount(req: Request, res: Response): Promise<Response> {
     const { description, category, type, _id, value, status } = req.body
 
-    const updateNewAccountService = container.resolve(UpdateNewAccountService)
+    const updateNewAccountService = container.resolve(UpdateAccountService)
     const updatedAccount = await updateNewAccountService.execute({
       description,
       category,
