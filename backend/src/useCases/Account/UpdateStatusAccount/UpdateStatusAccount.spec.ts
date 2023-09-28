@@ -1,5 +1,0 @@
-describe('', () => {
-  beforeEach(() => {})
-
-  it('', async () => {})
-})

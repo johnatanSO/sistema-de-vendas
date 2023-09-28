@@ -10,8 +10,17 @@ import { Types } from 'mongoose'
 export class MockAccountsRepository implements IAccountsRepository {
   accounts: Account[] = []
 
-  async list(QueryList: QueryList): Promise<Account[]> {
-    const accounts = this.accounts
+  async list({ userId, accountType }: QueryList): Promise<Account[]> {
+    let accounts = this.accounts
+
+    accounts = accounts.filter(
+      (account) => account.userId.toString() === userId.toString(),
+    )
+
+    if (accountType) {
+      accounts = accounts.filter((account) => account.type === accountType)
+    }
+
     return accounts
   }
 
@@ -62,7 +71,7 @@ export class MockAccountsRepository implements IAccountsRepository {
   }
 
   async findById(accountId: string): Promise<Account> {
-    return this.accounts.find((account) => account._id === accountId)
+    return this.accounts.find((account) => account._id.toString() === accountId)
   }
 
   async getEntries(userId: string): Promise<number> {

@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe'
 import { IAccountsRepository } from '../../../repositories/Accounts/IAccountsRepository'
 import { Account } from '../../../entities/account'
+import { AppError } from '../../../errors/AppError'
 
 interface IRequest {
   accountType: 'in' | 'out' | ''
@@ -24,6 +25,8 @@ export class ListAccountsService {
     startDate,
     endDate,
   }: IRequest): Promise<Account[]> {
+    if (!userId) throw new AppError('_id do usuário não foi informado')
+
     const accounts = await this.accountsRepository.list({
       accountType,
       userId,

@@ -2,7 +2,7 @@ import mongoose, { Types } from 'mongoose'
 
 export interface Account {
   _id: Types.ObjectId | string
-  type: string
+  type: 'in' | 'out'
   userId: string
   code: string
   description: string
@@ -18,7 +18,7 @@ const accountSchema = new mongoose.Schema({
   code: { type: String, default: null },
   description: { type: String, default: null },
   category: { type: String, default: null },
-  value: { type: Number, default: null },
+  value: { type: Number, default: 0 },
   status: { type: String, default: 'pending' },
   date: { type: Date || String, default: Date.now },
 })

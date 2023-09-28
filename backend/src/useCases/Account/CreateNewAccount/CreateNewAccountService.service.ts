@@ -27,6 +27,7 @@ export class CreateNewAccountService {
     value,
     userId,
   }: IRequest): Promise<Account> {
+    if (!userId) throw new AppError('_id do usuário não foi enviado')
     if (!type) throw new AppError('Nenhum tipo foi informado')
     if (!description) throw new AppError('Nenhuma descrição foi informada')
 
