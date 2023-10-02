@@ -1,25 +1,27 @@
 import { MockAccountsRepository } from './../../../repositories/Accounts/MockAccountsRepository'
-import { CreateNewAccountService } from '../CreateNewAccount/CreateNewAccountService.service'
 import { Types } from 'mongoose'
-import { UpdateAccountService } from './UpdateAccountService.service'
+import { UpdateStatusAccountService } from './UpdateStatusAccountService.service'
+import { CreateNewAccountService } from '../CreateNewAccount/CreateNewAccountService.service'
 import { AppError } from '../../../errors/AppError'
 
 let mockAccountsRepository: MockAccountsRepository
 
+let updateStatusAccountService: UpdateStatusAccountService
 let createNewAccountService: CreateNewAccountService
-let updateAccountService: UpdateAccountService
 
-describe('Update account infos', () => {
+describe('Update status account', () => {
   beforeEach(() => {
     mockAccountsRepository = new MockAccountsRepository()
 
+    updateStatusAccountService = new UpdateStatusAccountService(
+      mockAccountsRepository,
+    )
     createNewAccountService = new CreateNewAccountService(
       mockAccountsRepository,
     )
-    updateAccountService = new UpdateAccountService(mockAccountsRepository)
   })
 
-  it('should be able update account infos', async () => {
+  it('should be able update status account', async () => {
     const newAccount = await createNewAccountService.execute({
       type: 'in',
       userId: new Types.ObjectId().toString(),
@@ -28,29 +30,19 @@ describe('Update account infos', () => {
       description: 'Conta de luz',
     })
 
-    const newValues = {
-      category: 'Nova categoria',
-      description: 'Nova descrição',
-      status: 'overdue',
-      type: 'out',
-      value: 1,
-    }
-
-    await updateAccountService.execute({
+    await updateStatusAccountService.execute({
       idAccount: newAccount._id.toString(),
-      ...newValues,
+      status: 'pending',
     })
 
     const updatedAccount = await mockAccountsRepository.findById(
       newAccount._id.toString(),
     )
 
-    Object.keys(newValues).forEach((key) => {
-      expect(updatedAccount[key]).toEqual(newValues[key])
-    })
+    expect(updatedAccount.status).toEqual('pending')
   })
 
-  it('should not be able update account if idAccount no sent', async () => {
+  it('should not be able update status account if idAccount not sent', async () => {
     await expect(async () => {
       await createNewAccountService.execute({
         type: 'in',
@@ -60,24 +52,16 @@ describe('Update account infos', () => {
         description: 'Conta de luz',
       })
 
-      const newValues = {
-        category: 'Nova categoria',
-        description: 'Nova descrição',
-        status: 'overdue',
-        type: 'out',
-        value: 1,
-      }
-
-      await updateAccountService.execute({
+      await updateStatusAccountService.execute({
         idAccount: undefined,
-        ...newValues,
+        status: 'pending',
       })
     }).rejects.toBeInstanceOf(AppError)
   })
 
-  it('should not be able update account if idAccount is from a non-existent account', async () => {
+  it('should not be able update status account if "status" not sent', async () => {
     await expect(async () => {
-      await createNewAccountService.execute({
+      const newAccount = await createNewAccountService.execute({
         type: 'in',
         userId: new Types.ObjectId().toString(),
         category: 'Despesas do estabelecimento',
@@ -85,17 +69,9 @@ describe('Update account infos', () => {
         description: 'Conta de luz',
       })
 
-      const newValues = {
-        category: 'Nova categoria',
-        description: 'Nova descrição',
-        status: 'overdue',
-        type: 'out',
-        value: 1,
-      }
-
-      await updateAccountService.execute({
-        idAccount: new Types.ObjectId().toString(),
-        ...newValues,
+      await updateStatusAccountService.execute({
+        idAccount: newAccount._id.toString(),
+        status: undefined,
       })
     }).rejects.toBeInstanceOf(AppError)
   })

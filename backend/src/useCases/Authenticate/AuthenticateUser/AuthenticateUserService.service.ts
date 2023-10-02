@@ -29,7 +29,11 @@ export class AuthenticateUserService {
   }
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
+    if (!email) throw new AppError('E-mail não enviado')
+    if (!password) throw new AppError('Senha não enviada')
+
     const user = await this.usersRepository.findByEmail(email)
+
     if (!user) {
       throw new AppError('E-mail e/ou senha incorretos')
     }
