@@ -108,7 +108,7 @@ export function Login() {
           }}
         />
         <button disabled={loading} type="submit">
-          {loading ? <Loading /> : 'Entrar'}
+          {loading ? <Loading size={15} /> : 'Entrar'}
         </button>
       </form>
 

@@ -3,11 +3,11 @@
 .filterContainer{
   display: flex;
   gap: 10px;
-  border-radius: 10px;
+  border-radius: 20px;
   
   .input{
     background: $gray-color-600;
-    border-radius: 10px;
+    border-radius: 20px;
   }
 
   button{
@@ -19,7 +19,7 @@
     align-items: center;
     gap: 10px;
 
-    border-radius: 10px;
+    border-radius: 20px;
     border: none;
     padding: 0.7rem 1.1rem;
     

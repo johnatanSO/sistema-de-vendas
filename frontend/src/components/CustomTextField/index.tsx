@@ -7,7 +7,7 @@ import {
 
 export const CustomTextField = styled(TextField)({
   [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
-    borderRadius: '10px',
+    borderRadius: '20px',
     borderColor: '#c4c4cc',
     color: '#c4c4cc',
   },

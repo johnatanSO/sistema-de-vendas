@@ -18,9 +18,7 @@ export const usersService = {
   async getSession(ctx = null) {
     const token = this.getToken(ctx)
 
-    if (token) {
-      return await this.verifyToken(token)
-    }
+    return token
   },
 
   async login({ userData }: LoginParams) {
@@ -42,14 +40,6 @@ export const usersService = {
   getToken(ctx = null) {
     const cookies = nookies.get(ctx)
     return cookies ? cookies[ACCESS_TOKEN_KEY] : null
-  },
-
-  async verifyToken(token: string) {
-    const res = await http.post('/verify_token', {
-      token,
-    })
-
-    return res.data.hasSession
   },
 
   async saveUser(responseUser: any) {

@@ -131,7 +131,7 @@ export function CreateAccount() {
           placeholder="Digite uma senha"
         />
         <button disabled={loading} type="submit">
-          {loading ? <Loading /> : 'Cadastrar'}
+          {loading ? <Loading size={15} /> : 'Cadastrar'}
         </button>
       </form>
       <Link href="/login" className={style.loginAccountLink}>

@@ -10,8 +10,8 @@
 
   box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.42);
   background: $gray-color-400;
-  border-radius: 15px;
-  padding: 30px;
+  border-radius: 20px;
+  padding: 2rem;
   animation: appear 0.2s;
 
   h2 {
@@ -30,19 +30,19 @@
       background: $gray-color-600;
       color: $gray-color-200;
 
-      border-radius: 8px;
+      border-radius: 20px;
     }
 
     button {
       font-size: 0.875rem;
       font-weight: 500;
 
-      background-color: $primary-color;
+      background: $primary-color;
       color: white;
 
       border: none;
-      border-radius: 8px;
-      padding: 1.2rem 0px;
+      border-radius: 20px;
+      padding: 1.4rem 0px;
       margin-top: 5px;
       line-height: 1;
 

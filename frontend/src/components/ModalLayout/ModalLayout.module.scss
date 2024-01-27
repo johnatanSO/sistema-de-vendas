@@ -9,7 +9,7 @@
     background: $gray-color-400;
     box-shadow: 1px 7px 10px rgb(0 0 0 / 1);
 
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 20px;
 
     max-width: 80%;
@@ -39,7 +39,7 @@
 
     .mainContent {
       background: $gray-color-500;
-      border-radius: 10px;
+      border-radius: 20px;
       padding: 15px;
     }
 
@@ -47,7 +47,7 @@
       button {
         width: 100%;
         text-align: center;
-        border-radius: 8px;
+        border-radius: 20px;
         padding: 0.9rem;
         font-weight: 500;
         font-size: 0.8rem;

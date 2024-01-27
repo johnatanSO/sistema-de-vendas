@@ -31,7 +31,7 @@
     max-width: 270px;
 
     padding: 10px 15px;
-    border-radius: 10px;
+    border-radius: 20px;
     color: $white-color;
 
     header {
@@ -72,7 +72,7 @@
     min-height: 650px;
     height: 100%;
 
-    border-radius: 10px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -112,7 +112,7 @@
         gap: 20px;
 
         padding: 10px 15px;
-        border-radius: 10px;
+        border-radius: 20px;
         color: $white-color;
 
         header {
@@ -148,7 +148,7 @@
 
       flex: 1;
 
-      border-radius: 10px;
+      border-radius: 20px;
       overflow: hidden;
 
       header {
