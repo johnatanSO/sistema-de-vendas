@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { AlertContextComponent } from '../src/contexts/alertContext'
 import { useState } from 'react'
+import { MenuMobile } from '../src/layout/MenuMobile'
 
 config.autoAddCss = false
 
@@ -26,6 +27,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <title>{title || 'Sistema de vendas'}</title>
           <link rel="shortcut icon" href="./favicon.ico" />
         </Head>
+
         {restrictLayout && <Sidebar />}
 
         <main
@@ -36,6 +38,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           )}
           <Component setTitle={setTitle} {...pageProps} />
         </main>
+
+        {restrictLayout && <MenuMobile />}
       </AlertContextComponent>
     </div>
   )

@@ -113,6 +113,7 @@ export function ModalCreateNewAccount({
       title="Cadastro de conta"
       submitButtonText="Cadastrar"
       loading={loadingCreateNewAccount}
+      customStyle={{ width: '500px' }}
     >
       <div className={style.fieldsContainer}>
         <CustomTextField

@@ -21,7 +21,7 @@
       gap: 12px;
     }
 
-    .headerProductsList{
+    .headerProductsList {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -31,12 +31,12 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      
+
       li {
         list-style-type: none;
         background: $gray-color-400;
         border: 1px solid $gray-color-300;
-        box-shadow: 1px 3px 5px rgb(0 0 0 / 0.4);
+        box-shadow: 1px 3px 4px rgba(0 0 0 / 0.35);
 
         border-radius: 20px;
         padding: 0.9rem 1.2rem;
@@ -45,24 +45,25 @@
         align-items: center;
         gap: 20px;
 
-        span{
+        span {
           margin-right: auto;
         }
 
-        .inputProduct{
+        .inputProduct {
           background: $gray-color-500;
           width: 120px;
+          border-radius: 20px;
         }
 
-        .removeProductIcon{
+        .removeProductIcon {
           height: 1.2rem;
 
           color: $red-color-500;
 
-          transition: filter .2s;
+          transition: filter 0.2s;
           cursor: pointer;
 
-          &:hover{
+          &:hover {
             filter: brightness(0.8);
           }
         }
@@ -74,6 +75,7 @@
 .input {
   width: 190px;
   background: $gray-color-600;
+  border-radius: 20px;
 }
 
 @media (max-width: 840px) {

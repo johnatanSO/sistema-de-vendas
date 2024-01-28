@@ -4,12 +4,13 @@ import { ModalCreateNewAccount } from './ModalCreateNewAccount'
 import { TableComponent } from '../../../src/components/TableComponent'
 import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
-import { EmptyItems } from '../../../src/components/EmptyItems'
 import { useRouter } from 'next/router'
 import { FilterByAccountType } from '../../components/FilterByAccountType'
 import { AlertContext } from '../../../src/contexts/alertContext'
 import { accountsService } from '../../services/accountsService'
-import { Loading } from '../../components/Loading'
+import style from './Accounts.module.scss'
+import { ListMobile } from '../../components/ListMobile'
+import { useFieldsMobile } from './hooks/useFieldsMobile'
 
 export interface Account {
   _id: string
@@ -93,6 +94,8 @@ export function Accounts() {
     handleDeleteAccount,
   })
 
+  const fieldsMobile = useFieldsMobile()
+
   return (
     <>
       <HeaderPage
@@ -103,21 +106,25 @@ export function Accounts() {
         InputFilter={<FilterByAccountType />}
       />
 
-      {accounts?.length === 0 && loadingAccounts && (
-        <Loading size={30} color="#ff6600" />
-      )}
-
-      {accounts?.length > 0 && (
+      <div className={style.viewDesktop}>
         <TableComponent
           loading={loadingAccounts}
           columns={columns}
           rows={accounts}
+          emptyText="Nenhuma conta encontrada"
+          heightSkeleton={40}
         />
-      )}
+      </div>
 
-      {accounts?.length === 0 && !loadingAccounts && (
-        <EmptyItems text="Nenhuma conta foi encontrada" />
-      )}
+      <div className={style.viewMobile}>
+        <ListMobile
+          loading={loadingAccounts}
+          items={accounts}
+          emptyText="Nenhuma conta encontrada"
+          collapseItems={columns}
+          itemFields={fieldsMobile}
+        />
+      </div>
 
       {formModalOpened && (
         <ModalCreateNewAccount

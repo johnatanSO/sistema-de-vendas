@@ -12,107 +12,28 @@
   justify-content: space-between;
   align-items: center;
 
-  .userButton {
-    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
-    cursor: pointer;
-    position: relative;
-    z-index: 2;
-
-    &:hover {
-      .userIcon,
-      .notification {
-        filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.7)) brightness(0.7);
-      }
-    }
-
-    .userIcon {
-      width: 1.3rem;
-      height: 1.3rem;
-      transition:
-        filter 0.2s,
-        color 0.2s;
-    }
-
-    .notification {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-
-      background: red;
-
-      line-height: 2;
-      border-radius: 50%;
-      width: 10px;
-      height: 10px;
-
-      font-size: 8px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      transition: filter 0.2s;
-    }
-
-    .userInfoContainer {
-      display: flex;
-      flex-direction: column;
-
-      position: absolute;
-      top: -46%;
-      transform: translateX(27%);
-
-      background: $gray-color-300;
-      box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.6);
-
-      padding: 15px;
-      border-radius: 20px;
-      cursor: auto;
-
-      animation: fadeIn 0.2s;
-
-      .icon {
-        height: 1rem;
-        width: 1rem;
-      }
-
-      span {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      &::before {
-        content: "";
-        background: $gray-color-300;
-
-        width: 20px;
-        height: 20px;
-        transform: rotate(45deg);
-
-        position: absolute;
-        top: 18%;
-        left: -4%;
-      }
-    }
-  }
-
   .menuList {
     display: flex;
     flex-direction: column;
+    margin-bottom: auto;
+    margin-top: auto;
 
-    width: 100% !important;
+    width: 100%;
     gap: 30px;
 
     li {
       list-style-type: none;
+
+      color: $gray-color-200;
 
       transition:
         filter 0.2s,
         color 0.2s;
       filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.3));
       cursor: pointer;
+
       width: 100%;
+
       display: flex;
       align-items: center;
       justify-content: center;
@@ -125,6 +46,7 @@
       &:not(.activeMenu):hover {
         filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.7)) brightness(0.7);
       }
+
       &.activeMenu {
         color: $primary-color;
       }
@@ -152,5 +74,11 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@media (max-width: 880px) {
+  .sidebarContainer {
+    display: none;
   }
 }

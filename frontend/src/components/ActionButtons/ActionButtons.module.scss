@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: 20px;
-  
+
   button {
     border: none;
     background: transparent;
@@ -14,21 +14,20 @@
     align-items: center;
     justify-content: center;
 
-    transition: filter .2s;
+    transition: filter 0.2s;
     cursor: pointer;
 
-    &:not(:disabled):hover{
-      filter: brightness(.8);
+    &:not(:disabled):hover {
+      filter: brightness(0.8);
     }
 
-    &:disabled{
+    &:disabled {
       opacity: 0.4;
       cursor: not-allowed;
     }
 
     .icon {
       height: 20px;
-      filter: drop-shadow(1px 2px 3px rgb(0 0 0 / 0.6));
     }
   }
 }

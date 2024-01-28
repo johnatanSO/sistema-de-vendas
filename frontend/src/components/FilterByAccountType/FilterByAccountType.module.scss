@@ -1,13 +1,21 @@
-@import '../../../styles/colors.scss';
+@import "../../../styles/colors.scss";
 
-.filterContainer{
+.filterContainer {
   display: flex;
   gap: 10px;
   border-radius: 20px;
-  
-  .input{
+
+  .input {
     background: $gray-color-600;
     border-radius: 20px;
     width: 222px;
+  }
+}
+
+@media (max-width: 1089px) {
+  .filterContainer {
+    .input {
+      width: 100%;
+    }
   }
 }

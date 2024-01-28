@@ -1,0 +1,14 @@
+@import "../../../styles/colors.scss";
+
+.viewMobile {
+  display: none;
+}
+
+@media (max-width: 815px) {
+  .viewMobile {
+    display: flex;
+  }
+  .viewDesktop {
+    display: none;
+  }
+}

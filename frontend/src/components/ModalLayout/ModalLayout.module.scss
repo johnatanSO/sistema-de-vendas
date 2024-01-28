@@ -10,9 +10,11 @@
     box-shadow: 1px 7px 10px rgb(0 0 0 / 1);
 
     border-radius: 20px;
-    padding: 20px;
+    padding: 2rem;
 
-    max-width: 80%;
+    max-height: 90%;
+    
+    max-width: 90%;
 
     display: flex;
     flex-direction: column;
@@ -25,7 +27,7 @@
       gap: 30px;
 
       .closeButton {
-        height: 1.3rem;
+        height: 1.8rem;
         color: $red-color-500;
 
         cursor: pointer;
@@ -40,7 +42,7 @@
     .mainContent {
       background: $gray-color-500;
       border-radius: 20px;
-      padding: 15px;
+      padding: 2rem;
     }
 
     .footer {
@@ -48,12 +50,12 @@
         width: 100%;
         text-align: center;
         border-radius: 20px;
-        padding: 0.9rem;
+        padding: 1rem;
         font-weight: 500;
         font-size: 0.8rem;
 
         border: none;
-        box-shadow: 1px 3px 5px rgb(0 0 0 / 0.5);
+        box-shadow: 1px 2px 4px rgb(0 0 0 / 0.4);
         background: $primary-color;
         color: $white-color;
 
@@ -67,6 +69,18 @@
           cursor: not-allowed;
           opacity: 0.4;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .overlay {
+    .container {
+      padding: 2rem;
+      .mainContent {
+        padding: 0rem;
+        background: transparent;
       }
     }
   }

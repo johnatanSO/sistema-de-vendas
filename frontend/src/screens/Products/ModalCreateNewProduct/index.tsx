@@ -44,6 +44,9 @@ export function ModalCreateNewProduct({
 
   function onCreateNewProduct(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    setLoadingCreateNewProduct(true)
+
     if (!newProductData?.name) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
@@ -86,6 +89,9 @@ export function ModalCreateNewProduct({
 
   function onEditProduct(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    setLoadingCreateNewProduct(true)
+
     if (!newProductData?.name) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,

@@ -1,6 +1,19 @@
 @import "../../../styles/colors.scss";
 
+.viewMobile {
+  display: none;
+}
+
 .canceledText {
-  color: $red-color-500;
+  color: $red-color-500 !important;
   text-decoration: line-through;
+}
+
+@media (max-width: 884px) {
+  .viewMobile {
+    display: flex;
+  }
+  .viewDesktop {
+    display: none;
+  }
 }

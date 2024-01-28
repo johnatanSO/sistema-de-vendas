@@ -37,7 +37,7 @@ export function FilterByName() {
         }}
       />
       <button type="submit">
-        <FontAwesomeIcon icon={faSearch} style={{ height: '1rem' }} />
+        <FontAwesomeIcon icon={faSearch} className={style.icon} />
         Filtrar
       </button>
     </form>

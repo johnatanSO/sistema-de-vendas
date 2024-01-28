@@ -1,0 +1,53 @@
+@import "../../../styles/colors.scss";
+
+.footerMenu {
+  background: $gray-color-400;
+  color: $gray-color-200;
+  box-shadow: 0px -3px 3px rgba(0 0 0 / 0.2);
+
+  width: 100vw;
+  padding: 1rem;
+
+  display: none;
+
+  nav {
+    width: 100%;
+
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+
+      li {
+        list-style-type: none;
+        line-height: 0;
+
+        transition:
+          filter 0.2s,
+          color 0.2s;
+
+        cursor: pointer;
+
+        .icon {
+          height: 1.4rem;
+          
+        }
+
+        &:not(.activeMenu):hover {
+          filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.7)) brightness(0.7);
+        }
+
+        &.activeMenu {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 880px) {
+  .footerMenu {
+    display: flex;
+  }
+}

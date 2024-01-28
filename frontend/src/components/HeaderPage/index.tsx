@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 import style from './HeaderPage.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 interface HeaderPageProps {
   buttonText: string
@@ -14,13 +16,11 @@ export function HeaderPage({
 }: HeaderPageProps) {
   return (
     <header className={style.headerContainer}>
-      <div style={{ marginRight: 'auto' }}>{InputFilter && InputFilter}</div>
+      <div className={style.filters}>{InputFilter && InputFilter}</div>
       <div className={style.buttonsContainer}>
         <button className={style.createNewButton} onClick={onClickFunction}>
+          <FontAwesomeIcon className={style.icon} icon={faPlus} />
           {buttonText || 'Cadastrar'}
-        </button>
-        <button disabled className={style.filtersButton}>
-          Filtros
         </button>
       </div>
     </header>

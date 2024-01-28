@@ -36,3 +36,16 @@
     filter: brightness(0.8);
   }
 }
+
+.viewMobile {
+  display: none;
+}
+
+@media (max-width: 1089px) {
+  .viewMobile {
+    display: flex;
+  }
+  .viewDesktop {
+    display: none;
+  }
+}

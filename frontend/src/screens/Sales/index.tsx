@@ -8,8 +8,9 @@ import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { FilterDate } from '../../../src/components/FilterDate'
 import { AlertContext } from '../../../src/contexts/alertContext'
-import { EmptyItems } from '../../../src/components/EmptyItems'
-import { Loading } from '../../components/Loading'
+import style from './Sales.module.scss'
+import { ListMobile } from '../../components/ListMobile'
+import { useFieldsMobile } from './hooks/useFieldsMobile'
 
 export interface Sale {
   _id: string
@@ -93,6 +94,8 @@ export function Sales() {
     handleCancelSale,
   })
 
+  const fieldsMobile = useFieldsMobile()
+
   return (
     <>
       <HeaderPage
@@ -103,17 +106,24 @@ export function Sales() {
         InputFilter={<FilterDate />}
       />
 
-      {sales?.length === 0 && loadingSales && (
-        <Loading size={30} color="#ff6600" />
-      )}
+      <div className={style.viewDesktop}>
+        <TableComponent
+          emptyText="Nenhuma venda encontrada"
+          loading={loadingSales}
+          columns={columns}
+          rows={sales}
+        />
+      </div>
 
-      {sales?.length > 0 && (
-        <TableComponent loading={loadingSales} columns={columns} rows={sales} />
-      )}
-
-      {sales?.length === 0 && !loadingSales && (
-        <EmptyItems text="Nenhuma venda foi encontrada" />
-      )}
+      <div className={style.viewMobile}>
+        <ListMobile
+          emptyText="Nenhuma venda encontrada"
+          loading={loadingSales}
+          collapseItems={columns}
+          itemFields={fieldsMobile}
+          items={sales}
+        />
+      </div>
 
       {formModalOpened && (
         <ModalCreateNewSale

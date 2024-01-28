@@ -63,6 +63,17 @@ export function useColumns({
       },
     },
     {
+      headerName: 'Forma de pagamento',
+      field: 'paymentType',
+      valueFormatter: (params: CellFunctionParams) =>
+        format.formatarFormaDePagamento(params.value),
+      cellClass: (params) => {
+        if (params?.data?.status === 'canceled') {
+          return style.canceledText
+        }
+      },
+    },
+    {
       headerName: 'Valor total',
       field: 'totalValue',
       valueFormatter: (params: CellFunctionParams) =>

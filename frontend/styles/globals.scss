@@ -73,3 +73,10 @@ a {
   color: $gray-color-100;
   text-decoration: underline;
 }
+
+
+@media (max-width: 880px)  {
+  .wrapper {
+    flex-direction: column;
+  }
+}

@@ -1,5 +1,4 @@
 import http from '../api/http'
-import { Account } from '../screens/Accounts'
 import { NewAccountData } from '../screens/Accounts/ModalCreateNewAccount'
 import { usersService } from './usersService'
 
@@ -12,7 +11,12 @@ interface CreateParams {
 }
 
 interface UpdateParams {
-  accountData: Account
+  accountData: {
+    description: string
+    type: string
+    category: string
+    value: string
+  }
 }
 
 interface UpdateStatusParams {

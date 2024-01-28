@@ -5,11 +5,12 @@ import { ModalCreateNewProduct } from './ModalCreateNewProduct'
 import { TableComponent } from '../../../src/components/TableComponent'
 import { Column } from '../../../src/models/columns'
 import { useColumns } from './hooks/useColumns'
-import { EmptyItems } from '../../../src/components/EmptyItems'
 import { useRouter } from 'next/router'
 import { FilterByName } from '../../../src/components/FilterByName'
 import { AlertContext } from '../../../src/contexts/alertContext'
-import { Loading } from '../../components/Loading'
+import style from './Products.module.scss'
+import { ListMobile } from '../../components/ListMobile'
+import { useFieldsMobile } from './hooks/useFieldsMobile'
 
 export interface Product {
   _id: string
@@ -92,6 +93,8 @@ export function Products() {
     handleDeleteProduct,
   })
 
+  const fieldsMobile = useFieldsMobile()
+
   return (
     <>
       <HeaderPage
@@ -102,21 +105,24 @@ export function Products() {
         InputFilter={<FilterByName />}
       />
 
-      {products?.length === 0 && loadingProducts && (
-        <Loading size={30} color="#ff6600" />
-      )}
-
-      {products?.length > 0 && (
+      <div className={style.viewDesktop}>
         <TableComponent
           loading={loadingProducts}
           columns={columns}
           rows={products}
+          emptyText="Nenhum produto cadastrado"
         />
-      )}
+      </div>
 
-      {products?.length === 0 && !loadingProducts && (
-        <EmptyItems text="Nenhum produto foi encontrado" />
-      )}
+      <div className={style.viewMobile}>
+        <ListMobile
+          collapseItems={columns}
+          itemFields={fieldsMobile}
+          items={products}
+          loading={loadingProducts}
+          emptyText="Nenhum produto cadastrado"
+        />
+      </div>
 
       {formModalOpened && (
         <ModalCreateNewProduct
