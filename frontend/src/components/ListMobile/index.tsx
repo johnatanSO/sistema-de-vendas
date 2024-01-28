@@ -147,8 +147,7 @@ export function ListMobile({
         <EmptyItems text={emptyText || 'Nenhum item encontrado'} />
       )}
 
-      {(!items || items.length === 0) &&
-        loading &&
+      {loading &&
         [1, 2, 3, 4, 5].map((item) => {
           return (
             <div key={item} className={style.groupItem}>
@@ -157,13 +156,17 @@ export function ListMobile({
                   variant="text"
                   height={18}
                   width={50}
-                  sx={{ fontSize: '1rem', marginRight: 'auto' }}
+                  sx={{
+                    fontSize: '1rem',
+                    marginRight: 'auto',
+                    borderRadius: 15,
+                  }}
                 />
                 <Skeleton
                   variant="text"
                   height={18}
                   width={150}
-                  sx={{ fontSize: '1rem' }}
+                  sx={{ fontSize: '1rem', borderRadius: 15 }}
                 />
               </ListItemButton>
             </div>

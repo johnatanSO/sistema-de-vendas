@@ -84,7 +84,7 @@ export function TableComponent({
                       <Skeleton
                         variant="rounded"
                         height={heightSkeleton}
-                        sx={{ fontSize: '1rem', borderRadius: 10 }}
+                        sx={{ fontSize: '1rem', borderRadius: 15 }}
                       />
                     </td>
                   )
