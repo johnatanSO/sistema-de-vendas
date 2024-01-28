@@ -1,11 +1,11 @@
 import { Column, CellFunctionParams } from '../../../../src/models/columns'
 import { format } from '../../../../src/utils/format'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { ActionButtons } from '../../../../src/components/ActionButtons'
+import style from '../Accounts.module.scss'
 import { Account } from '..'
 import dayjs from 'dayjs'
-import style from '../Accounts.module.scss'
 import { ChangeStatusAccount } from '../ChangeStatusAccount'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleEditAccount: (account: Account) => void
@@ -21,12 +21,13 @@ export function useColumns({
       icon: faPen,
       title: 'Editar',
       color: '#31a2ff',
+      className: style.editButton,
       onClickFunction: handleEditAccount,
     },
     {
       icon: faTrash,
       title: 'Excluir',
-      color: '#ed4252',
+      className: style.deleteButton,
       onClickFunction: handleDeleteAccount,
     },
   ]
@@ -76,8 +77,27 @@ export function useColumns({
     {
       headerName: '',
       field: 'acoes',
+      type: 'actions',
       cellRenderer: (params: CellFunctionParams) => {
-        return <ActionButtons actions={actions} params={params} />
+        return (
+          <div className={style.actionsContainer}>
+            {actions.map((action) => {
+              return (
+                <button
+                  className={action.className}
+                  key={action.title}
+                  type="button"
+                  disabled={params?.data?.status === 'canceled'}
+                  onClick={() => {
+                    action?.onClickFunction?.(params.data)
+                  }}
+                >
+                  <FontAwesomeIcon className={style.icon} icon={action.icon} />
+                </button>
+              )
+            })}
+          </div>
+        )
       },
     },
   ]

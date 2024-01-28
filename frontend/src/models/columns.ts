@@ -6,6 +6,7 @@ export interface CellFunctionParams {
 }
 
 export interface Column {
+  type?: string
   headerName: string
   field: string
   valueFormatter?: (params: CellFunctionParams) => any

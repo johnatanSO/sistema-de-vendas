@@ -17,6 +17,7 @@
   gap: 25px;
 
   background: $gray-color-400;
+  box-shadow: 1px 4px 10px rgba(0 0 0 / 0.4);
 }
 
 .title {
@@ -43,14 +44,14 @@
     font-weight: 500;
     font-size: 0.8rem;
     border: none;
-    
+
     color: $white-color;
     box-shadow: 1px 2px 5px rgb(0 0 0 / 0.4);
 
-    transition: filter .2s;
+    transition: filter 0.2s;
     cursor: pointer;
 
-    &:hover{
+    &:hover {
       filter: brightness(0.8);
     }
   }

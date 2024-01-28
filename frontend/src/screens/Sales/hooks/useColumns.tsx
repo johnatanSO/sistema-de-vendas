@@ -2,9 +2,9 @@ import dayjs from 'dayjs'
 import { Column, CellFunctionParams } from '../../../../src/models/columns'
 import { format } from '../../../../src/utils/format'
 import { faBan, faPen } from '@fortawesome/free-solid-svg-icons'
-import { ActionButtons } from '../../../../src/components/ActionButtons'
 import { Sale } from '..'
 import style from '../Sales.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleCancelSale: (sale: Sale) => void
@@ -19,14 +19,14 @@ export function useColumns({
     {
       icon: faPen,
       title: 'Editar venda',
-      color: '#31a2ff',
       onClickFunction: handleEditSale,
+      className: style.editButton,
     },
     {
       icon: faBan,
       title: 'Caneclar venda',
-      color: '#ed4252',
       onClickFunction: handleCancelSale,
+      className: style.cancelButton,
     },
   ]
 
@@ -87,8 +87,27 @@ export function useColumns({
     {
       headerName: '',
       field: 'acoes',
+      type: 'actions',
       cellRenderer: (params: CellFunctionParams) => {
-        return <ActionButtons actions={actions} params={params} />
+        return (
+          <div className={style.actionsContainer}>
+            {actions.map((action) => {
+              return (
+                <button
+                  className={action.className}
+                  key={action.title}
+                  type="button"
+                  disabled={params?.data?.status === 'canceled'}
+                  onClick={() => {
+                    action?.onClickFunction?.(params.data)
+                  }}
+                >
+                  <FontAwesomeIcon className={style.icon} icon={action.icon} />
+                </button>
+              )
+            })}
+          </div>
+        )
       },
     },
   ]

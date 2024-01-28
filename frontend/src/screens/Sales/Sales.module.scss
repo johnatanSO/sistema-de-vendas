@@ -1,5 +1,46 @@
 @import "../../../styles/colors.scss";
 
+.actionsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+
+  button {
+    border: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    line-height: 0;
+
+    transition: filter 0.2s;
+    cursor: pointer;
+
+    &:not(:disabled):hover {
+      filter: brightness(0.8);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .icon {
+      height: 20px;
+    }
+
+    &.cancelButton {
+      color: $red-color-500;
+    }
+    &.editButton {
+      color: $blue-color-500;
+    }
+  }
+}
+
 .viewMobile {
   display: none;
 }
@@ -15,5 +56,32 @@
   }
   .viewDesktop {
     display: none;
+  }
+
+  .actionsContainer {
+    flex-direction: column;
+    width: 100%;
+    margin: 1rem 0;
+
+    button {
+      width: 100%;
+      border-radius: 20px;
+      padding: 0.8rem;
+      
+      &.cancelButton {
+        color: white;
+        background: $red-color-500;
+        &::after {
+          content: "Cancelar";
+        }
+      }
+      &.editButton {
+        color: white;
+        background: $blue-color-500;
+        &::after {
+          content: "Editar";
+        }
+      }
+    }
   }
 }

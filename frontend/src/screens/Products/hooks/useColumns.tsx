@@ -1,8 +1,9 @@
 import { Column, CellFunctionParams } from '../../../../src/models/columns'
 import { format } from '../../../../src/utils/format'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { ActionButtons } from '../../../../src/components/ActionButtons'
+import style from '../Products.module.scss'
 import { Product } from '..'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleEditProduct: (product: Product) => void
@@ -17,14 +18,14 @@ export function useColumns({
     {
       icon: faPen,
       title: 'Editar',
-      color: '#31a2ff',
       onClickFunction: handleEditProduct,
+      className: style.editButton,
     },
     {
       icon: faTrash,
       title: 'Excluir',
-      color: '#ed4252',
       onClickFunction: handleDeleteProduct,
+      className: style.deleteButton,
     },
   ]
 
@@ -53,8 +54,27 @@ export function useColumns({
     {
       headerName: '',
       field: 'acoes',
+      type: 'actions',
       cellRenderer: (params: CellFunctionParams) => {
-        return <ActionButtons actions={actions} params={params} />
+        return (
+          <div className={style.actionsContainer}>
+            {actions.map((action) => {
+              return (
+                <button
+                  key={action.title}
+                  type="button"
+                  className={action.className}
+                  disabled={params?.data?.status === 'canceled'}
+                  onClick={() => {
+                    action?.onClickFunction?.(params.data)
+                  }}
+                >
+                  <FontAwesomeIcon className={style.icon} icon={action.icon} />
+                </button>
+              )
+            })}
+          </div>
+        )
       },
     },
   ]
