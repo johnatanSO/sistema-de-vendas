@@ -2,18 +2,18 @@ import { Column, CellFunctionParams } from '../../../models/columns'
 import { format } from '../../../utils/format'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import style from '../Clients.module.scss'
-import { Account } from '..'
+import { Client } from '..'
 import dayjs from 'dayjs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
-  handleEditAccount: (account: Account) => void
-  handleDeleteAccount: (account: Account) => void
+  handleEditClient: (client: Client) => void
+  handleDeleteClient: (client: Client) => void
 }
 
 export function useColumns({
-  handleEditAccount,
-  handleDeleteAccount,
+  handleEditClient,
+  handleDeleteClient,
 }: UseColumnsParams): Column[] {
   const actions = [
     {
@@ -21,13 +21,13 @@ export function useColumns({
       title: 'Editar',
       color: '#31a2ff',
       className: style.editButton,
-      onClickFunction: handleEditAccount,
+      onClickFunction: handleEditClient,
     },
     {
       icon: faTrash,
       title: 'Excluir',
       className: style.deleteButton,
-      onClickFunction: handleDeleteAccount,
+      onClickFunction: handleDeleteClient,
     },
   ]
 

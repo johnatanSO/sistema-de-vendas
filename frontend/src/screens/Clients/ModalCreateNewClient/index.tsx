@@ -2,21 +2,19 @@ import { ModalLayout } from '../../../components/ModalLayout'
 import { FormEvent, useState, useContext } from 'react'
 import style from './ModalCreateNewClient.module.scss'
 import { CustomTextField } from '../../../components/CustomTextField'
-import { accountsService } from '../../../services/accountsService'
 import { AlertContext } from '../../../contexts/alertContext'
 import { useRouter } from 'next/router'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
+import { clientsService } from '../../../services/clientsService'
 
-export interface NewAccountData {
-  description: string
-  type: string
-  category: string
-  value: string
+export interface NewClientData {
+  name: string
+  cpf: string
+  phone: string
+  email: string
 }
 
 interface Props {
-  accountDataToEdit: NewAccountData
+  clientDataToEdit: NewClientData
   open: boolean
   handleClose: () => void
 }
@@ -24,37 +22,37 @@ interface Props {
 export function ModalCreateNewClient({
   open,
   handleClose,
-  accountDataToEdit,
+  clientDataToEdit,
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-  const defaultNewAccountValues = {
-    description: '',
-    type: 'in',
-    category: '',
-    value: '0',
+  const defaultNewClientValues = {
+    name: '',
+    cpf: '',
+    phone: '',
+    email: '',
   }
-  const [newAccountData, setNewAccountData] = useState<NewAccountData>(
-    accountDataToEdit || defaultNewAccountValues,
+  const [newClientData, setNewClientData] = useState<NewClientData>(
+    clientDataToEdit || defaultNewClientValues,
   )
-  const [loadingCreateNewAccount, setLoadingCreateNewAccount] =
+  const [loadingCreateNewClient, setLoadingCreateNewClient] =
     useState<boolean>(false)
   const router = useRouter()
-  function onCreateNewAccount(event: FormEvent<HTMLFormElement>) {
+  function onCreateNewClient(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    accountsService
-      .create({ newAccountData })
+    clientsService
+      .create({ ...newClientData })
       .then(() => {
         router.push({
           pathname: router.route,
           query: router.query,
         })
-        setNewAccountData(defaultNewAccountValues)
+        setNewClientData(defaultNewClientValues)
         handleClose()
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
           type: 'success',
-          text: 'Conta cadastrada com sucesso',
+          text: 'Cliente cadastrado com sucesso',
         })
       })
       .catch((err) => {
@@ -63,31 +61,31 @@ export function ModalCreateNewClient({
           open: true,
           type: 'error',
           text:
-            'Erro ao tentar cadastrar conta ' +
+            'Erro ao tentar cadastrar cliente ' +
             `(${err.response.data.message})`,
         })
       })
       .finally(() => {
-        setLoadingCreateNewAccount(false)
+        setLoadingCreateNewClient(false)
       })
   }
 
-  function onEditAccount(event: FormEvent<HTMLFormElement>) {
+  function onEditClient(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    accountsService
-      .update({ accountData: newAccountData })
+    clientsService
+      .update({ clientData: newClientData })
       .then(() => {
         router.push({
           pathname: router.route,
           query: router.query,
         })
-        setNewAccountData(defaultNewAccountValues)
+        setNewClientData(defaultNewClientValues)
         handleClose()
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
           type: 'success',
-          text: 'Dados da conta atualizados com sucesso',
+          text: 'Dados do cliente atualizados com sucesso',
         })
       })
       .catch((err) => {
@@ -96,12 +94,12 @@ export function ModalCreateNewClient({
           open: true,
           type: 'error',
           text:
-            'Erro ao tentar atualizar dados da conta ' +
+            'Erro ao tentar atualizar dados do cliente ' +
             `(${err.response.data.message})`,
         })
       })
       .finally(() => {
-        setLoadingCreateNewAccount(false)
+        setLoadingCreateNewClient(false)
       })
   }
 
@@ -109,81 +107,50 @@ export function ModalCreateNewClient({
     <ModalLayout
       open={open}
       handleClose={handleClose}
-      onSubmit={accountDataToEdit ? onEditAccount : onCreateNewAccount}
-      title="Cadastro de conta"
+      onSubmit={clientDataToEdit ? onEditClient : onCreateNewClient}
+      title="Cadastro de cliente"
       submitButtonText="Cadastrar"
-      loading={loadingCreateNewAccount}
+      loading={loadingCreateNewClient}
       customStyle={{ width: '500px' }}
     >
       <div className={style.fieldsContainer}>
         <CustomTextField
           size="small"
-          label="Descrição"
+          label="Nome"
           type="text"
-          placeholder="Digite uma descrição para a conta"
-          value={newAccountData?.description}
+          placeholder="Digite o nome do cliente"
+          value={newClientData?.name}
           onChange={(event) => {
-            setNewAccountData({
-              ...newAccountData,
-              description: event.target.value,
+            setNewClientData({
+              ...newClientData,
+              name: event.target.value,
             })
           }}
         />
         <CustomTextField
           size="small"
-          label="Categoria"
+          label="CPF"
           type="text"
-          placeholder="Digite uma categoria para a conta"
-          value={newAccountData?.category}
+          placeholder="Digite o CPF do cliente"
+          value={newClientData?.cpf}
           onChange={(event) => {
-            setNewAccountData({
-              ...newAccountData,
-              category: event.target.value,
+            setNewClientData({
+              ...newClientData,
+              cpf: event.target.value,
             })
           }}
         />
 
-        <div className={style.selectTypeContainer}>
-          <button
-            type="button"
-            style={{ opacity: newAccountData?.type === 'in' ? 1 : 0.5 }}
-            disabled={newAccountData?.type === 'in'}
-            className={`${style.typeButton} ${style.inButton}`}
-            onClick={() => {
-              setNewAccountData({
-                ...newAccountData,
-                type: 'in',
-              })
-            }}
-          >
-            <FontAwesomeIcon className={style.icon} icon={faAngleUp} /> Entrada
-          </button>
-          <button
-            type="button"
-            style={{ opacity: newAccountData?.type === 'out' ? 1 : 0.5 }}
-            disabled={newAccountData?.type === 'out'}
-            className={`${style.typeButton} ${style.outButton}`}
-            onClick={() => {
-              setNewAccountData({
-                ...newAccountData,
-                type: 'out',
-              })
-            }}
-          >
-            <FontAwesomeIcon className={style.icon} icon={faAngleDown} /> Saída
-          </button>
-        </div>
-
         <CustomTextField
           size="small"
-          label="Valor"
-          type="number"
-          placeholder="Digite o valor"
-          value={newAccountData?.value}
+          label="Telefone"
+          type="text"
+          placeholder="Digite o telefone"
+          value={newClientData?.phone}
           onChange={(event) => {
-            setNewAccountData({
-              ...newAccountData,
-              value: event.target.value,
+            setNewClientData({
+              ...newClientData,
+              phone: event.target.value,
             })
           }}
         />

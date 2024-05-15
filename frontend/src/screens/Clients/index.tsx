@@ -6,16 +6,13 @@ import { Column } from '../../models/columns'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../contexts/alertContext'
-import { accountsService } from '../../services/accountsService'
 import style from './Clients.module.scss'
 import { ListMobile } from '../../components/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
+import { clientsService } from '../../services/clientsService'
 
-export interface Account {
+export interface Client {
   _id: string
-  description: string
-  type: 'in' | 'out'
-  value: number
 }
 
 export function Clients() {
@@ -25,46 +22,47 @@ export function Clients() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [accounts, setAccounts] = useState<Account[]>([])
-  const [loadingAccounts, setLoadingAccounts] = useState<boolean>(true)
+  const [clients, setClients] = useState<Client[]>([])
+  const [loadingClients, setLoadingClients] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [accountDataToEdit, setAccountDataToEdit] = useState<any>(undefined)
+  const [clientDataToEdit, setClientDataToEdit] = useState<any>(undefined)
+
   const router = useRouter()
 
-  function getAccounts() {
-    setLoadingAccounts(true)
-    accountsService
-      .getAll({ filters: { ...router.query } })
+  function getClients() {
+    setLoadingClients(true)
+    clientsService
+      .getAll()
       .then((res) => {
-        setAccounts(res.data.items)
+        setClients(res.data.items)
       })
       .catch((err) => {
-        console.log('ERRO AO BUSCAR CONTAS, ', err)
+        console.log('ERRO AO BUSCAR CLIENTES, ', err)
       })
       .finally(() => {
-        setLoadingAccounts(false)
+        setLoadingClients(false)
       })
   }
 
   useEffect(() => {
-    getAccounts()
+    getClients()
   }, [router.query])
 
-  function handleDeleteAccount(account: Account) {
+  function handleDeleteClient(client: Client) {
     setAlertDialogConfirmConfigs({
       ...alertDialogConfirmConfigs,
       open: true,
       title: 'Alerta de confirmação',
-      text: 'Deseja realmente excluir esta conta?',
+      text: 'Deseja realmente excluir este cliente?',
       onClickAgree: () => {
-        accountsService
-          .delete({ idAccount: account?._id })
+        clientsService
+          .delete({ idClient: client?._id })
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
               type: 'success',
-              text: 'Conta excluída com sucesso',
+              text: 'Cliente excluído com sucesso',
             })
             router.push({
               pathname: router.route,
@@ -76,21 +74,21 @@ export function Clients() {
               ...alertNotifyConfigs,
               open: true,
               type: 'error',
-              text: `Erro ao tentar excluir conta (${err.response.data.error})`,
+              text: `Erro ao tentar excluir cliente (${err.response.data.error})`,
             })
           })
       },
     })
   }
 
-  function handleEditAccount(account: Account) {
-    setAccountDataToEdit(account)
+  function handleEditClient(client: Client) {
+    setClientDataToEdit(client)
     setFormModalOpened(true)
   }
 
   const columns: Column[] = useColumns({
-    handleEditAccount,
-    handleDeleteAccount,
+    handleEditClient,
+    handleDeleteClient,
   })
 
   const fieldsMobile = useFieldsMobile()
@@ -107,9 +105,9 @@ export function Clients() {
 
       <div className={style.viewDesktop}>
         <TableComponent
-          loading={loadingAccounts}
+          loading={loadingClients}
           columns={columns}
-          rows={accounts}
+          rows={clients}
           emptyText="Nenhum cliente encontrado"
           heightSkeleton={40}
         />
@@ -117,8 +115,8 @@ export function Clients() {
 
       <div className={style.viewMobile}>
         <ListMobile
-          loading={loadingAccounts}
-          items={accounts}
+          loading={loadingClients}
+          items={clients}
           emptyText="Nenhum cliente encontrado"
           collapseItems={columns}
           itemFields={fieldsMobile}
@@ -127,11 +125,11 @@ export function Clients() {
 
       {formModalOpened && (
         <ModalCreateNewClient
-          accountDataToEdit={accountDataToEdit}
+          clientDataToEdit={clientDataToEdit}
           open={formModalOpened}
           handleClose={() => {
             setFormModalOpened(false)
-            setAccountDataToEdit(undefined)
+            setClientDataToEdit(undefined)
           }}
         />
       )}
