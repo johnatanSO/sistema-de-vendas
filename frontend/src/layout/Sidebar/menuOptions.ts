@@ -38,7 +38,6 @@ export const menuOptions: MenuOption[] = [
     link: '/clientes',
     icon: faClipboardUser,
     name: 'clientes',
-    disabled: true,
   },
   {
     title: 'Contas',

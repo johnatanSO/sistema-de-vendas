@@ -1,0 +1,119 @@
+@import "../../../styles/colors.scss";
+
+.actionsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+
+  button {
+    border: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    line-height: 0;
+
+    transition: filter 0.2s;
+    cursor: pointer;
+
+    &:not(:disabled):hover {
+      filter: brightness(0.8);
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .icon {
+      height: 20px;
+    }
+
+    &.deleteButton {
+      color: $red-color-500;
+    }
+    &.editButton {
+      color: $blue-color-500;
+    }
+  }
+}
+
+.positiveText {
+  color: $green-color-500 !important;
+  font-weight: 600 !important;
+}
+
+.negativeText {
+  color: $red-color-500 !important;
+  font-weight: 600 !important;
+}
+
+.paid {
+  background: $green-color-500;
+}
+
+.overdue {
+  background: $red-color-500;
+}
+
+.pending {
+  background: $blue-color-500;
+}
+
+.pending,
+.overdue,
+.paid {
+  border-radius: 20px;
+  color: white;
+  padding: 0px;
+
+  transition: filter 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(0.8);
+  }
+}
+
+.viewMobile {
+  display: none;
+}
+
+@media (max-width: 1089px) {
+  .viewMobile {
+    display: flex;
+  }
+  .viewDesktop {
+    display: none;
+  }
+
+  .actionsContainer {
+    flex-direction: column;
+    width: 100%;
+    margin: 1rem 0;
+
+    button {
+      width: 100%;
+      border-radius: 20px;
+      padding: 0.8rem;
+
+      &.deleteButton {
+        color: white;
+        background: $red-color-500;
+        &::after {
+          content: "Cancelar";
+        }
+      }
+      &.editButton {
+        color: white;
+        background: $blue-color-500;
+        &::after {
+          content: "Editar";
+        }
+      }
+    }
+  }
+}
