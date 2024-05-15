@@ -23,4 +23,7 @@ export interface ISuppliersRepository {
   }: INewSupplierDTO): Promise<Supplier>
   list({ userId }: IListSuppliersDTO): Promise<Supplier[]>
   getEntries(userId: string): Promise<number>
+  delete(supplieId: string): Promise<void>
+  findByPhone(phone: string): Promise<Supplier>
+  findByCnpj(phone: string): Promise<Supplier>
 }

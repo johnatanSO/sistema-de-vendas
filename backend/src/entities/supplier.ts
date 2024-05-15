@@ -7,7 +7,7 @@ export interface Supplier {
   email: string
   cnpj: string
   phone: string
-  userId: string
+  user: string
 }
 
 const supplierSchema = new mongoose.Schema({
@@ -16,7 +16,7 @@ const supplierSchema = new mongoose.Schema({
   email: { type: String, default: null },
   cnpj: { type: String, default: null },
   phone: { type: String, default: null },
-  userId: { type: String, default: null },
+  user: { type: String, default: null },
 })
 
 export const SupplierModel = mongoose.model<Supplier>(

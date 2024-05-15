@@ -1,3 +1,4 @@
+import { DeleteSupplierService } from './../useCases/Supplier/DeleteSupplier/DeleteSupplieService.service'
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { CreateNewSupplierService } from '../useCases/Supplier/CreateNewSupplier/CreateNewSupplierService.service'
@@ -17,7 +18,7 @@ export class SupplierController {
       userId,
     })
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       item: newSupplier,
       message: 'Fornecedor cadastrado com sucesso',
@@ -33,6 +34,18 @@ export class SupplierController {
       success: true,
       items: suppliers,
       message: 'Busca de fornecedores realizada com sucesso',
+    })
+  }
+
+  async delete(req: Request, res: Response): Promise<Response> {
+    const { supplierId } = req.params
+
+    const deleteSupplierService = container.resolve(DeleteSupplierService)
+    await deleteSupplierService.execute(supplierId)
+
+    return res.status(200).json({
+      success: true,
+      message: 'Fornecedor excluído com sucesso',
     })
   }
 }

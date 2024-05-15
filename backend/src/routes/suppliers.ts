@@ -11,5 +11,6 @@ suppliersRoutes.use(ensureAuthenticated)
 // Routes
 suppliersRoutes.post('/', supplierController.create)
 suppliersRoutes.get('/', supplierController.list)
+suppliersRoutes.delete('/:supplierId', supplierController.delete)
 
 export { suppliersRoutes }
