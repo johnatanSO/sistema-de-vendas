@@ -3,7 +3,7 @@ import mongoose, { Types } from 'mongoose'
 export interface Account {
   _id: Types.ObjectId | string
   type: 'in' | 'out'
-  userId: string
+  user: string
   code: string
   description: string
   category: string
@@ -14,7 +14,7 @@ export interface Account {
 
 const accountSchema = new mongoose.Schema({
   type: { type: String, default: null },
-  userId: { type: String, default: null },
+  user: { type: String, default: null },
   code: { type: String, default: null },
   description: { type: String, default: null },
   category: { type: String, default: null },

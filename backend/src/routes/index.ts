@@ -6,6 +6,7 @@ import { usersRoutes } from './users'
 import { contasRoutes } from './contas'
 import { authenticateRoutes } from './authenticate'
 import { suppliersRoutes } from './suppliers'
+import { clientsRoutes } from './clients'
 
 const routes = Router()
 
@@ -16,4 +17,6 @@ routes.use('/produtos', produtosRoutes)
 routes.use('/users', usersRoutes)
 routes.use('/contas', contasRoutes)
 routes.use('/fornecedores', suppliersRoutes)
+routes.use('/clientes', clientsRoutes)
+
 export { routes }

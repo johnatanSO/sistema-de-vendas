@@ -43,8 +43,8 @@ export class SuppliersRepository implements ISuppliersRepository {
     return suppliersAmount
   }
 
-  async delete(supplieId: string): Promise<void> {
-    await this.model.deleteOne({ _id: supplieId })
+  async delete(supplierId: string): Promise<void> {
+    await this.model.deleteOne({ _id: supplierId })
   }
 
   async findByCnpj(cnpj: string): Promise<Supplier> {

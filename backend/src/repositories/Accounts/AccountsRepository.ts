@@ -20,7 +20,7 @@ export class AccountsRepository implements IAccountsRepository {
     userId,
   }: QueryList): Promise<Account[]> {
     const query = {
-      userId,
+      user: userId,
       ...(accountType ? { type: accountType } : {}),
       ...(startDate && endDate
         ? { date: { $gte: startDate, $lt: endDate } }
@@ -44,7 +44,7 @@ export class AccountsRepository implements IAccountsRepository {
       description,
       category,
       value,
-      userId,
+      user: userId,
     })
 
     await newAccount.save()
@@ -65,6 +65,6 @@ export class AccountsRepository implements IAccountsRepository {
   }
 
   async getEntries(userId: string): Promise<number> {
-    return await this.model.countDocuments({ userId })
+    return await this.model.countDocuments({ user: userId })
   }
 }
