@@ -104,7 +104,7 @@
         color: white;
         background: $red-color-500;
         &::after {
-          content: "Cancelar";
+          content: "Excluir";
         }
       }
       &.editButton {

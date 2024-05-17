@@ -129,6 +129,20 @@ export function ModalCreateNewClient({
         />
         <CustomTextField
           size="small"
+          label="E-mail"
+          type="email"
+          placeholder="Digite o e-mail"
+          value={newClientData?.email}
+          onChange={(event) => {
+            setNewClientData({
+              ...newClientData,
+              email: event.target.value,
+            })
+          }}
+        />
+
+        <CustomTextField
+          size="small"
           label="CPF"
           type="text"
           placeholder="Digite o CPF do cliente"
@@ -144,7 +158,7 @@ export function ModalCreateNewClient({
         <CustomTextField
           size="small"
           label="Telefone"
-          type="text"
+          type="tel"
           placeholder="Digite o telefone"
           value={newClientData?.phone}
           onChange={(event) => {

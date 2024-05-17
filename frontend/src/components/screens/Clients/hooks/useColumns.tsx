@@ -1,9 +1,7 @@
 import { Column, CellFunctionParams } from '../../../../models/columns'
-import { format } from '../../../../utils/format'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import style from '../Clients.module.scss'
 import { Client } from '..'
-import dayjs from 'dayjs'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
@@ -33,45 +31,24 @@ export function useColumns({
 
   return [
     {
-      headerName: 'Tipo',
-      field: 'type',
-      valueFormatter: (params: CellFunctionParams) =>
-        params.value === 'in' ? 'Entrada' : 'Saída' || '--',
-      cellClass: (params) => {
-        if (params?.data?.type === 'in') {
-          return style.positiveText
-        }
-        return style.negativeText
-      },
-    },
-    {
-      headerName: 'Descrição',
-      field: 'description',
+      headerName: 'Nome',
+      field: 'name',
       valueFormatter: (params: CellFunctionParams) => params.value || '--',
     },
     {
-      headerName: 'Categoria',
-      field: 'category',
+      headerName: 'Telefone',
+      field: 'phone',
       valueFormatter: (params: CellFunctionParams) => params.value || '--',
     },
     {
-      headerName: 'Status',
-      field: 'status',
-      cellRenderer: (params: CellFunctionParams) => {
-        return <></>
-      },
+      headerName: 'E-mail',
+      field: 'email',
+      valueFormatter: (params: CellFunctionParams) => params.value || '--',
     },
     {
-      headerName: 'Data',
-      field: 'date',
-      valueFormatter: (params: CellFunctionParams) =>
-        dayjs(params.value).format('DD/MM/YYYY - HH:mm'),
-    },
-    {
-      headerName: 'Valor',
-      field: 'value',
-      valueFormatter: (params: CellFunctionParams) =>
-        format.formatarReal(params.value || 0),
+      headerName: 'CPF',
+      field: 'cpf',
+      valueFormatter: (params: CellFunctionParams) => params.value || '--',
     },
     {
       headerName: '',
@@ -86,7 +63,6 @@ export function useColumns({
                   className={action.className}
                   key={action.title}
                   type="button"
-                  disabled={params?.data?.status === 'canceled'}
                   onClick={() => {
                     action?.onClickFunction?.(params.data)
                   }}

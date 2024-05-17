@@ -18,7 +18,7 @@ export function MenuMobile({
       <button
         onClick={handleOpenMenuOptions}
         className={`${style.menuOptionsButton} ${
-          menuOptionsOpened ?? style.menuOpened
+          menuOptionsOpened && style.menuOpened
         }`}
         type="button"
       >
@@ -28,7 +28,7 @@ export function MenuMobile({
       <UserOptions
         position={{
           horizontal: 'left',
-          vertical: 'top',
+          vertical: 'bottom',
         }}
       />
     </header>

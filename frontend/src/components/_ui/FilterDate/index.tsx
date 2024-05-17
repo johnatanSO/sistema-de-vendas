@@ -46,6 +46,10 @@ export function FilterDate() {
         className={style.input}
         type="date"
         label="Data final"
+        sx={{
+          svg: { color: '#fff' },
+          input: { color: '#fff' },
+        }}
         InputLabelProps={{ shrink: true }}
         value={dayjs(endDate).format('YYYY-MM-DD')}
         onChange={(event) => {

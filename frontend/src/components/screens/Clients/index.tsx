@@ -10,6 +10,7 @@ import style from './Clients.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { clientsService } from '../../../services/clientsService'
+import { FilterByName } from '../../_ui/FilterByName'
 
 export interface Client {
   _id: string
@@ -100,7 +101,7 @@ export function Clients() {
           setFormModalOpened(true)
         }}
         buttonText="Novo cliente"
-        InputFilter={<></>}
+        InputFilter={<FilterByName />}
       />
 
       <div className={style.viewDesktop}>

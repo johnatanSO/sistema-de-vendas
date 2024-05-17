@@ -14,12 +14,14 @@ export interface LoginUserData {
 
 export function Login() {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
+
+  const router = useRouter()
+
   const [loading, setLoading] = useState<boolean>(false)
   const [userData, setUserData] = useState<LoginUserData>({
     email: '',
     password: '',
   })
-  const router = useRouter()
 
   function onLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
