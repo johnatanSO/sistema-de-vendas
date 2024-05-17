@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useState } from 'react'
-import { AlertDialogConfirm } from '../components/AlertDialogConfirm'
-import { AlertNotify } from '../components/AlertNotify'
+import { AlertDialogConfirm } from '../components/_ui/AlertDialogConfirm'
+import { AlertNotify } from '../components/_ui/AlertNotify'
 
 interface AlertContextComponentProps {
   children: ReactNode

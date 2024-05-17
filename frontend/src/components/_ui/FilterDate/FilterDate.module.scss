@@ -1,0 +1,57 @@
+@import "../../../styles/colors.scss";
+
+.inputsContainer {
+  display: flex;
+
+  gap: 0.7rem;
+
+  .input {
+    background: $gray-color-600;
+    border-radius: 20px;
+  }
+
+  .filterButton {
+    border-radius: 20px;
+    border: none;
+    padding: 0.7rem 1.1rem;
+
+    background: $primary-color;
+    color: $white-color;
+    box-shadow: 1px 3px 4px rgba(0 0 0 / 0.35);
+    
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 0;
+    
+    transition: filter 0.2s;
+    cursor: pointer;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+
+    &:not(:disabled):hover {
+      filter: brightness(0.8);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
+    .icon {
+      height: 0.8rem;
+    }
+  }
+}
+
+@media (max-width: 880px)  {
+  .inputsContainer {
+    flex-direction: column;
+
+    .filterButton {
+      padding: 1rem;
+    }
+  }
+}

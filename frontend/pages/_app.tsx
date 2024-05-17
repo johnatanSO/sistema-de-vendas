@@ -1,12 +1,13 @@
-import '../styles/globals.scss'
+import '../src/styles/globals.scss'
 import type { AppProps } from 'next/app'
 import { config } from '@fortawesome/fontawesome-svg-core'
-import { Sidebar } from '../src/layout/Sidebar'
+import { Sidebar } from '../src/components/layout/Sidebar'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { AlertContextComponent } from '../src/contexts/alertContext'
 import { useState } from 'react'
-import { MenuMobile } from '../src/layout/MenuMobile'
+import { MenuMobile } from '../src/components/layout/MenuMobile'
+import { MenuOptionsMobile } from '../src/components/layout/MenuOptionsMobile'
 
 config.autoAddCss = false
 
@@ -19,6 +20,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const [title, setTitle] = useState('Sistema de vendas')
   const restrictLayout =
     router.route !== '/login' && router.route !== '/createAccount'
+  const [menuOptionsOpened, setMenuOptionsOpened] = useState<boolean>(false)
+
+  function handleOpenMenuOptions() {
+    setMenuOptionsOpened(!menuOptionsOpened)
+  }
 
   return (
     <div className="wrapper">
@@ -30,16 +36,25 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
         {restrictLayout && <Sidebar />}
 
+        {restrictLayout && (
+          <MenuMobile
+            handleOpenMenuOptions={handleOpenMenuOptions}
+            menuOptionsOpened={menuOptionsOpened}
+          />
+        )}
+
         <main
           className={restrictLayout ? 'screensContainer' : 'loginContainer'}
         >
+          {restrictLayout && menuOptionsOpened && (
+            <MenuOptionsMobile handleOpenMenuOptions={handleOpenMenuOptions} />
+          )}
+
           {restrictLayout && (
             <h2 className="titlePage">{title || 'Sistema de vendas'}</h2>
           )}
           <Component setTitle={setTitle} {...pageProps} />
         </main>
-
-        {restrictLayout && <MenuMobile />}
       </AlertContextComponent>
     </div>
   )

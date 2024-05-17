@@ -1,0 +1,44 @@
+@import "../../../styles/colors.scss";
+
+.headerMenu {
+  background: $gray-color-400;
+  color: $gray-color-200;
+  box-shadow: 0px 3px 6px rgba(0 0 0 / 0.2);
+
+  width: 100vw;
+  padding: 1rem 1.5rem;
+
+  display: none;
+  position: relative;
+  z-index: 3;
+
+  .menuOptionsButton {
+    background: none;
+    border: none;
+    line-height: 0;
+
+    cursor: pointer;
+    transition: filter 0.2s, color 0.2s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+
+    .icon {
+      height: 1.4rem;
+      color: $gray-color-200;
+    }
+  }
+
+  .menuOpened {
+    .icon {
+      color: $primary-color;
+    }
+  }
+}
+
+@media (max-width: 880px) {
+  .headerMenu {
+    display: flex;
+  }
+}

@@ -1,0 +1,83 @@
+@import "../../../styles/colors.scss";
+
+.headerContainer {
+  width: 100%;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  margin-bottom: 1rem;
+
+  .filters {
+    margin-right: auto;
+
+    button {
+      line-height: 0;
+    }
+  }
+
+  .buttonsContainer {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      border-radius: 20px;
+      border: none;
+      padding: 0.7rem 1.1rem;
+
+      color: $white-color;
+
+      box-shadow: 1px 3px 4px rgba(0 0 0 / 0.35);
+
+      font-weight: 500;
+      font-size: 0.875rem;
+      line-height: 0;
+
+      transition: filter 0.2s;
+      cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+
+      &:not(:disabled):hover {
+        filter: brightness(0.8);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.4;
+      }
+    }
+
+    .createNewButton {
+      background: $green-color-500;
+
+      .icon {
+        height: 0.8rem;
+      }
+    }
+    .filtersButton {
+      background: $blue-color-500;
+    }
+  }
+}
+
+@media (max-width: 880px) {
+  .headerContainer {
+    flex-direction: column;
+
+    .filters {
+      margin: 0;
+    }
+
+    .buttonsContainer {
+      button {
+        flex: 1;
+        padding: 1rem;
+      }
+    }
+  }
+}

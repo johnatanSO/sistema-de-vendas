@@ -1,4 +1,4 @@
-import { Products } from '../../src/screens/Products'
+import { Products } from '../../src/components/screens/Products'
 import { usersService } from '../../src/services/usersService'
 import { PageProps } from '../_app'
 

@@ -1,4 +1,4 @@
-import { Accounts } from '../../src/screens/Accounts'
+import { Accounts } from '../../src/components/screens/Accounts'
 import { usersService } from '../../src/services/usersService'
 import { PageProps } from '../_app'
 
