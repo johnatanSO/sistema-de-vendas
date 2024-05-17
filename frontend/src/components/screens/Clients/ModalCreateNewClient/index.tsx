@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { clientsService } from '../../../../services/clientsService'
 
 export interface NewClientData {
+  _id?: string
   name: string
   cpf: string
   phone: string
@@ -72,8 +73,12 @@ export function ModalCreateNewClient({
 
   function onEditClient(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    const clientId = clientDataToEdit._id
+
+    if (!clientId) return
+
     clientsService
-      .update({ clientData: newClientData })
+      .update({ ...newClientData, clientId })
       .then(() => {
         router.push({
           pathname: router.route,

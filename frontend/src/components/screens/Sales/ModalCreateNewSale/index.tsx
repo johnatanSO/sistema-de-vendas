@@ -2,7 +2,7 @@ import { ModalLayout } from '../../../_ui/ModalLayout'
 import { FormEvent, useState, ChangeEvent, useContext, useEffect } from 'react'
 import style from './ModalCreateNewSale.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
-import { MenuItem } from '@mui/material'
+import { Autocomplete, MenuItem } from '@mui/material'
 import { paymentTypesList } from '../../../../models/paymentTypesList'
 import { productsService } from '../../../../services/productsService'
 import { Product } from '../../Products'
@@ -12,14 +12,20 @@ import { format } from '../../../../utils/format'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { salesService } from '../../../../services/salesService'
 import { useRouter } from 'next/router'
+import { clientsService } from '../../../../services/clientsService'
 
 interface ProductSale extends Product {
   amount: number
 }
 
+interface Client {
+  _id: string
+  name: string
+}
+
 export interface NewSaleData {
-  client: string
-  paymentType: string
+  clientId: string | null
+  paymentType: string | null
   products: ProductSale[]
   totalValue: number
 }
@@ -39,8 +45,8 @@ export function ModalCreateNewSale({
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
   const defaultValuesNewSale = {
-    client: '',
-    paymentType: '',
+    clientId: null,
+    paymentType: null,
     products: [],
     totalValue: 0,
   }
@@ -48,6 +54,7 @@ export function ModalCreateNewSale({
     saleToEditData || defaultValuesNewSale,
   )
   const [productsList, setProductsList] = useState<ProductSale[]>([])
+  const [clientsList, setClientsList] = useState<Client[]>([])
 
   function getProducts() {
     productsService
@@ -57,6 +64,24 @@ export function ModalCreateNewSale({
       })
       .catch((err) => {
         console.log('ERRO AO BUSCAR PRODUTOS: ', err)
+      })
+  }
+
+  function getClientsList() {
+    clientsService
+      .getAll()
+      .then((res) => {
+        setClientsList(res.data.items)
+      })
+      .catch((err) => {
+        console.error(err)
+
+        setAlertNotifyConfigs({
+          ...alertNotifyConfigs,
+          type: 'error',
+          open: true,
+          text: 'Erro ao buscar clientes',
+        })
       })
   }
 
@@ -246,20 +271,32 @@ export function ModalCreateNewSale({
         <section className={style.sectionContainer}>
           <h3>Informações da venda</h3>
           <div className={style.fieldsContainer}>
-            <CustomTextField
-              size="small"
-              className={style.input}
-              label="Cliente"
-              type="text"
-              placeholder="Digite o nome do cliente"
-              value={newSaleData?.client}
-              onChange={(event) => {
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={clientsList}
+              onFocus={getClientsList}
+              noOptionsText="Nenhum cliente encontrado"
+              loadingText="Buscando clientes..."
+              onChange={(event, value) => {
                 setNewSaleData({
                   ...newSaleData,
-                  client: event.target.value,
+                  clientId: value?._id || null,
                 })
               }}
+              getOptionLabel={(client) => client.name}
+              renderInput={(params) => (
+                <CustomTextField
+                  {...params}
+                  size="small"
+                  className={style.input}
+                  label="Cliente"
+                  type="text"
+                  placeholder="Digite o nome do cliente"
+                />
+              )}
             />
+
             <CustomTextField
               size="small"
               className={style.input}

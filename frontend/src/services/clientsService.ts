@@ -8,7 +8,11 @@ interface CreateParams {
 }
 
 interface UpdateParams {
-  clientData: any
+  name: string
+  cpf: string
+  phone: string
+  email: string
+  clientId: string
 }
 
 interface DeleteParams {
@@ -36,21 +40,20 @@ export const clientsService = {
     })
   },
 
-  async update({ clientData }: UpdateParams) {
+  async update({ name, cpf, phone, email, clientId }: UpdateParams) {
     const body = {
-      ...clientData,
+      name,
+      cpf,
+      phone,
+      email,
     }
 
-    return await http.put('/clientes/', {
+    return await http.put(`/clientes/${clientId}`, {
       ...body,
     })
   },
 
   async delete({ idClient }: DeleteParams) {
-    return await http.delete(`/clientes/`, {
-      params: {
-        idClient,
-      },
-    })
+    return await http.delete(`/clientes/${idClient}`)
   },
 }
