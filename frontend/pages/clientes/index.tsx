@@ -1,4 +1,4 @@
-import { Clients } from '../../src/screens/Clients'
+import { Clients } from '../../src/components/screens/Clients'
 import { usersService } from '../../src/services/usersService'
 import { PageProps } from '../_app'
 

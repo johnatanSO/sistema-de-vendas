@@ -1,4 +1,4 @@
-import { Dashboard } from '../src/screens/Dashboard'
+import { Dashboard } from '../src/components/screens/Dashboard'
 import { usersService } from '../src/services/usersService'
 import { PageProps } from './_app'
 

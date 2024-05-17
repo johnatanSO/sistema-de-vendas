@@ -1,5 +1,5 @@
 import http from '../api/http'
-import { NewProductData } from '../screens/Products/ModalCreateNewProduct'
+import { NewProductData } from '../components/screens/Products/ModalCreateNewProduct'
 import { usersService } from './usersService'
 
 interface GetAllParams {

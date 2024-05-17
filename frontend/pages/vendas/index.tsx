@@ -1,4 +1,4 @@
-import { Sales } from '../../src/screens/Sales'
+import { Sales } from '../../src/components/screens/Sales'
 import { usersService } from '../../src/services/usersService'
 import { PageProps } from '../_app'
 

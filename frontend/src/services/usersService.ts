@@ -1,6 +1,6 @@
 import http from '../api/http'
-import { NewUser } from '../screens/CreateAccount'
-import { LoginUserData } from '../screens/Login'
+import { NewUser } from '../components/screens/CreateAccount'
+import { LoginUserData } from '../components/screens/Login'
 import nookies, { setCookie, destroyCookie } from 'nookies'
 
 const USER_INFO = 'userInfo'
