@@ -4,6 +4,7 @@ import {
   IListClientsDTO,
   INewClientDTO,
   IClientsRepository,
+  IUpdateClientDTO,
 } from './IClientsRepository'
 
 export class ClientsRepository implements IClientsRepository {
@@ -57,5 +58,12 @@ export class ClientsRepository implements IClientsRepository {
     const supplier = await this.model.findOne({ phone })
 
     return supplier
+  }
+
+  async update(
+    clientId: string,
+    fieldsToUpdate: IUpdateClientDTO,
+  ): Promise<void> {
+    await this.model.updateOne({ _id: clientId }, fieldsToUpdate)
   }
 }

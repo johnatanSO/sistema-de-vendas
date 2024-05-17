@@ -21,11 +21,12 @@ export class SalesRepository implements ISalesRepository {
         userId,
         ...(status ? { status } : {}),
       })
+      .populate([{ path: 'client', select: '_id name phone' }])
       .sort({ date: -1 })
   }
 
   async create({
-    client,
+    clientId,
     products,
     paymentType,
     totalValue,
@@ -33,7 +34,7 @@ export class SalesRepository implements ISalesRepository {
     code,
   }: INewSaleDTO): Promise<Sale> {
     const newSale = await this.model.create({
-      client,
+      client: clientId,
       products,
       paymentType,
       totalValue,

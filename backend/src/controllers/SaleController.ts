@@ -27,12 +27,12 @@ export class SaleController {
   }
 
   async createNewSale(req: Request, res: Response): Promise<Response> {
-    const { client, products, paymentType, totalValue = 0 } = req.body
+    const { clientId, products, paymentType, totalValue = 0 } = req.body
     const { userId } = req.user
 
     const createNewSaleService = container.resolve(CreateNewSaleService)
     const newSale = await createNewSaleService.execute({
-      client,
+      clientId,
       products,
       paymentType,
       totalValue,

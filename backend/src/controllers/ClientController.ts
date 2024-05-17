@@ -3,6 +3,7 @@ import { container } from 'tsyringe'
 import { CreateNewClientService } from '../useCases/Client/CreateNewClient/CreateNewClientService.service'
 import { ListClientsService } from '../useCases/Client/ListClients/ListClientsService.service'
 import { DeleteClientService } from '../useCases/Client/DeleteClient/DeleteClientService.service'
+import { UpdateClientService } from '../useCases/Client/UpdateClientService/UpdateClientService.service'
 
 export class ClientController {
   async create(req: Request, res: Response): Promise<Response> {
@@ -47,6 +48,19 @@ export class ClientController {
     return res.status(200).json({
       success: true,
       message: 'Cliente excluído com sucesso',
+    })
+  }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const { name, phone, email, cpf } = req.body
+    const { clientId } = req.params
+
+    const updateClientService = container.resolve(UpdateClientService)
+    await updateClientService.execute({ name, email, phone, cpf, clientId })
+
+    return res.status(201).json({
+      success: true,
+      message: 'Dados do cliente atualizados com sucesso',
     })
   }
 }

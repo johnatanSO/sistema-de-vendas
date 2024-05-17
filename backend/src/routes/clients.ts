@@ -11,6 +11,7 @@ clientsRoutes.use(ensureAuthenticated)
 // Routes
 clientsRoutes.post('/', clientController.create)
 clientsRoutes.get('/', clientController.list)
+clientsRoutes.put('/:clientId', clientController.update)
 clientsRoutes.delete('/:clientId', clientController.delete)
 
 export { clientsRoutes }

@@ -1,7 +1,7 @@
 import { ProductInSale, Sale } from '../../entities/sale'
 
 export interface INewSaleDTO {
-  client: string
+  clientId: string
   products: ProductInSale[]
   paymentType: string
   totalValue: number

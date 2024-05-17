@@ -4,7 +4,7 @@ import { ProductInSale, Sale } from '../../../entities/sale'
 import { AppError } from '../../../errors/AppError'
 
 interface IRequest {
-  client: string
+  clientId: string
   products: ProductInSale[]
   paymentType: string
   totalValue: number
@@ -19,7 +19,7 @@ export class CreateNewSaleService {
   }
 
   async execute({
-    client,
+    clientId,
     products,
     paymentType,
     totalValue,
@@ -33,7 +33,7 @@ export class CreateNewSaleService {
     const code = (salesAmount + 1).toString()
 
     const newSale = await this.salesRepository.create({
-      client,
+      clientId,
       products,
       paymentType,
       totalValue,

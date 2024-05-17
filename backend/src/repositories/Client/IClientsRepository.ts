@@ -9,6 +9,13 @@ export interface INewClientDTO {
   userId: string
 }
 
+export interface IUpdateClientDTO {
+  name: string
+  phone: string
+  email: string
+  cpf: string
+}
+
 export interface IListClientsDTO {
   userId: string
 }
@@ -20,4 +27,5 @@ export interface IClientsRepository {
   delete(clientId: string): Promise<void>
   findByPhone(phone: string): Promise<Client>
   findByCpf(phone: string): Promise<Client>
+  update(clientId: string, fieldsToUpdate: IUpdateClientDTO): Promise<void>
 }
