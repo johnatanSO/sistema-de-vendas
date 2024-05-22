@@ -1,0 +1,55 @@
+@import "../../../../styles/colors.scss";
+
+.fieldsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.selectTypeContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 1rem 0;
+
+  border-top: 1px solid $gray-color-300;
+  border-bottom: 1px solid $gray-color-300;
+
+  .typeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    flex: 1;
+
+    color: $white-color;
+    padding: 0.7rem;
+    border: 0;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    line-height: 1;
+
+    cursor: pointer;
+    transition:
+      filter 0.2s,
+      opacity 0.2s;
+
+    &:not(:disabled):hover {
+      filter: brightness(0.8);
+    }
+    &:disabled {
+      box-shadow: 1px 2px 5px rgb(0 0 0 / 0.4);
+    }
+
+    .icon {
+      height: 1.2rem;
+    }
+  }
+  .inButton {
+    background: $green-color-500;
+  }
+  .outButton {
+    background: $red-color-500;
+  }
+}
