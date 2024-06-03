@@ -113,7 +113,7 @@ export function CreateAccount() {
             })
           }}
           value={newUser.email}
-          type="text"
+          type="email"
           placeholder="Digite seu E-mail"
         />
         <CustomTextField

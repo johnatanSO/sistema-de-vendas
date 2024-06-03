@@ -149,7 +149,7 @@ export function ModalCreateNewClient({
         <CustomTextField
           size="small"
           label="CPF"
-          type="text"
+          type="number"
           placeholder="Digite o CPF do cliente"
           value={newClientData?.cpf}
           onChange={(event) => {

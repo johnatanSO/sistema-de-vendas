@@ -83,7 +83,7 @@ export function Login() {
           size="medium"
           value={userData?.email}
           className={style.input}
-          type="text"
+          type="email"
           label="E-mail"
           required
           placeholder="Digite seu E-mail"

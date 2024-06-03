@@ -151,7 +151,7 @@ export function ModalCreateNewSupplier({
         <CustomTextField
           size="small"
           label="CNPJ"
-          type="text"
+          type="number"
           placeholder="Digite o CNPJ do fornecedor"
           value={newSupplierData?.cnpj}
           onChange={(event) => {
