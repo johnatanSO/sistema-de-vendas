@@ -9,13 +9,7 @@
  <h4>Dashboard</h4>
  <li>Filtro de data;</li>
  <li>Cards com informações de vendas (Quantidade e valores);</li>
- <li>
-    <p>
-      Cards com informações de contas (Valores de entrada, saída e total);
-    </p>
-    <p style="color:red">
-      *OBS: Ao clicar em cada card, o usuário é redirecionado para a tela do respectivo card com o filtro da informação aplicado. Exemplo: Caso clique no card de 'Contas de entrada', será redirecionado para a tela de contas, e as contas serão filtradas somente com as que possuem o tipo "Entrada";
-    </p>
+ <li>Cards com informações de contas (Valores de entrada, saída e total). *OBS: Ao clicar em cada card, o usuário é redirecionado para a tela do respectivo card com o filtro da informação aplicado. Exemplo: Caso clique no card de 'Contas de entrada', será redirecionado para a tela de contas, e as contas serão filtradas somente com as que possuem o tipo "Entrada";
  </li>
  <li>Gráfico com os tipos de pagamento utilizados na vendas;</li>
  <li>Gráfico de pizza com a quantidade de vendas de cada produto;</li>
@@ -26,20 +20,13 @@
  <li>Cancelamento de venda;</li>
  <li>Cadastro de uma nova venda;</li>
  <li>
-    <p>
-      Ao clicar em 'Nova venda', abrirá um modal com um formulário para ser preenchido com as informações da nova venda;
-    </p>
-    <p style="color:red">
-      *OBS: É necessário cadastrar um produto antes de realizar uma venda;
-    </p>
+  Ao clicar em 'Nova venda', abrirá um modal com um formulário para ser preenchido com as informações da nova venda. *OBS: É necessário cadastrar um produto antes de realizar uma venda;
  </li>
 
  <h4>Produtos</h4>
  <li>Filtro por nome do produto;</li> 
  <li>Lista de produtos;</li>
- <li>
-    <p>Cadastro de um novo produto</p>
-    <p style="color:red">*OBS: Ao deixar a opção 'Produto padrão', este produto será selecionado automaticamente quando o formulário de 'Nova venda' for aberto lá na tela de vendas;</p>
+ <li>Cadastro de um novo produto.*OBS: Ao deixar a opção 'Produto padrão', este produto será selecionado automaticamente quando o formulário de 'Nova venda' for aberto lá na tela de vendas;
  </li>
  <li>Edição de produto;</li>
  <li>Exclusão de produto;</li>
@@ -82,9 +69,9 @@
 <br>
 <h2>👷 Como testar? </h2>
 <h3>Entre com o seguinte link: </h3>
-<a href="gestor-escolar.vercel.app">gestor-escolar.vercel.app</a>
+<a href="https://sistema-de-vendas-lac.vercel.app">https://sistema-de-vendas-lac.vercel.app</a>
 <h3>Ou</h3>
-<li> Clone o repositório com: git clone https://github.com/johnatanso/gestor-escolar"
+<li> Clone o repositório com: git clone https://github.com/johnatanSO/sistema-de-vendas.git"
 <li> Entre em uma IDE de sua preferência 
 <li> Execute o servidor na pasta back-end e depois o front-end
 <li> Crie uma conta nova de aluno
