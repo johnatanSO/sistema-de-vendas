@@ -17,6 +17,7 @@ export interface Sale {
   date: Date
   totalValue: number
   client: string
+  status: string
 }
 
 export function Sales() {
@@ -35,7 +36,7 @@ export function Sales() {
   function getSales() {
     setLoadingSales(true)
     salesService
-      .getAll({ filters: { ...router.query } })
+      .getAll({ filters: { ...(router.query as any) } })
       .then((res) => {
         setSales(res.data.items)
       })

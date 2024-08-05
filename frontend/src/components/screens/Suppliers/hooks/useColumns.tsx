@@ -1,8 +1,6 @@
 import { Column, CellFunctionParams } from '../../../../models/columns'
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import style from '../Suppliers.module.scss'
 import { Supplier } from '..'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleEditSupplier: (supplier: Supplier) => void
@@ -33,28 +31,32 @@ export function useColumns({
     {
       headerName: 'Nome',
       field: 'name',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Supplier>) =>
+        params.value || '--',
     },
     {
       headerName: 'Telefone',
       field: 'phone',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Supplier>) =>
+        params.value || '--',
     },
     {
       headerName: 'E-mail',
       field: 'email',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Supplier>) =>
+        params.value || '--',
     },
     {
       headerName: 'cnpj',
       field: 'cnpj',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Supplier>) =>
+        params.value || '--',
     },
     {
       headerName: '',
       field: 'acoes',
       type: 'actions',
-      cellRenderer: (params: CellFunctionParams) => {
+      cellRenderer: (params: CellFunctionParams<Supplier>) => {
         return (
           <div className={style.actionsContainer}>
             {actions.map((action) => {

@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 
-export interface CellFunctionParams {
-  data: unknown
-  value: unknown
+export interface CellFunctionParams<Data> {
+  data: Data
+  value: any
 }
 
 export interface Column {
@@ -10,8 +10,8 @@ export interface Column {
   headerName: string
   field: string
   valueFormatter?: (
-    params: CellFunctionParams,
+    params: CellFunctionParams<any>,
   ) => string | number | null | undefined
-  cellRenderer?: (params: CellFunctionParams) => ReactNode
-  cellClass?: (params: CellFunctionParams) => any
+  cellRenderer?: (params: CellFunctionParams<any>) => ReactNode
+  cellClass?: (params: CellFunctionParams<any>) => any
 }

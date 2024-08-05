@@ -17,6 +17,7 @@ export interface Account {
   description: string
   type: 'in' | 'out'
   value: number
+  status: string
 }
 
 export function Accounts() {

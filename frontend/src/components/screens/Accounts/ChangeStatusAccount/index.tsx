@@ -11,6 +11,7 @@ import { accountsService } from '../../../../services/accountsService'
 import { useContext } from 'react'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
+import { Account } from '..'
 
 const CustomSelect = styled(TextField)({
   [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
@@ -69,7 +70,7 @@ const CustomSelect = styled(TextField)({
 })
 
 type Props = {
-  params: CellFunctionParams
+  params: CellFunctionParams<Account>
 }
 
 export function ChangeStatusAccount({ params }: Props) {

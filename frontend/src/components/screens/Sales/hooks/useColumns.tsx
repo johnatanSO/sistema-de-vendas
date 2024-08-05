@@ -33,7 +33,7 @@ export function useColumns({
     {
       headerName: 'Nº da venda',
       field: 'code',
-      valueFormatter: (params: CellFunctionParams) => params.value,
+      valueFormatter: (params: CellFunctionParams<Sale>) => params.value,
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
           return style.canceledText
@@ -43,7 +43,8 @@ export function useColumns({
     {
       headerName: 'Cliente',
       field: 'client',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Sale>) =>
+        params.value || '--',
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
           return style.canceledText
@@ -53,7 +54,7 @@ export function useColumns({
     {
       headerName: 'Data da venda',
       field: 'date',
-      valueFormatter: (params: CellFunctionParams) =>
+      valueFormatter: (params: CellFunctionParams<Sale>) =>
         dayjs(params.value).format('DD/MM/YYYY - HH:mm'),
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -64,7 +65,7 @@ export function useColumns({
     {
       headerName: 'Forma de pagamento',
       field: 'paymentType',
-      valueFormatter: (params: CellFunctionParams) =>
+      valueFormatter: (params: CellFunctionParams<Sale>) =>
         format.formatarFormaDePagamento(params.value),
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -75,7 +76,7 @@ export function useColumns({
     {
       headerName: 'Valor total',
       field: 'totalValue',
-      valueFormatter: (params: CellFunctionParams) =>
+      valueFormatter: (params: CellFunctionParams<Sale>) =>
         format.formatarReal(params.value),
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -87,7 +88,7 @@ export function useColumns({
       headerName: '',
       field: 'acoes',
       type: 'actions',
-      cellRenderer: (params: CellFunctionParams) => {
+      cellRenderer: (params: CellFunctionParams<Sale>) => {
         return (
           <div className={style.actionsContainer}>
             {actions.map(({ icon, ...action }) => {

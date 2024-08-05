@@ -1,8 +1,6 @@
 import { Column, CellFunctionParams } from '../../../../models/columns'
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import style from '../Clients.module.scss'
 import { Client } from '..'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleEditClient: (client: Client) => void
@@ -33,28 +31,32 @@ export function useColumns({
     {
       headerName: 'Nome',
       field: 'name',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Client>) =>
+        params.value || '--',
     },
     {
       headerName: 'Telefone',
       field: 'phone',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Client>) =>
+        params.value || '--',
     },
     {
       headerName: 'E-mail',
       field: 'email',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Client>) =>
+        params.value || '--',
     },
     {
       headerName: 'CPF',
       field: 'cpf',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Client>) =>
+        params.value || '--',
     },
     {
       headerName: '',
       field: 'acoes',
       type: 'actions',
-      cellRenderer: (params: CellFunctionParams) => {
+      cellRenderer: (params: CellFunctionParams<Client>) => {
         return (
           <div className={style.actionsContainer}>
             {actions.map((action) => {

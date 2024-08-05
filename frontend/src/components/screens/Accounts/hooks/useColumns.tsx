@@ -35,7 +35,7 @@ export function useColumns({
     {
       headerName: 'Tipo',
       field: 'type',
-      valueFormatter: (params: CellFunctionParams) =>
+      valueFormatter: (params: CellFunctionParams<Account>) =>
         params.value === 'in' ? 'Entrada' : 'Saída' || '--',
       cellClass: (params) => {
         if (params?.data?.type === 'in') {
@@ -47,37 +47,39 @@ export function useColumns({
     {
       headerName: 'Descrição',
       field: 'description',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Account>) =>
+        params.value || '--',
     },
     {
       headerName: 'Categoria',
       field: 'category',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Account>) =>
+        params.value || '--',
     },
     {
       headerName: 'Status',
       field: 'status',
-      cellRenderer: (params: CellFunctionParams) => {
+      cellRenderer: (params: CellFunctionParams<Account>) => {
         return <ChangeStatusAccount params={params} />
       },
     },
     {
       headerName: 'Data',
       field: 'date',
-      valueFormatter: (params: CellFunctionParams) =>
+      valueFormatter: (params: CellFunctionParams<Account>) =>
         dayjs(params.value).format('DD/MM/YYYY - HH:mm'),
     },
     {
       headerName: 'Valor',
       field: 'value',
-      valueFormatter: (params: CellFunctionParams) =>
+      valueFormatter: (params: CellFunctionParams<Account>) =>
         format.formatarReal(params.value || 0),
     },
     {
       headerName: '',
       field: 'acoes',
       type: 'actions',
-      cellRenderer: (params: CellFunctionParams) => {
+      cellRenderer: (params: CellFunctionParams<Account>) => {
         return (
           <div className={style.actionsContainer}>
             {actions.map(({ icon, ...action }) => {

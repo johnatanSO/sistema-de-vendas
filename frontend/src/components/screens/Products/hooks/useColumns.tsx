@@ -1,9 +1,7 @@
 import { Column, CellFunctionParams } from '../../../../models/columns'
 import { format } from '../../../../utils/format'
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import style from '../Products.module.scss'
 import { Product } from '..'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleEditProduct: (product: Product) => void
@@ -33,29 +31,32 @@ export function useColumns({
     {
       headerName: 'Código',
       field: 'code',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Product>) =>
+        params.value || '--',
     },
     {
       headerName: 'Nome do produto',
       field: 'name',
-      valueFormatter: (params: CellFunctionParams) => params.value || '--',
+      valueFormatter: (params: CellFunctionParams<Product>) =>
+        params.value || '--',
     },
     {
       headerName: 'Quantidade',
       field: 'stock',
-      valueFormatter: (params: CellFunctionParams) => params.value || 0,
+      valueFormatter: (params: CellFunctionParams<Product>) =>
+        params.value || 0,
     },
     {
       headerName: 'Valor',
       field: 'value',
-      valueFormatter: (params: CellFunctionParams) =>
+      valueFormatter: (params: CellFunctionParams<Product>) =>
         format.formatarReal(params.value || 0),
     },
     {
       headerName: '',
       field: 'acoes',
       type: 'actions',
-      cellRenderer: (params: CellFunctionParams) => {
+      cellRenderer: (params: CellFunctionParams<Product>) => {
         return (
           <div className={style.actionsContainer}>
             {actions.map((action) => {
@@ -64,7 +65,6 @@ export function useColumns({
                   key={action.title}
                   type="button"
                   className={action.className}
-                  disabled={params?.data?.status === 'canceled'}
                   onClick={() => {
                     action?.onClickFunction?.(params.data)
                   }}
