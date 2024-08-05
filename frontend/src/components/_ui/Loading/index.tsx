@@ -10,7 +10,6 @@ export function Loading({ size, color }: Props) {
     <Box
       sx={{
         display: 'flex',
-
         justifyContent: 'center',
       }}
     >

@@ -1,9 +1,15 @@
 import dayjs from 'dayjs'
 import http from '../api/http'
 import { usersService } from './usersService'
+import utc from 'dayjs/plugin/utc'
+dayjs.extend(utc)
 
 interface GetAllParams {
-  filters: any
+  filters: {
+    status: string
+    startDate: string | Date
+    endDate: string | Date
+  }
 }
 
 interface CreateParams {
@@ -21,16 +27,17 @@ interface DeleteParams {
 }
 
 export const salesService = {
-  async getAll({ filters }: GetAllParams) {
+  async getAll({ filters: { startDate, endDate, status } }: GetAllParams) {
     const userInfo = await usersService.getUserInfo()
+
     const params = {
-      ...(filters.status ? { status: filters?.status } : {}),
-      ...(filters?.startDate
-        ? { startDate: filters?.startDate }
-        : { startDate: dayjs().startOf('month').toISOString() }),
-      ...(filters?.endDate
-        ? { endDate: filters?.endDate }
-        : { endDate: dayjs().endOf('month').toISOString() }),
+      ...(status ? { status } : {}),
+      ...(startDate
+        ? { startDate }
+        : { startDate: dayjs.utc().startOf('month').toISOString() }),
+      ...(endDate
+        ? { endDate }
+        : { endDate: dayjs.utc().endOf('month').toISOString() }),
       userId: userInfo?._id,
     }
 
@@ -41,6 +48,7 @@ export const salesService = {
 
   async create({ newSaleData, totalValue }: CreateParams) {
     const userInfo = await usersService.getUserInfo()
+
     const body = {
       ...newSaleData,
       totalValue,

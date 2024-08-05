@@ -1,42 +1,37 @@
 import { useContext, useEffect } from 'react'
 import { AlertContext } from '../../../contexts/alertContext'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCheck,
-  faCircleExclamation,
-  faXmark,
-} from '@fortawesome/free-solid-svg-icons'
 import style from './AlertNotify.module.scss'
+import { Check, ExclamationMark, X } from '@phosphor-icons/react'
 
 export function AlertNotify() {
-  const { alertNotifyConfigs } = useContext(AlertContext)
+  const { alertNotifyConfigs: configs } = useContext(AlertContext)
 
   useEffect(() => {
-    if (alertNotifyConfigs?.open) {
+    if (configs?.open) {
       setTimeout(() => {
-        alertNotifyConfigs.handleClose()
+        configs.handleClose()
       }, 7000)
     }
-  }, [alertNotifyConfigs])
+  }, [configs])
 
-  if (!alertNotifyConfigs.open) return <></>
+  if (!configs.open) return <></>
   return (
     <div
       className={
-        alertNotifyConfigs?.type === 'success'
+        configs?.type === 'success'
           ? `${style.alertContainer} ${style.success}`
           : `${style.alertContainer} ${style.error}`
       }
     >
-      <FontAwesomeIcon
-        icon={
-          alertNotifyConfigs?.type === 'success' ? faCheck : faCircleExclamation
-        }
-        className={style.alertIcon}
-      />
-      <p>{alertNotifyConfigs?.text || '--'}</p>
-      <button onClick={alertNotifyConfigs.handleClose}>
-        <FontAwesomeIcon icon={faXmark} style={{ height: '1.5rem' }} />
+      {configs?.type === 'success' ? (
+        <Check size={32} />
+      ) : (
+        <ExclamationMark size={32} />
+      )}
+
+      <p>{configs?.text || '--'}</p>
+      <button onClick={configs.handleClose}>
+        <X size={32} />
       </button>
     </div>
   )

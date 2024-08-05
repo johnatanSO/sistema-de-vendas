@@ -16,20 +16,19 @@ import {
   Cell,
   Legend,
 } from 'recharts'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faAngleDown,
-  faAngleUp,
-  faBagShopping,
-  faCancel,
-  faDollarSign,
-} from '@fortawesome/free-solid-svg-icons'
 import { CustomLabel } from './tools/CustomLabel'
 import { CustomTooltip } from './tools/CustomToolTip'
 import { accountsService } from '../../../services/accountsService'
 import { useRouter } from 'next/router'
 import { salesService } from '../../../services/salesService'
 import dayjs from 'dayjs'
+import {
+  CaretDown,
+  CaretUp,
+  CurrencyDollar,
+  Prohibit,
+  Tag,
+} from '@phosphor-icons/react'
 
 interface PaymentType {
   type: string
@@ -202,7 +201,7 @@ export function Dashboard() {
         >
           <header>
             <h4>Quantidade de vendas</h4>
-            <FontAwesomeIcon className={style.icon} icon={faBagShopping} />
+            <Tag size={21} />
           </header>
           <span>{sales?.length || 0}</span>
         </li>
@@ -216,7 +215,7 @@ export function Dashboard() {
         >
           <header>
             <h4>Valor de vendas</h4>
-            <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
+            <CurrencyDollar size={32} />
           </header>
           <span>{format.formatarReal(totalSales.totalValueSales || 0)}</span>
         </li>
@@ -233,7 +232,7 @@ export function Dashboard() {
         >
           <header>
             <h4>Vendas canceladas</h4>
-            <FontAwesomeIcon className={style.icon} icon={faCancel} />
+            <Prohibit size={32} />
           </header>
           <span>{format.formatarReal(totalSales.totalValueCanceled || 0)}</span>
         </li>
@@ -317,7 +316,7 @@ export function Dashboard() {
             >
               <header>
                 <h4>Contas de entrada</h4>
-                <FontAwesomeIcon className={style.icon} icon={faAngleUp} />
+                <CaretUp size={32} />
               </header>
               <span>
                 {format.formatarReal(totalAccounts.inTotalValue || 0)}
@@ -336,7 +335,7 @@ export function Dashboard() {
             >
               <header>
                 <h4>Contas de saídas</h4>
-                <FontAwesomeIcon className={style.icon} icon={faAngleDown} />
+                <CaretDown size={32} />
               </header>
               <span>
                 {format.formatarReal(totalAccounts.outTotalValue || 0)}
@@ -352,7 +351,7 @@ export function Dashboard() {
             >
               <header>
                 <h4>Total</h4>
-                <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
+                <CurrencyDollar size={32} />
               </header>
               <span>
                 {format.formatarReal(totalAccounts.totalValueAccounts || 0)}

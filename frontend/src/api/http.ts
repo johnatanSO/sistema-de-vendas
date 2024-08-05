@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { usersService } from '../services/usersService'
 
 const http = axios.create({
@@ -18,6 +18,19 @@ http.interceptors.request.use(
     return config
   },
   (error) => {
+    return Promise.reject(error)
+  },
+)
+
+http.interceptors.response.use(
+  (config: AxiosResponse) => config,
+  (error) => {
+    if (
+      error.response.data.message === 'Erro interno do servidor - jwt expired'
+    ) {
+      usersService.deleteToken()
+      return Promise.reject(error)
+    }
     return Promise.reject(error)
   },
 )

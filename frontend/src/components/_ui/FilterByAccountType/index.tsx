@@ -11,7 +11,7 @@ export function FilterByAccountType() {
     router?.query?.accountType?.toString() || 'all',
   )
 
-  useEffect(() => {
+  function handleSelectAccountType() {
     if (accountType !== 'all') {
       router.push({
         pathname: router.route,
@@ -19,9 +19,15 @@ export function FilterByAccountType() {
           accountType,
         },
       })
-    } else {
-      router.push(router.route)
+
+      return
     }
+
+    router.push(router.route)
+  }
+
+  useEffect(() => {
+    handleSelectAccountType()
   }, [accountType])
 
   return (

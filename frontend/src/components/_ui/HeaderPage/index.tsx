@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import style from './HeaderPage.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { Plus } from '@phosphor-icons/react'
 
 interface HeaderPageProps {
   buttonText: string
@@ -19,7 +18,7 @@ export function HeaderPage({
       <div className={style.filters}>{InputFilter && InputFilter}</div>
       <div className={style.buttonsContainer}>
         <button className={style.createNewButton} onClick={onClickFunction}>
-          <FontAwesomeIcon className={style.icon} icon={faPlus} />
+          <Plus size={32} />
           {buttonText || 'Cadastrar'}
         </button>
       </div>

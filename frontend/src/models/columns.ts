@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 
 export interface CellFunctionParams {
-  data: any
-  value: any
+  data: unknown
+  value: unknown
 }
 
 export interface Column {

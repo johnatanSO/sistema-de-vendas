@@ -1,6 +1,5 @@
 import '../src/styles/globals.scss'
 import type { AppProps } from 'next/app'
-import { config } from '@fortawesome/fontawesome-svg-core'
 import { Sidebar } from '../src/components/layout/Sidebar'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
@@ -8,8 +7,6 @@ import { AlertContextComponent } from '../src/contexts/alertContext'
 import { useState } from 'react'
 import { MenuMobile } from '../src/components/layout/MenuMobile'
 import { MenuOptionsMobile } from '../src/components/layout/MenuOptionsMobile'
-
-config.autoAddCss = false
 
 export interface PageProps {
   setTitle: (title: string) => void

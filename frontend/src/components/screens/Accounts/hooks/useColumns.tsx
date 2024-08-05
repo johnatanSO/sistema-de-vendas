@@ -1,11 +1,10 @@
 import { Column, CellFunctionParams } from '../../../../models/columns'
 import { format } from '../../../../utils/format'
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import style from '../Accounts.module.scss'
 import { Account } from '..'
 import dayjs from 'dayjs'
 import { ChangeStatusAccount } from '../ChangeStatusAccount'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Pen, Trash } from '@phosphor-icons/react'
 
 interface UseColumnsParams {
   handleEditAccount: (account: Account) => void
@@ -18,14 +17,14 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: faPen,
+      icon: <Pen size={32} />,
       title: 'Editar',
       color: '#31a2ff',
       className: style.editButton,
       onClickFunction: handleEditAccount,
     },
     {
-      icon: faTrash,
+      icon: <Trash size={32} />,
       title: 'Excluir',
       className: style.deleteButton,
       onClickFunction: handleDeleteAccount,
@@ -81,7 +80,7 @@ export function useColumns({
       cellRenderer: (params: CellFunctionParams) => {
         return (
           <div className={style.actionsContainer}>
-            {actions.map((action) => {
+            {actions.map(({ icon, ...action }) => {
               return (
                 <button
                   className={action.className}
@@ -92,7 +91,7 @@ export function useColumns({
                     action?.onClickFunction?.(params.data)
                   }}
                 >
-                  <FontAwesomeIcon className={style.icon} icon={action.icon} />
+                  {icon && icon}
                 </button>
               )
             })}

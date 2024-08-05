@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router'
 import style from './Sidebar.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { menuOptions } from '../../../utils/menuOptions'
 import Link from 'next/link'
 import { UserOptions } from '../UserOptions'
@@ -18,7 +17,7 @@ export function Sidebar() {
       />
 
       <ul className={style.menuList}>
-        {menuOptions.map(({ disabled, ...option }) => {
+        {menuOptions.map(({ disabled, icon, ...option }) => {
           return (
             <li
               style={disabled ? { opacity: '0.4', cursor: 'not-allowed' } : {}}
@@ -28,7 +27,7 @@ export function Sidebar() {
               key={option.name}
             >
               <Link href={disabled ? '/404' : option.link} title={option.name}>
-                <FontAwesomeIcon className={style.icon} icon={option.icon} />
+                {icon && icon}
               </Link>
             </li>
           )

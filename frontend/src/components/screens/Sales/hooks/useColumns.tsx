@@ -1,10 +1,9 @@
 import dayjs from 'dayjs'
 import { Column, CellFunctionParams } from '../../../../models/columns'
 import { format } from '../../../../utils/format'
-import { faBan, faPen } from '@fortawesome/free-solid-svg-icons'
 import { Sale } from '..'
 import style from '../Sales.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Pen, Prohibit } from '@phosphor-icons/react'
 
 interface UseColumnsParams {
   handleCancelSale: (sale: Sale) => void
@@ -17,13 +16,13 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: faPen,
+      icon: <Pen size={32} />,
       title: 'Editar venda',
       onClickFunction: handleEditSale,
       className: style.editButton,
     },
     {
-      icon: faBan,
+      icon: <Prohibit size={32} />,
       title: 'Caneclar venda',
       onClickFunction: handleCancelSale,
       className: style.cancelButton,
@@ -91,7 +90,7 @@ export function useColumns({
       cellRenderer: (params: CellFunctionParams) => {
         return (
           <div className={style.actionsContainer}>
-            {actions.map((action) => {
+            {actions.map(({ icon, ...action }) => {
               return (
                 <button
                   className={action.className}
@@ -102,7 +101,7 @@ export function useColumns({
                     action?.onClickFunction?.(params.data)
                   }}
                 >
-                  <FontAwesomeIcon className={style.icon} icon={action.icon} />
+                  {icon && icon}
                 </button>
               )
             })}

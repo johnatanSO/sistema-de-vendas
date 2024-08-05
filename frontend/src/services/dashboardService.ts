@@ -8,10 +8,12 @@ interface GetPaymentTypesParams {
 export const dashboardService = {
   async getPaymentTypes({ filters }: GetPaymentTypesParams) {
     const userInfo = await usersService.getUserInfo()
+
     const params = {
       ...filters,
       userId: userInfo?._id,
     }
+
     return await http.get('/dashboard/formasDePagamento/', {
       params,
     })

@@ -31,10 +31,12 @@ interface DeleteParams {
 export const accountsService = {
   async getAll({ filters }: GetAllParams) {
     const userInfo = await usersService.getUserInfo()
+
     const params = {
       ...filters,
       userId: userInfo?._id,
     }
+
     return await http.get('/contas/', {
       params,
     })
@@ -42,6 +44,7 @@ export const accountsService = {
 
   async create({ newAccountData }: CreateParams) {
     const userInfo = await usersService.getUserInfo()
+
     const body = {
       ...newAccountData,
       value: Number(newAccountData?.value),

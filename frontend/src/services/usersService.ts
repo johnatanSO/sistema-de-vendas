@@ -39,6 +39,7 @@ export const usersService = {
 
   getToken(ctx = null) {
     const cookies = nookies.get(ctx)
+
     return cookies ? cookies[ACCESS_TOKEN_KEY] : null
   },
 
@@ -47,7 +48,9 @@ export const usersService = {
       USER_INFO,
       JSON.stringify(responseUser.user),
     )
+
     globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, responseUser?.token)
+
     setCookie(undefined, ACCESS_TOKEN_KEY, responseUser?.token, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
@@ -56,7 +59,9 @@ export const usersService = {
 
   async deleteToken() {
     globalThis?.localStorage?.removeItem(USER_INFO)
+
     globalThis?.localStorage?.removeItem(ACCESS_TOKEN_KEY)
+
     destroyCookie(null, ACCESS_TOKEN_KEY)
   },
 

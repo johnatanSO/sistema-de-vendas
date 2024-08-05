@@ -3,8 +3,7 @@ import { CustomTextField } from '../CustomTextField'
 import { FormEvent, useState } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { MagnifyingGlass } from '@phosphor-icons/react'
 
 export function FilterDate() {
   const [startDate, setStartDate] = useState<string>(
@@ -57,7 +56,7 @@ export function FilterDate() {
         }}
       />
       <button type="submit" className={style.filterButton}>
-        <FontAwesomeIcon className={style.icon} icon={faSearch} />
+        <MagnifyingGlass size={12} />
         Filtrar
       </button>
     </form>

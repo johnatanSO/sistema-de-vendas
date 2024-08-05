@@ -1,9 +1,8 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Modal, Box } from '@mui/material'
-import { ReactNode, FormEvent } from 'react'
+import { ReactNode, FormEvent, CSSProperties } from 'react'
 import style from './ModalLayout.module.scss'
 import { Loading } from '../Loading'
+import { X } from '@phosphor-icons/react'
 
 interface Props {
   title: string
@@ -13,7 +12,7 @@ interface Props {
   children: ReactNode
   onSubmit: (event: FormEvent<HTMLFormElement>) => void
   loading: boolean
-  customStyle?: any
+  customStyle?: CSSProperties
 }
 export function ModalLayout({
   title,
@@ -35,11 +34,8 @@ export function ModalLayout({
       >
         <Box className={style.header} component="header">
           <h3>{title || 'Modal'}</h3>
-          <FontAwesomeIcon
-            onClick={handleClose}
-            className={style.closeButton}
-            icon={faXmark}
-          />
+
+          <X size={32} onClick={handleClose} />
         </Box>
 
         <Box className={style.mainContent} component="main">

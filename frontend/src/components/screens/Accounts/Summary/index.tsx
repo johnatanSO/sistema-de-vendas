@@ -1,12 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Account } from '..'
 import { format } from '../../../../utils/format'
 import style from './Summary.module.scss'
-import {
-  faAngleDown,
-  faAngleUp,
-  faDollarSign,
-} from '@fortawesome/free-solid-svg-icons'
+import { CaretDown, CaretUp, CurrencyDollar } from '@phosphor-icons/react'
 
 type SummaryProps = {
   accounts: Account[]
@@ -32,7 +27,7 @@ export function Summary({ accounts }: SummaryProps) {
       <li className={style.inCard}>
         <header>
           <span>Entradas</span>
-          <FontAwesomeIcon className={style.icon} icon={faAngleUp} />
+          <CaretUp size={32} />
         </header>
         <b>{format.formatarReal(summaryValues?.inTotal || 0)}</b>
       </li>
@@ -40,7 +35,7 @@ export function Summary({ accounts }: SummaryProps) {
       <li className={style.outCard}>
         <header>
           <span>Saídas</span>
-          <FontAwesomeIcon className={style.icon} icon={faAngleDown} />
+          <CaretDown size={32} />
         </header>
         <b>{format.formatarReal(summaryValues?.outTotal || 0)}</b>
       </li>
@@ -48,7 +43,7 @@ export function Summary({ accounts }: SummaryProps) {
       <li className={style.totalCard}>
         <header>
           <span>Total</span>
-          <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
+          <CurrencyDollar size={32} />
         </header>
         <b>{format.formatarReal(summaryValues?.totalValue || 0)}</b>
       </li>

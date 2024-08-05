@@ -6,13 +6,12 @@ import { Autocomplete, MenuItem } from '@mui/material'
 import { paymentTypesList } from '../../../../models/paymentTypesList'
 import { productsService } from '../../../../services/productsService'
 import { Product } from '../../Products'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { format } from '../../../../utils/format'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { salesService } from '../../../../services/salesService'
 import { useRouter } from 'next/router'
 import { clientsService } from '../../../../services/clientsService'
+import { Trash } from '@phosphor-icons/react'
 
 interface ProductSale extends Product {
   amount: number
@@ -377,9 +376,10 @@ export function ModalCreateNewSale({
                         handleChangeProduct(event, index)
                       }}
                     />
-                    <FontAwesomeIcon
+
+                    <Trash
+                      size={32}
                       className={style.removeProductIcon}
-                      icon={faTrash}
                       onClick={() => {
                         handleRemoveProduct(product?._id)
                       }}

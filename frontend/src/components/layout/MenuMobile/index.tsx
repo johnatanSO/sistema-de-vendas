@@ -1,8 +1,6 @@
-import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import style from './MenuMobile.module.scss'
 import { UserOptions } from '../UserOptions'
+import { List } from '@phosphor-icons/react'
 
 interface Props {
   handleOpenMenuOptions: (event: any) => void
@@ -22,7 +20,7 @@ export function MenuMobile({
         }`}
         type="button"
       >
-        <FontAwesomeIcon icon={faBars} className={style.icon} />
+        <List size={32} />
       </button>
 
       <UserOptions

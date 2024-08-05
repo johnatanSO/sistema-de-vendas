@@ -1,9 +1,8 @@
 import { FormEvent, useState } from 'react'
 import { CustomTextField } from '../CustomTextField'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import style from './FilterByName.module.scss'
 import { useRouter } from 'next/router'
+import { MagnifyingGlass } from '@phosphor-icons/react'
 
 export function FilterByName() {
   const [searchString, setSearchString] = useState<string>('')
@@ -18,9 +17,11 @@ export function FilterByName() {
           searchString,
         },
       })
-    } else {
-      router.push(router.route)
+
+      return
     }
+
+    router.push(router.route)
   }
 
   return (
@@ -37,7 +38,7 @@ export function FilterByName() {
         }}
       />
       <button type="submit">
-        <FontAwesomeIcon icon={faSearch} className={style.icon} />
+        <MagnifyingGlass size={32} />
         Filtrar
       </button>
     </form>

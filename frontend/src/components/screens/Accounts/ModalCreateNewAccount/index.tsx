@@ -5,8 +5,7 @@ import { CustomTextField } from '../../../_ui/CustomTextField'
 import { accountsService } from '../../../../services/accountsService'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
+import { CaretDown, CaretUp } from '@phosphor-icons/react'
 
 export interface NewAccountData {
   description: string
@@ -156,7 +155,7 @@ export function ModalCreateNewAccount({
               })
             }}
           >
-            <FontAwesomeIcon className={style.icon} icon={faAngleUp} /> Entrada
+            <CaretUp size={32} /> Entrada
           </button>
           <button
             type="button"
@@ -170,7 +169,7 @@ export function ModalCreateNewAccount({
               })
             }}
           >
-            <FontAwesomeIcon className={style.icon} icon={faAngleDown} /> Saída
+            <CaretDown size={32} /> Saída
           </button>
         </div>
 

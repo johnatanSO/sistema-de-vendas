@@ -1,14 +1,9 @@
 import { Popover, Typography } from '@mui/material'
 import style from './UserOptions.module.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useEffect, useState } from 'react'
 import { usersService } from '../../../services/usersService'
-import {
-  faEnvelope,
-  faRightFromBracket,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/router'
+import { CaretLeft, Envelope, User } from '@phosphor-icons/react'
 
 export interface UserInfo {
   name: string
@@ -65,7 +60,7 @@ export function UserOptions({ position }: Props) {
         }}
         className={style.userButton}
       >
-        <FontAwesomeIcon className={style.userIcon} icon={faUser} />
+        <User size={21} />
       </button>
 
       <Popover
@@ -85,12 +80,12 @@ export function UserOptions({ position }: Props) {
       >
         <Typography className={style.userInfoContainer}>
           <p>
-            <FontAwesomeIcon className={style.icon} icon={faUser} />
+            <User size={32} />
             {userInfo?.name || '--'}
           </p>
           <p>
             {' '}
-            <FontAwesomeIcon className={style.icon} icon={faEnvelope} />
+            <Envelope size={32} />
             {userInfo?.email || '--'}
           </p>
           <p>
@@ -98,12 +93,9 @@ export function UserOptions({ position }: Props) {
               type="button"
               className={style.logoutButton}
               onClick={handleLogout}
+              title="Sair"
             >
-              <FontAwesomeIcon
-                className={style.icon}
-                title="Sair"
-                icon={faRightFromBracket}
-              />
+              <CaretLeft size={32} />
               Sair
             </button>
           </p>

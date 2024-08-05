@@ -8,10 +8,9 @@ import {
 import style from './ListMobile.module.scss'
 import { useState } from 'react'
 import { EmptyItems } from '../EmptyItems'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import { CollapseItem } from './interfaces/CollapseItem'
 import { Field } from './interfaces/Field'
+import { CaretDown, CaretUp } from '@phosphor-icons/react'
 
 interface ItemStatus {
   [itemId: string]: boolean
@@ -85,12 +84,12 @@ export function ListMobile({
                     </span>
                   )
                 })}
-                {collapseItems?.length > 0 && (
-                  <FontAwesomeIcon
-                    className={style.angleIcon}
-                    icon={collapseOpened ? faAngleUp : faAngleDown}
-                  />
-                )}
+                {collapseItems?.length > 0 &&
+                  (collapseOpened ? (
+                    <CaretDown size={32} />
+                  ) : (
+                    <CaretUp size={32} />
+                  ))}
               </ListItem>
 
               {collapseItems?.length > 0 && (

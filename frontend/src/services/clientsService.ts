@@ -22,6 +22,7 @@ interface DeleteParams {
 export const clientsService = {
   async getAll() {
     const params = {}
+
     return await http.get('/clientes/', {
       params,
     })

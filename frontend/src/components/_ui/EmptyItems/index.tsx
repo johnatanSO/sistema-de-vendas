@@ -1,6 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import style from './EmptyItems.module.scss'
-import { faSquareXmark } from '@fortawesome/free-solid-svg-icons'
+import { XSquare } from '@phosphor-icons/react'
 
 interface EmpytItems {
   text: string
@@ -11,10 +10,7 @@ export function EmptyItems({ text, icon }: EmpytItems) {
   return (
     <div className={style.emptyItemsContainer}>
       <h2>{text}</h2>
-      <FontAwesomeIcon
-        style={{ height: '4.5rem' }}
-        icon={icon || faSquareXmark}
-      />
+      {icon || <XSquare size={32} />}
     </div>
   )
 }
