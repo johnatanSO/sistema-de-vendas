@@ -11,7 +11,7 @@ export interface NewAccountData {
   description: string
   type: string
   category: string
-  value: string
+  value: string | number
 }
 
 interface Props {
@@ -30,7 +30,7 @@ export function ModalCreateNewAccount({
     description: '',
     type: 'in',
     category: '',
-    value: '0',
+    value: 0,
   }
   const [newAccountData, setNewAccountData] = useState<NewAccountData>(
     accountDataToEdit || defaultNewAccountValues,

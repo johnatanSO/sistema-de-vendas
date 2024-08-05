@@ -102,7 +102,9 @@ export function ChangeStatusAccount({ params }: Props) {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          text: `Erro ao tentar alterar o status da conta - ${err?.response?.data?.message}`,
+          text: `Erro ao tentar alterar o status da conta - ${
+            err?.response?.data?.message || err?.message
+          }`,
           type: 'error',
         })
       })

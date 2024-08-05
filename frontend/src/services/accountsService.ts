@@ -15,7 +15,7 @@ interface UpdateParams {
     description: string
     type: string
     category: string
-    value: string
+    value: string | number
   }
 }
 
