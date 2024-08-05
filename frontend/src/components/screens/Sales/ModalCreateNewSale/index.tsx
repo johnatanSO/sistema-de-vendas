@@ -170,9 +170,12 @@ export function ModalCreateNewSale({
           ...alertNotifyConfigs,
           type: 'error',
           open: true,
-          text: 'Erro ao tentar realizar venda' + err.response.data.message,
+          text: `Erro ao tentar realizar venda - ${
+            err?.response?.data?.message || err?.message
+          }`,
         })
-        console.log('[ERROR]: ', err.response.data.message)
+
+        console.error(err)
       })
       .finally(() => {
         setLoading(false)

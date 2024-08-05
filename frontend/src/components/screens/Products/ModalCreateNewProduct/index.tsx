@@ -30,8 +30,8 @@ export function ModalCreateNewProduct({
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const defaultNewProductValues = {
     name: '',
-    stock: '0',
-    value: '0',
+    stock: 0,
+    value: 0,
     isDefault: false,
   }
   const [newProductData, setNewProductData] = useState<NewProductData>(
@@ -77,9 +77,9 @@ export function ModalCreateNewProduct({
           ...alertNotifyConfigs,
           open: true,
           type: 'error',
-          text:
-            'Erro ao tentar cadastrar produto ' +
-            `(${err.response.data.message})`,
+          text: `Erro ao tentar cadastrar produto - ${
+            err?.response?.data?.message || err?.message
+          }`,
         })
       })
       .finally(() => {

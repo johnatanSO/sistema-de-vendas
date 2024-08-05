@@ -35,11 +35,11 @@ export function Products() {
     setLoadingProducts(true)
     productsService
       .getAll({ filters: { ...router.query } })
-      .then((res) => {
-        setProducts(res.data.items)
+      .then(({ data: { items } }) => {
+        setProducts(items)
       })
       .catch((err) => {
-        console.log('ERRO AO BUSCAR PRODUTOS, ', err)
+        console.error(err)
       })
       .finally(() => {
         setLoadingProducts(false)
@@ -76,7 +76,9 @@ export function Products() {
               ...alertNotifyConfigs,
               open: true,
               type: 'error',
-              text: `Erro ao tentar excluir produto (${err.response.data.error})`,
+              text: `Erro ao tentar excluir produto - ${
+                err?.response?.data?.message || err?.message
+              }`,
             })
           })
       },
