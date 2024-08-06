@@ -60,7 +60,7 @@ export function UserOptions({ position }: Props) {
         }}
         className={style.userButton}
       >
-        <User size={21} />
+        <User size={23} />
       </button>
 
       <Popover
@@ -80,12 +80,12 @@ export function UserOptions({ position }: Props) {
       >
         <Typography className={style.userInfoContainer}>
           <p>
-            <User size={32} />
+            <User size={23} />
             {userInfo?.name || '--'}
           </p>
           <p>
             {' '}
-            <Envelope size={32} />
+            <Envelope size={23} />
             {userInfo?.email || '--'}
           </p>
           <p>
@@ -95,7 +95,7 @@ export function UserOptions({ position }: Props) {
               onClick={handleLogout}
               title="Sair"
             >
-              <CaretLeft size={32} />
+              <CaretLeft size={21} />
               Sair
             </button>
           </p>

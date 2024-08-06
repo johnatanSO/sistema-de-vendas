@@ -59,3 +59,9 @@
     background: $blue-color-500;
   }
 }
+
+@media (max-width: 980px) {
+  .card {
+    max-width: 100%;
+  }
+}

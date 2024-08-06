@@ -19,31 +19,31 @@ export const menuOptions: MenuOption[] = [
   {
     title: 'Dashboard',
     link: '/',
-    icon: <ChartBar size={21} />,
+    icon: <ChartBar size={23} />,
     name: 'dashboard',
   },
   {
     title: 'Vendas',
     link: '/vendas',
-    icon: <Tag size={21} />,
+    icon: <Tag size={23} />,
     name: 'vendas',
   },
   {
     title: 'Produtos',
     link: '/produtos',
-    icon: <Package size={21} />,
+    icon: <Package size={23} />,
     name: 'produtos',
   },
   {
     title: 'Clientes',
     link: '/clientes',
-    icon: <UsersThree size={21} />,
+    icon: <UsersThree size={23} />,
     name: 'clientes',
   },
   {
     title: 'Contas',
     link: '/contas',
-    icon: <Invoice size={21} />,
+    icon: <Invoice size={23} />,
     name: 'contas',
   },
 ]

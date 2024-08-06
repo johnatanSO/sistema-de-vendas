@@ -86,9 +86,9 @@ export function ListMobile({
                 })}
                 {collapseItems?.length > 0 &&
                   (collapseOpened ? (
-                    <CaretDown size={32} />
+                    <CaretUp size={21} />
                   ) : (
-                    <CaretUp size={32} />
+                    <CaretDown size={21} />
                   ))}
               </ListItem>
 

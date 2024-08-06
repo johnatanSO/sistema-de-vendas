@@ -16,13 +16,13 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: <Pen size={25} />,
+      icon: <Pen size={21} />,
       title: 'Editar venda',
       onClickFunction: handleEditSale,
       className: style.editButton,
     },
     {
-      icon: <Prohibit size={25} />,
+      icon: <Prohibit size={21} />,
       title: 'Cancelar venda',
       onClickFunction: handleCancelSale,
       className: style.cancelButton,

@@ -20,7 +20,7 @@ export function MenuMobile({
         }`}
         type="button"
       >
-        <List size={32} />
+        <List size={23} className={style.icon} />
       </button>
 
       <UserOptions
