@@ -108,6 +108,8 @@ export function Dashboard() {
   const products = useProducts(sales)
   const graphPizzaData = usePizzaGraph(products)
 
+  console.log('graphPizzaData', graphPizzaData)
+
   return (
     <>
       <header className={style.headerPage}>
@@ -118,7 +120,7 @@ export function Dashboard() {
         <Card
           title="Quantidade de vendas"
           value={sales?.length || 0}
-          icon={<Tag weight="regular" size={29} className={style.icon} />}
+          icon={<Tag weight="regular" size={25} className={style.icon} />}
           route="vendas"
           className="amountCard"
         />
@@ -127,7 +129,7 @@ export function Dashboard() {
           title="Valor de vendas"
           value={format.formatarReal(totalSales?.totalValueSales || 0)}
           icon={
-            <CurrencyDollar weight="regular" size={29} className={style.icon} />
+            <CurrencyDollar weight="regular" size={25} className={style.icon} />
           }
           route="vendas"
           className="valueCard"
@@ -136,7 +138,7 @@ export function Dashboard() {
         <Card
           title="Vendas canceladas"
           value={format.formatarReal(totalSales.totalValueCanceled || 0)}
-          icon={<Prohibit weight="regular" size={29} className={style.icon} />}
+          icon={<Prohibit weight="regular" size={25} className={style.icon} />}
           route="vendas"
           query={{ status: 'canceled' }}
           className="valueCanceledCard"
@@ -213,7 +215,7 @@ export function Dashboard() {
               title="Contas de entrada"
               className="inCard"
               icon={
-                <CaretUp weight="regular" size={29} className={style.icon} />
+                <CaretUp weight="regular" size={25} className={style.icon} />
               }
               value={format.formatarReal(totalAccounts.inTotalValue || 0)}
               route="contas"
@@ -226,7 +228,7 @@ export function Dashboard() {
               title="Contas de saída"
               className="outCard"
               icon={
-                <CaretDown weight="regular" size={29} className={style.icon} />
+                <CaretDown weight="regular" size={25} className={style.icon} />
               }
               value={format.formatarReal(totalAccounts.outTotalValue || 0)}
               route="contas"
@@ -241,7 +243,7 @@ export function Dashboard() {
               icon={
                 <CurrencyDollar
                   weight="regular"
-                  size={29}
+                  size={25}
                   className={style.icon}
                 />
               }
@@ -256,7 +258,7 @@ export function Dashboard() {
             </header>
 
             <main>
-              {graphPizzaData?.length > 0 ? (
+              {graphPizzaData[0]?.values?.length > 0 ? (
                 graphPizzaData?.map((pizza: any, key) => (
                   <div style={{ height: '100%' }} key={key}>
                     <PieChart width={350} height={230}>
@@ -295,6 +297,10 @@ export function Dashboard() {
                   style={{
                     width: 350,
                     height: 230,
+                    margin: '0 auto',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
                   <h5>Nenhuma venda encontrada</h5>

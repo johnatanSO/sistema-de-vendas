@@ -18,9 +18,9 @@
   gap: 20px;
 
   .graph {
-    background: $gray-color-400;
-    border: 1px solid $gray-color-300;
-    box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
+    background: $gray-color-500;
+    border: 1px solid $gray-color-350;
+    //box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
 
     min-height: 650px;
     height: 100%;
@@ -31,18 +31,19 @@
     flex: 1;
 
     header {
-      padding: 15px;
+      padding: 1rem 1.2rem;
 
       h4 {
-        font-size: 1.3rem;
-        font-weight: 700;
+        font-size: 1.1rem;
+        line-height: 1.5;
+        font-weight: 600;
         color: $gray-color-200;
       }
     }
 
     main {
       height: 100%;
-      border-top: 1px solid $gray-color-300;
+      border-top: 1px solid $gray-color-350;
     }
   }
 
@@ -61,9 +62,9 @@
     }
 
     .pizzaGraph {
-      background: $gray-color-400;
-      border: 1px solid $gray-color-300;
-      box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
+      background: $gray-color-500;
+      border: 1px solid $gray-color-350;
+      //box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
 
       flex: 1;
 
@@ -71,17 +72,20 @@
       overflow: hidden;
 
       header {
-        padding: 15px;
-        background: $primary-color;
+        padding: 1rem 1.2rem;
+        // background: $primary-color;
 
         h4 {
-          font-size: 1.3rem;
-          font-weight: 700;
-          color: $white-color;
+          font-size: 1.1rem;
+          line-height: 1.5;
+          font-weight: 600;
+          color: $gray-color-200;
         }
       }
+
       main {
         height: 100%;
+        border-top: 1px solid $gray-color-350;
       }
     }
   }
