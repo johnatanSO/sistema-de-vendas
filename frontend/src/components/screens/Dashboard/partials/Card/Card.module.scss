@@ -1,4 +1,4 @@
-@import '../../../../../styles/colors.scss';
+@import "../../../../../styles/colors.scss";
 
 .card {
   display: flex;
@@ -8,7 +8,7 @@
 
   max-width: 270px;
 
-  padding: 1rem 1.5rem;
+  padding: 1.2rem;
   border-radius: 20px;
   color: $white-color;
 
@@ -22,39 +22,26 @@
 
   header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 20px;
-
-    .icon {
-      height: 1rem;
-    }
   }
 
   span {
     font-weight: 500;
   }
 
-  &.amountCard {
-    background: $green-color-500;
-  }
-
-  &.valueCanceledCard {
-    background: $red-color-500;
-  }
-
-  &.valueCard {
-    background: $blue-color-500;
-  }
-
+  &.amountCard,
   &.inCard {
     background: $green-color-500;
   }
 
+  &.valueCanceledCard,
   &.outCard {
     background: $red-color-500;
   }
-  
+
+  &.valueCard,
   &.totalCard {
     background: $blue-color-500;
   }
