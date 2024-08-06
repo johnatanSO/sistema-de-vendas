@@ -5,59 +5,12 @@
   display: flex;
 }
 
-.card {
-  box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
-  transition: filter 0.2s;
-  cursor: pointer;
-
-  &:hover {
-    filter: brightness(0.8);
-  }
-}
-
 .salesCardsContainer {
   display: flex;
   justify-content: center;
   gap: 20px;
 
   margin: 20px 0;
-
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-
-    max-width: 270px;
-
-    padding: 1rem 1.5rem;
-    border-radius: 20px;
-    color: $white-color;
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-
-      .icon {
-        height: 1rem;
-      }
-    }
-    span {
-      font-weight: 500;
-    }
-
-    &.amountCard {
-      background: $green-color-500;
-    }
-    &.valueCanceledCard {
-      background: $red-color-500;
-    }
-    &.valueCard {
-      background: $blue-color-500;
-    }
-  }
 }
 
 .graphsContainer {
@@ -105,40 +58,6 @@
       gap: 20px;
 
       list-style-type: none;
-
-      .card {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-
-        padding: 1rem 1.5rem;
-        border-radius: 20px;
-        color: $white-color;
-
-        header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 20px;
-
-          .icon {
-            height: 1rem;
-          }
-        }
-        span {
-          font-weight: 500;
-        }
-
-        &.inCard {
-          background: $green-color-500;
-        }
-        &.outCard {
-          background: $red-color-500;
-        }
-        &.totalCard {
-          background: $blue-color-500;
-        }
-      }
     }
 
     .pizzaGraph {

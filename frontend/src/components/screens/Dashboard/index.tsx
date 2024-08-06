@@ -29,35 +29,17 @@ import {
   Prohibit,
   Tag,
 } from '@phosphor-icons/react'
-
-interface PaymentType {
-  type: string
-  value: number
-}
-
-interface Account {
-  type: string
-  value: number
-}
-
-interface Product {
-  _id: string
-  name: string
-  amount: number
-  value: number
-}
-
-interface Sale {
-  status: string
-  totalValue: number
-  products: Product[]
-}
+import { IPaymentType } from './interfaces/IPaymentType'
+import { IAccount } from './interfaces/IAccount'
+import { ISale } from './interfaces/ISale'
+import { IProduct } from './interfaces/IProduct'
+import { Card } from './partials/Card'
 
 export function Dashboard() {
-  const [paymentTypes, setPaymentTypes] = useState<PaymentType[]>([])
-  const [accounts, setAccounts] = useState<Account[]>([])
-  const [sales, setSales] = useState<Sale[]>([])
-  const [products, setProducts] = useState<Product[]>([])
+  const [paymentTypes, setPaymentTypes] = useState<IPaymentType[]>([])
+  const [accounts, setAccounts] = useState<IAccount[]>([])
+  const [sales, setSales] = useState<ISale[]>([])
+  const [products, setProducts] = useState<IProduct[]>([])
   const router = useRouter()
 
   const datesFilter = {
@@ -95,23 +77,23 @@ export function Dashboard() {
         setAccounts(res.data.items)
       })
       .catch((err) => {
-        console.log('ERRO AO BUSCAR CONTAS,', err)
+        console.error(err)
       })
   }
 
   function getSales() {
     salesService
-      .getAll({ filters: { ...datesFilter } })
+      .getAll({ filters: { ...datesFilter } as any })
       .then((res) => {
         setSales(res.data.items)
         getProducts(res.data.items)
       })
       .catch((err) => {
-        console.log('ERRO AO BUSCAR VENDAS, ', err)
+        console.error(err)
       })
   }
 
-  function getProducts(sales: Sale[]) {
+  function getProducts(sales: ISale[]) {
     const products = sales.reduce((acc: any, sale) => {
       sale.products.forEach((product) => {
         const productAlreadyExist = !!acc.find(
@@ -137,7 +119,9 @@ export function Dashboard() {
   }
 
   useEffect(() => {
-    Promise.all([getPaymentTypes(), getAccounts(), getSales()])
+    getPaymentTypes()
+    getAccounts()
+    getSales()
   }, [router.query])
 
   const totalAccounts = accounts.reduce(
@@ -166,10 +150,6 @@ export function Dashboard() {
     },
   )
 
-  function handleClickCard(routeParams: { pathname: string; query?: any }) {
-    router.push(routeParams)
-  }
-
   const graphPizzaData = [
     {
       title: 'Vendas por produto',
@@ -191,51 +171,30 @@ export function Dashboard() {
       </header>
 
       <ul className={style.salesCardsContainer}>
-        <li
-          className={`${style.card} ${style.amountCard}`}
-          onClick={() => {
-            handleClickCard({
-              pathname: '/vendas/',
-            })
-          }}
-        >
-          <header>
-            <h4>Quantidade de vendas</h4>
-            <Tag size={21} />
-          </header>
-          <span>{sales?.length || 0}</span>
-        </li>
-        <li
-          className={`${style.card} ${style.valueCard}`}
-          onClick={() => {
-            handleClickCard({
-              pathname: '/vendas/',
-            })
-          }}
-        >
-          <header>
-            <h4>Valor de vendas</h4>
-            <CurrencyDollar size={32} />
-          </header>
-          <span>{format.formatarReal(totalSales.totalValueSales || 0)}</span>
-        </li>
-        <li
-          className={`${style.card} ${style.valueCanceledCard}`}
-          onClick={() => {
-            handleClickCard({
-              pathname: '/vendas/',
-              query: {
-                status: 'canceled',
-              },
-            })
-          }}
-        >
-          <header>
-            <h4>Vendas canceladas</h4>
-            <Prohibit size={32} />
-          </header>
-          <span>{format.formatarReal(totalSales.totalValueCanceled || 0)}</span>
-        </li>
+        <Card
+          title="Quantidade de vendas"
+          value={sales?.length || 0}
+          icon={<Tag size={21} />}
+          route="vendas"
+          className="amountCard"
+        />
+
+        <Card
+          title="Valor de vendas"
+          value={format.formatarReal(totalSales?.totalValueSales || 0)}
+          icon={<CurrencyDollar size={32} />}
+          route="vendas"
+          className="valueCard"
+        />
+
+        <Card
+          title="Vendas canceladas"
+          value={format.formatarReal(totalSales.totalValueCanceled || 0)}
+          icon={<Prohibit size={32} />}
+          route="vendas"
+          query={{ status: 'canceled' }}
+          className="valueCanceledCard"
+        />
       </ul>
 
       <div className={style.graphsContainer}>
@@ -243,6 +202,7 @@ export function Dashboard() {
           <header>
             <h4>Tipos de pagamento</h4>
           </header>
+
           <main>
             {paymentTypes?.length > 0 ? (
               <div
@@ -303,66 +263,42 @@ export function Dashboard() {
 
         <div className={style.sideRightContainer}>
           <ul className={style.accountsCardsContainer}>
-            <li
-              className={`${style.card} ${style.inCard}`}
-              onClick={() => {
-                handleClickCard({
-                  pathname: '/contas/',
-                  query: {
-                    accountType: 'in',
-                  },
-                })
+            <Card
+              title="Contas de entrada"
+              className="inCard"
+              icon={<CaretUp size={32} />}
+              value={format.formatarReal(totalAccounts.inTotalValue || 0)}
+              route="contas"
+              query={{
+                accountType: 'in',
               }}
-            >
-              <header>
-                <h4>Contas de entrada</h4>
-                <CaretUp size={32} />
-              </header>
-              <span>
-                {format.formatarReal(totalAccounts.inTotalValue || 0)}
-              </span>
-            </li>
-            <li
-              className={`${style.card} ${style.outCard}`}
-              onClick={() => {
-                handleClickCard({
-                  pathname: '/contas/',
-                  query: {
-                    accountType: 'out',
-                  },
-                })
+            />
+
+            <Card
+              title="Contas de saída"
+              className="outCard"
+              icon={<CaretDown size={32} />}
+              value={format.formatarReal(totalAccounts.outTotalValue || 0)}
+              route="contas"
+              query={{
+                accountType: 'out',
               }}
-            >
-              <header>
-                <h4>Contas de saídas</h4>
-                <CaretDown size={32} />
-              </header>
-              <span>
-                {format.formatarReal(totalAccounts.outTotalValue || 0)}
-              </span>
-            </li>
-            <li
-              className={`${style.card} ${style.totalCard}`}
-              onClick={() => {
-                handleClickCard({
-                  pathname: '/contas/',
-                })
-              }}
-            >
-              <header>
-                <h4>Total</h4>
-                <CurrencyDollar size={32} />
-              </header>
-              <span>
-                {format.formatarReal(totalAccounts.totalValueAccounts || 0)}
-              </span>
-            </li>
+            />
+
+            <Card
+              title="Total"
+              className="totalCard"
+              icon={<CurrencyDollar size={32} />}
+              value={format.formatarReal(totalAccounts.totalValueAccounts || 0)}
+              route="contas"
+            />
           </ul>
 
           <div className={style.pizzaGraph}>
             <header className={style.outTitleGraph}>
               <h4>Vendas por produtos</h4>
             </header>
+
             <main>
               {graphPizzaData?.length > 0 ? (
                 graphPizzaData?.map((pizza: any, key) => (
