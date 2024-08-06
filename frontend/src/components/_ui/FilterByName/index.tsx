@@ -38,7 +38,7 @@ export function FilterByName() {
         }}
       />
       <button type="submit">
-        <MagnifyingGlass size={32} />
+        <MagnifyingGlass size={17} />
         Filtrar
       </button>
     </form>

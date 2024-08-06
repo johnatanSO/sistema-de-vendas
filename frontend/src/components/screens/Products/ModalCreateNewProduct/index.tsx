@@ -193,7 +193,7 @@ export function ModalCreateNewProduct({
             onClick={(event) => {
               setAnchorEl(event.currentTarget)
             }}
-            size={32}
+            size={25}
             className={style.infoIcon}
           />
 

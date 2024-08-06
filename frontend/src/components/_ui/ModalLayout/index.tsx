@@ -35,7 +35,7 @@ export function ModalLayout({
         <Box className={style.header} component="header">
           <h3>{title || 'Modal'}</h3>
 
-          <X size={32} onClick={handleClose} />
+          <X size={32} onClick={handleClose} className={style.closeButton} />
         </Box>
 
         <Box className={style.mainContent} component="main">

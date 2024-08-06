@@ -155,7 +155,7 @@ export function ModalCreateNewAccount({
               })
             }}
           >
-            <CaretUp size={32} /> Entrada
+            <CaretUp size={21} /> Entrada
           </button>
           <button
             type="button"
@@ -169,7 +169,7 @@ export function ModalCreateNewAccount({
               })
             }}
           >
-            <CaretDown size={32} /> Saída
+            <CaretDown size={21} /> Saída
           </button>
         </div>
 

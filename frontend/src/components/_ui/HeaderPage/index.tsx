@@ -18,7 +18,7 @@ export function HeaderPage({
       <div className={style.filters}>{InputFilter && InputFilter}</div>
       <div className={style.buttonsContainer}>
         <button className={style.createNewButton} onClick={onClickFunction}>
-          <Plus size={32} />
+          <Plus size={17} />
           {buttonText || 'Cadastrar'}
         </button>
       </div>

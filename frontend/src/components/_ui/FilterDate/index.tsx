@@ -56,7 +56,7 @@ export function FilterDate() {
         }}
       />
       <button type="submit" className={style.filterButton}>
-        <MagnifyingGlass size={12} />
+        <MagnifyingGlass size={17} />
         Filtrar
       </button>
     </form>
