@@ -32,49 +32,54 @@ import {
 import { IPaymentType } from './interfaces/IPaymentType'
 import { IAccount } from './interfaces/IAccount'
 import { ISale } from './interfaces/ISale'
-import { IProduct } from './interfaces/IProduct'
 import { Card } from './partials/Card'
+import { useTotalAccounts } from './hooks/useTotalAccounts'
+import { useTotalSales } from './hooks/useTotalSales'
+import { usePizzaGraph } from './hooks/usePizzaGraph'
+import { useProducts } from './hooks/useProducts'
 
 export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<IPaymentType[]>([])
   const [accounts, setAccounts] = useState<IAccount[]>([])
   const [sales, setSales] = useState<ISale[]>([])
-  const [products, setProducts] = useState<IProduct[]>([])
+
   const router = useRouter()
+  const { startDate, endDate } = router.query
 
   const datesFilter = {
-    startDate: router.query.startDate
-      ? router.query.startDate
-      : dayjs().startOf('month').toISOString(),
-    endDate: router.query.endDate
-      ? router.query.endDate
-      : dayjs().endOf('month').toISOString(),
+    startDate: startDate || dayjs().startOf('month').toISOString(),
+    endDate: endDate || dayjs().endOf('month').toISOString(),
   }
 
   function getPaymentTypes() {
     dashboardService
       .getPaymentTypes({ filters: { ...datesFilter } })
-      .then((res) => {
-        const formatedPayments = res.data.items?.map((payment: any) => {
-          return {
-            label: format.formatarFormaDePagamento(payment.type),
-            formatedData: format.formatarReal(payment.value || 0),
-            Valor: payment.value || 0,
-          }
-        })
+      .then(({ data: { items } }) => {
+        const formatedPayments: any[] = formatPaymentsToGraph(items)
+
         setPaymentTypes(formatedPayments)
       })
       .catch((err) => {
-        console.log('ERRO AO BUSCAR FORMAS DE PAGAMENTO, ', err)
+        console.error(err)
       })
       .finally(() => {})
+  }
+
+  function formatPaymentsToGraph(payments: IPaymentType[]) {
+    return payments?.map((payment) => {
+      return {
+        label: format.formatarFormaDePagamento(payment.type),
+        formatedData: format.formatarReal(payment.value || 0),
+        Valor: payment.value || 0,
+      }
+    })
   }
 
   function getAccounts() {
     accountsService
       .getAll({ filters: { ...datesFilter } })
-      .then((res) => {
-        setAccounts(res.data.items)
+      .then(({ data: { items } }) => {
+        setAccounts(items)
       })
       .catch((err) => {
         console.error(err)
@@ -84,38 +89,12 @@ export function Dashboard() {
   function getSales() {
     salesService
       .getAll({ filters: { ...datesFilter } as any })
-      .then((res) => {
-        setSales(res.data.items)
-        getProducts(res.data.items)
+      .then(({ data: { items } }) => {
+        setSales(items)
       })
       .catch((err) => {
         console.error(err)
       })
-  }
-
-  function getProducts(sales: ISale[]) {
-    const products = sales.reduce((acc: any, sale) => {
-      sale.products.forEach((product) => {
-        const productAlreadyExist = !!acc.find(
-          (accProduct: any) => accProduct._id === product._id,
-        )
-        if (!productAlreadyExist) {
-          acc.push({
-            ...product,
-          })
-        } else {
-          acc.forEach((accProduct: any) => {
-            if (accProduct._id === product._id) {
-              accProduct.amount += product.amount
-              accProduct.value += product.value
-            }
-          })
-        }
-      })
-
-      return acc
-    }, [])
-    setProducts(products)
   }
 
   useEffect(() => {
@@ -124,45 +103,10 @@ export function Dashboard() {
     getSales()
   }, [router.query])
 
-  const totalAccounts = accounts.reduce(
-    (acc, account) => {
-      if (account.type === 'in') acc.inTotalValue += account.value
-      if (account.type === 'out') acc.outTotalValue += account.value
-      acc.totalValueAccounts = account.value
-      return acc
-    },
-    {
-      inTotalValue: 0,
-      outTotalValue: 0,
-      totalValueAccounts: 0,
-    },
-  )
-
-  const totalSales = sales.reduce(
-    (acc, sale) => {
-      if (sale.status === 'canceled') acc.totalValueCanceled += sale.totalValue
-      acc.totalValueSales += sale.totalValue
-      return acc
-    },
-    {
-      totalValueSales: 0,
-      totalValueCanceled: 0,
-    },
-  )
-
-  const graphPizzaData = [
-    {
-      title: 'Vendas por produto',
-      colors: ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'],
-      values: products.map((product) => {
-        return {
-          name: product?.name || '',
-          value: product?.value,
-          amount: product?.amount,
-        }
-      }),
-    },
-  ]
+  const totalAccounts = useTotalAccounts(accounts)
+  const totalSales = useTotalSales(sales)
+  const products = useProducts(sales)
+  const graphPizzaData = usePizzaGraph(products)
 
   return (
     <>
