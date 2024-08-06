@@ -1,6 +1,7 @@
 import { Column, CellFunctionParams } from '../../../../models/columns'
 import style from '../Suppliers.module.scss'
 import { Supplier } from '..'
+import { Pen, Trash } from '@phosphor-icons/react'
 
 interface UseColumnsParams {
   handleEditSupplier: (supplier: Supplier) => void
@@ -13,14 +14,14 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: faPen,
+      icon: <Pen size={32} />,
       title: 'Editar',
       color: '#31a2ff',
       className: style.editButton,
       onClickFunction: handleEditSupplier,
     },
     {
-      icon: faTrash,
+      icon: <Trash size={32} />,
       title: 'Excluir',
       className: style.deleteButton,
       onClickFunction: handleDeleteSupplier,
@@ -69,7 +70,7 @@ export function useColumns({
                     action?.onClickFunction?.(params.data)
                   }}
                 >
-                  <FontAwesomeIcon className={style.icon} icon={action.icon} />
+                  {action.icon && action.icon}
                 </button>
               )
             })}

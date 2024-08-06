@@ -7,6 +7,7 @@ import { AlertContextComponent } from '../src/contexts/alertContext'
 import { useState } from 'react'
 import { MenuMobile } from '../src/components/layout/MenuMobile'
 import { MenuOptionsMobile } from '../src/components/layout/MenuOptionsMobile'
+import { UserContextComponent } from '../src/contexts/userContext'
 
 export interface PageProps {
   setTitle: (title: string) => void
@@ -25,34 +26,38 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div className="wrapper">
-      <AlertContextComponent>
-        <Head>
-          <title>{title || 'Sistema de vendas'}</title>
-          <link rel="shortcut icon" href="./favicon.ico" />
-        </Head>
+      <UserContextComponent>
+        <AlertContextComponent>
+          <Head>
+            <title>{title || 'Sistema de vendas'}</title>
+            <link rel="shortcut icon" href="./favicon.ico" />
+          </Head>
 
-        {restrictLayout && <Sidebar />}
-
-        {restrictLayout && (
-          <MenuMobile
-            handleOpenMenuOptions={handleOpenMenuOptions}
-            menuOptionsOpened={menuOptionsOpened}
-          />
-        )}
-
-        <main
-          className={restrictLayout ? 'screensContainer' : 'loginContainer'}
-        >
-          {restrictLayout && menuOptionsOpened && (
-            <MenuOptionsMobile handleOpenMenuOptions={handleOpenMenuOptions} />
-          )}
+          {restrictLayout && <Sidebar />}
 
           {restrictLayout && (
-            <h2 className="titlePage">{title || 'Sistema de vendas'}</h2>
+            <MenuMobile
+              handleOpenMenuOptions={handleOpenMenuOptions}
+              menuOptionsOpened={menuOptionsOpened}
+            />
           )}
-          <Component setTitle={setTitle} {...pageProps} />
-        </main>
-      </AlertContextComponent>
+
+          <main
+            className={restrictLayout ? 'screensContainer' : 'loginContainer'}
+          >
+            {restrictLayout && menuOptionsOpened && (
+              <MenuOptionsMobile
+                handleOpenMenuOptions={handleOpenMenuOptions}
+              />
+            )}
+
+            {restrictLayout && (
+              <h2 className="titlePage">{title || 'Sistema de vendas'}</h2>
+            )}
+            <Component setTitle={setTitle} {...pageProps} />
+          </main>
+        </AlertContextComponent>
+      </UserContextComponent>
     </div>
   )
 }
