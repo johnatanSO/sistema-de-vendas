@@ -19,7 +19,6 @@ export function useColumns({
     {
       icon: <Pen size={32} />,
       title: 'Editar',
-      color: '#31a2ff',
       className: style.editButton,
       onClickFunction: handleEditAccount,
     },
