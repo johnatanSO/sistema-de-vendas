@@ -11,8 +11,9 @@
   padding: 1.2rem;
   border-radius: 20px;
   color: $white-color;
+  background: $gray-color-400;
 
-  box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
+  // box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
   transition: filter 0.2s;
   cursor: pointer;
 
@@ -25,6 +26,11 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 20px;
+
+    h4 {
+      font-weight: 400;
+      font-size: 1.1rem;
+    }
   }
 
   span {
@@ -43,7 +49,7 @@
 
   &.valueCard,
   &.totalCard {
-    background: $blue-color-500;
+    background: $blue-color-700;
   }
 }
 

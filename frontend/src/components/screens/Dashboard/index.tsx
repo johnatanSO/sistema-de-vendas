@@ -118,7 +118,7 @@ export function Dashboard() {
         <Card
           title="Quantidade de vendas"
           value={sales?.length || 0}
-          icon={<Tag size={29} />}
+          icon={<Tag weight="regular" size={29} className={style.icon} />}
           route="vendas"
           className="amountCard"
         />
@@ -126,7 +126,9 @@ export function Dashboard() {
         <Card
           title="Valor de vendas"
           value={format.formatarReal(totalSales?.totalValueSales || 0)}
-          icon={<CurrencyDollar size={29} />}
+          icon={
+            <CurrencyDollar weight="regular" size={29} className={style.icon} />
+          }
           route="vendas"
           className="valueCard"
         />
@@ -134,7 +136,7 @@ export function Dashboard() {
         <Card
           title="Vendas canceladas"
           value={format.formatarReal(totalSales.totalValueCanceled || 0)}
-          icon={<Prohibit size={29} />}
+          icon={<Prohibit weight="regular" size={29} className={style.icon} />}
           route="vendas"
           query={{ status: 'canceled' }}
           className="valueCanceledCard"
@@ -210,7 +212,9 @@ export function Dashboard() {
             <Card
               title="Contas de entrada"
               className="inCard"
-              icon={<CaretUp size={29} />}
+              icon={
+                <CaretUp weight="regular" size={29} className={style.icon} />
+              }
               value={format.formatarReal(totalAccounts.inTotalValue || 0)}
               route="contas"
               query={{
@@ -221,7 +225,9 @@ export function Dashboard() {
             <Card
               title="Contas de saída"
               className="outCard"
-              icon={<CaretDown size={29} />}
+              icon={
+                <CaretDown weight="regular" size={29} className={style.icon} />
+              }
               value={format.formatarReal(totalAccounts.outTotalValue || 0)}
               route="contas"
               query={{
@@ -232,7 +238,13 @@ export function Dashboard() {
             <Card
               title="Total"
               className="totalCard"
-              icon={<CurrencyDollar size={29} />}
+              icon={
+                <CurrencyDollar
+                  weight="regular"
+                  size={29}
+                  className={style.icon}
+                />
+              }
               value={format.formatarReal(totalAccounts.totalValueAccounts || 0)}
               route="contas"
             />
