@@ -381,8 +381,9 @@ export function ModalCreateNewSale({
                     />
 
                     <Trash
-                      size={25}
+                      size={23}
                       className={style.removeProductIcon}
+                      weight="bold"
                       onClick={() => {
                         handleRemoveProduct(product?._id)
                       }}

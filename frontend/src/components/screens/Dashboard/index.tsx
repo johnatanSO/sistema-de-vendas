@@ -115,78 +115,82 @@ export function Dashboard() {
       </header>
 
       <section className={style.cardsAndProductsContainer}>
-        <ul className={style.cardsContainer}>
-          <Card
-            title="Quantidade de vendas"
-            value={sales?.length || 0}
-            icon={<Tag weight="regular" size={25} className={style.icon} />}
-            route="vendas"
-            className="amountCard"
-          />
+        <div className={style.cardsContainer}>
+          <ul>
+            <Card
+              title="Quantidade de vendas"
+              value={sales?.length || 0}
+              icon={<Tag weight="regular" size={25} className={style.icon} />}
+              route="vendas"
+              className="amountCard"
+            />
 
-          <Card
-            title="Contas de entrada"
-            className="inCard"
-            icon={<CaretUp weight="regular" size={25} className={style.icon} />}
-            value={format.formatarReal(totalAccounts.inTotalValue || 0)}
-            route="contas"
-            query={{
-              accountType: 'in',
-            }}
-          />
+            <Card
+              title="Valor das vendas"
+              value={format.formatarReal(totalSales?.totalValueSales || 0)}
+              icon={
+                <CurrencyDollar
+                  weight="regular"
+                  size={25}
+                  className={style.icon}
+                />
+              }
+              route="vendas"
+              className="valueCard"
+            />
 
-          <Card
-            title="Vendas concluídas"
-            value={format.formatarReal(totalSales?.totalValueSales || 0)}
-            icon={
-              <CurrencyDollar
-                weight="regular"
-                size={25}
-                className={style.icon}
-              />
-            }
-            route="vendas"
-            className="valueCard"
-          />
+            <Card
+              title="Vendas canceladas"
+              value={format.formatarReal(totalSales.totalValueCanceled || 0)}
+              icon={
+                <Prohibit weight="regular" size={25} className={style.icon} />
+              }
+              route="vendas"
+              query={{ status: 'canceled' }}
+              className="valueCanceledCard"
+            />
+          </ul>
 
-          <Card
-            title="Contas de saída"
-            className="outCard"
-            icon={
-              <CaretDown weight="regular" size={25} className={style.icon} />
-            }
-            value={format.formatarReal(totalAccounts.outTotalValue || 0)}
-            route="contas"
-            query={{
-              accountType: 'out',
-            }}
-          />
-
-          <Card
-            title="Vendas canceladas"
-            value={format.formatarReal(totalSales.totalValueCanceled || 0)}
-            icon={
-              <Prohibit weight="regular" size={25} className={style.icon} />
-            }
-            route="vendas"
-            query={{ status: 'canceled' }}
-            className="valueCanceledCard"
-          />
-
-          <Card
-            title="Total"
-            className="totalCard"
-            icon={
-              <CurrencyDollar
-                weight="regular"
-                size={25}
-                className={style.icon}
-              />
-            }
-            value={format.formatarReal(totalAccounts.totalValueAccounts || 0)}
-            route="contas"
-          />
-        </ul>
+          <ul>
+            <Card
+              title="Contas de entrada"
+              className="inCard"
+              icon={
+                <CaretUp weight="regular" size={25} className={style.icon} />
+              }
+              value={format.formatarReal(totalAccounts.inTotalValue || 0)}
+              route="contas"
+              query={{
+                accountType: 'in',
+              }}
+            />
+            <Card
+              title="Contas de saída"
+              className="outCard"
+              icon={
+                <CaretDown weight="regular" size={25} className={style.icon} />
+              }
+              value={format.formatarReal(totalAccounts.outTotalValue || 0)}
+              route="contas"
+              query={{
+                accountType: 'out',
+              }}
+            />
+            <Card
+              title="Total"
+              className="totalCard"
+              icon={
+                <CurrencyDollar
+                  weight="regular"
+                  size={25}
+                  className={style.icon}
+                />
+              }
+              value={format.formatarReal(totalAccounts.totalValueAccounts || 0)}
+              route="contas"
+            />
+          </ul>
+        </div>
 
         <div className={style.pizzaGraph}>
           <header className={style.outTitleGraph}>
@@ -230,7 +234,7 @@ export function Dashboard() {
               <div
                 style={{
                   width: 350,
-                  height: 230,
+                  height: 290,
                   margin: '0 auto',
                   display: 'flex',
                   alignItems: 'center',

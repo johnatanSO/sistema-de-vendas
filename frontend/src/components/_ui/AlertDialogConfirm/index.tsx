@@ -11,7 +11,7 @@ export function AlertDialogConfirm() {
   return (
     <Modal
       open={configs?.open}
-      onClose={() => {}}
+      onClose={configs.handleClose}
       className={style.alertOverlay}
     >
       <div className={style.alertContainer}>

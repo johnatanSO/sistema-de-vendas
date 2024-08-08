@@ -36,20 +36,16 @@
 
   &.amountCard,
   &.inCard {
-    background: $green-color-500;
+    color: $green-color-500;
   }
 
   &.valueCanceledCard,
   &.outCard {
-    background: $red-color-500;
+    color: $red-color-500;
   }
 
   &.valueCard,
   &.totalCard {
-    background: $blue-color-700;
+    color: $blue-color-700;
   }
-}
-
-@media (max-width: 980px) {
-
 }

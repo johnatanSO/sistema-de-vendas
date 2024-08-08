@@ -35,7 +35,12 @@ export function ModalLayout({
         <Box className={style.header} component="header">
           <h3>{title || 'Modal'}</h3>
 
-          <X size={32} onClick={handleClose} className={style.closeButton} />
+          <X
+            size={32}
+            onClick={handleClose}
+            className={style.closeButton}
+            weight="bold"
+          />
         </Box>
 
         <Box className={style.mainContent} component="main">
@@ -43,7 +48,7 @@ export function ModalLayout({
         </Box>
         <Box className={style.footer} component="footer">
           <button disabled={loading} type="submit">
-            {loading ? <Loading size={17} /> : submitButtonText || 'Confirmar'}
+            {loading ? <Loading size={21} /> : submitButtonText || 'Confirmar'}
           </button>
         </Box>
       </Box>
