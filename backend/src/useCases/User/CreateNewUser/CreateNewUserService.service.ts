@@ -11,6 +11,7 @@ interface IRequest {
   name: string
   email: string
   password: string
+  confirmPassword: string
 }
 
 @injectable()
@@ -20,10 +21,17 @@ export class CreateNewUserService {
     this.usersRepository = usersRepository
   }
 
-  async execute({ name, email, password }: IRequest): Promise<User> {
+  async execute({
+    name,
+    email,
+    password,
+    confirmPassword,
+  }: IRequest): Promise<User> {
     if (!name) throw new AppError('Nome de usuário não informado')
     if (!email) throw new AppError('E-mail do usuário não informado')
     if (!password) throw new AppError('Senha do usuário não informada')
+    if (password !== confirmPassword)
+      throw new AppError('Confirmação de senha incorreta')
 
     const alreadExistUser = await this.usersRepository.findByEmail(name)
 

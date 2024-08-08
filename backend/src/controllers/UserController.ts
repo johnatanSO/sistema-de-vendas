@@ -4,13 +4,14 @@ import { CreateNewUserService } from '../useCases/User/CreateNewUser/CreateNewUs
 
 export class UserController {
   async createNewUser(req: Request, res: Response): Promise<Response> {
-    const { name, email, password } = req.body
+    const { name, email, password, confirmPassword } = req.body
 
     const createNewUserService = container.resolve(CreateNewUserService)
     const newUser = await createNewUserService.execute({
       name,
       email,
       password,
+      confirmPassword,
     })
 
     return res.status(201).json({
