@@ -137,6 +137,7 @@ export function CreateAccount() {
           required
           label="Confirmar a senha"
           className={style.input}
+          error={newUser.password !== newUser.confirmPassword}
           value={newUser.confirmPassword}
           onChange={(e) => {
             setNewUser({
