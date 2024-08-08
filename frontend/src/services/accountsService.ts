@@ -29,51 +29,49 @@ interface DeleteParams {
 }
 
 export const accountsService = {
-  async getAll({ filters }: GetAllParams) {
-    const userInfo = await usersService.getUserInfo()
+  userInfo: usersService.getUserInfo(),
 
+  getAll({ filters }: GetAllParams) {
     const params = {
       ...filters,
-      userId: userInfo?._id,
+      userId: this.userInfo._id,
     }
 
-    return await http.get('/contas/', {
+    return http.get('/contas/', {
       params,
     })
   },
 
-  async create({ newAccountData }: CreateParams) {
-    const userInfo = await usersService.getUserInfo()
-
+  create({ newAccountData }: CreateParams) {
     const body = {
       ...newAccountData,
       value: Number(newAccountData?.value),
-      userInfo,
+      userInfo: this.userInfo,
     }
 
-    return await http.post('/contas/', {
+    return http.post('/contas/', {
       ...body,
     })
   },
 
-  async update({ accountData }: UpdateParams) {
+  update({ accountData }: UpdateParams) {
     const body = {
       ...accountData,
     }
 
-    return await http.put('/contas/', {
+    return http.put('/contas/', {
       ...body,
     })
   },
 
-  async updateStatus({ idAccount, status }: UpdateStatusParams) {
+  updateStatus({ idAccount, status }: UpdateStatusParams) {
     return http.patch(`/contas/updateStatus/${idAccount}`, {
       status,
     })
   },
 
-  async delete({ idAccount }: DeleteParams) {
-    return await http.delete(`/contas/`, {
+  delete({ idAccount }: DeleteParams) {
+    return http.delete(`/contas/`, {
       params: {
         idAccount,
       },

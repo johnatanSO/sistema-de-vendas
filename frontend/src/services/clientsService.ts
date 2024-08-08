@@ -20,15 +20,15 @@ interface DeleteParams {
 }
 
 export const clientsService = {
-  async getAll() {
+  getAll() {
     const params = {}
 
-    return await http.get('/clientes/', {
+    return http.get('/clientes/', {
       params,
     })
   },
 
-  async create({ name, cpf, phone, email }: CreateParams) {
+  create({ name, cpf, phone, email }: CreateParams) {
     const body = {
       name,
       cpf,
@@ -36,12 +36,12 @@ export const clientsService = {
       email,
     }
 
-    return await http.post('/clientes', {
+    return http.post('/clientes', {
       ...body,
     })
   },
 
-  async update({ name, cpf, phone, email, clientId }: UpdateParams) {
+  update({ name, cpf, phone, email, clientId }: UpdateParams) {
     const body = {
       name,
       cpf,
@@ -49,12 +49,12 @@ export const clientsService = {
       email,
     }
 
-    return await http.put(`/clientes/${clientId}`, {
+    return http.put(`/clientes/${clientId}`, {
       ...body,
     })
   },
 
-  async delete({ idClient }: DeleteParams) {
-    return await http.delete(`/clientes/${idClient}`)
+  delete({ idClient }: DeleteParams) {
+    return http.delete(`/clientes/${idClient}`)
   },
 }

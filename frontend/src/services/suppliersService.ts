@@ -20,15 +20,15 @@ interface DeleteParams {
 }
 
 export const suppliersService = {
-  async getAll() {
+  getAll() {
     const params = {}
 
-    return await http.get('/fornecedores/', {
+    return http.get('/fornecedores/', {
       params,
     })
   },
 
-  async create({ name, cnpj, phone, email }: CreateParams) {
+  create({ name, cnpj, phone, email }: CreateParams) {
     const body = {
       name,
       cnpj,
@@ -36,12 +36,12 @@ export const suppliersService = {
       email,
     }
 
-    return await http.post('/fornecedores', {
+    return http.post('/fornecedores', {
       ...body,
     })
   },
 
-  async update({ name, cnpj, phone, email, supplierId }: UpdateParams) {
+  update({ name, cnpj, phone, email, supplierId }: UpdateParams) {
     const body = {
       name,
       cnpj,
@@ -49,12 +49,12 @@ export const suppliersService = {
       email,
     }
 
-    return await http.put(`/fornecedores/${supplierId}`, {
+    return http.put(`/fornecedores/${supplierId}`, {
       ...body,
     })
   },
 
-  async delete({ idSupplier }: DeleteParams) {
-    return await http.delete(`/fornecedores/${idSupplier}`)
+  delete({ idSupplier }: DeleteParams) {
+    return http.delete(`/fornecedores/${idSupplier}`)
   },
 }

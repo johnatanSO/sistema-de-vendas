@@ -1,9 +1,10 @@
 import { Popover, Typography } from '@mui/material'
 import style from './UserOptions.module.scss'
-import { useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { usersService } from '../../../services/usersService'
 import { useRouter } from 'next/router'
 import { CaretLeft, Envelope, User } from '@phosphor-icons/react'
+import { UserContext } from '../../../contexts/userContext'
 
 export interface UserInfo {
   name: string
@@ -19,8 +20,10 @@ type Props = {
 }
 
 export function UserOptions({ position }: Props) {
-  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
-  const [userInfoAnchorEl, setUserInfoAnchorEl] = useState<any>(null)
+  const { userInfo } = useContext(UserContext)
+  const [userInfoAnchorEl, setUserInfoAnchorEl] = useState<HTMLElement | null>(
+    null,
+  )
   const router = useRouter()
 
   function getPosition() {
@@ -41,15 +44,11 @@ export function UserOptions({ position }: Props) {
 
     return positionFormated
   }
-  async function handleLogout() {
-    await usersService.deleteToken()
+
+  function handleLogout() {
+    usersService.deleteToken()
     router.push('/login')
   }
-
-  useEffect(() => {
-    const userData = usersService.getUserInfo()
-    setUserInfo(userData)
-  }, [])
 
   return (
     <>

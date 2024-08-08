@@ -19,57 +19,54 @@ interface DeleteParams {
 }
 
 export const productsService = {
-  async getAll({ filters }: GetAllParams) {
-    const userInfo = await usersService.getUserInfo()
+  userInfo: usersService.getUserInfo(),
 
+  getAll({ filters }: GetAllParams) {
     const params = {
       ...filters,
-      userId: userInfo?._id,
+      userId: this.userInfo._id,
     }
 
-    return await http.get('/produtos/', {
+    return http.get('/produtos/', {
       params,
     })
   },
-  async getDefaultProducts() {
-    const userInfo = await usersService.getUserInfo()
 
+  getDefaultProducts() {
     const params = {
-      userId: userInfo?._id,
+      userId: this.userInfo._id,
     }
 
-    return await http.get('/produtos/padroes/', {
+    return http.get('/produtos/padroes/', {
       params,
     })
   },
 
-  async create({ newProductData }: CreateParams) {
-    const userInfo = await usersService.getUserInfo()
-
+  create({ newProductData }: CreateParams) {
     const body = {
       ...newProductData,
       stock: Number(newProductData?.stock),
       value: Number(newProductData?.value),
-      userInfo,
+      userInfo: this.userInfo._id,
     }
 
-    return await http.post('/produtos', {
+    return http.post('/produtos', {
       ...body,
     })
   },
 
-  async update({ productData }: UpdateParams) {
+  update({ productData }: UpdateParams) {
     const body = {
       ...productData,
     }
 
-    return await http.put('/produtos/', {
+    return http.put('/produtos/', {
       ...body,
     })
   },
 
-  async delete({ idProduct }: DeleteParams) {
-    return await http.delete(`/produtos/`, {
+  delete({ idProduct }: DeleteParams) {
+    return http.delete(`/produtos/`, {
       params: {
         idProduct,
       },

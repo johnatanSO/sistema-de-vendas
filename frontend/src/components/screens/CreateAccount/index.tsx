@@ -26,7 +26,7 @@ export function CreateAccount() {
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
 
-  async function onCreateAccount(event: FormEvent<HTMLFormElement>) {
+  function onCreateAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (loading) return
     if (!newUser?.email) {

@@ -27,9 +27,9 @@ interface DeleteParams {
 }
 
 export const salesService = {
-  async getAll({ filters: { startDate, endDate, status } }: GetAllParams) {
-    const userInfo = await usersService.getUserInfo()
+  userInfo: usersService.getUserInfo(),
 
+  getAll({ filters: { startDate, endDate, status } }: GetAllParams) {
     const params = {
       ...(status ? { status } : {}),
       ...(startDate
@@ -38,41 +38,39 @@ export const salesService = {
       ...(endDate
         ? { endDate }
         : { endDate: dayjs.utc().endOf('month').toISOString() }),
-      userId: userInfo?._id,
+      userId: this.userInfo._id,
     }
 
-    return await http.get('/vendas/', {
+    return http.get('/vendas/', {
       params,
     })
   },
 
-  async create({ newSaleData, totalValue }: CreateParams) {
-    const userInfo = await usersService.getUserInfo()
-
+  create({ newSaleData, totalValue }: CreateParams) {
     const body = {
       ...newSaleData,
       totalValue,
-      userInfo,
+      userInfo: this.userInfo,
     }
 
-    return await http.post('/vendas', {
+    return http.post('/vendas', {
       ...body,
     })
   },
 
-  async update({ saleData, totalValue }: UpdateParams) {
+  update({ saleData, totalValue }: UpdateParams) {
     const body = {
       ...saleData,
       totalValue,
     }
 
-    return await http.put('/vendas', {
+    return http.put('/vendas', {
       ...body,
     })
   },
 
-  async cancel({ idSale }: DeleteParams) {
-    return await http.put(`/vendas/cancelar/`, {
+  cancel({ idSale }: DeleteParams) {
+    return http.put(`/vendas/cancelar/`, {
       _id: idSale,
     })
   },

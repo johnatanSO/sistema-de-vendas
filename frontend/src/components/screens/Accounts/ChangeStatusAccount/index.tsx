@@ -77,10 +77,10 @@ export function ChangeStatusAccount({ params }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const router = useRouter()
 
-  async function handleChangeStatusAccount(event: any) {
+  function handleChangeStatusAccount(event: any) {
     const { _id: idAccount } = params.data
 
-    await accountsService
+    accountsService
       .updateStatus({
         idAccount,
         status: event.target.value,

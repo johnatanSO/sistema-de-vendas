@@ -1,11 +1,32 @@
-import { createContext, ReactNode } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
+import { usersService } from '../services/usersService'
 
-interface UserContextComponentProps {
+interface Props {
   children: ReactNode
 }
 
-export const UserContext = createContext({} as any)
+interface UserInfo {
+  _id: string
+  name: string
+  email: string
+}
+interface IUserContext {
+  userInfo: UserInfo | null
+}
 
-export function UserContextComponent({ children }: UserContextComponentProps) {
-  return <UserContext.Provider value={{}}>{children}</UserContext.Provider>
+export const UserContext = createContext({} as IUserContext)
+
+export function UserContextComponent({ children }: Props) {
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+
+  useEffect(() => {
+    const userStorage = usersService.getUserInfo()
+    if (userStorage) {
+      setUserInfo(userStorage)
+    }
+  }, [])
+
+  return (
+    <UserContext.Provider value={{ userInfo }}>{children}</UserContext.Provider>
+  )
 }

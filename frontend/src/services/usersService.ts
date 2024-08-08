@@ -15,13 +15,13 @@ interface RegisterParams {
 }
 
 export const usersService = {
-  async getSession(ctx = null) {
+  getSession(ctx = null) {
     const token = this.getToken(ctx)
 
     return token
   },
 
-  async login({ userData }: LoginParams) {
+  login({ userData }: LoginParams) {
     const body: any = { ...userData }
 
     return http.post('/signIn', {
@@ -29,7 +29,7 @@ export const usersService = {
     })
   },
 
-  async register({ newUser }: RegisterParams) {
+  register({ newUser }: RegisterParams) {
     const body = { ...newUser }
 
     return http.post('/users', {
@@ -43,7 +43,7 @@ export const usersService = {
     return cookies ? cookies[ACCESS_TOKEN_KEY] : null
   },
 
-  async saveUser(responseUser: any) {
+  saveUser(responseUser: any) {
     globalThis?.localStorage?.setItem(
       USER_INFO,
       JSON.stringify(responseUser.user),
@@ -57,7 +57,7 @@ export const usersService = {
     })
   },
 
-  async deleteToken() {
+  deleteToken() {
     globalThis?.localStorage?.removeItem(USER_INFO)
 
     globalThis?.localStorage?.removeItem(ACCESS_TOKEN_KEY)
@@ -66,6 +66,7 @@ export const usersService = {
   },
 
   getUserInfo() {
-    return JSON.parse(globalThis?.localStorage?.getItem(USER_INFO) || '{}')
+    const userString = globalThis?.localStorage?.getItem(USER_INFO)
+    return JSON.parse(userString || 'null')
   },
 }
