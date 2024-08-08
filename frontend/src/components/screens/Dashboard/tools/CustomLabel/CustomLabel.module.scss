@@ -1,5 +1,7 @@
+@import '../../../../../styles/colors.scss';
+
 .tooltip {
-	background: #ffffff;
+	background: $gray-color-100;
 	border: 1;
 	padding: 3px 10px;
 	border-radius: 20px;

@@ -11,6 +11,7 @@ export interface NewUser {
   name: string
   email: string
   password: string
+  confirmPassword: string
 }
 
 export function CreateAccount() {
@@ -19,6 +20,7 @@ export function CreateAccount() {
     name: '',
     email: '',
     password: '',
+    confirmPassword: '',
   }
   const [newUser, setNewUser] = useState<NewUser>(defaultValuesNewUser)
   const [loading, setLoading] = useState<boolean>(false)
@@ -60,14 +62,15 @@ export function CreateAccount() {
     setLoading(true)
     usersService
       .register({ newUser })
-      .then((res) => {
+      .then(({ data }) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: 'success',
           text: 'Usuário cadastrado com sucesso',
           open: 'true',
         })
-        router.push('/login')
+        usersService.saveUser(data)
+        router.push('/')
       })
       .catch((err) => {
         console.log('ERRO AO TENTAR CADASTRAR USUÁRIO, ', err)
@@ -129,6 +132,20 @@ export function CreateAccount() {
           }}
           type="password"
           placeholder="Digite uma senha"
+        />
+        <CustomTextField
+          required
+          label="Confirmar a senha"
+          className={style.input}
+          value={newUser.confirmPassword}
+          onChange={(e) => {
+            setNewUser({
+              ...newUser,
+              confirmPassword: e.target.value,
+            })
+          }}
+          type="password"
+          placeholder="Digite novamente a senha"
         />
         <button disabled={loading} type="submit">
           {loading ? <Loading size={15} /> : 'Cadastrar'}
