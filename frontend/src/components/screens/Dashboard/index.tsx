@@ -108,95 +108,129 @@ export function Dashboard() {
   const products = useProducts(sales)
   const graphPizzaData = usePizzaGraph(products)
 
-  console.log('graphPizzaData', graphPizzaData)
-
   return (
     <>
       <header className={style.headerPage}>
         <FilterDate />
       </header>
 
-      <ul className={style.salesCardsContainer}>
-        <Card
-          title="Quantidade de vendas"
-          value={sales?.length || 0}
-          icon={<Tag weight="regular" size={25} className={style.icon} />}
-          route="vendas"
-          className="amountCard"
-        />
+      <section className={style.cardsAndProductsContainer}>
+        <ul className={style.cardsContainer}>
+          <Card
+            title="Quantidade de vendas"
+            value={sales?.length || 0}
+            icon={<Tag weight="regular" size={25} className={style.icon} />}
+            route="vendas"
+            className="amountCard"
+          />
 
-        <Card
-          title="Valor de vendas"
-          value={format.formatarReal(totalSales?.totalValueSales || 0)}
-          icon={
-            <CurrencyDollar weight="regular" size={25} className={style.icon} />
-          }
-          route="vendas"
-          className="valueCard"
-        />
+          <Card
+            title="Vendas concluídas"
+            value={format.formatarReal(totalSales?.totalValueSales || 0)}
+            icon={
+              <CurrencyDollar
+                weight="regular"
+                size={25}
+                className={style.icon}
+              />
+            }
+            route="vendas"
+            className="valueCard"
+          />
 
-        <Card
-          title="Vendas canceladas"
-          value={format.formatarReal(totalSales.totalValueCanceled || 0)}
-          icon={<Prohibit weight="regular" size={25} className={style.icon} />}
-          route="vendas"
-          query={{ status: 'canceled' }}
-          className="valueCanceledCard"
-        />
-      </ul>
+          <Card
+            title="Vendas canceladas"
+            value={format.formatarReal(totalSales.totalValueCanceled || 0)}
+            icon={
+              <Prohibit weight="regular" size={25} className={style.icon} />
+            }
+            route="vendas"
+            query={{ status: 'canceled' }}
+            className="valueCanceledCard"
+          />
 
-      <div className={style.graphsContainer}>
-        <div className={style.graph}>
-          <header>
-            <h4>Tipos de pagamento</h4>
+          <Card
+            title="Contas de entrada"
+            className="inCard"
+            icon={<CaretUp weight="regular" size={25} className={style.icon} />}
+            value={format.formatarReal(totalAccounts.inTotalValue || 0)}
+            route="contas"
+            query={{
+              accountType: 'in',
+            }}
+          />
+
+          <Card
+            title="Contas de saída"
+            className="outCard"
+            icon={
+              <CaretDown weight="regular" size={25} className={style.icon} />
+            }
+            value={format.formatarReal(totalAccounts.outTotalValue || 0)}
+            route="contas"
+            query={{
+              accountType: 'out',
+            }}
+          />
+
+          <Card
+            title="Total"
+            className="totalCard"
+            icon={
+              <CurrencyDollar
+                weight="regular"
+                size={25}
+                className={style.icon}
+              />
+            }
+            value={format.formatarReal(totalAccounts.totalValueAccounts || 0)}
+            route="contas"
+          />
+        </ul>
+
+        <div className={style.pizzaGraph}>
+          <header className={style.outTitleGraph}>
+            <h4>Vendas por produtos</h4>
           </header>
 
           <main>
-            {paymentTypes?.length > 0 ? (
-              <div
-                style={{
-                  height: '580px',
-                  width: '100%',
-                  margin: '0 auto',
-                }}
-              >
-                <ResponsiveContainer>
-                  <BarChart
-                    margin={{ top: 40, right: 0, bottom: 0, left: 0 }}
-                    data={paymentTypes}
-                  >
-                    <Tooltip
-                      content={
-                        <CustomTooltip usarLabel={true} formatarReal={true} />
-                      }
+            {graphPizzaData[0]?.values?.length > 0 ? (
+              graphPizzaData?.map((pizza: any, key) => (
+                <div style={{ height: '100%' }} key={key}>
+                  <PieChart width={350} height={230}>
+                    <Pie
+                      data={pizza.values}
+                      innerRadius={40}
+                      outerRadius={55}
+                      fill="#8884d8"
+                      paddingAngle={5}
+                      dataKey="amount"
+                    >
+                      {pizza.values.map((entry: any, index: number) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={pizza.colors[index % pizza.colors.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Legend
+                      verticalAlign="bottom"
+                      height={38}
+                      wrapperStyle={{
+                        fontSize: '10px',
+                        fontWeight: '500',
+                        margin: '10px 0px',
+                      }}
                     />
-                    <XAxis
-                      tick={{ fill: '#c4c4cc', fontWeight: '600' }}
-                      dataKey="label"
-                    />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar radius={[10, 10, 0, 0]} dataKey="Valor" fill="#ff6600">
-                      <LabelList
-                        position="top"
-                        content={
-                          <CustomLabel
-                            usarLabel={true}
-                            formatarReal={true}
-                            position="top"
-                            fill="#FFF"
-                          />
-                        }
-                      />
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+                    <Tooltip content={<CustomTooltip formatarReal={true} />} />
+                  </PieChart>
+                </div>
+              ))
             ) : (
               <div
                 style={{
-                  height: '580px',
-                  width: '100%',
+                  width: 350,
+                  height: 230,
                   margin: '0 auto',
                   display: 'flex',
                   alignItems: 'center',
@@ -208,106 +242,74 @@ export function Dashboard() {
             )}
           </main>
         </div>
+      </section>
 
-        <div className={style.sideRightContainer}>
-          <ul className={style.accountsCardsContainer}>
-            <Card
-              title="Contas de entrada"
-              className="inCard"
-              icon={
-                <CaretUp weight="regular" size={25} className={style.icon} />
-              }
-              value={format.formatarReal(totalAccounts.inTotalValue || 0)}
-              route="contas"
-              query={{
-                accountType: 'in',
+      <div className={style.graphPayments}>
+        <header>
+          <h4>Tipos de pagamento</h4>
+        </header>
+
+        <main>
+          {paymentTypes?.length > 0 ? (
+            <div
+              style={{
+                height: '680px',
+                width: '100%',
+                margin: '0 auto',
               }}
-            />
-
-            <Card
-              title="Contas de saída"
-              className="outCard"
-              icon={
-                <CaretDown weight="regular" size={25} className={style.icon} />
-              }
-              value={format.formatarReal(totalAccounts.outTotalValue || 0)}
-              route="contas"
-              query={{
-                accountType: 'out',
-              }}
-            />
-
-            <Card
-              title="Total"
-              className="totalCard"
-              icon={
-                <CurrencyDollar
-                  weight="regular"
-                  size={25}
-                  className={style.icon}
-                />
-              }
-              value={format.formatarReal(totalAccounts.totalValueAccounts || 0)}
-              route="contas"
-            />
-          </ul>
-
-          <div className={style.pizzaGraph}>
-            <header className={style.outTitleGraph}>
-              <h4>Vendas por produtos</h4>
-            </header>
-
-            <main>
-              {graphPizzaData[0]?.values?.length > 0 ? (
-                graphPizzaData?.map((pizza: any, key) => (
-                  <div style={{ height: '100%' }} key={key}>
-                    <PieChart width={350} height={230}>
-                      <Pie
-                        data={pizza.values}
-                        innerRadius={40}
-                        outerRadius={55}
-                        fill="#8884d8"
-                        paddingAngle={5}
-                        dataKey="amount"
-                      >
-                        {pizza.values.map((entry: any, index: number) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={pizza.colors[index % pizza.colors.length]}
-                          />
-                        ))}
-                      </Pie>
-                      <Legend
-                        verticalAlign="bottom"
-                        height={38}
-                        wrapperStyle={{
-                          fontSize: '10px',
-                          fontWeight: '500',
-                          margin: '10px 0px',
-                        }}
-                      />
-                      <Tooltip
-                        content={<CustomTooltip formatarReal={true} />}
-                      />
-                    </PieChart>
-                  </div>
-                ))
-              ) : (
-                <div
-                  style={{
-                    width: 350,
-                    height: 230,
-                    margin: '0 auto',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
+            >
+              <ResponsiveContainer>
+                <BarChart
+                  margin={{ top: 40, right: 0, bottom: 0, left: 0 }}
+                  data={paymentTypes}
                 >
-                  <h5>Nenhuma venda encontrada</h5>
-                </div>
-              )}
-            </main>
-          </div>
+                  <Tooltip
+                    content={
+                      <CustomTooltip usarLabel={true} formatarReal={true} />
+                    }
+                  />
+                  <XAxis
+                    tick={{ fill: '#c4c4cc', fontWeight: '600' }}
+                    dataKey="label"
+                  />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar radius={[10, 10, 0, 0]} dataKey="Valor" fill="#ff6600">
+                    <LabelList
+                      position="top"
+                      content={
+                        <CustomLabel
+                          usarLabel={true}
+                          formatarReal={true}
+                          position="top"
+                          fill="#FFF"
+                        />
+                      }
+                    />
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          ) : (
+            <div
+              style={{
+                height: '580px',
+                width: '100%',
+                margin: '0 auto',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <h5>Nenhuma venda encontrada</h5>
+            </div>
+          )}
+        </main>
+      </div>
+
+      <div className={style.graphsContainer}>
+        <div className={style.sideRightContainer}>
+          <ul className={style.accountsCardsContainer}></ul>
         </div>
       </div>
     </>

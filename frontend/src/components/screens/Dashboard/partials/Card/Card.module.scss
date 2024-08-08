@@ -3,16 +3,13 @@
 .card {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  flex: 1;
-
+  gap: 1.2rem;
 
   padding: 1.2rem;
   border-radius: 20px;
   color: $white-color;
   background: $gray-color-400;
 
-  // box-shadow: 1px 7px 10px rgba(0, 0, 0, 0.389);
   transition: filter 0.2s;
   cursor: pointer;
 
@@ -54,7 +51,5 @@
 }
 
 @media (max-width: 980px) {
-  .card {
-    max-width: 100%;
-  }
+
 }

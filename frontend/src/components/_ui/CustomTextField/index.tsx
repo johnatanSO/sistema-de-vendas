@@ -52,7 +52,7 @@ export const CustomTextField = styled(TextField)({
     color: '#ff4646',
   },
   [`& .Mui-error .MuiSelect-icon`]: {
-    // Style do icone quadno tem um erro
+    // Style do icone quando tem um erro
     color: '#ff4646',
   },
   [`& .${inputLabelClasses.outlined}.${inputLabelClasses.focused}`]: {
