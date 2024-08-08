@@ -4,8 +4,8 @@
   background: $gray-color-400;
   box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.6);
 
-  padding: 20px 0px;
-  width: 52px;
+  padding: 1.2rem 0;
+  // width: 52px;
 
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@
     margin-top: auto;
 
     width: 100%;
-    gap: 30px;
+    gap: 1.9rem;
 
     li {
       list-style-type: none;
@@ -37,6 +37,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 0.5rem;
+
+      line-height: 1;
 
       &:not(.activeMenu):hover {
         filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.7)) brightness(0.7);
@@ -44,6 +47,7 @@
 
       &.activeMenu {
         color: $primary-color;
+        background: transparent;
       }
     }
   }

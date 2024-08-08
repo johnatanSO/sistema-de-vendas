@@ -17,7 +17,7 @@ export function Sidebar() {
       />
 
       <ul className={style.menuList}>
-        {menuOptions.map(({ disabled, icon, ...option }) => {
+        {menuOptions.map(({ disabled, icon, title, ...option }) => {
           return (
             <li
               style={disabled ? { opacity: '0.4', cursor: 'not-allowed' } : {}}
@@ -28,6 +28,7 @@ export function Sidebar() {
             >
               <Link href={disabled ? '/404' : option.link} title={option.name}>
                 {icon && icon}
+                {title}
               </Link>
             </li>
           )

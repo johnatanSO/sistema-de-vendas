@@ -25,11 +25,10 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (config: AxiosResponse) => config,
   (error) => {
-    if (
-      error.response.data.message === 'Erro interno do servidor - jwt expired'
-    ) {
+    const jwtExpired = error.response.data.message.includes('jwt expired')
+
+    if (jwtExpired) {
       usersService.deleteToken()
-      return Promise.reject(error)
     }
     return Promise.reject(error)
   },
