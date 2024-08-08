@@ -125,6 +125,17 @@ export function Dashboard() {
           />
 
           <Card
+            title="Contas de entrada"
+            className="inCard"
+            icon={<CaretUp weight="regular" size={25} className={style.icon} />}
+            value={format.formatarReal(totalAccounts.inTotalValue || 0)}
+            route="contas"
+            query={{
+              accountType: 'in',
+            }}
+          />
+
+          <Card
             title="Vendas concluídas"
             value={format.formatarReal(totalSales?.totalValueSales || 0)}
             icon={
@@ -139,28 +150,6 @@ export function Dashboard() {
           />
 
           <Card
-            title="Vendas canceladas"
-            value={format.formatarReal(totalSales.totalValueCanceled || 0)}
-            icon={
-              <Prohibit weight="regular" size={25} className={style.icon} />
-            }
-            route="vendas"
-            query={{ status: 'canceled' }}
-            className="valueCanceledCard"
-          />
-
-          <Card
-            title="Contas de entrada"
-            className="inCard"
-            icon={<CaretUp weight="regular" size={25} className={style.icon} />}
-            value={format.formatarReal(totalAccounts.inTotalValue || 0)}
-            route="contas"
-            query={{
-              accountType: 'in',
-            }}
-          />
-
-          <Card
             title="Contas de saída"
             className="outCard"
             icon={
@@ -171,6 +160,17 @@ export function Dashboard() {
             query={{
               accountType: 'out',
             }}
+          />
+
+          <Card
+            title="Vendas canceladas"
+            value={format.formatarReal(totalSales.totalValueCanceled || 0)}
+            icon={
+              <Prohibit weight="regular" size={25} className={style.icon} />
+            }
+            route="vendas"
+            query={{ status: 'canceled' }}
+            className="valueCanceledCard"
           />
 
           <Card

@@ -70,5 +70,8 @@
 }
 
 @media (max-width: 980px) {
- 
+  .cardsAndProductsContainer {
+    display: flex;
+    flex-direction: column;
+  }
 }
