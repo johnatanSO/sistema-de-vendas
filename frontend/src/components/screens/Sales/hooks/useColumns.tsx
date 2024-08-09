@@ -44,7 +44,7 @@ export function useColumns({
       headerName: 'Cliente',
       field: 'client',
       valueFormatter: (params: CellFunctionParams<Sale>) =>
-        params.value || '--',
+        params.value.name || '--',
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
           return style.canceledText
