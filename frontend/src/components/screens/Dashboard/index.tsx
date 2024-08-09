@@ -108,7 +108,6 @@ export function Dashboard() {
   const totalSales = useTotalSales(sales)
   const products = useProducts(sales)
   const graphPizzaData = usePizzaGraph(products)
-  console.log('products', products)
 
   return (
     <>
