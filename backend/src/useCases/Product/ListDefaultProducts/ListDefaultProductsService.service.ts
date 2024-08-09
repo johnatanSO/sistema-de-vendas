@@ -16,13 +16,10 @@ export class ListDefaultProductsService {
   }
 
   async execute({ userId }: IRequest): Promise<Product[]> {
-    const queryList = {
-      isDefault: true,
-    }
-
     const products = await this.productsRepository.list({
       userId,
-      ...queryList,
+      searchString: null,
+      onlyDefault: true,
     })
 
     return products

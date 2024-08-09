@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
   name: { type: String, default: null },
   value: { type: Number, default: null },
   stock: { type: Number, default: null },
-  user: { type: String, default: null },
+  user: { type: 'ObjectId', ref: 'User', default: null },
   isDefault: { type: Boolean, default: false },
 })
 

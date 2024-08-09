@@ -3,14 +3,25 @@ import { Product, ProductModel } from '../../entities/product'
 import {
   INewProductDTO,
   IProductsRepository,
-  QueryList,
+  FiltersListProducts,
   UpdateParams,
 } from './IProductsRepository'
 
 export class ProductsRepository implements IProductsRepository {
   model: Model<Product> = ProductModel
-  async list(queryList: QueryList): Promise<Product[]> {
-    return await ProductModel.find(queryList).lean()
+  async list({
+    userId,
+    searchString,
+    onlyDefault,
+  }: FiltersListProducts): Promise<Product[]> {
+    const query = {
+      user: userId,
+      ...(searchString
+        ? { name: { $regex: searchString, $options: 'i' } }
+        : {}),
+      ...(onlyDefault ? { isDefault: true } : {}),
+    }
+    return await ProductModel.find(query).lean()
   }
 
   async create({

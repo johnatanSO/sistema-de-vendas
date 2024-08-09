@@ -17,15 +17,10 @@ export class ListProductsService {
   }
 
   async execute({ userId, searchString }: IRequest): Promise<Product[]> {
-    const queryList = {
-      ...(searchString
-        ? { name: { $regex: searchString, $options: 'i' } }
-        : {}),
-    }
-
     const products = await this.productsRepository.list({
       userId,
-      ...queryList,
+      searchString,
+      onlyDefault: false,
     })
 
     return products

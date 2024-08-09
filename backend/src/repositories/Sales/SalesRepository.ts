@@ -21,7 +21,7 @@ export class SalesRepository implements ISalesRepository {
         user: userId,
         ...(status ? { status } : {}),
       })
-      .populate('client')
+      .populate([{ path: 'client', select: '_id name' }])
       .sort({ date: -1 })
       .lean()
   }

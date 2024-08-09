@@ -10,12 +10,6 @@ export interface INewProductDTO {
   isDefault: boolean
 }
 
-export interface QueryList {
-  searchString?: string
-  isDefault?: boolean
-  userId: string
-}
-
 export interface UpdateStockParams {
   productId: string
   amount: number
@@ -26,8 +20,18 @@ export interface UpdateParams {
   updateFields: any
 }
 
+export interface FiltersListProducts {
+  userId: string
+  searchString: string
+  onlyDefault: boolean
+}
+
 export interface IProductsRepository {
-  list: (QueryList: QueryList) => Promise<Product[]>
+  list: ({
+    userId,
+    searchString,
+    onlyDefault,
+  }: FiltersListProducts) => Promise<Product[]>
   create: (ProductData: INewProductDTO) => Promise<Product>
   delete: (idProduct: string) => Promise<void>
   findByName: (name: string) => Promise<Product>
