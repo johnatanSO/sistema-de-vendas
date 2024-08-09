@@ -201,7 +201,7 @@ export function Dashboard() {
             {graphPizzaData[0]?.values?.length > 0 ? (
               graphPizzaData?.map((pizza: any, key) => (
                 <div style={{ height: '100%' }} key={key}>
-                  <PieChart width={350} height={230}>
+                  <PieChart width={350} height={300}>
                     <Pie
                       data={pizza.values}
                       innerRadius={40}
@@ -234,7 +234,7 @@ export function Dashboard() {
               <div
                 style={{
                   width: 350,
-                  height: 290,
+                  height: 300,
                   margin: '0 auto',
                   display: 'flex',
                   alignItems: 'center',

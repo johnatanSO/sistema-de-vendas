@@ -8,6 +8,7 @@
   cursor: pointer;
   transition: filter 0.2s;
   line-height: 0;
+  padding: 1rem;
 
   &:hover {
     filter: brightness(0.8);
@@ -22,10 +23,11 @@
 .userInfoContainer {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 
   box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.6);
 
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 20px;
   cursor: auto;
 
@@ -57,7 +59,7 @@
   line-height: 0;
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  margin-top: 0.4rem;
+  margin-top: 1rem;
 
   width: 100%;
 

@@ -24,14 +24,14 @@ export function AlertNotify() {
       }
     >
       {configs?.type === 'success' ? (
-        <Check size={32} />
+        <Check weight="bold" size={23} />
       ) : (
-        <ExclamationMark size={32} />
+        <ExclamationMark weight="bold" size={23} />
       )}
 
       <p>{configs?.text || '--'}</p>
       <button onClick={configs.handleClose}>
-        <X size={32} />
+        <X weight="bold" size={23} />
       </button>
     </div>
   )

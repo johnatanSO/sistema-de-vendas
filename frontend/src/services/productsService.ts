@@ -47,7 +47,7 @@ export const productsService = {
       ...newProductData,
       stock: Number(newProductData?.stock),
       value: Number(newProductData?.value),
-      userInfo: this.userInfo._id,
+      userInfo: this.userInfo,
     }
 
     return http.post('/produtos', {

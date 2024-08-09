@@ -19,18 +19,25 @@ export function Sidebar() {
       <ul className={style.menuList}>
         {menuOptions.map(({ disabled, icon, title, ...option }) => {
           return (
-            <li
-              style={disabled ? { opacity: '0.4', cursor: 'not-allowed' } : {}}
-              className={
-                router.pathname === option.link ? style.activeMenu : undefined
-              }
+            <Link
               key={option.name}
+              href={disabled ? '/404' : option.link}
+              title={option.name}
             >
-              <Link href={disabled ? '/404' : option.link} title={option.name}>
-                {icon && icon}
-                {title}
-              </Link>
-            </li>
+              <li
+                style={
+                  disabled ? { opacity: '0.4', cursor: 'not-allowed' } : {}
+                }
+                className={
+                  router.pathname === option.link ? style.activeMenu : undefined
+                }
+              >
+                <>
+                  {icon && icon}
+                  <span>{title}</span>
+                </>
+              </li>
+            </Link>
           )
         })}
       </ul>
