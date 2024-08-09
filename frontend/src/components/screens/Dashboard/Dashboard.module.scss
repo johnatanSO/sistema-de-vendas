@@ -26,10 +26,13 @@
   .pizzaGraph {
     background: $gray-color-500;
   
-    flex: 1;
+
   
     border-radius: 20px;
-    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   
     header {
       padding: 1rem 1.2rem;

@@ -17,7 +17,7 @@ import {
   Legend,
 } from 'recharts'
 import { CustomLabel } from './tools/CustomLabel'
-import { CustomTooltip } from './tools/CustomToolTip'
+import { CustomTooltipPizzaGraph } from './tools/CustomToolTipPizzaGraph'
 import { accountsService } from '../../../services/accountsService'
 import { useRouter } from 'next/router'
 import { salesService } from '../../../services/salesService'
@@ -37,6 +37,7 @@ import { useTotalAccounts } from './hooks/useTotalAccounts'
 import { useTotalSales } from './hooks/useTotalSales'
 import { usePizzaGraph } from './hooks/usePizzaGraph'
 import { useProducts } from './hooks/useProducts'
+import { CustomTooltipBarGraph } from './tools/CustomToolTipBarGraph'
 
 export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<IPaymentType[]>([])
@@ -107,6 +108,7 @@ export function Dashboard() {
   const totalSales = useTotalSales(sales)
   const products = useProducts(sales)
   const graphPizzaData = usePizzaGraph(products)
+  console.log('products', products)
 
   return (
     <>
@@ -198,38 +200,46 @@ export function Dashboard() {
           </header>
 
           <main>
-            {graphPizzaData[0]?.values?.length > 0 ? (
-              graphPizzaData?.map((pizza: any, key) => (
-                <div style={{ height: '100%' }} key={key}>
-                  <PieChart width={350} height={300}>
-                    <Pie
-                      data={pizza.values}
-                      innerRadius={40}
-                      outerRadius={55}
-                      fill="#8884d8"
-                      paddingAngle={5}
-                      dataKey="amount"
-                    >
-                      {pizza.values.map((entry: any, index: number) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={pizza.colors[index % pizza.colors.length]}
-                        />
-                      ))}
-                    </Pie>
-                    <Legend
-                      verticalAlign="bottom"
-                      height={38}
-                      wrapperStyle={{
-                        fontSize: '10px',
-                        fontWeight: '500',
-                        margin: '10px 0px',
-                      }}
-                    />
-                    <Tooltip content={<CustomTooltip formatarReal={true} />} />
-                  </PieChart>
-                </div>
-              ))
+            {graphPizzaData?.values?.length > 0 ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  height: '100%',
+                }}
+              >
+                <PieChart width={350} height={300}>
+                  <Pie
+                    data={graphPizzaData.values}
+                    innerRadius={40}
+                    outerRadius={55}
+                    fill="#8884d8"
+                    paddingAngle={10}
+                    dataKey="amount"
+                  >
+                    {graphPizzaData.values.map((entry: any, index: number) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={
+                          graphPizzaData.colors[
+                            index % graphPizzaData.colors.length
+                          ]
+                        }
+                      />
+                    ))}
+                  </Pie>
+                  <Legend
+                    verticalAlign="bottom"
+                    height={38}
+                    wrapperStyle={{
+                      fontSize: '0.775rem',
+                      fontWeight: '500',
+                      margin: '10px 0px',
+                    }}
+                  />
+                  <Tooltip content={<CustomTooltipPizzaGraph />} />
+                </PieChart>
+              </div>
             ) : (
               <div
                 style={{
@@ -267,11 +277,7 @@ export function Dashboard() {
                   margin={{ top: 40, right: 0, bottom: 0, left: 0 }}
                   data={paymentTypes}
                 >
-                  <Tooltip
-                    content={
-                      <CustomTooltip usarLabel={true} formatarReal={true} />
-                    }
-                  />
+                  <Tooltip content={<CustomTooltipBarGraph />} />
                   <XAxis
                     tick={{ fill: '#c4c4cc', fontWeight: '600' }}
                     dataKey="label"

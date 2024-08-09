@@ -3,7 +3,9 @@
 .card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 1.2rem;
+  flex: 1;
 
   padding: 1.2rem;
   border-radius: 20px;
