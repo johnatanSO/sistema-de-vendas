@@ -27,7 +27,7 @@ export class AccountsRepository implements IAccountsRepository {
         : {}),
     }
 
-    return await this.model.find(query)
+    return await this.model.find(query).sort({ date: -1 }).lean()
   }
 
   async create({
@@ -61,10 +61,10 @@ export class AccountsRepository implements IAccountsRepository {
   }
 
   async findById(accountId: string): Promise<Account> {
-    return await this.model.findOne({ _id: accountId })
+    return await this.model.findOne({ _id: accountId }).lean()
   }
 
   async getEntries(userId: string): Promise<number> {
-    return await this.model.countDocuments({ user: userId })
+    return await this.model.countDocuments({ user: userId }).lean()
   }
 }

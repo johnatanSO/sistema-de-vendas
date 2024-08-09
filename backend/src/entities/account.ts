@@ -14,7 +14,7 @@ export interface Account {
 
 const accountSchema = new mongoose.Schema({
   type: { type: String, default: null },
-  user: { type: String, default: null },
+  user: { type: 'ObjectId', ref: 'User', default: null },
   code: { type: String, default: null },
   description: { type: String, default: null },
   category: { type: String, default: null },

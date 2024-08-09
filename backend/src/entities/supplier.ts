@@ -16,7 +16,7 @@ const supplierSchema = new mongoose.Schema({
   email: { type: String, default: null },
   cnpj: { type: String, default: null },
   phone: { type: String, default: null },
-  user: { type: String, default: null },
+  user: { type: 'ObjectId', ref: 'User', default: null },
 })
 
 export const SupplierModel = mongoose.model<Supplier>(

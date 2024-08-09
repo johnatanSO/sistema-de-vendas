@@ -18,11 +18,12 @@ export class SalesRepository implements ISalesRepository {
     return await this.model
       .find({
         date: { $gte: startDate, $lt: endDate },
-        userId,
+        user: userId,
         ...(status ? { status } : {}),
       })
-      .populate([{ path: 'client', select: '_id name phone' }])
+      .populate('client')
       .sort({ date: -1 })
+      .lean()
   }
 
   async create({
@@ -38,7 +39,7 @@ export class SalesRepository implements ISalesRepository {
       products,
       paymentType,
       totalValue,
-      userId,
+      user: userId,
       code,
     })
 
@@ -52,10 +53,10 @@ export class SalesRepository implements ISalesRepository {
   }
 
   async findById(saleId: string): Promise<Sale> {
-    return await this.model.findOne({ _id: saleId })
+    return await this.model.findOne({ _id: saleId }).lean()
   }
 
   async getEntries(userId: string): Promise<number> {
-    return await this.model.countDocuments({ userId })
+    return await this.model.countDocuments({ user: userId }).lean()
   }
 }

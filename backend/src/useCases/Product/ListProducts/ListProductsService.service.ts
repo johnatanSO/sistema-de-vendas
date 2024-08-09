@@ -18,7 +18,9 @@ export class ListProductsService {
 
   async execute({ userId, searchString }: IRequest): Promise<Product[]> {
     const queryList = {
-      ...(searchString ? { name: new RegExp('^' + searchString) } : {}),
+      ...(searchString
+        ? { name: { $regex: searchString, $options: 'i' } }
+        : {}),
     }
 
     const products = await this.productsRepository.list({

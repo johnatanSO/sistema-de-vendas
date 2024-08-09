@@ -32,15 +32,13 @@ export class SuppliersRepository implements ISuppliersRepository {
   }
 
   async list({ userId }: IListSuppliersDTO): Promise<Supplier[]> {
-    const suppliers = await this.model.find({ user: userId })
+    const suppliers = await this.model.find({ user: userId }).lean()
 
     return suppliers
   }
 
   async getEntries(userId: string): Promise<number> {
-    const suppliersAmount = await this.model.countDocuments({ user: userId })
-
-    return suppliersAmount
+    return await this.model.countDocuments({ user: userId }).lean()
   }
 
   async delete(supplierId: string): Promise<void> {
@@ -48,13 +46,13 @@ export class SuppliersRepository implements ISuppliersRepository {
   }
 
   async findByCnpj(cnpj: string): Promise<Supplier> {
-    const supplier = await this.model.findOne({ cnpj })
+    const supplier = await this.model.findOne({ cnpj }).lean()
 
     return supplier
   }
 
   async findByPhone(phone: string): Promise<Supplier> {
-    const supplier = await this.model.findOne({ phone })
+    const supplier = await this.model.findOne({ phone }).lean()
 
     return supplier
   }

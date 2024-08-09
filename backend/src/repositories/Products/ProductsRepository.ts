@@ -10,7 +10,7 @@ import {
 export class ProductsRepository implements IProductsRepository {
   model: Model<Product> = ProductModel
   async list(queryList: QueryList): Promise<Product[]> {
-    return await ProductModel.find(queryList)
+    return await ProductModel.find(queryList).lean()
   }
 
   async create({
@@ -26,7 +26,7 @@ export class ProductsRepository implements IProductsRepository {
       isDefault,
       stock,
       name,
-      userId,
+      user: userId,
       value,
     })
     await newProduct.save()
@@ -43,14 +43,14 @@ export class ProductsRepository implements IProductsRepository {
   }
 
   async findByName(name: string): Promise<Product> {
-    return await ProductModel.findOne({ name })
+    return await ProductModel.findOne({ name }).lean()
   }
 
   async findById(productId: string): Promise<Product> {
-    return await ProductModel.findOne({ _id: productId })
+    return await ProductModel.findOne({ _id: productId }).lean()
   }
 
   async getEntries(userId: string): Promise<number> {
-    return ProductModel.countDocuments({ userId })
+    return ProductModel.countDocuments({ user: userId }).lean()
   }
 }

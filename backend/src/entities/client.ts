@@ -16,7 +16,7 @@ const clientSchema = new mongoose.Schema({
   email: { type: String, default: null },
   cpf: { type: String, default: null },
   phone: { type: String, default: null },
-  user: { type: String, default: null },
+  user: { type: 'ObjectId', ref: 'User', default: null },
 })
 
 export const ClientModel = mongoose.model<Client>('Client', clientSchema)

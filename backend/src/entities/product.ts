@@ -6,7 +6,7 @@ export interface Product {
   value: number
   stock: number
   code: string
-  userId: string
+  user: string
   isDefault: boolean
   amount?: number
 }
@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
   name: { type: String, default: null },
   value: { type: Number, default: null },
   stock: { type: Number, default: null },
-  userId: { type: String, default: null },
+  user: { type: String, default: null },
   isDefault: { type: Boolean, default: false },
 })
 

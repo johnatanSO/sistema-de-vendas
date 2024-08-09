@@ -11,13 +11,13 @@ export interface Sale {
   products: ProductInSale[]
   paymentType: string
   totalValue: number
-  userId: string
+  user: string
   code: string
   status: string
 }
 
 const saleSchema = new mongoose.Schema({
-  client: { type: String, default: null },
+  client: { type: 'ObjectId', ref: 'Client', default: null },
   products: [
     {
       _id: { type: String, default: null },
@@ -30,7 +30,7 @@ const saleSchema = new mongoose.Schema({
   totalValue: { type: Number, default: null },
   date: { type: Date || String, default: Date.now },
   status: { type: String, default: null },
-  userId: { type: String, default: null },
+  user: { type: 'ObjectId', ref: 'User', default: null },
   code: { type: String, default: null },
 })
 

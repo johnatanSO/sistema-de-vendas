@@ -33,15 +33,13 @@ export class ClientsRepository implements IClientsRepository {
   }
 
   async list({ userId }: IListClientsDTO): Promise<Client[]> {
-    const clients = await this.model.find({ user: userId })
+    const clients = await this.model.find({ user: userId }).lean()
 
     return clients
   }
 
   async getEntries(userId: string): Promise<number> {
-    const suppliersAmount = await this.model.countDocuments({ user: userId })
-
-    return suppliersAmount
+    return await this.model.countDocuments({ user: userId }).lean()
   }
 
   async delete(supplieId: string): Promise<void> {
@@ -49,13 +47,13 @@ export class ClientsRepository implements IClientsRepository {
   }
 
   async findByCpf(cpf: string): Promise<Client> {
-    const supplier = await this.model.findOne({ cpf })
+    const supplier = await this.model.findOne({ cpf }).lean()
 
     return supplier
   }
 
   async findByPhone(phone: string): Promise<Client> {
-    const supplier = await this.model.findOne({ phone })
+    const supplier = await this.model.findOne({ phone }).lean()
 
     return supplier
   }

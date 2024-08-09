@@ -17,10 +17,10 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async findByEmail(email: string): Promise<User> {
-    return await this.model.findOne({ email })
+    return await this.model.findOne({ email }).lean()
   }
 
   async findById(_id: string): Promise<User> {
-    return await this.model.findOne({ _id })
+    return await this.model.findOne({ _id }).lean()
   }
 }
