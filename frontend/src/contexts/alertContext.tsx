@@ -33,7 +33,7 @@ export function AlertContextComponent({
       title: '',
       text: '',
       handleClose: onCloseAlertDialogConfirm,
-      onClickAgree: () => {},
+      onClickAgree: () => undefined,
     })
 
   const [alertNotifyConfigs, setAlertNotifyConfigs] =
@@ -59,7 +59,7 @@ export function AlertContextComponent({
       open: false,
       title: '',
       text: '',
-      onClickAgree: () => {},
+      onClickAgree: () => undefined,
     })
   }
 
