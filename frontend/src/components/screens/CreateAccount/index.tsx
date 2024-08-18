@@ -72,11 +72,7 @@ export function CreateAccount() {
           open: 'true',
         })
 
-        usersService.saveUser(data.user)
-        usersService.saveToken(data.token)
-        usersService.saveRefreshToken(data.refreshToken)
-
-        router.push('/')
+        router.push('/login')
       })
       .catch((err) => {
         console.log('ERRO AO TENTAR CADASTRAR USUÁRIO, ', err)
