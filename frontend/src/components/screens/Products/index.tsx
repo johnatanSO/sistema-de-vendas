@@ -11,6 +11,7 @@ import { AlertContext } from '../../../contexts/alertContext'
 import style from './Products.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
 
 export interface Product {
   _id: string
@@ -34,7 +35,7 @@ export function Products() {
   function getProducts() {
     setLoadingProducts(true)
     productsService
-      .getAll({ filters: { ...router.query } })
+      .getAll({ filters: { ...router.query } }, httpClientProvider)
       .then(({ data: { items } }) => {
         setProducts(items)
       })
@@ -58,7 +59,7 @@ export function Products() {
       text: 'Deseja realmente excluir este produto?',
       onClickAgree: () => {
         productsService
-          .delete({ idProduct: product?._id })
+          .delete({ idProduct: product?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
@@ -76,9 +77,7 @@ export function Products() {
               ...alertNotifyConfigs,
               open: true,
               type: 'error',
-              text: `Erro ao tentar excluir produto - ${
-                err?.response?.data?.message || err?.message
-              }`,
+              text: `Erro ao tentar excluir produto - ${err?.message}`,
             })
           })
       },

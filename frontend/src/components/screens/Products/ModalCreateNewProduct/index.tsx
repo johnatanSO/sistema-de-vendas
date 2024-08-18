@@ -7,6 +7,7 @@ import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { Checkbox, FormControlLabel, Popover, Typography } from '@mui/material'
 import { Info } from '@phosphor-icons/react'
+import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 
 export interface NewProductData {
   name: string
@@ -56,7 +57,7 @@ export function ModalCreateNewProduct({
       return
     }
     productsService
-      .create({ newProductData })
+      .create({ newProductData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -76,9 +77,7 @@ export function ModalCreateNewProduct({
           ...alertNotifyConfigs,
           open: true,
           type: 'error',
-          text: `Erro ao tentar cadastrar produto - ${
-            err?.response?.data?.message || err?.message
-          }`,
+          text: `Erro ao tentar cadastrar produto - ${err?.message}`,
         })
       })
       .finally(() => {
@@ -101,7 +100,7 @@ export function ModalCreateNewProduct({
       return
     }
     productsService
-      .update({ productData: newProductData })
+      .update({ productData: newProductData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -121,9 +120,7 @@ export function ModalCreateNewProduct({
           ...alertNotifyConfigs,
           open: true,
           type: 'error',
-          text:
-            'Erro ao tentar atualizar dados produto ' +
-            `(${err.response.data.message})`,
+          text: 'Erro ao tentar atualizar dados produto ' + `(${err?.message})`,
         })
       })
       .finally(() => {

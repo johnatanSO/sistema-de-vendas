@@ -11,6 +11,7 @@ import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { clientsService } from '../../../services/clientsService'
 import { FilterByName } from '../../_ui/FilterByName'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
 
 export interface Client {
   _id: string
@@ -33,7 +34,7 @@ export function Clients() {
   function getClients() {
     setLoadingClients(true)
     clientsService
-      .getAll()
+      .getAll(httpClientProvider)
       .then((res) => {
         setClients(res.data.items)
       })
@@ -57,7 +58,7 @@ export function Clients() {
       text: 'Deseja realmente excluir este cliente?',
       onClickAgree: () => {
         clientsService
-          .delete({ idClient: client?._id })
+          .delete({ idClient: client?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
@@ -75,7 +76,7 @@ export function Clients() {
               ...alertNotifyConfigs,
               open: true,
               type: 'error',
-              text: `Erro ao tentar excluir cliente (${err.response.data.error})`,
+              text: `Erro ao tentar excluir cliente (${err?.message})`,
             })
           })
       },

@@ -11,6 +11,7 @@ import { accountsService } from '../../../services/accountsService'
 import style from './Accounts.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
 
 export interface Account {
   _id: string
@@ -36,7 +37,7 @@ export function Accounts() {
   function getAccounts() {
     setLoadingAccounts(true)
     accountsService
-      .getAll({ filters: { ...router.query } })
+      .getAll({ filters: { ...router.query } }, httpClientProvider)
       .then((res) => {
         setAccounts(res.data.items)
       })
@@ -60,7 +61,7 @@ export function Accounts() {
       text: 'Deseja realmente excluir esta conta?',
       onClickAgree: () => {
         accountsService
-          .delete({ idAccount: account?._id })
+          .delete({ idAccount: account?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
@@ -78,7 +79,7 @@ export function Accounts() {
               ...alertNotifyConfigs,
               open: true,
               type: 'error',
-              text: `Erro ao tentar excluir conta (${err.response.data.error})`,
+              text: `Erro ao tentar excluir conta (${err?.message})`,
             })
           })
       },

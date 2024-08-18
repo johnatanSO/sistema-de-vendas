@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 export interface CellFunctionParams<Data> {
   data: Data
-  value: string | number | null | undefined
+  value: any
 }
 
 export interface Column {

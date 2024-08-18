@@ -1,4 +1,4 @@
-import http from '../api/http'
+import { IHttpClientProvider } from './../providers/HttpClientProvider/IHttpClientProvider'
 import { NewProductData } from '../components/screens/Products/ModalCreateNewProduct'
 import { usersService } from './usersService'
 
@@ -21,28 +21,31 @@ interface DeleteParams {
 export const productsService = {
   userInfo: usersService.getUserInfo(),
 
-  getAll({ filters }: GetAllParams) {
+  getAll({ filters }: GetAllParams, httpClientProvider: IHttpClientProvider) {
     const params = {
       ...filters,
       userId: this.userInfo._id,
     }
 
-    return http.get('/produtos/', {
+    return httpClientProvider.get('/produtos/', {
       params,
     })
   },
 
-  getDefaultProducts() {
+  getDefaultProducts(httpClientProvider: IHttpClientProvider) {
     const params = {
       userId: this.userInfo._id,
     }
 
-    return http.get('/produtos/padroes/', {
+    return httpClientProvider.get('/produtos/padroes/', {
       params,
     })
   },
 
-  create({ newProductData }: CreateParams) {
+  create(
+    { newProductData }: CreateParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = {
       ...newProductData,
       stock: Number(newProductData?.stock),
@@ -50,23 +53,26 @@ export const productsService = {
       userInfo: this.userInfo,
     }
 
-    return http.post('/produtos', {
+    return httpClientProvider.post('/produtos', {
       ...body,
     })
   },
 
-  update({ productData }: UpdateParams) {
+  update(
+    { productData }: UpdateParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = {
       ...productData,
     }
 
-    return http.put('/produtos/', {
+    return httpClientProvider.put('/produtos/', {
       ...body,
     })
   },
 
-  delete({ idProduct }: DeleteParams) {
-    return http.delete(`/produtos/`, {
+  delete({ idProduct }: DeleteParams, httpClientProvider: IHttpClientProvider) {
+    return httpClientProvider.delete(`/produtos/`, {
       params: {
         idProduct,
       },

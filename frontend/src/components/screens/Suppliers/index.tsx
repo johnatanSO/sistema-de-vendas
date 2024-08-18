@@ -11,6 +11,7 @@ import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { FilterByName } from '../../_ui/FilterByName'
 import { suppliersService } from '../../../services/suppliersService'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
 
 export interface Supplier {
   _id: string
@@ -33,7 +34,7 @@ export function Suppliers() {
   function getSuppliers() {
     setLoadingSuppliers(true)
     suppliersService
-      .getAll()
+      .getAll(httpClientProvider)
       .then((res) => {
         setSuppliers(res.data.items)
       })
@@ -57,7 +58,7 @@ export function Suppliers() {
       text: 'Deseja realmente excluir este fornecedor?',
       onClickAgree: () => {
         suppliersService
-          .delete({ idSupplier: supplier?._id })
+          .delete({ idSupplier: supplier?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
@@ -75,7 +76,7 @@ export function Suppliers() {
               ...alertNotifyConfigs,
               open: true,
               type: 'error',
-              text: `Erro ao tentar excluir fornecedor (${err.response.data.error})`,
+              text: `Erro ao tentar excluir fornecedor (${err?.message})`,
             })
           })
       },

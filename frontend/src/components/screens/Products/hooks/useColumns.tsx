@@ -1,4 +1,7 @@
-import { Column, CellFunctionParams } from '../../../../models/interfaces/Column.js'
+import {
+  Column,
+  CellFunctionParams,
+} from '../../../../models/interfaces/Column.js'
 import { format } from '../../../../utils/format'
 import style from '../Products.module.scss'
 import { Product } from '..'

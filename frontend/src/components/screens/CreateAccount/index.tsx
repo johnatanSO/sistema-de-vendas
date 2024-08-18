@@ -6,6 +6,7 @@ import { AlertContext } from '../../../contexts/alertContext'
 import { CustomTextField } from '../../_ui/CustomTextField'
 import { Loading } from '../../_ui/Loading'
 import { useRouter } from 'next/router'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
 
 export interface NewUser {
   name: string
@@ -61,7 +62,7 @@ export function CreateAccount() {
 
     setLoading(true)
     usersService
-      .register({ newUser })
+      .register({ newUser }, httpClientProvider)
       .then(({ data }) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
@@ -69,7 +70,11 @@ export function CreateAccount() {
           text: 'Usuário cadastrado com sucesso',
           open: 'true',
         })
-        usersService.saveUser(data)
+
+        usersService.saveUser(data.user)
+        usersService.saveToken(data.token)
+        usersService.saveRefreshToken(data.refreshToken)
+
         router.push('/')
       })
       .catch((err) => {
@@ -77,8 +82,7 @@ export function CreateAccount() {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: 'error',
-          text:
-            'Erro ao tentar cadastrar usuário ' + err?.response?.data?.message,
+          text: `Erro ao tentar cadastrar usuário - ${err?.message}`,
           open: 'true',
         })
       })
@@ -149,7 +153,7 @@ export function CreateAccount() {
           placeholder="Digite novamente a senha"
         />
         <button disabled={loading} type="submit">
-          {loading ? <Loading size={15} /> : 'Cadastrar'}
+          {loading ? <Loading size={13} /> : 'Cadastrar'}
         </button>
       </form>
       <Link href="/login" className={style.loginAccountLink}>

@@ -12,6 +12,7 @@ import { useContext } from 'react'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { Account } from '..'
+import { httpClientProvider } from '../../../../providers/HttpClientProvider/index.js'
 
 const CustomSelect = styled(TextField)({
   [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
@@ -81,10 +82,13 @@ export function ChangeStatusAccount({ params }: Props) {
     const { _id: idAccount } = params.data
 
     accountsService
-      .updateStatus({
-        idAccount,
-        status: event.target.value,
-      })
+      .updateStatus(
+        {
+          idAccount,
+          status: event.target.value,
+        },
+        httpClientProvider,
+      )
       .then((res) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
@@ -102,9 +106,7 @@ export function ChangeStatusAccount({ params }: Props) {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          text: `Erro ao tentar alterar o status da conta - ${
-            err?.response?.data?.message || err?.message
-          }`,
+          text: `Erro ao tentar alterar o status da conta - ${err?.message}`,
           type: 'error',
         })
       })
@@ -112,7 +114,7 @@ export function ChangeStatusAccount({ params }: Props) {
 
   return (
     <CustomSelect
-      className={style[params.value]}
+      className={style[params.value || '']}
       size="small"
       fullWidth
       select

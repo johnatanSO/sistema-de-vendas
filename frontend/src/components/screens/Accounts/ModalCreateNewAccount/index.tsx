@@ -6,6 +6,7 @@ import { accountsService } from '../../../../services/accountsService'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { CaretDown, CaretUp } from '@phosphor-icons/react'
+import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 
 export interface NewAccountData {
   description: string
@@ -41,7 +42,7 @@ export function ModalCreateNewAccount({
   function onCreateNewAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     accountsService
-      .create({ newAccountData })
+      .create({ newAccountData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -61,9 +62,7 @@ export function ModalCreateNewAccount({
           ...alertNotifyConfigs,
           open: true,
           type: 'error',
-          text:
-            'Erro ao tentar cadastrar conta ' +
-            `(${err.response.data.message})`,
+          text: 'Erro ao tentar cadastrar conta ' + `(${err?.message})`,
         })
       })
       .finally(() => {
@@ -74,7 +73,7 @@ export function ModalCreateNewAccount({
   function onEditAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     accountsService
-      .update({ accountData: newAccountData })
+      .update({ accountData: newAccountData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -95,8 +94,7 @@ export function ModalCreateNewAccount({
           open: true,
           type: 'error',
           text:
-            'Erro ao tentar atualizar dados da conta ' +
-            `(${err.response.data.message})`,
+            'Erro ao tentar atualizar dados da conta ' + `(${err?.message})`,
         })
       })
       .finally(() => {

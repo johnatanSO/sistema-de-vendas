@@ -1,4 +1,4 @@
-import http from '../api/http'
+import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
 import { usersService } from './usersService'
 
 interface GetPaymentTypesParams {
@@ -8,13 +8,16 @@ interface GetPaymentTypesParams {
 export const dashboardService = {
   userInfo: usersService.getUserInfo(),
 
-  getPaymentTypes({ filters }: GetPaymentTypesParams) {
+  getPaymentTypes(
+    { filters }: GetPaymentTypesParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const params = {
       ...filters,
       userId: this.userInfo._id,
     }
 
-    return http.get('/dashboard/formasDePagamento/', {
+    return httpClientProvider.get('/dashboard/formasDePagamento/', {
       params,
     })
   },

@@ -11,6 +11,7 @@ import { AlertContext } from '../../../contexts/alertContext'
 import style from './Sales.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
 
 export interface Sale {
   _id: string
@@ -36,7 +37,7 @@ export function Sales() {
   function getSales() {
     setLoadingSales(true)
     salesService
-      .getAll({ filters: { ...(router.query as any) } })
+      .getAll({ filters: { ...(router.query as any) } }, httpClientProvider)
       .then((res) => {
         setSales(res.data.items)
       })
@@ -60,7 +61,7 @@ export function Sales() {
       text: 'Deseja realmente cancelar esta venda?',
       onClickAgree: () => {
         salesService
-          .cancel({ idSale: sale?._id })
+          .cancel({ idSale: sale?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
@@ -78,7 +79,7 @@ export function Sales() {
               ...alertNotifyConfigs,
               open: true,
               type: 'error',
-              text: `Erro ao tentar cancelar a venda (${err.response.data.error})`,
+              text: `Erro ao tentar cancelar a venda (${err?.message})`,
             })
           })
       },

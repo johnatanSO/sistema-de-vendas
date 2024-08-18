@@ -5,6 +5,7 @@ import { CustomTextField } from '../../../_ui/CustomTextField'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { suppliersService } from '../../../../services/suppliersService'
+import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 
 export interface NewSupplierData {
   _id?: string
@@ -43,7 +44,7 @@ export function ModalCreateNewSupplier({
   function onCreateNewSupplier(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     suppliersService
-      .create({ ...newSupplierData })
+      .create({ ...newSupplierData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -63,9 +64,7 @@ export function ModalCreateNewSupplier({
           ...alertNotifyConfigs,
           open: true,
           type: 'error',
-          text:
-            'Erro ao tentar cadastrar fornecedor ' +
-            `(${err.response.data.message})`,
+          text: 'Erro ao tentar cadastrar fornecedor ' + `(${err?.message})`,
         })
       })
       .finally(() => {
@@ -80,7 +79,7 @@ export function ModalCreateNewSupplier({
     if (!supplierId) return
 
     suppliersService
-      .update({ ...newSupplierData, supplierId })
+      .update({ ...newSupplierData, supplierId }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -102,7 +101,7 @@ export function ModalCreateNewSupplier({
           type: 'error',
           text:
             'Erro ao tentar atualizar dados do fornecedor ' +
-            `(${err.response.data.message})`,
+            `(${err?.message})`,
         })
       })
       .finally(() => {
