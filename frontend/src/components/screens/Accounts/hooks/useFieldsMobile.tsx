@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { CellFunctionParams } from '../../../../models/interfaces/Column.js'
 import { format } from '../../../../utils/format'
 import style from '../Accounts.module.scss'
-import { Account } from '..'
+import { Account } from '../interfaces/IAccount.js'
 
 export function useFieldsMobile() {
   return [

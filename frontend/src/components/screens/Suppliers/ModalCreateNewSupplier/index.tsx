@@ -6,6 +6,7 @@ import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { suppliersService } from '../../../../services/suppliersService'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 
 export interface NewSupplierData {
   _id?: string
@@ -55,7 +56,7 @@ export function ModalCreateNewSupplier({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Fornecedor cadastrado com sucesso',
         })
       })
@@ -63,7 +64,7 @@ export function ModalCreateNewSupplier({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           text: 'Erro ao tentar cadastrar fornecedor ' + `(${err?.message})`,
         })
       })
@@ -90,7 +91,7 @@ export function ModalCreateNewSupplier({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Dados do fornecedor atualizados com sucesso',
         })
       })
@@ -98,7 +99,7 @@ export function ModalCreateNewSupplier({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           text:
             'Erro ao tentar atualizar dados do fornecedor ' +
             `(${err?.message})`,

@@ -12,6 +12,7 @@ import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { FilterByName } from '../../_ui/FilterByName'
 import { suppliersService } from '../../../services/suppliersService'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface Supplier {
   _id: string
@@ -63,7 +64,7 @@ export function Suppliers() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Fornecedor excluído com sucesso',
             })
             router.push({
@@ -75,7 +76,7 @@ export function Suppliers() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
+              type: ALERT_NOTIFY_TYPE.ERROR,
               text: `Erro ao tentar excluir fornecedor (${err?.message})`,
             })
           })

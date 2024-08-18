@@ -5,14 +5,15 @@ import {
   outlinedInputClasses,
   TextField,
 } from '@mui/material'
-import { CellFunctionParams } from '../../../../models/interfaces/Column.js'
+import { CellFunctionParams } from '../../../../models/interfaces/Column'
 import style from '../Accounts.module.scss'
 import { accountsService } from '../../../../services/accountsService'
 import { useContext } from 'react'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
-import { Account } from '..'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider/index.js'
+import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { Account } from '../interfaces/IAccount.js'
+import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 
 const CustomSelect = styled(TextField)({
   [`& .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]: {
@@ -94,7 +95,7 @@ export function ChangeStatusAccount({ params }: Props) {
           ...alertNotifyConfigs,
           open: true,
           text: `Status da conta alterado com sucesso`,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
         })
 
         router.push({
@@ -107,7 +108,7 @@ export function ChangeStatusAccount({ params }: Props) {
           ...alertNotifyConfigs,
           open: true,
           text: `Erro ao tentar alterar o status da conta - ${err?.message}`,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
         })
       })
   }

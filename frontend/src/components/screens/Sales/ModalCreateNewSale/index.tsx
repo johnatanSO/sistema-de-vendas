@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import { clientsService } from '../../../../services/clientsService'
 import { Trash } from '@phosphor-icons/react'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 
 interface ProductSale extends Product {
   amount: number
@@ -78,7 +79,7 @@ export function ModalCreateNewSale({
 
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           open: true,
           text: 'Erro ao buscar clientes',
         })
@@ -133,7 +134,7 @@ export function ModalCreateNewSale({
     if (!newSaleData.paymentType) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
         text: 'Forma de pagamento não informada',
       })
@@ -142,7 +143,7 @@ export function ModalCreateNewSale({
     if (newSaleData.products.length === 0) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
         text: 'Nenhum produto selecionado',
       })
@@ -155,7 +156,7 @@ export function ModalCreateNewSale({
       .then(() => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           open: true,
           text: 'Venda realizada com sucesso',
         })
@@ -169,7 +170,7 @@ export function ModalCreateNewSale({
       .catch((err) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           open: true,
           text: `Erro ao tentar realizar venda - ${err?.message}`,
         })
@@ -186,7 +187,7 @@ export function ModalCreateNewSale({
     if (!newSaleData.paymentType) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
         text: 'Forma de pagamento não informada',
       })
@@ -196,7 +197,7 @@ export function ModalCreateNewSale({
     if (newSaleData.products.length === 0) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
         text: 'Nenhum produto selecionado',
       })
@@ -210,7 +211,7 @@ export function ModalCreateNewSale({
       .then(() => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           open: true,
           text: 'Venda atualizada com sucesso',
         })
@@ -224,7 +225,7 @@ export function ModalCreateNewSale({
       .catch((err) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           open: true,
           text: 'Erro ao tentar atualizar venda' + err?.message,
         })

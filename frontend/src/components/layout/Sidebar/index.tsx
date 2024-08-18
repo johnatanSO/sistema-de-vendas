@@ -17,7 +17,7 @@ export function Sidebar() {
       />
 
       <ul className={style.menuList}>
-        {menuOptions.map(({ disabled, icon, title, ...option }) => {
+        {menuOptions.map(({ disabled, icon: Icon, title, ...option }) => {
           return (
             <Link
               key={option.name}
@@ -33,7 +33,7 @@ export function Sidebar() {
                 }
               >
                 <>
-                  {icon && icon}
+                  {Icon && <Icon size={23} />}
                   <span>{title}</span>
                 </>
               </li>

@@ -12,6 +12,7 @@ import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { clientsService } from '../../../services/clientsService'
 import { FilterByName } from '../../_ui/FilterByName'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface Client {
   _id: string
@@ -63,7 +64,7 @@ export function Clients() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Cliente excluído com sucesso',
             })
             router.push({
@@ -75,7 +76,7 @@ export function Clients() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
+              type: ALERT_NOTIFY_TYPE.ERROR,
               text: `Erro ao tentar excluir cliente (${err?.message})`,
             })
           })

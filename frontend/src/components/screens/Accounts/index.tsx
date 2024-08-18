@@ -12,14 +12,9 @@ import style from './Accounts.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
-
-export interface Account {
-  _id: string
-  description: string
-  type: 'in' | 'out'
-  value: number
-  status: string
-}
+import { INewAccount } from './interfaces/INewAccount'
+import { Account } from './interfaces/IAccount'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export function Accounts() {
   const {
@@ -31,7 +26,8 @@ export function Accounts() {
   const [accounts, setAccounts] = useState<Account[]>([])
   const [loadingAccounts, setLoadingAccounts] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [accountDataToEdit, setAccountDataToEdit] = useState<any>(undefined)
+  const [accountDataToEdit, setAccountDataToEdit] =
+    useState<INewAccount | null>(null)
   const router = useRouter()
 
   function getAccounts() {
@@ -66,7 +62,7 @@ export function Accounts() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Conta excluída com sucesso',
             })
             router.push({
@@ -78,7 +74,7 @@ export function Accounts() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
+              type: ALERT_NOTIFY_TYPE.ERROR,
               text: `Erro ao tentar excluir conta (${err?.message})`,
             })
           })
@@ -86,7 +82,9 @@ export function Accounts() {
     })
   }
 
-  function handleEditAccount(account: Account) {
+  function handleEditAccount(account: INewAccount) {
+    if (!account) return
+
     setAccountDataToEdit(account)
     setFormModalOpened(true)
   }
@@ -134,7 +132,7 @@ export function Accounts() {
           open={formModalOpened}
           handleClose={() => {
             setFormModalOpened(false)
-            setAccountDataToEdit(undefined)
+            setAccountDataToEdit(null)
           }}
         />
       )}

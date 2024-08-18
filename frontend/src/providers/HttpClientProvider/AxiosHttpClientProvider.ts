@@ -2,11 +2,11 @@ import axios, { Axios, AxiosError, AxiosResponse } from 'axios'
 import { IHttpClientProvider } from './IHttpClientProvider'
 import { httpClientProvider } from '.'
 import { usersService } from '../../services/usersService'
-import { HttpStatusCode } from '../../models/enums/HttpStatusCode'
+import { HTTP_STATUS_CODE } from '../../models/enums/HttpStatusCode'
 
 export class AxiosHttpClientProvider implements IHttpClientProvider {
   private httpIntance: Axios = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_END_POINT,
+    baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   })
 
   private static _instance = new AxiosHttpClientProvider()
@@ -40,7 +40,7 @@ export class AxiosHttpClientProvider implements IHttpClientProvider {
       (config: AxiosResponse) => config,
       async (error: AxiosError) => {
         const tokenExpired =
-          error?.response?.status === HttpStatusCode.unauthorized
+          error?.response?.status === HTTP_STATUS_CODE.UNAUTHORIZED
 
         if (tokenExpired) {
           try {

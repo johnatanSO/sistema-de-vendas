@@ -6,6 +6,7 @@ import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { clientsService } from '../../../../services/clientsService'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 
 export interface NewClientData {
   _id?: string
@@ -53,7 +54,7 @@ export function ModalCreateNewClient({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Cliente cadastrado com sucesso',
         })
       })
@@ -61,7 +62,7 @@ export function ModalCreateNewClient({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           text: 'Erro ao tentar cadastrar cliente ' + `(${err?.message})`,
         })
       })
@@ -88,7 +89,7 @@ export function ModalCreateNewClient({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Dados do cliente atualizados com sucesso',
         })
       })
@@ -96,7 +97,7 @@ export function ModalCreateNewClient({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           text:
             'Erro ao tentar atualizar dados do cliente ' + `(${err?.message})`,
         })

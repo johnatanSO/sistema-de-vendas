@@ -12,6 +12,7 @@ import style from './Sales.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface Sale {
   _id: string
@@ -66,7 +67,7 @@ export function Sales() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Venda cancelada com sucesso',
             })
             router.push({
@@ -78,7 +79,7 @@ export function Sales() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
+              type: ALERT_NOTIFY_TYPE.ERROR,
               text: `Erro ao tentar cancelar a venda (${err?.message})`,
             })
           })

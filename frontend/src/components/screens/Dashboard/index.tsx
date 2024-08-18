@@ -188,7 +188,9 @@ export function Dashboard() {
                   className={style.icon}
                 />
               }
-              value={format.formatarReal(totalAccounts.totalValueAccounts || 0)}
+              value={format.formatarReal(
+                totalAccounts.inTotalValue - totalAccounts.outTotalValue || 0,
+              )}
               route="contas"
             />
           </ul>

@@ -12,6 +12,7 @@ import style from './Products.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface Product {
   _id: string
@@ -64,7 +65,7 @@ export function Products() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Produto excluído com sucesso',
             })
             router.push({
@@ -76,7 +77,7 @@ export function Products() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
+              type: ALERT_NOTIFY_TYPE.ERROR,
               text: `Erro ao tentar excluir produto - ${err?.message}`,
             })
           })

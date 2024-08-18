@@ -1,7 +1,7 @@
-import { HttpStatusCode } from '../../models/enums/HttpStatusCode'
+import { HTTP_STATUS_CODE } from '../../models/enums/HttpStatusCode'
 
 export interface HttpResponse {
-  statusCode: HttpStatusCode
+  statusCode: HTTP_STATUS_CODE
   data?: any
 }
 

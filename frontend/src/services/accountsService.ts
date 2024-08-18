@@ -1,4 +1,3 @@
-import { NewAccountData } from '../components/screens/Accounts/ModalCreateNewAccount'
 import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
 import { usersService } from './usersService'
 
@@ -7,7 +6,9 @@ interface GetAllParams {
 }
 
 interface CreateParams {
-  newAccountData: NewAccountData
+  newAccountData: {
+    value: number | string
+  }
 }
 
 interface UpdateParams {

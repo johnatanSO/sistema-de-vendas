@@ -1,6 +1,7 @@
 import { ReactNode, createContext, useState } from 'react'
 import { AlertDialogConfirm } from '../components/_ui/AlertDialogConfirm'
 import { AlertNotify } from '../components/_ui/AlertNotify'
+import { ALERT_NOTIFY_TYPE } from '../models/enums/AlertNotifyType'
 
 interface AlertContextComponentProps {
   children: ReactNode
@@ -16,7 +17,7 @@ interface AlertDialogConfirmConfigs {
 
 interface AlertNotifyConfigs {
   open: boolean
-  type: 'success' | 'error'
+  type: ALERT_NOTIFY_TYPE
   text: string
   handleClose: () => void
 }
@@ -39,7 +40,7 @@ export function AlertContextComponent({
     useState<AlertNotifyConfigs>({
       open: false,
       text: '',
-      type: 'success',
+      type: ALERT_NOTIFY_TYPE.SUCCESS,
       handleClose: onCloseNotify,
     })
 
@@ -48,7 +49,7 @@ export function AlertContextComponent({
       ...alertNotifyConfigs,
       open: false,
       text: '',
-      type: 'success',
+      type: ALERT_NOTIFY_TYPE.SUCCESS,
     })
   }
 
