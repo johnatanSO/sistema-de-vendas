@@ -64,7 +64,6 @@ export function Dashboard() {
       .catch((err) => {
         console.error(err)
       })
-      .finally(() => {})
   }
 
   function formatPaymentsToGraph(payments: IPaymentType[]) {

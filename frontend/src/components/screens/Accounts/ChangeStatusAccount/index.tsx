@@ -90,7 +90,7 @@ export function ChangeStatusAccount({ params }: Props) {
         },
         httpClientProvider,
       )
-      .then((res) => {
+      .then(() => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
