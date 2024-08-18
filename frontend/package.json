@@ -14,23 +14,22 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.2",
     "@phosphor-icons/react": "^2.1.5",
-    "@rocketseat/eslint-config": "^1.2.0",
-    "@types/node": "18.15.11",
-    "@types/react": "18.0.33",
-    "@types/react-dom": "18.0.11",
     "axios": "^1.4.0",
     "dayjs": "^1.11.8",
     "next": "12.2.3",
     "nookies": "^2.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "recharts": "^2.7.2",
-    "sass": "^1.61.0",
-    "sass-loader": "^13.2.2",
-    "typescript": "5.0.3"
+    "recharts": "^2.7.2"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.5"
+    "eslint": "^8",
+    "eslint-config-next": "13.5.4",
+    "typescript": "5",
+    "sass": "^1.70.0",
+    "@rocketseat/eslint-config": "^1.2.0",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.33",
+    "@types/react-dom": "18.0.11"
   }
 }
