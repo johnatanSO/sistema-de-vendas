@@ -1,4 +1,4 @@
-import { Popover, Typography } from '@mui/material'
+import { Paper, Popover } from '@mui/material'
 import style from './UserOptions.module.scss'
 import { useContext, useState } from 'react'
 import { usersService } from '../../../services/usersService'
@@ -77,7 +77,7 @@ export function UserOptions({ position }: Props) {
           },
         }}
       >
-        <Typography className={style.userInfoContainer}>
+        <div className={style.userInfoContainer}>
           <p>
             <User size={23} />
             {userInfo?.name || '--'}
@@ -87,7 +87,7 @@ export function UserOptions({ position }: Props) {
             <Envelope size={23} />
             {userInfo?.email || '--'}
           </p>
-          <p>
+          <>
             <button
               type="button"
               className={style.logoutButton}
@@ -97,8 +97,8 @@ export function UserOptions({ position }: Props) {
               <CaretLeft size={21} />
               Sair
             </button>
-          </p>
-        </Typography>
+          </>
+        </div>
       </Popover>
     </>
   )

@@ -5,3 +5,4 @@
 - Desacoplar lógica de requisições dos components em hooks independentes;
 - Criar providers das dependencias, ex: dayjs, axios, etc.
 - Refatorar form para utilizar react hook form;
+- Implementar lógica de refresh token no backend;
