@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 import { AlertContext } from '../../../contexts/alertContext'
 import { CustomTextField } from '../../_ui/CustomTextField'
 import { Loading } from '../../_ui/Loading'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface LoginUserData {
   email: string
@@ -29,7 +31,7 @@ export function Login() {
     if (!userData?.email) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         text: 'E-mail não informado',
         open: 'true',
       })
@@ -39,7 +41,7 @@ export function Login() {
     if (!userData?.password) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         text: 'Senha não informada',
         open: 'true',
       })
@@ -48,25 +50,27 @@ export function Login() {
 
     setLoading(true)
     usersService
-      .login({ userData })
+      .login({ userData }, httpClientProvider)
       .then((res) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Usuário autenticado com sucesso',
           open: 'true',
         })
-        usersService.saveUser(res.data)
+        usersService.saveUser(res.data.user)
+        usersService.saveToken(res.data.token)
+        usersService.saveRefreshToken(res.data.refreshToken)
         router.push('/')
       })
       .catch((err) => {
         console.log('ERRO AO TENTAR REALIZAR LOGIN,', err)
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           text:
             'Erro ao tentar realizar autenticação do usuário ' +
-            `(${err.response.data.message})`,
+            `(${err?.message})`,
           open: 'true',
         })
       })
@@ -110,7 +114,7 @@ export function Login() {
           }}
         />
         <button disabled={loading} type="submit">
-          {loading ? <Loading size={15} /> : 'Entrar'}
+          {loading ? <Loading size={13} /> : 'Entrar'}
         </button>
       </form>
 

@@ -3,7 +3,7 @@ import { HeaderPage } from '../../_ui/HeaderPage'
 import { useContext, useEffect, useState } from 'react'
 import { ModalCreateNewSale } from './ModalCreateNewSale'
 import { TableComponent } from '../../_ui/TableComponent'
-import { Column } from '../../../models/columns'
+import { Column } from '../../../models/interfaces/Column'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { FilterDate } from '../../_ui/FilterDate'
@@ -11,6 +11,8 @@ import { AlertContext } from '../../../contexts/alertContext'
 import style from './Sales.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface Sale {
   _id: string
@@ -36,7 +38,7 @@ export function Sales() {
   function getSales() {
     setLoadingSales(true)
     salesService
-      .getAll({ filters: { ...(router.query as any) } })
+      .getAll({ filters: { ...(router.query as any) } }, httpClientProvider)
       .then((res) => {
         setSales(res.data.items)
       })
@@ -60,12 +62,12 @@ export function Sales() {
       text: 'Deseja realmente cancelar esta venda?',
       onClickAgree: () => {
         salesService
-          .cancel({ idSale: sale?._id })
+          .cancel({ idSale: sale?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Venda cancelada com sucesso',
             })
             router.push({
@@ -77,8 +79,8 @@ export function Sales() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
-              text: `Erro ao tentar cancelar a venda (${err.response.data.error})`,
+              type: ALERT_NOTIFY_TYPE.ERROR,
+              text: `Erro ao tentar cancelar a venda (${err?.message})`,
             })
           })
       },

@@ -6,6 +6,8 @@ import { AlertContext } from '../../../contexts/alertContext'
 import { CustomTextField } from '../../_ui/CustomTextField'
 import { Loading } from '../../_ui/Loading'
 import { useRouter } from 'next/router'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface NewUser {
   name: string
@@ -32,7 +34,7 @@ export function CreateAccount() {
     if (!newUser?.email) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         text: 'E-mail não informado',
         open: 'true',
       })
@@ -42,7 +44,7 @@ export function CreateAccount() {
     if (!newUser?.password) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         text: 'Senha não informada',
         open: 'true',
       })
@@ -52,7 +54,7 @@ export function CreateAccount() {
     if (!newUser?.name) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         text: 'Nome não informada',
         open: 'true',
       })
@@ -61,24 +63,27 @@ export function CreateAccount() {
 
     setLoading(true)
     usersService
-      .register({ newUser })
+      .register({ newUser }, httpClientProvider)
       .then(({ data }) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Usuário cadastrado com sucesso',
           open: 'true',
         })
-        usersService.saveUser(data)
+
+        usersService.saveUser(data.user)
+        usersService.saveToken(data.token)
+        usersService.saveRefreshToken(data.refreshToken)
+
         router.push('/')
       })
       .catch((err) => {
         console.log('ERRO AO TENTAR CADASTRAR USUÁRIO, ', err)
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'error',
-          text:
-            'Erro ao tentar cadastrar usuário ' + err?.response?.data?.message,
+          type: ALERT_NOTIFY_TYPE.ERROR,
+          text: `Erro ao tentar cadastrar usuário - ${err?.message}`,
           open: 'true',
         })
       })
@@ -149,7 +154,7 @@ export function CreateAccount() {
           placeholder="Digite novamente a senha"
         />
         <button disabled={loading} type="submit">
-          {loading ? <Loading size={15} /> : 'Cadastrar'}
+          {loading ? <Loading size={13} /> : 'Cadastrar'}
         </button>
       </form>
       <Link href="/login" className={style.loginAccountLink}>

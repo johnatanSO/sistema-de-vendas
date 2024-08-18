@@ -6,16 +6,13 @@ import { accountsService } from '../../../../services/accountsService'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { CaretDown, CaretUp } from '@phosphor-icons/react'
-
-export interface NewAccountData {
-  description: string
-  type: string
-  category: string
-  value: string | number
-}
+import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { INewAccount } from '../interfaces/INewAccount'
+import { ACCOUNT_TYPE } from '../../../../models/enums/AccountType'
+import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 
 interface Props {
-  accountDataToEdit: NewAccountData
+  accountDataToEdit: INewAccount | null
   open: boolean
   handleClose: () => void
 }
@@ -26,14 +23,14 @@ export function ModalCreateNewAccount({
   accountDataToEdit,
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-  const defaultNewAccountValues = {
+  const defaultNewAccountValues: INewAccount = {
     description: '',
-    type: 'in',
+    type: ACCOUNT_TYPE.IN,
     category: '',
     value: 0,
   }
-  const [newAccountData, setNewAccountData] = useState<NewAccountData>(
-    accountDataToEdit || defaultNewAccountValues,
+  const [newAccountData, setNewAccountData] = useState<INewAccount>(
+    accountDataToEdit! || defaultNewAccountValues,
   )
   const [loadingCreateNewAccount, setLoadingCreateNewAccount] =
     useState<boolean>(false)
@@ -41,7 +38,7 @@ export function ModalCreateNewAccount({
   function onCreateNewAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     accountsService
-      .create({ newAccountData })
+      .create({ newAccountData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -60,10 +57,8 @@ export function ModalCreateNewAccount({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
-          text:
-            'Erro ao tentar cadastrar conta ' +
-            `(${err.response.data.message})`,
+          type: ALERT_NOTIFY_TYPE.ERROR,
+          text: 'Erro ao tentar cadastrar conta ' + `(${err?.message})`,
         })
       })
       .finally(() => {
@@ -74,7 +69,7 @@ export function ModalCreateNewAccount({
   function onEditAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     accountsService
-      .update({ accountData: newAccountData })
+      .update({ accountData: newAccountData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -93,10 +88,9 @@ export function ModalCreateNewAccount({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           text:
-            'Erro ao tentar atualizar dados da conta ' +
-            `(${err.response.data.message})`,
+            'Erro ao tentar atualizar dados da conta ' + `(${err?.message})`,
         })
       })
       .finally(() => {
@@ -151,7 +145,7 @@ export function ModalCreateNewAccount({
             onClick={() => {
               setNewAccountData({
                 ...newAccountData,
-                type: 'in',
+                type: ACCOUNT_TYPE.IN,
               })
             }}
           >
@@ -165,7 +159,7 @@ export function ModalCreateNewAccount({
             onClick={() => {
               setNewAccountData({
                 ...newAccountData,
-                type: 'out',
+                type: ACCOUNT_TYPE.OUT,
               })
             }}
           >

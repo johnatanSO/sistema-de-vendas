@@ -2,7 +2,7 @@ import { HeaderPage } from '../../_ui/HeaderPage'
 import { useContext, useEffect, useState } from 'react'
 import { ModalCreateNewSupplier } from './ModalCreateNewSupplier'
 import { TableComponent } from '../../_ui/TableComponent'
-import { Column } from '../../../models/columns'
+import { Column } from '../../../models/interfaces/Column'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../../contexts/alertContext'
@@ -11,6 +11,8 @@ import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { FilterByName } from '../../_ui/FilterByName'
 import { suppliersService } from '../../../services/suppliersService'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface Supplier {
   _id: string
@@ -33,7 +35,7 @@ export function Suppliers() {
   function getSuppliers() {
     setLoadingSuppliers(true)
     suppliersService
-      .getAll()
+      .getAll(httpClientProvider)
       .then((res) => {
         setSuppliers(res.data.items)
       })
@@ -57,12 +59,12 @@ export function Suppliers() {
       text: 'Deseja realmente excluir este fornecedor?',
       onClickAgree: () => {
         suppliersService
-          .delete({ idSupplier: supplier?._id })
+          .delete({ idSupplier: supplier?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Fornecedor excluído com sucesso',
             })
             router.push({
@@ -74,8 +76,8 @@ export function Suppliers() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
-              text: `Erro ao tentar excluir fornecedor (${err.response.data.error})`,
+              type: ALERT_NOTIFY_TYPE.ERROR,
+              text: `Erro ao tentar excluir fornecedor (${err?.message})`,
             })
           })
       },

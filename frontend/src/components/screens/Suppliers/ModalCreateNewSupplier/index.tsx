@@ -5,6 +5,8 @@ import { CustomTextField } from '../../../_ui/CustomTextField'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { suppliersService } from '../../../../services/suppliersService'
+import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 
 export interface NewSupplierData {
   _id?: string
@@ -43,7 +45,7 @@ export function ModalCreateNewSupplier({
   function onCreateNewSupplier(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     suppliersService
-      .create({ ...newSupplierData })
+      .create({ ...newSupplierData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -54,7 +56,7 @@ export function ModalCreateNewSupplier({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Fornecedor cadastrado com sucesso',
         })
       })
@@ -62,10 +64,8 @@ export function ModalCreateNewSupplier({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
-          text:
-            'Erro ao tentar cadastrar fornecedor ' +
-            `(${err.response.data.message})`,
+          type: ALERT_NOTIFY_TYPE.ERROR,
+          text: 'Erro ao tentar cadastrar fornecedor ' + `(${err?.message})`,
         })
       })
       .finally(() => {
@@ -80,7 +80,7 @@ export function ModalCreateNewSupplier({
     if (!supplierId) return
 
     suppliersService
-      .update({ ...newSupplierData, supplierId })
+      .update({ ...newSupplierData, supplierId }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -91,7 +91,7 @@ export function ModalCreateNewSupplier({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Dados do fornecedor atualizados com sucesso',
         })
       })
@@ -99,10 +99,10 @@ export function ModalCreateNewSupplier({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           text:
             'Erro ao tentar atualizar dados do fornecedor ' +
-            `(${err.response.data.message})`,
+            `(${err?.message})`,
         })
       })
       .finally(() => {

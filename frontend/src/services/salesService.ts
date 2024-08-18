@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
-import http from '../api/http'
 import { usersService } from './usersService'
 import utc from 'dayjs/plugin/utc'
+import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
 dayjs.extend(utc)
 
 interface GetAllParams {
@@ -29,7 +29,10 @@ interface DeleteParams {
 export const salesService = {
   userInfo: usersService.getUserInfo(),
 
-  getAll({ filters: { startDate, endDate, status } }: GetAllParams) {
+  getAll(
+    { filters: { startDate, endDate, status } }: GetAllParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const params = {
       ...(status ? { status } : {}),
       ...(startDate
@@ -41,36 +44,42 @@ export const salesService = {
       userId: this.userInfo._id,
     }
 
-    return http.get('/vendas/', {
+    return httpClientProvider.get('/vendas/', {
       params,
     })
   },
 
-  create({ newSaleData, totalValue }: CreateParams) {
+  create(
+    { newSaleData, totalValue }: CreateParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = {
       ...newSaleData,
       totalValue,
       userInfo: this.userInfo,
     }
 
-    return http.post('/vendas', {
+    return httpClientProvider.post('/vendas', {
       ...body,
     })
   },
 
-  update({ saleData, totalValue }: UpdateParams) {
+  update(
+    { saleData, totalValue }: UpdateParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = {
       ...saleData,
       totalValue,
     }
 
-    return http.put('/vendas', {
+    return httpClientProvider.put('/vendas', {
       ...body,
     })
   },
 
-  cancel({ idSale }: DeleteParams) {
-    return http.put(`/vendas/cancelar/`, {
+  cancel({ idSale }: DeleteParams, httpClientProvider: IHttpClientProvider) {
+    return httpClientProvider.put(`/vendas/cancelar/`, {
       _id: idSale,
     })
   },

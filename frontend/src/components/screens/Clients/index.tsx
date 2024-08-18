@@ -2,7 +2,7 @@ import { HeaderPage } from '../../_ui/HeaderPage'
 import { useContext, useEffect, useState } from 'react'
 import { ModalCreateNewClient } from './ModalCreateNewClient'
 import { TableComponent } from '../../_ui/TableComponent'
-import { Column } from '../../../models/columns'
+import { Column } from '../../../models/interfaces/Column'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../../contexts/alertContext'
@@ -11,6 +11,8 @@ import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { clientsService } from '../../../services/clientsService'
 import { FilterByName } from '../../_ui/FilterByName'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export interface Client {
   _id: string
@@ -33,7 +35,7 @@ export function Clients() {
   function getClients() {
     setLoadingClients(true)
     clientsService
-      .getAll()
+      .getAll(httpClientProvider)
       .then((res) => {
         setClients(res.data.items)
       })
@@ -57,12 +59,12 @@ export function Clients() {
       text: 'Deseja realmente excluir este cliente?',
       onClickAgree: () => {
         clientsService
-          .delete({ idClient: client?._id })
+          .delete({ idClient: client?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Cliente excluído com sucesso',
             })
             router.push({
@@ -74,8 +76,8 @@ export function Clients() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
-              text: `Erro ao tentar excluir cliente (${err.response.data.error})`,
+              type: ALERT_NOTIFY_TYPE.ERROR,
+              text: `Erro ao tentar excluir cliente (${err?.message})`,
             })
           })
       },

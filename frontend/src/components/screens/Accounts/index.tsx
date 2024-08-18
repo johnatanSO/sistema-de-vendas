@@ -2,7 +2,7 @@ import { HeaderPage } from '../../_ui/HeaderPage'
 import { useContext, useEffect, useState } from 'react'
 import { ModalCreateNewAccount } from './ModalCreateNewAccount'
 import { TableComponent } from '../../_ui/TableComponent'
-import { Column } from '../../../models/columns'
+import { Column } from '../../../models/interfaces/Column'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { FilterByAccountType } from '../../_ui/FilterByAccountType'
@@ -11,14 +11,10 @@ import { accountsService } from '../../../services/accountsService'
 import style from './Accounts.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
-
-export interface Account {
-  _id: string
-  description: string
-  type: 'in' | 'out'
-  value: number
-  status: string
-}
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { INewAccount } from './interfaces/INewAccount'
+import { Account } from './interfaces/IAccount'
+import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export function Accounts() {
   const {
@@ -30,13 +26,14 @@ export function Accounts() {
   const [accounts, setAccounts] = useState<Account[]>([])
   const [loadingAccounts, setLoadingAccounts] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [accountDataToEdit, setAccountDataToEdit] = useState<any>(undefined)
+  const [accountDataToEdit, setAccountDataToEdit] =
+    useState<INewAccount | null>(null)
   const router = useRouter()
 
   function getAccounts() {
     setLoadingAccounts(true)
     accountsService
-      .getAll({ filters: { ...router.query } })
+      .getAll({ filters: { ...router.query } }, httpClientProvider)
       .then((res) => {
         setAccounts(res.data.items)
       })
@@ -60,12 +57,12 @@ export function Accounts() {
       text: 'Deseja realmente excluir esta conta?',
       onClickAgree: () => {
         accountsService
-          .delete({ idAccount: account?._id })
+          .delete({ idAccount: account?._id }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'success',
+              type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Conta excluída com sucesso',
             })
             router.push({
@@ -77,15 +74,17 @@ export function Accounts() {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
               open: true,
-              type: 'error',
-              text: `Erro ao tentar excluir conta (${err.response.data.error})`,
+              type: ALERT_NOTIFY_TYPE.ERROR,
+              text: `Erro ao tentar excluir conta (${err?.message})`,
             })
           })
       },
     })
   }
 
-  function handleEditAccount(account: Account) {
+  function handleEditAccount(account: INewAccount) {
+    if (!account) return
+
     setAccountDataToEdit(account)
     setFormModalOpened(true)
   }
@@ -133,7 +132,7 @@ export function Accounts() {
           open={formModalOpened}
           handleClose={() => {
             setFormModalOpened(false)
-            setAccountDataToEdit(undefined)
+            setAccountDataToEdit(null)
           }}
         />
       )}

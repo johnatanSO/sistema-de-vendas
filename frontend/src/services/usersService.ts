@@ -1,10 +1,11 @@
-import http from '../api/http'
 import { NewUser } from '../components/screens/CreateAccount'
 import { LoginUserData } from '../components/screens/Login'
 import nookies, { setCookie, destroyCookie } from 'nookies'
+import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
 
-const USER_INFO = 'userInfo'
-const ACCESS_TOKEN_KEY = ':sis-vendas[v1]:'
+const USER_INFO = 'sis-vendas:user_info[v1]'
+const ACCESS_TOKEN_KEY = 'sis-vendas:token[v1]'
+const ACCESS_REFRESH_TOKEN_KEY = 'sis-vendas:refresh_token[v1]'
 
 interface LoginParams {
   userData: LoginUserData
@@ -14,6 +15,12 @@ interface RegisterParams {
   newUser: NewUser
 }
 
+interface IUser {
+  _id: string
+  name: string
+  email: string
+}
+
 export const usersService = {
   getSession(ctx = null) {
     const token = this.getToken(ctx)
@@ -21,18 +28,21 @@ export const usersService = {
     return token
   },
 
-  login({ userData }: LoginParams) {
+  login({ userData }: LoginParams, httpClientProvider: IHttpClientProvider) {
     const body: any = { ...userData }
 
-    return http.post('/signIn', {
+    return httpClientProvider.post('/signIn', {
       ...body,
     })
   },
 
-  register({ newUser }: RegisterParams) {
+  register(
+    { newUser }: RegisterParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = { ...newUser }
 
-    return http.post('/users', {
+    return httpClientProvider.post('/users', {
       ...body,
     })
   },
@@ -43,30 +53,61 @@ export const usersService = {
     return cookies ? cookies[ACCESS_TOKEN_KEY] : null
   },
 
-  saveUser(responseUser: any) {
-    globalThis?.localStorage?.setItem(
-      USER_INFO,
-      JSON.stringify(responseUser.user),
-    )
+  getRefreshToken(ctx = null) {
+    const cookies = nookies.get(ctx)
 
-    globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, responseUser?.token)
+    return cookies ? cookies[ACCESS_REFRESH_TOKEN_KEY] : null
+  },
 
-    setCookie(undefined, ACCESS_TOKEN_KEY, responseUser?.token, {
+  saveUser(user: IUser) {
+    globalThis?.localStorage?.setItem(USER_INFO, JSON.stringify(user))
+  },
+
+  saveToken(token: string) {
+    globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, token)
+
+    setCookie(undefined, ACCESS_TOKEN_KEY, token, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
     })
   },
 
-  deleteToken() {
+  deleteLocalUser() {
     globalThis?.localStorage?.removeItem(USER_INFO)
+  },
 
+  deleteToken() {
     globalThis?.localStorage?.removeItem(ACCESS_TOKEN_KEY)
 
     destroyCookie(null, ACCESS_TOKEN_KEY)
   },
 
+  deleteRefreshToken() {
+    globalThis?.localStorage?.removeItem(ACCESS_REFRESH_TOKEN_KEY)
+
+    destroyCookie(null, ACCESS_REFRESH_TOKEN_KEY)
+  },
+
+  saveRefreshToken(token: string) {
+    globalThis?.localStorage?.setItem(ACCESS_REFRESH_TOKEN_KEY, token)
+
+    setCookie(undefined, ACCESS_REFRESH_TOKEN_KEY, token, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: '/',
+    })
+  },
+
   getUserInfo() {
     const userString = globalThis?.localStorage?.getItem(USER_INFO)
     return JSON.parse(userString || 'null')
+  },
+
+  async updateRefreshTokenService(
+    token: string | null,
+    httpClientProvider: IHttpClientProvider,
+  ) {
+    return httpClientProvider.post('refreshToken', {
+      token,
+    })
   },
 }

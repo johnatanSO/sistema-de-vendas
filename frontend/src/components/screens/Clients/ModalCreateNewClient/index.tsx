@@ -5,6 +5,8 @@ import { CustomTextField } from '../../../_ui/CustomTextField'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { clientsService } from '../../../../services/clientsService'
+import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 
 export interface NewClientData {
   _id?: string
@@ -41,7 +43,7 @@ export function ModalCreateNewClient({
   function onCreateNewClient(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     clientsService
-      .create({ ...newClientData })
+      .create({ ...newClientData }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -52,7 +54,7 @@ export function ModalCreateNewClient({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Cliente cadastrado com sucesso',
         })
       })
@@ -60,10 +62,8 @@ export function ModalCreateNewClient({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
-          text:
-            'Erro ao tentar cadastrar cliente ' +
-            `(${err.response.data.message})`,
+          type: ALERT_NOTIFY_TYPE.ERROR,
+          text: 'Erro ao tentar cadastrar cliente ' + `(${err?.message})`,
         })
       })
       .finally(() => {
@@ -78,7 +78,7 @@ export function ModalCreateNewClient({
     if (!clientId) return
 
     clientsService
-      .update({ ...newClientData, clientId })
+      .update({ ...newClientData, clientId }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
@@ -89,7 +89,7 @@ export function ModalCreateNewClient({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Dados do cliente atualizados com sucesso',
         })
       })
@@ -97,10 +97,9 @@ export function ModalCreateNewClient({
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           text:
-            'Erro ao tentar atualizar dados do cliente ' +
-            `(${err.response.data.message})`,
+            'Erro ao tentar atualizar dados do cliente ' + `(${err?.message})`,
         })
       })
       .finally(() => {

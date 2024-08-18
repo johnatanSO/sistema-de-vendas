@@ -38,6 +38,7 @@ import { useTotalSales } from './hooks/useTotalSales'
 import { usePizzaGraph } from './hooks/usePizzaGraph'
 import { useProducts } from './hooks/useProducts'
 import { CustomTooltipBarGraph } from './tools/CustomToolTipBarGraph'
+import { httpClientProvider } from '../../../providers/HttpClientProvider'
 
 export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<IPaymentType[]>([])
@@ -54,7 +55,7 @@ export function Dashboard() {
 
   function getPaymentTypes() {
     dashboardService
-      .getPaymentTypes({ filters: { ...datesFilter } })
+      .getPaymentTypes({ filters: { ...datesFilter } }, httpClientProvider)
       .then(({ data: { items } }) => {
         const formatedPayments: any[] = formatPaymentsToGraph(items)
 
@@ -78,7 +79,7 @@ export function Dashboard() {
 
   function getAccounts() {
     accountsService
-      .getAll({ filters: { ...datesFilter } })
+      .getAll({ filters: { ...datesFilter } }, httpClientProvider)
       .then(({ data: { items } }) => {
         setAccounts(items)
       })
@@ -89,7 +90,7 @@ export function Dashboard() {
 
   function getSales() {
     salesService
-      .getAll({ filters: { ...datesFilter } as any })
+      .getAll({ filters: { ...datesFilter } as any }, httpClientProvider)
       .then(({ data: { items } }) => {
         setSales(items)
       })
@@ -187,7 +188,9 @@ export function Dashboard() {
                   className={style.icon}
                 />
               }
-              value={format.formatarReal(totalAccounts.totalValueAccounts || 0)}
+              value={format.formatarReal(
+                totalAccounts.inTotalValue - totalAccounts.outTotalValue || 0,
+              )}
               route="contas"
             />
           </ul>

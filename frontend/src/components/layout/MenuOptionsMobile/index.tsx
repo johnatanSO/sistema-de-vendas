@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { menuOptions } from '../../../utils/menuOptions'
+import { menuOptions } from '../../../models/constants/MenuOptions'
 import style from './MenuOptionsMobile.module.scss'
 
 type Props = {
@@ -18,7 +18,7 @@ export function MenuOptionsMobile({ handleOpenMenuOptions }: Props) {
     <div className={style.menuOptionsContainer}>
       <nav>
         <ul className={style.listMenuOptions}>
-          {menuOptions.map(({ disabled, icon, ...option }) => {
+          {menuOptions.map(({ disabled, icon: Icon, ...option }) => {
             return (
               <li key={option.name}>
                 <button
@@ -35,7 +35,7 @@ export function MenuOptionsMobile({ handleOpenMenuOptions }: Props) {
                       : undefined
                   }
                 >
-                  {icon && icon}
+                  {Icon && <Icon size={23} />}
                   <span>{option.title}</span>
                 </button>
               </li>

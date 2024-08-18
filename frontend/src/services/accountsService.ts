@@ -1,5 +1,4 @@
-import http from '../api/http'
-import { NewAccountData } from '../components/screens/Accounts/ModalCreateNewAccount'
+import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
 import { usersService } from './usersService'
 
 interface GetAllParams {
@@ -7,7 +6,9 @@ interface GetAllParams {
 }
 
 interface CreateParams {
-  newAccountData: NewAccountData
+  newAccountData: {
+    value: number | string
+  }
 }
 
 interface UpdateParams {
@@ -31,47 +32,56 @@ interface DeleteParams {
 export const accountsService = {
   userInfo: usersService.getUserInfo(),
 
-  getAll({ filters }: GetAllParams) {
+  getAll({ filters }: GetAllParams, httpClientProvider: IHttpClientProvider) {
     const params = {
       ...filters,
       userId: this.userInfo._id,
     }
 
-    return http.get('/contas/', {
+    return httpClientProvider.get('/contas/', {
       params,
     })
   },
 
-  create({ newAccountData }: CreateParams) {
+  create(
+    { newAccountData }: CreateParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = {
       ...newAccountData,
       value: Number(newAccountData?.value),
       userInfo: this.userInfo,
     }
 
-    return http.post('/contas/', {
+    return httpClientProvider.post('/contas/', {
       ...body,
     })
   },
 
-  update({ accountData }: UpdateParams) {
+  update(
+    { accountData }: UpdateParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = {
       ...accountData,
     }
 
-    return http.put('/contas/', {
+    return httpClientProvider.put('/contas/', {
       ...body,
     })
   },
 
-  updateStatus({ idAccount, status }: UpdateStatusParams) {
-    return http.patch(`/contas/updateStatus/${idAccount}`, {
+  updateStatus(
+    { idAccount, status }: UpdateStatusParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
+    return httpClientProvider.patch(`/contas/updateStatus/${idAccount}`, {
       status,
     })
   },
 
-  delete({ idAccount }: DeleteParams) {
-    return http.delete(`/contas/`, {
+  delete({ idAccount }: DeleteParams, httpClientProvider: IHttpClientProvider) {
+    return httpClientProvider.delete(`/contas/`, {
       params: {
         idAccount,
       },

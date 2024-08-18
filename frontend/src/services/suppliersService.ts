@@ -1,5 +1,4 @@
-import http from '../api/http'
-
+import { IHttpClientProvider } from './../providers/HttpClientProvider/IHttpClientProvider'
 interface CreateParams {
   name: string
   cnpj: string
@@ -20,15 +19,18 @@ interface DeleteParams {
 }
 
 export const suppliersService = {
-  getAll() {
+  getAll(httpClientProvider: IHttpClientProvider) {
     const params = {}
 
-    return http.get('/fornecedores/', {
+    return httpClientProvider.get('/fornecedores/', {
       params,
     })
   },
 
-  create({ name, cnpj, phone, email }: CreateParams) {
+  create(
+    { name, cnpj, phone, email }: CreateParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = {
       name,
       cnpj,
@@ -36,12 +38,15 @@ export const suppliersService = {
       email,
     }
 
-    return http.post('/fornecedores', {
+    return httpClientProvider.post('/fornecedores', {
       ...body,
     })
   },
 
-  update({ name, cnpj, phone, email, supplierId }: UpdateParams) {
+  update(
+    { name, cnpj, phone, email, supplierId }: UpdateParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const body = {
       name,
       cnpj,
@@ -49,12 +54,15 @@ export const suppliersService = {
       email,
     }
 
-    return http.put(`/fornecedores/${supplierId}`, {
+    return httpClientProvider.put(`/fornecedores/${supplierId}`, {
       ...body,
     })
   },
 
-  delete({ idSupplier }: DeleteParams) {
-    return http.delete(`/fornecedores/${idSupplier}`)
+  delete(
+    { idSupplier }: DeleteParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
+    return httpClientProvider.delete(`/fornecedores/${idSupplier}`)
   },
 }

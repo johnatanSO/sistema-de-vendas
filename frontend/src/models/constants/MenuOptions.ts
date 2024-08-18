@@ -5,45 +5,37 @@ import {
   Tag,
   UsersThree,
 } from '@phosphor-icons/react'
-import { ReactElement } from 'react'
-
-interface MenuOption {
-  title: string
-  link: string
-  icon: ReactElement
-  name: string
-  disabled?: boolean
-}
+import { MenuOption } from '../interfaces/MenuOption'
 
 export const menuOptions: MenuOption[] = [
   {
     title: 'Dashboard',
     link: '/',
-    icon: <ChartBar size={23} />,
+    icon: ChartBar,
     name: 'dashboard',
   },
   {
     title: 'Vendas',
     link: '/vendas',
-    icon: <Tag size={23} />,
+    icon: Tag,
     name: 'vendas',
   },
   {
     title: 'Produtos',
     link: '/produtos',
-    icon: <Package size={23} />,
+    icon: Package,
     name: 'produtos',
   },
   {
     title: 'Clientes',
     link: '/clientes',
-    icon: <UsersThree size={23} />,
+    icon: UsersThree,
     name: 'clientes',
   },
   {
     title: 'Contas',
     link: '/contas',
-    icon: <Invoice size={23} />,
+    icon: Invoice,
     name: 'contas',
   },
 ]

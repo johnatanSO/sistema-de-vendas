@@ -3,7 +3,7 @@ import { FormEvent, useState, ChangeEvent, useContext, useEffect } from 'react'
 import style from './ModalCreateNewSale.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
 import { Autocomplete, MenuItem } from '@mui/material'
-import { paymentTypesList } from '../../../../models/paymentTypesList'
+import { paymentTypeList } from '../../../../models/constants/PaymentTypeList'
 import { productsService } from '../../../../services/productsService'
 import { Product } from '../../Products'
 import { format } from '../../../../utils/format'
@@ -12,6 +12,8 @@ import { salesService } from '../../../../services/salesService'
 import { useRouter } from 'next/router'
 import { clientsService } from '../../../../services/clientsService'
 import { Trash } from '@phosphor-icons/react'
+import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 
 interface ProductSale extends Product {
   amount: number
@@ -57,7 +59,7 @@ export function ModalCreateNewSale({
 
   function getProducts() {
     productsService
-      .getAll({ filters: {} })
+      .getAll({ filters: {} }, httpClientProvider)
       .then((res) => {
         setProductsList(res.data.items)
       })
@@ -68,7 +70,7 @@ export function ModalCreateNewSale({
 
   function getClientsList() {
     clientsService
-      .getAll()
+      .getAll(httpClientProvider)
       .then((res) => {
         setClientsList(res.data.items)
       })
@@ -77,7 +79,7 @@ export function ModalCreateNewSale({
 
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           open: true,
           text: 'Erro ao buscar clientes',
         })
@@ -132,7 +134,7 @@ export function ModalCreateNewSale({
     if (!newSaleData.paymentType) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
         text: 'Forma de pagamento não informada',
       })
@@ -141,7 +143,7 @@ export function ModalCreateNewSale({
     if (newSaleData.products.length === 0) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
         text: 'Nenhum produto selecionado',
       })
@@ -150,11 +152,11 @@ export function ModalCreateNewSale({
 
     setLoading(true)
     salesService
-      .create({ newSaleData, totalValue })
+      .create({ newSaleData, totalValue }, httpClientProvider)
       .then(() => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           open: true,
           text: 'Venda realizada com sucesso',
         })
@@ -168,11 +170,9 @@ export function ModalCreateNewSale({
       .catch((err) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           open: true,
-          text: `Erro ao tentar realizar venda - ${
-            err?.response?.data?.message || err?.message
-          }`,
+          text: `Erro ao tentar realizar venda - ${err?.message}`,
         })
 
         console.error(err)
@@ -187,7 +187,7 @@ export function ModalCreateNewSale({
     if (!newSaleData.paymentType) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
         text: 'Forma de pagamento não informada',
       })
@@ -197,7 +197,7 @@ export function ModalCreateNewSale({
     if (newSaleData.products.length === 0) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
-        type: 'error',
+        type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
         text: 'Nenhum produto selecionado',
       })
@@ -207,11 +207,11 @@ export function ModalCreateNewSale({
 
     setLoading(true)
     salesService
-      .update({ saleData: newSaleData, totalValue })
+      .update({ saleData: newSaleData, totalValue }, httpClientProvider)
       .then(() => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           open: true,
           text: 'Venda atualizada com sucesso',
         })
@@ -225,11 +225,11 @@ export function ModalCreateNewSale({
       .catch((err) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
-          type: 'error',
+          type: ALERT_NOTIFY_TYPE.ERROR,
           open: true,
-          text: 'Erro ao tentar atualizar venda' + err.response.data.message,
+          text: 'Erro ao tentar atualizar venda' + err?.message,
         })
-        console.log('[ERROR]: ', err.response.data.message)
+        console.log('[ERROR]: ', err?.message)
       })
       .finally(() => {
         setLoading(false)
@@ -239,7 +239,7 @@ export function ModalCreateNewSale({
   useEffect(() => {
     if (!saleToEditData)
       productsService
-        .getDefaultProducts()
+        .getDefaultProducts(httpClientProvider)
         .then((res) => {
           const defaultProducts = res.data.items
           const defaultProductsList = defaultProducts.map(
@@ -254,9 +254,7 @@ export function ModalCreateNewSale({
           })
         })
         .catch((err) => {
-          console.log(
-            'ERRO AO BUSCAR PRODUTO PADRÃO, ' + err.response.data.message,
-          )
+          console.log('ERRO AO BUSCAR PRODUTO PADRÃO, ' + err?.message)
         })
   }, [saleToEditData])
 
@@ -314,7 +312,7 @@ export function ModalCreateNewSale({
                 })
               }}
             >
-              {paymentTypesList.map(({ text, value }) => {
+              {paymentTypeList.map(({ text, value }) => {
                 return (
                   <MenuItem key={value} value={value}>
                     {text || '--'}

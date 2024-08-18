@@ -1,4 +1,7 @@
-import { Column, CellFunctionParams } from '../../../../models/columns'
+import {
+  Column,
+  CellFunctionParams,
+} from '../../../../models/interfaces/Column.js'
 import style from '../Clients.module.scss'
 import { Client } from '..'
 import { Pen, Trash } from '@phosphor-icons/react'

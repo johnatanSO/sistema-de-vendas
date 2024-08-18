@@ -1,13 +1,17 @@
-import { Column, CellFunctionParams } from '../../../../models/columns'
+import {
+  Column,
+  CellFunctionParams,
+} from '../../../../models/interfaces/Column.js'
 import { format } from '../../../../utils/format'
 import style from '../Accounts.module.scss'
-import { Account } from '..'
 import dayjs from 'dayjs'
 import { ChangeStatusAccount } from '../ChangeStatusAccount'
 import { Pen, Trash } from '@phosphor-icons/react'
+import { INewAccount } from '../interfaces/INewAccount.js'
+import { Account } from '../interfaces/IAccount.js'
 
 interface UseColumnsParams {
-  handleEditAccount: (account: Account) => void
+  handleEditAccount: (account: INewAccount) => void
   handleDeleteAccount: (account: Account) => void
 }
 
