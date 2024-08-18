@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import style from './Sidebar.module.scss'
-import { menuOptions } from '../../../utils/menuOptions'
+import { menuOptions } from '../../../models/constants/MenuOptions'
 import Link from 'next/link'
 import { UserOptions } from '../UserOptions'
 

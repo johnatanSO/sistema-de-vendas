@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { Column, CellFunctionParams } from '../../../../models/columns'
+import { Column, CellFunctionParams } from '../../../../models/interfaces/Column.js'
 import { format } from '../../../../utils/format'
 import { Sale } from '..'
 import style from '../Sales.module.scss'

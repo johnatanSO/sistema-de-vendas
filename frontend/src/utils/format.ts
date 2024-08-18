@@ -1,4 +1,4 @@
-import { paymentTypesList } from '../models/paymentTypesList'
+import { paymentTypeList } from '../models/constants/PaymentTypeList'
 
 export const format = {
   formatarReal(valor: number | string) {
@@ -8,7 +8,7 @@ export const format = {
     })
   },
   formatarFormaDePagamento(paymentType: string) {
-    const paymentFormated = paymentTypesList.find(
+    const paymentFormated = paymentTypeList.find(
       (paymentItem) => paymentItem.value === paymentType,
     )
     return paymentFormated?.text

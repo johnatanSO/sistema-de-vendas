@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { menuOptions } from '../../../utils/menuOptions'
+import { menuOptions } from '../../../models/constants/MenuOptions'
 import style from './MenuOptionsMobile.module.scss'
 
 type Props = {

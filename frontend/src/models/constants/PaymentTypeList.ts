@@ -1,6 +1,6 @@
-import { ListSelectItem } from './ListSelectItem'
+import { ItemSelectList } from '../interfaces/ItemSelectList'
 
-export const paymentTypesList: ListSelectItem[] = [
+export const paymentTypeList: ItemSelectList[] = [
   { text: 'Dinheiro', value: 'dinheiro' },
   { text: 'PIX', value: 'pix' },
   { text: 'Cartão de crédito', value: 'credit_card' },

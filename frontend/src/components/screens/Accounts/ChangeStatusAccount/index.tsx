@@ -5,7 +5,7 @@ import {
   outlinedInputClasses,
   TextField,
 } from '@mui/material'
-import { CellFunctionParams } from '../../../../models/columns'
+import { CellFunctionParams } from '../../../../models/interfaces/Column.js'
 import style from '../Accounts.module.scss'
 import { accountsService } from '../../../../services/accountsService'
 import { useContext } from 'react'

@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "src/models/interfaces/Column.ts"  ],
   "exclude": [
     "node_modules"
   ]
