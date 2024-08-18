@@ -1,9 +1,7 @@
 import { Dashboard } from '../src/components/screens/Dashboard'
 import { usersService } from '../src/services/usersService'
-import { PageProps } from './_app'
 
-export default function Home({ setTitle }: PageProps) {
-  setTitle('Dashboard')
+export default function Home() {
   return (
     <>
       <Dashboard />

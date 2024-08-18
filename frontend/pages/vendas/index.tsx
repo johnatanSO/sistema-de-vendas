@@ -1,9 +1,7 @@
 import { Sales } from '../../src/components/screens/Sales'
 import { usersService } from '../../src/services/usersService'
-import { PageProps } from '../_app'
 
-export default function SalesPage({ setTitle }: PageProps) {
-  setTitle('Vendas')
+export default function SalesPage() {
   return (
     <>
       <Sales />
