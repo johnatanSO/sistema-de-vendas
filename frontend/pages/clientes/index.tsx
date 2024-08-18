@@ -1,9 +1,7 @@
 import { Clients } from '../../src/components/screens/Clients'
 import { usersService } from '../../src/services/usersService'
-import { PageProps } from '../_app'
 
-export default function ClientsPage({ setTitle }: PageProps) {
-  setTitle('Clientes')
+export default function ClientsPage() {
   return (
     <>
       <Clients />

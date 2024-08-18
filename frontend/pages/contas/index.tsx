@@ -1,9 +1,7 @@
 import { Accounts } from '../../src/components/screens/Accounts'
 import { usersService } from '../../src/services/usersService'
-import { PageProps } from '../_app'
 
-export default function AccountsPage({ setTitle }: PageProps) {
-  setTitle('Contas')
+export default function AccountsPage() {
   return (
     <>
       <Accounts />

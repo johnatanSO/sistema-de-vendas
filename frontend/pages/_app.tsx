@@ -9,13 +9,9 @@ import { MenuMobile } from '../src/components/layout/MenuMobile'
 import { MenuOptionsMobile } from '../src/components/layout/MenuOptionsMobile'
 import { UserContextComponent } from '../src/contexts/userContext'
 
-export interface PageProps {
-  setTitle: (title: string) => void
-}
-
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
-  const [title, setTitle] = useState('Sistema de vendas')
+  const title = 'Sistema de vendas'
   const restrictLayout =
     router.route !== '/login' && router.route !== '/createAccount'
   const [menuOptionsOpened, setMenuOptionsOpened] = useState<boolean>(false)
@@ -54,7 +50,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             {restrictLayout && (
               <h2 className="titlePage">{title || 'Sistema de vendas'}</h2>
             )}
-            <Component setTitle={setTitle} {...pageProps} />
+            <Component {...pageProps} />
           </main>
         </AlertContextComponent>
       </UserContextComponent>

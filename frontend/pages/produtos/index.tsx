@@ -1,9 +1,7 @@
 import { Products } from '../../src/components/screens/Products'
 import { usersService } from '../../src/services/usersService'
-import { PageProps } from '../_app'
 
-export default function ProductsPage({ setTitle }: PageProps) {
-  setTitle('Produtos')
+export default function ProductsPage() {
   return (
     <>
       <Products />
