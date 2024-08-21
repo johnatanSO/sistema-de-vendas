@@ -10,7 +10,7 @@ export default function Home() {
 }
 
 export const getServerSideProps = (context: any) => {
-  usersService.getToken()
+  usersService.getToken(context)
 
   // if (!token) {
   //   return {
