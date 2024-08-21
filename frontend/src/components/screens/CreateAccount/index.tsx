@@ -74,7 +74,7 @@ export function CreateAccount() {
 
         router.push('/login')
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log('ERRO AO TENTAR CADASTRAR USUÁRIO, ', err)
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
