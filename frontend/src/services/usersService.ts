@@ -22,7 +22,7 @@ interface IUser {
 }
 
 export const usersService = {
-  getSession(ctx = null) {
+  async getSession(ctx = null) {
     const token = this.getToken(ctx)
     console.log('token', token)
 

@@ -9,8 +9,8 @@ export default function ProductsPage() {
   )
 }
 
-export const getServerSideProps = (context: any) => {
-  const hasSession = usersService.getSession(context)
+export const getServerSideProps = async (context: any) => {
+  const hasSession = await usersService.getSession(context)
   if (!hasSession) {
     return {
       redirect: {
