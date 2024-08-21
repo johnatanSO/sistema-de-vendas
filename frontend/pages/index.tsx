@@ -10,9 +10,9 @@ export default function Home() {
 }
 
 export const getServerSideProps = (context: any) => {
-  usersService.getSession(context)
+  usersService.getToken()
 
-  // if (!session) {
+  // if (!token) {
   //   return {
   //     redirect: {
   //       permanent: false,
