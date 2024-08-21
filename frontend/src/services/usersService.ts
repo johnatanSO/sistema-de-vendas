@@ -99,7 +99,11 @@ export const usersService = {
 
   getUserInfo() {
     const userString = globalThis?.localStorage?.getItem(USER_INFO)
-    return JSON.parse(userString || 'null')
+    const userParsed = JSON.parse(userString || 'null')
+
+    if (userParsed) return userParsed
+
+    return null
   },
 
   async updateRefreshTokenService(
