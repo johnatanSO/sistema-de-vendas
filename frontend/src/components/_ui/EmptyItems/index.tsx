@@ -1,4 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import style from './EmptyItems.module.scss'
+import { faSquareXmark } from '@fortawesome/free-solid-svg-icons'
 
 interface EmpytItems {
   text: string
@@ -9,7 +11,7 @@ export function EmptyItems({ text, icon }: EmpytItems) {
   return (
     <div className={style.emptyItemsContainer}>
       <h2>{text}</h2>
-      {icon || <XSquare size={70} />}
+      {icon || <FontAwesomeIcon icon={faSquareXmark} className={style.icon} />}
     </div>
   )
 }

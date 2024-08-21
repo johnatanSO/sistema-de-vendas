@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { menuOptions } from '../../../models/constants/MenuOptions'
 import style from './MenuOptionsMobile.module.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type Props = {
   handleOpenMenuOptions: () => void
@@ -18,7 +19,7 @@ export function MenuOptionsMobile({ handleOpenMenuOptions }: Props) {
     <div className={style.menuOptionsContainer}>
       <nav>
         <ul className={style.listMenuOptions}>
-          {menuOptions.map(({ disabled, icon: Icon, ...option }) => {
+          {menuOptions.map(({ disabled, icon, ...option }) => {
             return (
               <li key={option.name}>
                 <button
@@ -35,7 +36,9 @@ export function MenuOptionsMobile({ handleOpenMenuOptions }: Props) {
                       : undefined
                   }
                 >
-                  {Icon && <Icon size={23} />}
+                  {icon && (
+                    <FontAwesomeIcon className={style.icon} icon={icon} />
+                  )}
                   <span>{option.title}</span>
                 </button>
               </li>

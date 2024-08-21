@@ -3,6 +3,7 @@ import style from './Sidebar.module.scss'
 import { menuOptions } from '../../../models/constants/MenuOptions'
 import Link from 'next/link'
 import { UserOptions } from '../UserOptions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export function Sidebar() {
   const router = useRouter()
@@ -17,7 +18,7 @@ export function Sidebar() {
       />
 
       <ul className={style.menuList}>
-        {menuOptions.map(({ disabled, icon: Icon, title, ...option }) => {
+        {menuOptions.map(({ disabled, icon, title, ...option }) => {
           return (
             <Link
               key={option.name}
@@ -33,7 +34,9 @@ export function Sidebar() {
                 }
               >
                 <>
-                  {Icon && <Icon size={23} />}
+                  {icon && (
+                    <FontAwesomeIcon className={style.icon} icon={icon} />
+                  )}
                   <span>{title}</span>
                 </>
               </li>
