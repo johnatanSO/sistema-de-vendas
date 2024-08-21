@@ -10,17 +10,19 @@ export default function AccountsPage() {
 }
 
 export const getServerSideProps = (context: any) => {
-  const hasSession = usersService.getSession(context)
-  if (!hasSession) {
+  const session = usersService.getSession(context)
+
+  if (!session) {
     return {
       redirect: {
         permanent: false,
         destination: '/login',
       },
-      props: {},
     }
   }
   return {
-    props: {},
+    props: {
+      session,
+    },
   }
 }
