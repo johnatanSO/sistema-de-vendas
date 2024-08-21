@@ -9,7 +9,7 @@ export default function Home() {
   )
 }
 
-export const getServerSideProps = (context: any) => {
+export const getServerSideProps = async (context: any) => {
   usersService.getToken(context)
 
   // if (!token) {
@@ -25,4 +25,8 @@ export const getServerSideProps = (context: any) => {
   //     session,
   //   },
   // }
+
+  return {
+    props: {},
+  }
 }
