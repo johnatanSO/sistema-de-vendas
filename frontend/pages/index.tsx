@@ -1,7 +1,8 @@
 import { Dashboard } from '../src/components/screens/Dashboard'
 import { usersService } from '../src/services/usersService'
 
-export default function Home() {
+export default function Home({ session }: any) {
+  console.log('session', session)
   return (
     <>
       <Dashboard />
@@ -10,23 +11,18 @@ export default function Home() {
 }
 
 export const getServerSideProps = async (context: any) => {
-  usersService.getToken(context)
+  const session = await usersService.getSession(context)
 
-  // if (!token) {
-  //   return {
-  //     redirect: {
-  //       permanent: false,
-  //       destination: '/login',
-  //     },
-  //   }
-  // }
-  // return {
-  //   props: {
-  //     session,
-  //   },
-  // }
-
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/login',
+      },
+      props: {},
+    }
+  }
   return {
-    props: {},
+    props: { session },
   }
 }

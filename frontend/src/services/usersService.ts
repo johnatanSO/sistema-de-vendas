@@ -22,10 +22,10 @@ interface IUser {
 }
 
 export const usersService = {
-  getSession(ctx = null) {
-    // const token = this.getToken(ctx)
+  async getSession(ctx = null) {
+    const token = this.getToken(ctx)
 
-    return true
+    return token
   },
 
   login({ userData }: LoginParams, httpClientProvider: IHttpClientProvider) {

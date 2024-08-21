@@ -9,8 +9,8 @@ export default function AccountsPage() {
   )
 }
 
-export const getServerSideProps = (context: any) => {
-  const session = usersService.getSession(context)
+export const getServerSideProps = async (context: any) => {
+  const session = await usersService.getSession(context)
 
   if (!session) {
     return {
