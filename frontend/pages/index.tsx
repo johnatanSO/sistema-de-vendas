@@ -20,9 +20,4 @@ export const getServerSideProps = (context: any) => {
       },
     }
   }
-  return {
-    props: {
-      session,
-    },
-  }
 }
