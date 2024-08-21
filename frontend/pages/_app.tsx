@@ -9,6 +9,10 @@ import { MenuMobile } from '../src/components/layout/MenuMobile'
 import { MenuOptionsMobile } from '../src/components/layout/MenuOptionsMobile'
 import { UserContextComponent } from '../src/contexts/userContext'
 
+import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
+config.autoAddCss = false
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const title = 'Sistema de vendas'

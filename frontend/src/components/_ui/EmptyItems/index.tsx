@@ -1,5 +1,4 @@
 import style from './EmptyItems.module.scss'
-import { XSquare } from '@phosphor-icons/react'
 
 interface EmpytItems {
   text: string

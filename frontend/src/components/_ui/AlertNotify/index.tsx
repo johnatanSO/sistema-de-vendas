@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react'
 import { AlertContext } from '../../../contexts/alertContext'
 import style from './AlertNotify.module.scss'
-import { Check, ExclamationMark, X } from '@phosphor-icons/react'
 
 export function AlertNotify() {
   const { alertNotifyConfigs: configs } = useContext(AlertContext)

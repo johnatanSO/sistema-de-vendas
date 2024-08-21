@@ -2,7 +2,6 @@ import { FormEvent, useState } from 'react'
 import { CustomTextField } from '../CustomTextField'
 import style from './FilterByName.module.scss'
 import { useRouter } from 'next/router'
-import { MagnifyingGlass } from '@phosphor-icons/react'
 
 export function FilterByName() {
   const [searchString, setSearchString] = useState<string>('')

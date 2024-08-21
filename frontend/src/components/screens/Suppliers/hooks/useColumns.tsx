@@ -4,7 +4,8 @@ import {
 } from '../../../../models/interfaces/Column.js'
 import style from '../Suppliers.module.scss'
 import { Supplier } from '..'
-import { Pen, Trash } from '@phosphor-icons/react'
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleEditSupplier: (supplier: Supplier) => void
@@ -17,13 +18,13 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: <Pen size={21} weight="bold" />,
+      icon: <FontAwesomeIcon className={style.icon} icon={faPen} />,
       title: 'Editar',
       className: style.editButton,
       onClickFunction: handleEditSupplier,
     },
     {
-      icon: <Trash size={21} weight="bold" />,
+      icon: <FontAwesomeIcon className={style.icon} icon={faTrash} />,
       title: 'Excluir',
       className: style.deleteButton,
       onClickFunction: handleDeleteSupplier,

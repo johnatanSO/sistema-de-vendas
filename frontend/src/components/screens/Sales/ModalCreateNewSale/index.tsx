@@ -11,9 +11,10 @@ import { AlertContext } from '../../../../contexts/alertContext'
 import { salesService } from '../../../../services/salesService'
 import { useRouter } from 'next/router'
 import { clientsService } from '../../../../services/clientsService'
-import { Trash } from '@phosphor-icons/react'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 interface ProductSale extends Product {
   amount: number
@@ -378,13 +379,12 @@ export function ModalCreateNewSale({
                       }}
                     />
 
-                    <Trash
-                      size={23}
-                      className={style.removeProductIcon}
-                      weight="bold"
+                    <FontAwesomeIcon
                       onClick={() => {
                         handleRemoveProduct(product?._id)
                       }}
+                      className={style.removeProductIcon}
+                      icon={faTrash}
                     />
                   </li>
                 )

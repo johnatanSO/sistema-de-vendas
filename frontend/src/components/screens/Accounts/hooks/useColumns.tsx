@@ -6,9 +6,10 @@ import { format } from '../../../../utils/format'
 import style from '../Accounts.module.scss'
 import dayjs from 'dayjs'
 import { ChangeStatusAccount } from '../ChangeStatusAccount'
-import { Pen, Trash } from '@phosphor-icons/react'
 import { INewAccount } from '../interfaces/INewAccount.js'
 import { Account } from '../interfaces/IAccount.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 interface UseColumnsParams {
   handleEditAccount: (account: INewAccount) => void
@@ -21,13 +22,13 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: <Pen size={21} weight="bold" />,
+      icon: <FontAwesomeIcon icon={faPen} className={style.icon} />,
       title: 'Editar',
       className: style.editButton,
       onClickFunction: handleEditAccount,
     },
     {
-      icon: <Trash size={21} weight="bold" />,
+      icon: <FontAwesomeIcon icon={faTrash} className={style.icon} />,
       title: 'Excluir',
       className: style.deleteButton,
       onClickFunction: handleDeleteAccount,

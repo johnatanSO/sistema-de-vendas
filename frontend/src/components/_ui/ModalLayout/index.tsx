@@ -2,7 +2,8 @@ import { Modal, Box } from '@mui/material'
 import { ReactNode, FormEvent, CSSProperties } from 'react'
 import style from './ModalLayout.module.scss'
 import { Loading } from '../Loading'
-import { X } from '@phosphor-icons/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
   title: string
@@ -35,11 +36,10 @@ export function ModalLayout({
         <Box className={style.header} component="header">
           <h3>{title || 'Modal'}</h3>
 
-          <X
-            size={32}
-            onClick={handleClose}
+          <FontAwesomeIcon
             className={style.closeButton}
-            weight="bold"
+            onClick={handleClose}
+            icon={faXmark}
           />
         </Box>
 

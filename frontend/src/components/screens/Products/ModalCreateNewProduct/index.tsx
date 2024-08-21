@@ -6,9 +6,10 @@ import { productsService } from '../../../../services/productsService'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { Checkbox, FormControlLabel, Popover, Typography } from '@mui/material'
-import { Info } from '@phosphor-icons/react'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
 
 export interface NewProductData {
   name: string
@@ -187,12 +188,12 @@ export function ModalCreateNewProduct({
             label="Tornar este produto padrão"
           />
 
-          <Info
+          <FontAwesomeIcon
+            icon={faInfoCircle}
+            className={style.infoIcon}
             onClick={(event) => {
               setAnchorEl(event.currentTarget)
             }}
-            size={25}
-            className={style.infoIcon}
           />
 
           <Popover

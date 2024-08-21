@@ -22,13 +22,6 @@ import { accountsService } from '../../../services/accountsService'
 import { useRouter } from 'next/router'
 import { salesService } from '../../../services/salesService'
 import dayjs from 'dayjs'
-import {
-  CaretDown,
-  CaretUp,
-  CurrencyDollar,
-  Prohibit,
-  Tag,
-} from '@phosphor-icons/react'
 import { IPaymentType } from './interfaces/IPaymentType'
 import { IAccount } from './interfaces/IAccount'
 import { ISale } from './interfaces/ISale'
@@ -39,6 +32,14 @@ import { usePizzaGraph } from './hooks/usePizzaGraph'
 import { useProducts } from './hooks/useProducts'
 import { CustomTooltipBarGraph } from './tools/CustomToolTipBarGraph'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faArrowDown,
+  faArrowUp,
+  faCancel,
+  faDollarSign,
+  faTag,
+} from '@fortawesome/free-solid-svg-icons'
 
 export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<IPaymentType[]>([])
@@ -121,7 +122,7 @@ export function Dashboard() {
             <Card
               title="Quantidade de vendas"
               value={sales?.length || 0}
-              icon={<Tag weight="regular" size={25} className={style.icon} />}
+              icon={<FontAwesomeIcon className={style.icon} icon={faTag} />}
               route="vendas"
               className="amountCard"
             />
@@ -130,11 +131,7 @@ export function Dashboard() {
               title="Valor das vendas"
               value={format.formatarReal(totalSales?.totalValueSales || 0)}
               icon={
-                <CurrencyDollar
-                  weight="regular"
-                  size={25}
-                  className={style.icon}
-                />
+                <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
               }
               route="vendas"
               className="valueCard"
@@ -143,9 +140,7 @@ export function Dashboard() {
             <Card
               title="Vendas canceladas"
               value={format.formatarReal(totalSales.totalValueCanceled || 0)}
-              icon={
-                <Prohibit weight="regular" size={25} className={style.icon} />
-              }
+              icon={<FontAwesomeIcon className={style.icon} icon={faCancel} />}
               route="vendas"
               query={{ status: 'canceled' }}
               className="valueCanceledCard"
@@ -156,9 +151,7 @@ export function Dashboard() {
             <Card
               title="Contas de entrada"
               className="inCard"
-              icon={
-                <CaretUp weight="regular" size={25} className={style.icon} />
-              }
+              icon={<FontAwesomeIcon className={style.icon} icon={faArrowUp} />}
               value={format.formatarReal(totalAccounts.inTotalValue || 0)}
               route="contas"
               query={{
@@ -169,7 +162,7 @@ export function Dashboard() {
               title="Contas de saída"
               className="outCard"
               icon={
-                <CaretDown weight="regular" size={25} className={style.icon} />
+                <FontAwesomeIcon className={style.icon} icon={faArrowDown} />
               }
               value={format.formatarReal(totalAccounts.outTotalValue || 0)}
               route="contas"
@@ -181,11 +174,7 @@ export function Dashboard() {
               title="Total"
               className="totalCard"
               icon={
-                <CurrencyDollar
-                  weight="regular"
-                  size={25}
-                  className={style.icon}
-                />
+                <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
               }
               value={format.formatarReal(
                 totalAccounts.inTotalValue - totalAccounts.outTotalValue || 0,

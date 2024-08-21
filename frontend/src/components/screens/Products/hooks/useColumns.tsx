@@ -5,8 +5,8 @@ import {
 import { format } from '../../../../utils/format'
 import style from '../Products.module.scss'
 import { Product } from '..'
-import { Trash } from '@phosphor-icons/react/dist/ssr'
-import { Pen } from '@phosphor-icons/react'
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleEditProduct: (product: Product) => void
@@ -19,13 +19,13 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: <Pen weight="bold" size={21} />,
+      icon: <FontAwesomeIcon className={style.icon} icon={faPen} />,
       title: 'Editar',
       onClickFunction: handleEditProduct,
       className: style.editButton,
     },
     {
-      icon: <Trash weight="bold" size={21} />,
+      icon: <FontAwesomeIcon className={style.icon} icon={faTrash} />,
       title: 'Excluir',
       onClickFunction: handleDeleteProduct,
       className: style.deleteButton,

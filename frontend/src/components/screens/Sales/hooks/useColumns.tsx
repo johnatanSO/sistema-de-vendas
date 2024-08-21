@@ -6,7 +6,8 @@ import {
 import { format } from '../../../../utils/format'
 import { Sale } from '..'
 import style from '../Sales.module.scss'
-import { Pen, Prohibit } from '@phosphor-icons/react'
+import { faCancel, faPen } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
   handleCancelSale: (sale: Sale) => void
@@ -19,13 +20,13 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: <Pen size={21} weight="bold" />,
+      icon: <FontAwesomeIcon className={style.icon} icon={faPen} />,
       title: 'Editar venda',
       onClickFunction: handleEditSale,
       className: style.editButton,
     },
     {
-      icon: <Prohibit size={21} weight="bold" />,
+      icon: <FontAwesomeIcon className={style.icon} icon={faCancel} />,
       title: 'Cancelar venda',
       onClickFunction: handleCancelSale,
       className: style.cancelButton,

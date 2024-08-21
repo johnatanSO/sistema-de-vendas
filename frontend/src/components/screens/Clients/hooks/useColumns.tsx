@@ -4,7 +4,8 @@ import {
 } from '../../../../models/interfaces/Column.js'
 import style from '../Clients.module.scss'
 import { Client } from '..'
-import { Pen, Trash } from '@phosphor-icons/react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 interface UseColumnsParams {
   handleEditClient: (client: Client) => void
@@ -17,13 +18,13 @@ export function useColumns({
 }: UseColumnsParams): Column[] {
   const actions = [
     {
-      icon: <Pen size={21} weight="bold" />,
+      icon: <FontAwesomeIcon icon={faPen} className={style.icon} />,
       title: 'Editar',
       className: style.editButton,
       onClickFunction: handleEditClient,
     },
     {
-      icon: <Trash size={21} weight="bold" />,
+      icon: <FontAwesomeIcon icon={faTrash} className={style.icon} />,
       title: 'Excluir',
       className: style.deleteButton,
       onClickFunction: handleDeleteClient,

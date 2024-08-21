@@ -1,41 +1,41 @@
 import {
-  ChartBar,
-  Invoice,
-  Package,
-  Tag,
-  UsersThree,
-} from '@phosphor-icons/react'
+  faBox,
+  faCartPlus,
+  faChartSimple,
+  faFileInvoiceDollar,
+  faUsers,
+} from '@fortawesome/free-solid-svg-icons'
 import { MenuOption } from '../interfaces/MenuOption'
 
 export const menuOptions: MenuOption[] = [
   {
     title: 'Dashboard',
     link: '/',
-    icon: ChartBar,
+    icon: faChartSimple,
     name: 'dashboard',
   },
   {
     title: 'Vendas',
     link: '/vendas',
-    icon: Tag,
+    icon: faCartPlus,
     name: 'vendas',
   },
   {
     title: 'Produtos',
     link: '/produtos',
-    icon: Package,
+    icon: faBox,
     name: 'produtos',
   },
   {
     title: 'Clientes',
     link: '/clientes',
-    icon: UsersThree,
+    icon: faUsers,
     name: 'clientes',
   },
   {
     title: 'Contas',
     link: '/contas',
-    icon: Invoice,
+    icon: faFileInvoiceDollar,
     name: 'contas',
   },
 ]

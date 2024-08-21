@@ -3,7 +3,6 @@ import { CustomTextField } from '../CustomTextField'
 import { FormEvent, useState } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
-import { MagnifyingGlass } from '@phosphor-icons/react'
 
 export function FilterDate() {
   const [startDate, setStartDate] = useState<string>(

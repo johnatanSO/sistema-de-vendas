@@ -5,11 +5,12 @@ import { CustomTextField } from '../../../_ui/CustomTextField'
 import { accountsService } from '../../../../services/accountsService'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
-import { CaretDown, CaretUp } from '@phosphor-icons/react'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 import { INewAccount } from '../interfaces/INewAccount'
 import { ACCOUNT_TYPE } from '../../../../models/enums/AccountType'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
   accountDataToEdit: INewAccount | null
@@ -30,7 +31,7 @@ export function ModalCreateNewAccount({
     value: 0,
   }
   const [newAccountData, setNewAccountData] = useState<INewAccount>(
-    accountDataToEdit! || defaultNewAccountValues,
+    accountDataToEdit || defaultNewAccountValues,
   )
   const [loadingCreateNewAccount, setLoadingCreateNewAccount] =
     useState<boolean>(false)
@@ -149,7 +150,7 @@ export function ModalCreateNewAccount({
               })
             }}
           >
-            <CaretUp size={21} /> Entrada
+            <FontAwesomeIcon className={style.icon} icon={faArrowUp} /> Entrada
           </button>
           <button
             type="button"
@@ -163,7 +164,7 @@ export function ModalCreateNewAccount({
               })
             }}
           >
-            <CaretDown size={21} /> Saída
+            <FontAwesomeIcon className={style.icon} icon={faArrowDown} /> Saída
           </button>
         </div>
 
