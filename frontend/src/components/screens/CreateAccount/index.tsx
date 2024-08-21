@@ -64,7 +64,7 @@ export function CreateAccount() {
     setLoading(true)
     usersService
       .register({ newUser }, httpClientProvider)
-      .then(() => {
+      .then(({ data }) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.SUCCESS,
@@ -74,7 +74,7 @@ export function CreateAccount() {
 
         router.push('/login')
       })
-      .catch((err: any) => {
+      .catch((err) => {
         console.log('ERRO AO TENTAR CADASTRAR USUÁRIO, ', err)
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
