@@ -9,8 +9,8 @@ export default function Home() {
   )
 }
 
-export const getServerSideProps = async (context: any) => {
-  const hasSession = await usersService.getSession(context)
+export const getServerSideProps = (context: any) => {
+  const hasSession = usersService.getSession(context)
   if (!hasSession) {
     return {
       redirect: {
