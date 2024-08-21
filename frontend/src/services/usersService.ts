@@ -61,6 +61,10 @@ export const usersService = {
 
   saveUser(user: IUser) {
     globalThis?.localStorage?.setItem(USER_INFO, JSON.stringify(user))
+    setCookie(undefined, ACCESS_TOKEN_KEY, JSON.stringify(user), {
+      maxAge: 60 * 60 * 24 * 30,
+      path: '/',
+    })
   },
 
   saveToken(token: string) {
@@ -74,6 +78,7 @@ export const usersService = {
 
   deleteLocalUser() {
     globalThis?.localStorage?.removeItem(USER_INFO)
+    destroyCookie(null, USER_INFO)
   },
 
   deleteToken() {

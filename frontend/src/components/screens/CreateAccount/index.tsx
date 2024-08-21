@@ -64,7 +64,7 @@ export function CreateAccount() {
     setLoading(true)
     usersService
       .register({ newUser }, httpClientProvider)
-      .then(({ data }) => {
+      .then(() => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.SUCCESS,

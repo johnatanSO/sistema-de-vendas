@@ -1,9 +1,6 @@
 import axios, { Axios, AxiosError, AxiosResponse } from 'axios'
 import { IHttpClientProvider } from './IHttpClientProvider'
-import { httpClientProvider } from '.'
 import { usersService } from '../../services/usersService'
-import { HTTP_STATUS_CODE } from '../../models/enums/HttpStatusCode'
-
 export class AxiosHttpClientProvider implements IHttpClientProvider {
   private httpIntance: Axios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,

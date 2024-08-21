@@ -1,4 +1,4 @@
-import { Paper, Popover } from '@mui/material'
+import { Popover } from '@mui/material'
 import style from './UserOptions.module.scss'
 import { useContext, useState } from 'react'
 import { usersService } from '../../../services/usersService'
