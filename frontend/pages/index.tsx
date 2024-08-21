@@ -1,5 +1,5 @@
-import { usersService } from '@/services/usersService'
 import { Dashboard } from '../src/components/screens/Dashboard'
+import { usersService } from '../src/services/usersService'
 
 export default function Home() {
   return (
