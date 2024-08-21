@@ -51,7 +51,7 @@ export function Login() {
     setLoading(true)
     usersService
       .login({ userData }, httpClientProvider)
-      .then(async (res) => {
+      .then(async (res: any) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.SUCCESS,
@@ -65,7 +65,7 @@ export function Login() {
 
         router.push('/')
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.log('ERRO AO TENTAR REALIZAR LOGIN,', err)
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
