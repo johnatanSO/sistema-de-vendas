@@ -35,7 +35,7 @@ export const accountsService = {
   getAll({ filters }: GetAllParams, httpClientProvider: IHttpClientProvider) {
     const params = {
       ...filters,
-      userId: this.userInfo._id,
+      userId: this.userInfo?._id,
     }
 
     return httpClientProvider.get('/contas/', {

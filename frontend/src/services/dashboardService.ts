@@ -14,7 +14,7 @@ export const dashboardService = {
   ) {
     const params = {
       ...filters,
-      userId: this.userInfo._id,
+      userId: this.userInfo?._id,
     }
 
     return httpClientProvider.get('/dashboard/formasDePagamento/', {

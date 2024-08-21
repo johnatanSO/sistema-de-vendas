@@ -51,16 +51,18 @@ export function Login() {
     setLoading(true)
     usersService
       .login({ userData }, httpClientProvider)
-      .then((res) => {
+      .then(async (res) => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Usuário autenticado com sucesso',
           open: 'true',
         })
-        usersService.saveUser(res.data.user)
-        usersService.saveToken(res.data.token)
-        usersService.saveRefreshToken(res.data.refreshToken)
+
+        await usersService.saveUser(res.data.user)
+        await usersService.saveToken(res.data.token)
+        await usersService.saveRefreshToken(res.data.refreshToken)
+
         router.push('/')
       })
       .catch((err) => {

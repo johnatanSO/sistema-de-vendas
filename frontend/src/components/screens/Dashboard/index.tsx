@@ -44,7 +44,6 @@ export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<IPaymentType[]>([])
   const [accounts, setAccounts] = useState<IAccount[]>([])
   const [sales, setSales] = useState<ISale[]>([])
-  console.log('renderdashboard')
 
   const router = useRouter()
   const { startDate, endDate } = router.query
@@ -103,7 +102,6 @@ export function Dashboard() {
     getPaymentTypes()
     getAccounts()
     getSales()
-    console.log('use effect da query')
   }, [router.query])
 
   const totalAccounts = useTotalAccounts(accounts)

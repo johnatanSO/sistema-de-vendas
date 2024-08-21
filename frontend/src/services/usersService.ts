@@ -59,7 +59,7 @@ export const usersService = {
     return cookies ? cookies[ACCESS_REFRESH_TOKEN_KEY] : null
   },
 
-  saveUser(user: IUser) {
+  async saveUser(user: IUser) {
     globalThis?.localStorage?.setItem(USER_INFO, JSON.stringify(user))
     setCookie(undefined, ACCESS_TOKEN_KEY, JSON.stringify(user), {
       maxAge: 60 * 60 * 24 * 30,
@@ -67,10 +67,19 @@ export const usersService = {
     })
   },
 
-  saveToken(token: string) {
+  async saveToken(token: string) {
     globalThis?.localStorage?.setItem(ACCESS_TOKEN_KEY, token)
 
     setCookie(undefined, ACCESS_TOKEN_KEY, token, {
+      maxAge: 60 * 60 * 24 * 30,
+      path: '/',
+    })
+  },
+
+  async saveRefreshToken(token: string) {
+    globalThis?.localStorage?.setItem(ACCESS_REFRESH_TOKEN_KEY, token)
+
+    setCookie(undefined, ACCESS_REFRESH_TOKEN_KEY, token, {
       maxAge: 60 * 60 * 24 * 30,
       path: '/',
     })
@@ -91,15 +100,6 @@ export const usersService = {
     globalThis?.localStorage?.removeItem(ACCESS_REFRESH_TOKEN_KEY)
 
     destroyCookie(null, ACCESS_REFRESH_TOKEN_KEY)
-  },
-
-  saveRefreshToken(token: string) {
-    globalThis?.localStorage?.setItem(ACCESS_REFRESH_TOKEN_KEY, token)
-
-    setCookie(undefined, ACCESS_REFRESH_TOKEN_KEY, token, {
-      maxAge: 60 * 60 * 24 * 30,
-      path: '/',
-    })
   },
 
   getUserInfo() {

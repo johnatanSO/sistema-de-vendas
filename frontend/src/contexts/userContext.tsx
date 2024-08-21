@@ -21,7 +21,7 @@ export function UserContextComponent({ children }: Props) {
 
   useEffect(() => {
     const userStorage = usersService.getUserInfo()
-    console.log('User storage in userContext', userStorage)
+
     if (userStorage) {
       setUserInfo(userStorage)
     }

@@ -41,7 +41,7 @@ export const salesService = {
       ...(endDate
         ? { endDate }
         : { endDate: dayjs.utc().endOf('month').toISOString() }),
-      userId: this.userInfo._id,
+      userId: this.userInfo?._id,
     }
 
     return httpClientProvider.get('/vendas/', {
