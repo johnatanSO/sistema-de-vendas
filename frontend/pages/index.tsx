@@ -1,8 +1,7 @@
 import { Dashboard } from '../src/components/screens/Dashboard'
 import { usersService } from '../src/services/usersService'
 
-export default function Home({ session }: any) {
-  console.log('session', session)
+export default function Home() {
   return (
     <>
       <Dashboard />
