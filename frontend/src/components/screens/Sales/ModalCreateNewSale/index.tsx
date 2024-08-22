@@ -5,7 +5,6 @@ import { CustomTextField } from '../../../_ui/CustomTextField'
 import { Autocomplete, MenuItem } from '@mui/material'
 import { paymentTypeList } from '../../../../models/constants/PaymentTypeList'
 import { productsService } from '../../../../services/productsService'
-import { Product } from '../../Products'
 import { format } from '../../../../utils/format'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { salesService } from '../../../../services/salesService'
@@ -15,25 +14,13 @@ import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-
-interface ProductSale extends Product {
-  amount: number
-}
-
-interface Client {
-  _id: string
-  name: string
-}
-
-export interface NewSaleData {
-  clientId: string | null
-  paymentType: string | null
-  products: ProductSale[]
-  totalValue: number
-}
+import { ISale } from '../../../../models/interfaces/ISale'
+import { IProduct } from '../../../../models/interfaces/IProduct'
+import { IClient } from '../../../../models/interfaces/IClient'
+import { useForm } from 'react-hook-form'
 
 interface Props {
-  saleToEditData: NewSaleData | undefined
+  saleToEditData: ISale | null
   open: boolean
   handleClose: () => void
 }
@@ -44,19 +31,20 @@ export function ModalCreateNewSale({
   saleToEditData,
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-  const [loading, setLoading] = useState<boolean>(false)
+
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      clientId: null,
+      paymentType: null,
+      products: [],
+      totalValue: 0,
+    },
+  })
+
   const router = useRouter()
-  const defaultValuesNewSale = {
-    clientId: null,
-    paymentType: null,
-    products: [],
-    totalValue: 0,
-  }
-  const [newSaleData, setNewSaleData] = useState<NewSaleData>(
-    saleToEditData || defaultValuesNewSale,
-  )
-  const [productsList, setProductsList] = useState<ProductSale[]>([])
-  const [clientsList, setClientsList] = useState<Client[]>([])
+
+  const [productsList, setProductsList] = useState<IProduct[]>([])
+  const [clientsList, setClientsList] = useState<IClient[]>([])
 
   function getProducts() {
     productsService

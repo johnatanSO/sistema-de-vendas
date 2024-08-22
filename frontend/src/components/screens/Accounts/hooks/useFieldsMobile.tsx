@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
-import { CellFunctionParams } from '../../../../models/interfaces/Column.js'
+import { CellFunctionParams } from '../../../../models/interfaces/Column'
 import { format } from '../../../../utils/format'
 import style from '../Accounts.module.scss'
-import { IAccount } from '../interfaces/IAccount.js'
+import { IAccount } from '../../../../models/interfaces/IAccount'
 
 export function useFieldsMobile() {
   return [

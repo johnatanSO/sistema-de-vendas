@@ -10,7 +10,7 @@ import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { INewClient, newClientSchema } from '../interfaces/INewClient'
-import { IClient } from '../interfaces/IClient'
+import { IClient } from '../../../../models/interfaces/IClient'
 
 type Props = {
   clientDataToEdit: IClient | null
@@ -122,7 +122,7 @@ export function ModalCreateNewClient({
           placeholder="Digite o nome do cliente"
           {...register('name', { required: true })}
           error={!!errors.name}
-          helperText={errors.name ? errors.name.message : ''}
+          helperText={errors.name && errors.name.message}
         />
         <CustomTextField
           size="small"

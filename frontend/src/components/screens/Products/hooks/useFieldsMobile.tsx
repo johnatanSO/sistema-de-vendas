@@ -1,4 +1,4 @@
-import { Product } from '..'
+import { IProduct } from '../../../../models/interfaces/IProduct'
 import { CellFunctionParams } from '../../../../models/interfaces/Column'
 import { format } from '../../../../utils/format'
 
@@ -7,13 +7,13 @@ export function useFieldsMobile() {
     {
       headerName: 'Nome do produto',
       field: 'name',
-      valueFormatter: (params: CellFunctionParams<Product>) =>
+      valueFormatter: (params: CellFunctionParams<IProduct>) =>
         params.value || '--',
     },
     {
       headerName: 'Valor',
       field: 'value',
-      valueFormatter: (params: CellFunctionParams<Product>) =>
+      valueFormatter: (params: CellFunctionParams<IProduct>) =>
         format.formatarReal(params.value || 0),
     },
   ]

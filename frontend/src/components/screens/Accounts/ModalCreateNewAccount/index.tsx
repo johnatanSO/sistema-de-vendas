@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { IAccount } from '../interfaces/IAccount'
+import { IAccount } from '../../../../models/interfaces/IAccount'
 
 interface Props {
   accountDataToEdit: IAccount | null
@@ -171,9 +171,9 @@ export function ModalCreateNewAccount({
           label="Valor"
           type="number"
           placeholder="Digite o valor"
-          {...register('value', { required: true })}
+          {...register('value', { required: true, valueAsNumber: true })}
           error={!!errors.value}
-          helperText={errors.value ? errors?.value?.message : ''}
+          helperText={errors.value && errors?.value?.message}
         />
       </div>
     </ModalLayout>

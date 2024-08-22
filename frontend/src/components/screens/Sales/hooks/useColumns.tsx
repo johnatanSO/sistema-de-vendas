@@ -2,16 +2,16 @@ import dayjs from 'dayjs'
 import {
   Column,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column.js'
+} from '../../../../models/interfaces/Column'
 import { format } from '../../../../utils/format'
-import { Sale } from '..'
+import { ISale } from '../../../../models/interfaces/ISale'
 import style from '../Sales.module.scss'
 import { faCancel, faPen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
-  handleCancelSale: (sale: Sale) => void
-  handleEditSale: (sale: Sale) => void
+  handleCancelSale: (sale: ISale) => void
+  handleEditSale: (sale: ISale) => void
 }
 
 export function useColumns({
@@ -37,7 +37,7 @@ export function useColumns({
     {
       headerName: 'Nº da venda',
       field: 'code',
-      valueFormatter: (params: CellFunctionParams<Sale>) => params.value,
+      valueFormatter: (params: CellFunctionParams<ISale>) => params.value,
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
           return style.canceledText
@@ -47,7 +47,7 @@ export function useColumns({
     {
       headerName: 'Cliente',
       field: 'client',
-      valueFormatter: (params: CellFunctionParams<Sale>) =>
+      valueFormatter: (params: CellFunctionParams<ISale>) =>
         params.value.name || '--',
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -58,7 +58,7 @@ export function useColumns({
     {
       headerName: 'Data da venda',
       field: 'date',
-      valueFormatter: (params: CellFunctionParams<Sale>) =>
+      valueFormatter: (params: CellFunctionParams<ISale>) =>
         dayjs(params.value).format('DD/MM/YYYY - HH:mm'),
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -69,7 +69,7 @@ export function useColumns({
     {
       headerName: 'Forma de pagamento',
       field: 'paymentType',
-      valueFormatter: (params: CellFunctionParams<Sale>) =>
+      valueFormatter: (params: CellFunctionParams<ISale>) =>
         format.formatarFormaDePagamento(params.value),
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -80,7 +80,7 @@ export function useColumns({
     {
       headerName: 'Valor total',
       field: 'totalValue',
-      valueFormatter: (params: CellFunctionParams<Sale>) =>
+      valueFormatter: (params: CellFunctionParams<ISale>) =>
         format.formatarReal(params.value),
       cellClass: (params) => {
         if (params?.data?.status === 'canceled') {
@@ -92,7 +92,7 @@ export function useColumns({
       headerName: '',
       field: 'acoes',
       type: 'actions',
-      cellRenderer: (params: CellFunctionParams<Sale>) => {
+      cellRenderer: (params: CellFunctionParams<ISale>) => {
         return (
           <div className={style.actionsContainer}>
             {actions.map(({ icon, ...action }) => {

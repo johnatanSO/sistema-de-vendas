@@ -13,7 +13,7 @@ import { clientsService } from '../../../services/clientsService'
 import { FilterByName } from '../../_ui/FilterByName'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-import { IClient } from './interfaces/IClient'
+import { IClient } from '../../../models/interfaces/IClient'
 
 export function Clients() {
   const {

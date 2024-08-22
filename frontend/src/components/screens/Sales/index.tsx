@@ -13,14 +13,7 @@ import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-
-export interface Sale {
-  _id: string
-  date: Date
-  totalValue: number
-  client: string
-  status: string
-}
+import { ISale } from '../../../models/interfaces/ISale'
 
 export function Sales() {
   const {
@@ -29,10 +22,10 @@ export function Sales() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [sales, setSales] = useState<Sale[]>([])
+  const [sales, setSales] = useState<ISale[]>([])
   const [loadingSales, setLoadingSales] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [saleToEditData, setSaleToEditData] = useState<any>(undefined)
+  const [saleToEditData, setSaleToEditData] = useState<ISale | null>(null)
   const router = useRouter()
 
   function getSales() {
@@ -54,7 +47,7 @@ export function Sales() {
     getSales()
   }, [router.query])
 
-  function handleCancelSale(sale: Sale) {
+  function handleCancelSale(sale: ISale) {
     setAlertDialogConfirmConfigs({
       ...alertDialogConfirmConfigs,
       open: true,
@@ -87,7 +80,7 @@ export function Sales() {
     })
   }
 
-  function handleEditSale(sale: Sale) {
+  function handleEditSale(sale: ISale) {
     setSaleToEditData(sale)
     setFormModalOpened(true)
   }
@@ -134,7 +127,7 @@ export function Sales() {
           saleToEditData={saleToEditData}
           handleClose={() => {
             setFormModalOpened(false)
-            setSaleToEditData(undefined)
+            setSaleToEditData(null)
           }}
         />
       )}

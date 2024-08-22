@@ -12,9 +12,8 @@ import style from './Accounts.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
-import { INewAccount } from './interfaces/INewAccount'
-import { IAccount } from './interfaces/IAccount'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
+import { IAccount } from '../../../models/interfaces/IAccount'
 
 export function Accounts() {
   const {

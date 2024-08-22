@@ -13,12 +13,7 @@ import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-
-export interface Product {
-  _id: string
-  name: string
-  value: number
-}
+import { IProduct } from '../../../models/interfaces/IProduct'
 
 export function Products() {
   const {
@@ -27,10 +22,12 @@ export function Products() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [products, setProducts] = useState<Product[]>([])
+  const [products, setProducts] = useState<IProduct[]>([])
   const [loadingProducts, setLoadingProducts] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [productDataToEdit, setProductDataToEdit] = useState<any>(undefined)
+  const [productDataToEdit, setProductDataToEdit] = useState<IProduct | null>(
+    null,
+  )
   const router = useRouter()
 
   function getProducts() {
@@ -52,7 +49,7 @@ export function Products() {
     getProducts()
   }, [router.query])
 
-  function handleDeleteProduct(product: Product) {
+  function handleDeleteProduct(product: IProduct) {
     setAlertDialogConfirmConfigs({
       ...alertDialogConfirmConfigs,
       open: true,
@@ -85,7 +82,7 @@ export function Products() {
     })
   }
 
-  function handleEditProduct(product: Product) {
+  function handleEditProduct(product: IProduct) {
     setProductDataToEdit(product)
     setFormModalOpened(true)
   }
@@ -132,7 +129,7 @@ export function Products() {
           open={formModalOpened}
           handleClose={() => {
             setFormModalOpened(false)
-            setProductDataToEdit(undefined)
+            setProductDataToEdit(null)
           }}
         />
       )}

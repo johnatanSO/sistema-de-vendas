@@ -1,7 +1,7 @@
 import {
   Column,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column.js'
+} from '../../../../models/interfaces/Column'
 import style from '../Suppliers.module.scss'
 import { Supplier } from '..'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
