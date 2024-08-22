@@ -32,7 +32,12 @@ export function ModalCreateNewSale({
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
 
-  const { register, handleSubmit, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isLoading },
+  } = useForm({
     defaultValues: {
       clientId: null,
       paymentType: null,
