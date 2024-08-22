@@ -6,28 +6,20 @@ import { accountsService } from '../../../../services/accountsService'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
-import { INewAccount } from '../interfaces/INewAccount'
+import { INewAccount, newAccountSchema } from '../interfaces/INewAccount'
 import { ACCOUNT_TYPE } from '../../../../models/enums/AccountType'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Account } from '../interfaces/IAccount'
+import { IAccount } from '../interfaces/IAccount'
 
 interface Props {
-  accountDataToEdit: INewAccount | null
+  accountDataToEdit: IAccount | null
   open: boolean
   handleClose: () => void
 }
-
-const newAccountSchema = z.object({
-  value: z.number().min(0, 'O valor da conta precisa ser maior do que zero'),
-  type: z.nativeEnum(ACCOUNT_TYPE),
-  description: z.string(),
-  category: z.string(),
-})
 
 export function ModalCreateNewAccount({
   open,
@@ -88,7 +80,10 @@ export function ModalCreateNewAccount({
 
   function onEditAccount(accountData: INewAccount) {
     accountsService
-      .update({ accountData }, httpClientProvider)
+      .update(
+        { ...accountData, _id: accountData._id || '' },
+        httpClientProvider,
+      )
       .then(() => {
         reset()
 
@@ -178,7 +173,7 @@ export function ModalCreateNewAccount({
           placeholder="Digite o valor"
           {...register('value', { required: true })}
           error={!!errors.value}
-          helperText={errors?.value?.message}
+          helperText={errors.value ? errors?.value?.message : ''}
         />
       </div>
     </ModalLayout>

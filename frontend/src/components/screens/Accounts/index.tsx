@@ -13,7 +13,7 @@ import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { INewAccount } from './interfaces/INewAccount'
-import { Account } from './interfaces/IAccount'
+import { IAccount } from './interfaces/IAccount'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 
 export function Accounts() {
@@ -23,11 +23,12 @@ export function Accounts() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [accounts, setAccounts] = useState<Account[]>([])
+  const [accounts, setAccounts] = useState<IAccount[]>([])
   const [loadingAccounts, setLoadingAccounts] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [accountDataToEdit, setAccountDataToEdit] =
-    useState<INewAccount | null>(null)
+  const [accountDataToEdit, setAccountDataToEdit] = useState<IAccount | null>(
+    null,
+  )
   const router = useRouter()
 
   function getAccounts() {
@@ -49,7 +50,7 @@ export function Accounts() {
     getAccounts()
   }, [router.query])
 
-  function handleDeleteAccount(account: Account) {
+  function handleDeleteAccount(account: IAccount) {
     setAlertDialogConfirmConfigs({
       ...alertDialogConfirmConfigs,
       open: true,
@@ -82,7 +83,7 @@ export function Accounts() {
     })
   }
 
-  function handleEditAccount(account: INewAccount) {
+  function handleEditAccount(account: IAccount) {
     if (!account) return
 
     setAccountDataToEdit(account)

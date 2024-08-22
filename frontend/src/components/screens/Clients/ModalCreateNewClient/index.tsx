@@ -1,5 +1,5 @@
 import { ModalLayout } from '../../../_ui/ModalLayout'
-import { FormEvent, useState, useContext } from 'react'
+import { useContext } from 'react'
 import style from './ModalCreateNewClient.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
 import { AlertContext } from '../../../../contexts/alertContext'
@@ -7,17 +7,13 @@ import { useRouter } from 'next/router'
 import { clientsService } from '../../../../services/clientsService'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { INewClient, newClientSchema } from '../interfaces/INewClient'
+import { IClient } from '../interfaces/IClient'
 
-export interface NewClientData {
-  _id?: string
-  name: string
-  cpf: string
-  phone: string
-  email: string
-}
-
-interface Props {
-  clientDataToEdit: NewClientData
+type Props = {
+  clientDataToEdit: IClient | null
   open: boolean
   handleClose: () => void
 }
@@ -28,20 +24,24 @@ export function ModalCreateNewClient({
   clientDataToEdit,
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-  const defaultNewClientValues = {
-    name: '',
-    cpf: '',
-    phone: '',
-    email: '',
-  }
-  const [newClientData, setNewClientData] = useState<NewClientData>(
-    clientDataToEdit || defaultNewClientValues,
-  )
-  const [loadingCreateNewClient, setLoadingCreateNewClient] =
-    useState<boolean>(false)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isLoading, errors },
+  } = useForm<INewClient>({
+    defaultValues: clientDataToEdit || {
+      name: '',
+      cpf: '',
+      phone: '',
+      email: '',
+    },
+    resolver: zodResolver(newClientSchema),
+  })
+
   const router = useRouter()
-  function onCreateNewClient(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+
+  function onCreateNewClient(newClientData: INewClient) {
     clientsService
       .create({ ...newClientData }, httpClientProvider)
       .then(() => {
@@ -49,8 +49,11 @@ export function ModalCreateNewClient({
           pathname: router.route,
           query: router.query,
         })
-        setNewClientData(defaultNewClientValues)
+
+        reset()
+
         handleClose()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
@@ -66,26 +69,21 @@ export function ModalCreateNewClient({
           text: 'Erro ao tentar cadastrar cliente ' + `(${err?.message})`,
         })
       })
-      .finally(() => {
-        setLoadingCreateNewClient(false)
-      })
   }
 
-  function onEditClient(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const clientId = clientDataToEdit._id
-
-    if (!clientId) return
-
+  function onEditClient(clientData: INewClient) {
     clientsService
-      .update({ ...newClientData, clientId }, httpClientProvider)
+      .update({ ...clientData, _id: clientData?._id || '' }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
           query: router.query,
         })
-        setNewClientData(defaultNewClientValues)
+
+        reset()
+
         handleClose()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
@@ -102,19 +100,18 @@ export function ModalCreateNewClient({
             'Erro ao tentar atualizar dados do cliente ' + `(${err?.message})`,
         })
       })
-      .finally(() => {
-        setLoadingCreateNewClient(false)
-      })
   }
 
   return (
     <ModalLayout
       open={open}
       handleClose={handleClose}
-      onSubmit={clientDataToEdit ? onEditClient : onCreateNewClient}
+      onSubmit={handleSubmit(
+        clientDataToEdit ? onEditClient : onCreateNewClient,
+      )}
       title="Cadastro de cliente"
       submitButtonText="Cadastrar"
-      loading={loadingCreateNewClient}
+      loading={isLoading}
       customStyle={{ width: '500px' }}
     >
       <div className={style.fieldsContainer}>
@@ -123,26 +120,16 @@ export function ModalCreateNewClient({
           label="Nome"
           type="text"
           placeholder="Digite o nome do cliente"
-          value={newClientData?.name}
-          onChange={(event) => {
-            setNewClientData({
-              ...newClientData,
-              name: event.target.value,
-            })
-          }}
+          {...register('name', { required: true })}
+          error={!!errors.name}
+          helperText={errors.name ? errors.name.message : ''}
         />
         <CustomTextField
           size="small"
           label="E-mail"
           type="email"
           placeholder="Digite o e-mail"
-          value={newClientData?.email}
-          onChange={(event) => {
-            setNewClientData({
-              ...newClientData,
-              email: event.target.value,
-            })
-          }}
+          {...register('email')}
         />
 
         <CustomTextField
@@ -150,13 +137,7 @@ export function ModalCreateNewClient({
           label="CPF"
           type="number"
           placeholder="Digite o CPF do cliente"
-          value={newClientData?.cpf}
-          onChange={(event) => {
-            setNewClientData({
-              ...newClientData,
-              cpf: event.target.value,
-            })
-          }}
+          {...register('cpf')}
         />
 
         <CustomTextField
@@ -164,13 +145,7 @@ export function ModalCreateNewClient({
           label="Telefone"
           type="tel"
           placeholder="Digite o telefone"
-          value={newClientData?.phone}
-          onChange={(event) => {
-            setNewClientData({
-              ...newClientData,
-              phone: event.target.value,
-            })
-          }}
+          {...register('phone')}
         />
       </div>
     </ModalLayout>
