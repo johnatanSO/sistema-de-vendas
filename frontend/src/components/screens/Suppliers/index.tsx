@@ -14,6 +14,7 @@ import { suppliersService } from '../../../services/suppliersService'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 import { ISupplier } from '../../../models/interfaces/ISupplier'
+import { useSupplierList } from './hooks/useSupplierList'
 
 export function Suppliers() {
   const {
@@ -22,32 +23,14 @@ export function Suppliers() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [suppliers, setSuppliers] = useState<ISupplier[]>([])
-  const [loadingSuppliers, setLoadingSuppliers] = useState<boolean>(true)
+
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
   const [supplierDataToEdit, setSupplierDataToEdit] =
     useState<ISupplier | null>(null)
 
   const router = useRouter()
 
-  function getSuppliers() {
-    setLoadingSuppliers(true)
-    suppliersService
-      .getAll(httpClientProvider)
-      .then((res) => {
-        setSuppliers(res.data.items)
-      })
-      .catch((err) => {
-        console.log('ERRO AO BUSCAR FORNECEDORES, ', err)
-      })
-      .finally(() => {
-        setLoadingSuppliers(false)
-      })
-  }
-
-  useEffect(() => {
-    getSuppliers()
-  }, [router.query])
+  const { suppliers, loadingSuppliers } = useSupplierList()
 
   function handleDeleteSupplier(supplier: ISupplier) {
     setAlertDialogConfirmConfigs({

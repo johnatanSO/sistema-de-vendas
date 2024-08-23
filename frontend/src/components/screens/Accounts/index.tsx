@@ -1,5 +1,5 @@
 import { HeaderPage } from '../../_ui/HeaderPage'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { ModalCreateNewAccount } from './ModalCreateNewAccount'
 import { TableComponent } from '../../_ui/TableComponent'
 import { Column } from '../../../models/interfaces/Column'
@@ -14,6 +14,7 @@ import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 import { IAccount } from '../../../models/interfaces/IAccount'
+import { useAccountList } from './hooks/useAccountList'
 
 export function Accounts() {
   const {
@@ -22,32 +23,18 @@ export function Accounts() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [accounts, setAccounts] = useState<IAccount[]>([])
-  const [loadingAccounts, setLoadingAccounts] = useState<boolean>(true)
+
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
   const [accountDataToEdit, setAccountDataToEdit] = useState<IAccount | null>(
     null,
   )
   const router = useRouter()
-
-  function getAccounts() {
-    setLoadingAccounts(true)
-    accountsService
-      .getAll({ filters: { ...router.query } }, httpClientProvider)
-      .then((res) => {
-        setAccounts(res.data.items)
-      })
-      .catch((err) => {
-        console.log('ERRO AO BUSCAR CONTAS, ', err)
-      })
-      .finally(() => {
-        setLoadingAccounts(false)
-      })
-  }
-
-  useEffect(() => {
-    getAccounts()
-  }, [router.query])
+  const fieldsMobile = useFieldsMobile()
+  const { accounts, loadingAccounts } = useAccountList()
+  const columns: Column[] = useColumns({
+    handleEditAccount,
+    handleDeleteAccount,
+  })
 
   function handleDeleteAccount(account: IAccount) {
     setAlertDialogConfirmConfigs({
@@ -88,13 +75,6 @@ export function Accounts() {
     setAccountDataToEdit(account)
     setFormModalOpened(true)
   }
-
-  const columns: Column[] = useColumns({
-    handleEditAccount,
-    handleDeleteAccount,
-  })
-
-  const fieldsMobile = useFieldsMobile()
 
   return (
     <>

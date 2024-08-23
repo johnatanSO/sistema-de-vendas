@@ -9,18 +9,16 @@ import { format } from '../../../../utils/format'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { salesService } from '../../../../services/salesService'
 import { useRouter } from 'next/router'
-import { clientsService } from '../../../../services/clientsService'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { ISale } from '../../../../models/interfaces/ISale'
 import { IProduct } from '../../../../models/interfaces/IProduct'
-import { IClient } from '../../../../models/interfaces/IClient'
 import { useForm } from 'react-hook-form'
 import { INewSale } from '../interfaces/INewSale'
 import { useProductsList } from '../hooks/useProductsList'
-import { useClientsList } from '../hooks/useClientsList'
+import { useClientList } from '../../../../hooks/useClientList'
 
 interface Props {
   saleToEditData: ISale | null
@@ -53,7 +51,7 @@ export function ModalCreateNewSale({
 
   const products = watch('products')
   const { getProducts, productsList } = useProductsList()
-  const { getClients, clientsList } = useClientsList()
+  const { clients: clientsList } = useClientList()
 
   const router = useRouter()
 
@@ -218,7 +216,6 @@ export function ModalCreateNewSale({
               disablePortal
               id="combo-box-demo"
               options={clientsList}
-              onFocus={getClients}
               noOptionsText="Nenhum cliente encontrado"
               loadingText="Buscando clientes..."
               onChange={(event, value) => {

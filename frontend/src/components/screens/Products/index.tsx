@@ -14,6 +14,7 @@ import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 import { IProduct } from '../../../models/interfaces/IProduct'
+import { useProductList } from './hooks/useProductList'
 
 export function Products() {
   const {
@@ -22,32 +23,21 @@ export function Products() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [products, setProducts] = useState<IProduct[]>([])
-  const [loadingProducts, setLoadingProducts] = useState<boolean>(true)
+
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
   const [productDataToEdit, setProductDataToEdit] = useState<IProduct | null>(
     null,
   )
   const router = useRouter()
 
-  function getProducts() {
-    setLoadingProducts(true)
-    productsService
-      .getAll({ filters: { ...router.query } }, httpClientProvider)
-      .then(({ data: { items } }) => {
-        setProducts(items)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-      .finally(() => {
-        setLoadingProducts(false)
-      })
-  }
+  const { loadingProducts, products } = useProductList()
 
-  useEffect(() => {
-    getProducts()
-  }, [router.query])
+  const columns: Column[] = useColumns({
+    handleEditProduct,
+    handleDeleteProduct,
+  })
+
+  const fieldsMobile = useFieldsMobile()
 
   function handleDeleteProduct(product: IProduct) {
     setAlertDialogConfirmConfigs({
@@ -86,13 +76,6 @@ export function Products() {
     setProductDataToEdit(product)
     setFormModalOpened(true)
   }
-
-  const columns: Column[] = useColumns({
-    handleEditProduct,
-    handleDeleteProduct,
-  })
-
-  const fieldsMobile = useFieldsMobile()
 
   return (
     <>

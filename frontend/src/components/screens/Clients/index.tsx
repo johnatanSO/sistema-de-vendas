@@ -1,5 +1,5 @@
 import { HeaderPage } from '../../_ui/HeaderPage'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { ModalCreateNewClient } from './ModalCreateNewClient'
 import { TableComponent } from '../../_ui/TableComponent'
 import { Column } from '../../../models/interfaces/Column'
@@ -14,6 +14,7 @@ import { FilterByName } from '../../_ui/FilterByName'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 import { IClient } from '../../../models/interfaces/IClient'
+import { useClientList } from '../../../hooks/useClientList'
 
 export function Clients() {
   const {
@@ -22,31 +23,20 @@ export function Clients() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [clients, setClients] = useState<IClient[]>([])
-  const [loadingClients, setLoadingClients] = useState<boolean>(true)
+
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
   const [clientDataToEdit, setClientDataToEdit] = useState<IClient | null>(null)
 
   const router = useRouter()
 
-  function getClients() {
-    setLoadingClients(true)
-    clientsService
-      .getAll(httpClientProvider)
-      .then((res) => {
-        setClients(res.data.items)
-      })
-      .catch((err) => {
-        console.log('ERRO AO BUSCAR CLIENTES, ', err)
-      })
-      .finally(() => {
-        setLoadingClients(false)
-      })
-  }
+  const columns: Column[] = useColumns({
+    handleEditClient,
+    handleDeleteClient,
+  })
 
-  useEffect(() => {
-    getClients()
-  }, [router.query])
+  const fieldsMobile = useFieldsMobile()
+
+  const { clients, loadingClients } = useClientList()
 
   function handleDeleteClient(client: IClient) {
     setAlertDialogConfirmConfigs({
@@ -85,13 +75,6 @@ export function Clients() {
     setClientDataToEdit(client)
     setFormModalOpened(true)
   }
-
-  const columns: Column[] = useColumns({
-    handleEditClient,
-    handleDeleteClient,
-  })
-
-  const fieldsMobile = useFieldsMobile()
 
   return (
     <>
