@@ -127,10 +127,12 @@ export function ModalCreateNewAccount({
       <div className={style.fieldsContainer}>
         <CustomTextField
           size="small"
-          label="Descrição"
+          label="Descrição *"
           type="text"
           placeholder="Digite uma descrição para a conta"
           {...register('description')}
+          error={!!errors.description}
+          helperText={errors.description && errors.description.message}
         />
         <CustomTextField
           size="small"

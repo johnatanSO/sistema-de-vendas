@@ -117,10 +117,10 @@ export function ModalCreateNewClient({
       <div className={style.fieldsContainer}>
         <CustomTextField
           size="small"
-          label="Nome"
+          label="Nome *"
           type="text"
           placeholder="Digite o nome do cliente"
-          {...register('name', { required: true })}
+          {...register('name')}
           error={!!errors.name}
           helperText={errors.name && errors.name.message}
         />

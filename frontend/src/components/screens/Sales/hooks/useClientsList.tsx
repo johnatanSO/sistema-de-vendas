@@ -10,7 +10,7 @@ export function useClientsList() {
 
   const [clientsList, setClientsList] = useState<IClient[]>([])
 
-  function getClientsList() {
+  function getClients() {
     clientsService
       .getAll(httpClientProvider)
       .then(({ data: { items } }) => {
@@ -29,7 +29,7 @@ export function useClientsList() {
   }
 
   return {
-    getClientsList,
+    getClients,
     clientsList,
   }
 }

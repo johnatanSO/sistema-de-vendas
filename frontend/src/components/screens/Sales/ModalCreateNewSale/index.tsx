@@ -20,6 +20,7 @@ import { IClient } from '../../../../models/interfaces/IClient'
 import { useForm } from 'react-hook-form'
 import { INewSale } from '../interfaces/INewSale'
 import { useProductsList } from '../hooks/useProductsList'
+import { useClientsList } from '../hooks/useClientsList'
 
 interface Props {
   saleToEditData: ISale | null
@@ -52,6 +53,7 @@ export function ModalCreateNewSale({
 
   const products = watch('products')
   const { getProducts, productsList } = useProductsList()
+  const { getClients, clientsList } = useClientsList()
 
   const router = useRouter()
 
@@ -216,7 +218,7 @@ export function ModalCreateNewSale({
               disablePortal
               id="combo-box-demo"
               options={clientsList}
-              onFocus={getClientsList}
+              onFocus={getClients}
               noOptionsText="Nenhum cliente encontrado"
               loadingText="Buscando clientes..."
               onChange={(event, value) => {

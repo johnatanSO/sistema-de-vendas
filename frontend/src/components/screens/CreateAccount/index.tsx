@@ -57,6 +57,14 @@ export function CreateAccount() {
       })
   }
 
+  function getErrorConfirmPassword() {
+    if (errors?.confirmPassword) return errors?.confirmPassword?.message
+
+    if (password !== confirmPassword) return 'As senhas são diferentes'
+
+    return undefined
+  }
+
   return (
     <div className={style.createAccountContainer}>
       <h2>Criar uma nova conta</h2>
@@ -77,25 +85,30 @@ export function CreateAccount() {
           required
           label="E-mail"
           className={style.input}
-          {...register('email')}
           type="email"
           placeholder="Digite seu E-mail"
+          {...register('email')}
+          error={!!errors?.email}
+          helperText={errors?.email && errors?.email?.message}
         />
         <CustomTextField
           required
           label="Senha"
           className={style.input}
-          {...register('password')}
           type="password"
           placeholder="Digite uma senha"
+          {...register('password')}
+          error={!!errors?.password}
+          helperText={errors?.password && errors?.password?.message}
         />
         <CustomTextField
           label="Confirmar a senha"
           className={style.input}
-          error={password !== confirmPassword}
-          {...register('confirmPassword')}
+          error={password !== confirmPassword || !!errors?.confirmPassword}
           type="password"
           placeholder="Digite novamente a senha"
+          {...register('confirmPassword')}
+          helperText={getErrorConfirmPassword()}
         />
         <button disabled={isLoading} type="submit">
           {isLoading ? <Loading size={13} /> : 'Cadastrar'}

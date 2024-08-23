@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const newClientSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1, 'Nome do cliente não foi informado'),
   cpf: z.string(),
   phone: z.string(),
   email: z.string(),
