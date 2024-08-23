@@ -13,10 +13,7 @@ import { FilterByName } from '../../_ui/FilterByName'
 import { suppliersService } from '../../../services/suppliersService'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-
-export interface Supplier {
-  _id: string
-}
+import { ISupplier } from '../../../models/interfaces/ISupplier'
 
 export function Suppliers() {
   const {
@@ -25,10 +22,11 @@ export function Suppliers() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [suppliers, setSuppliers] = useState<Supplier[]>([])
+  const [suppliers, setSuppliers] = useState<ISupplier[]>([])
   const [loadingSuppliers, setLoadingSuppliers] = useState<boolean>(true)
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [supplierDataToEdit, setSupplierDataToEdit] = useState<any>(undefined)
+  const [supplierDataToEdit, setSupplierDataToEdit] =
+    useState<ISupplier | null>(null)
 
   const router = useRouter()
 
@@ -51,7 +49,7 @@ export function Suppliers() {
     getSuppliers()
   }, [router.query])
 
-  function handleDeleteSupplier(supplier: Supplier) {
+  function handleDeleteSupplier(supplier: ISupplier) {
     setAlertDialogConfirmConfigs({
       ...alertDialogConfirmConfigs,
       open: true,
@@ -67,6 +65,7 @@ export function Suppliers() {
               type: ALERT_NOTIFY_TYPE.SUCCESS,
               text: 'Fornecedor excluído com sucesso',
             })
+
             router.push({
               pathname: router.route,
               query: router.query,
@@ -84,7 +83,7 @@ export function Suppliers() {
     })
   }
 
-  function handleEditSupplier(supplier: Supplier) {
+  function handleEditSupplier(supplier: ISupplier) {
     setSupplierDataToEdit(supplier)
     setFormModalOpened(true)
   }
@@ -132,7 +131,7 @@ export function Suppliers() {
           open={formModalOpened}
           handleClose={() => {
             setFormModalOpened(false)
-            setSupplierDataToEdit(undefined)
+            setSupplierDataToEdit(null)
           }}
         />
       )}

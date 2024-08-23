@@ -11,7 +11,7 @@ interface UpdateParams {
   cnpj: string
   phone: string
   email: string
-  supplierId: string
+  _id: string
 }
 
 interface DeleteParams {
@@ -44,7 +44,7 @@ export const suppliersService = {
   },
 
   update(
-    { name, cnpj, phone, email, supplierId }: UpdateParams,
+    { name, cnpj, phone, email, _id: supplierId }: UpdateParams,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
