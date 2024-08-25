@@ -1,4 +1,5 @@
 import { IClient } from './IClient'
+import { IProduct } from './IProduct'
 
 export interface ISale {
   _id: string
@@ -6,4 +7,5 @@ export interface ISale {
   totalValue: number
   client: IClient
   status: string
+  products: IProduct[]
 }

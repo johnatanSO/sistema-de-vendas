@@ -1,4 +1,4 @@
-import { IProduct } from '../interfaces/IProduct'
+import { IProduct } from '../../../../models/interfaces/IProduct'
 
 export function usePizzaGraph(products: IProduct[]) {
   return {

@@ -1,5 +1,5 @@
 import { STATUS_SALE } from '../../../../models/enums/SaleStatus'
-import { ISale } from '../interfaces/ISale'
+import { ISale } from '../../../../models/interfaces/ISale'
 
 export function useTotalSales(sales: ISale[]) {
   return sales.reduce(

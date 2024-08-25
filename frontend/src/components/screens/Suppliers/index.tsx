@@ -1,5 +1,5 @@
 import { HeaderPage } from '../../_ui/HeaderPage'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { ModalCreateNewSupplier } from './ModalCreateNewSupplier'
 import { TableComponent } from '../../_ui/TableComponent'
 import { Column } from '../../../models/interfaces/Column'

@@ -1,6 +1,6 @@
 import { salesService } from '../../../services/salesService'
 import { HeaderPage } from '../../_ui/HeaderPage'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { ModalCreateNewSale } from './ModalCreateNewSale'
 import { TableComponent } from '../../_ui/TableComponent'
 import { Column } from '../../../models/interfaces/Column'

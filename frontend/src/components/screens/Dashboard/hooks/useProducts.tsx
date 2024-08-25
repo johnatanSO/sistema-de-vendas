@@ -1,5 +1,5 @@
-import { IProduct } from '../interfaces/IProduct'
-import { ISale } from '../interfaces/ISale'
+import { IProduct } from '../../../../models/interfaces/IProduct'
+import { ISale } from '../../../../models/interfaces/ISale'
 
 export function useProducts(sales: ISale[]) {
   return sales.reduce((acc: IProduct[], sale) => {
@@ -14,8 +14,10 @@ export function useProducts(sales: ISale[]) {
       } else {
         acc.forEach((accProduct) => {
           if (accProduct._id === product._id) {
-            accProduct.amount += product.amount
-            accProduct.value += product.value
+            if (accProduct.amount) {
+              accProduct.amount += Number(product.amount || 0)
+              accProduct.value += product.value
+            }
           }
         })
       }

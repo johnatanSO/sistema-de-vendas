@@ -1,5 +1,5 @@
 import { ACCOUNT_TYPE } from '../../../../models/enums/AccountType'
-import { IAccount } from '../interfaces/IAccount'
+import { IAccount } from '../../../../models/interfaces/IAccount'
 
 export function useTotalAccounts(accounts: IAccount[]) {
   return accounts.reduce(
