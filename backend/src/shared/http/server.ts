@@ -1,11 +1,11 @@
 import 'reflect-metadata'
 import express, { Express } from 'express'
 import 'express-async-errors'
-import { routes } from './src/routes'
-import './src/shared/containers'
-import dbConnection from './src/database/mongoConfigs'
+import { routes } from '../../routes'
+import '../containers'
+import dbConnection from '../../database/mongoConfigs'
 import cors from 'cors'
-import { handleErrors } from './src/middlewares/handleErrors'
+import { handleErrors } from '../../middlewares/handleErrors'
 
 interface CustomExpress extends Express {
   mongo?: any
