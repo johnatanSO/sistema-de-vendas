@@ -1,6 +1,6 @@
-export interface IProduct {
+export type IProduct = {
   _id: string
   name: string
-  amount: number
   value: number
+  amount?: number
 }

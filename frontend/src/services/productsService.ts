@@ -1,5 +1,4 @@
 import { IHttpClientProvider } from './../providers/HttpClientProvider/IHttpClientProvider'
-import { NewProductData } from '../components/screens/Products/ModalCreateNewProduct'
 import { usersService } from './usersService'
 
 interface GetAllParams {
@@ -7,11 +6,18 @@ interface GetAllParams {
 }
 
 interface CreateParams {
-  newProductData: NewProductData
+  name: string
+  value: number
+  stock: number
+  isDefault: boolean
 }
 
 interface UpdateParams {
-  productData: any
+  _id: string
+  name: string
+  value: number
+  stock: number
+  isDefault: boolean
 }
 
 interface DeleteParams {
@@ -43,13 +49,14 @@ export const productsService = {
   },
 
   create(
-    { newProductData }: CreateParams,
+    { name, stock, value, isDefault }: CreateParams,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
-      ...newProductData,
-      stock: Number(newProductData?.stock),
-      value: Number(newProductData?.value),
+      stock,
+      value,
+      name,
+      isDefault,
       userInfo: this.userInfo,
     }
 
@@ -59,11 +66,15 @@ export const productsService = {
   },
 
   update(
-    { productData }: UpdateParams,
+    { _id, name, stock, value, isDefault }: UpdateParams,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
-      ...productData,
+      _id,
+      name,
+      stock,
+      value,
+      isDefault,
     }
 
     return httpClientProvider.put('/produtos/', {

@@ -1,19 +1,22 @@
 import { ModalLayout } from '../../../_ui/ModalLayout'
-import { FormEvent, useState, useContext } from 'react'
+import { useContext } from 'react'
 import style from './ModalCreateNewAccount.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
 import { accountsService } from '../../../../services/accountsService'
 import { AlertContext } from '../../../../contexts/alertContext'
 import { useRouter } from 'next/router'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
-import { INewAccount } from '../interfaces/INewAccount'
+import { INewAccount, newAccountSchema } from '../interfaces/INewAccount'
 import { ACCOUNT_TYPE } from '../../../../models/enums/AccountType'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { IAccount } from '../../../../models/interfaces/IAccount'
 
 interface Props {
-  accountDataToEdit: INewAccount | null
+  accountDataToEdit: IAccount | null
   open: boolean
   handleClose: () => void
 }
@@ -24,35 +27,46 @@ export function ModalCreateNewAccount({
   accountDataToEdit,
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-  const defaultNewAccountValues: INewAccount = {
-    description: '',
-    type: ACCOUNT_TYPE.IN,
-    category: '',
-    value: 0,
-  }
-  const [newAccountData, setNewAccountData] = useState<INewAccount>(
-    accountDataToEdit || defaultNewAccountValues,
-  )
-  const [loadingCreateNewAccount, setLoadingCreateNewAccount] =
-    useState<boolean>(false)
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors, isLoading },
+  } = useForm<INewAccount>({
+    defaultValues: accountDataToEdit || {
+      description: '',
+      type: ACCOUNT_TYPE.IN,
+      category: '',
+      value: 0,
+    },
+    resolver: zodResolver(newAccountSchema),
+  })
+
+  const accountType = watch('type')
+
   const router = useRouter()
-  function onCreateNewAccount(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+
+  function onCreateNewAccount(newAccountData: INewAccount) {
     accountsService
       .create({ newAccountData }, httpClientProvider)
       .then(() => {
-        router.push({
-          pathname: router.route,
-          query: router.query,
-        })
-        setNewAccountData(defaultNewAccountValues)
-        handleClose()
+        reset()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
           type: 'success',
           text: 'Conta cadastrada com sucesso',
         })
+
+        router.push({
+          pathname: router.route,
+          query: router.query,
+        })
+
+        handleClose()
       })
       .catch((err) => {
         setAlertNotifyConfigs({
@@ -62,28 +76,30 @@ export function ModalCreateNewAccount({
           text: 'Erro ao tentar cadastrar conta ' + `(${err?.message})`,
         })
       })
-      .finally(() => {
-        setLoadingCreateNewAccount(false)
-      })
   }
 
-  function onEditAccount(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  function onEditAccount(accountData: INewAccount) {
     accountsService
-      .update({ accountData: newAccountData }, httpClientProvider)
+      .update(
+        { ...accountData, _id: accountData._id || '' },
+        httpClientProvider,
+      )
       .then(() => {
-        router.push({
-          pathname: router.route,
-          query: router.query,
-        })
-        setNewAccountData(defaultNewAccountValues)
-        handleClose()
+        reset()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
           type: 'success',
           text: 'Dados da conta atualizados com sucesso',
         })
+
+        router.push({
+          pathname: router.route,
+          query: router.query,
+        })
+
+        handleClose()
       })
       .catch((err) => {
         setAlertNotifyConfigs({
@@ -94,74 +110,58 @@ export function ModalCreateNewAccount({
             'Erro ao tentar atualizar dados da conta ' + `(${err?.message})`,
         })
       })
-      .finally(() => {
-        setLoadingCreateNewAccount(false)
-      })
   }
 
   return (
     <ModalLayout
       open={open}
       handleClose={handleClose}
-      onSubmit={accountDataToEdit ? onEditAccount : onCreateNewAccount}
+      onSubmit={handleSubmit(
+        accountDataToEdit ? onEditAccount : onCreateNewAccount,
+      )}
       title="Cadastro de conta"
       submitButtonText="Cadastrar"
-      loading={loadingCreateNewAccount}
+      loading={isLoading}
       customStyle={{ width: '500px' }}
     >
       <div className={style.fieldsContainer}>
         <CustomTextField
           size="small"
-          label="Descrição"
+          label="Descrição *"
           type="text"
           placeholder="Digite uma descrição para a conta"
-          value={newAccountData?.description}
-          onChange={(event) => {
-            setNewAccountData({
-              ...newAccountData,
-              description: event.target.value,
-            })
-          }}
+          {...register('description')}
+          error={!!errors.description}
+          helperText={errors.description && errors.description.message}
         />
         <CustomTextField
           size="small"
           label="Categoria"
           type="text"
           placeholder="Digite uma categoria para a conta"
-          value={newAccountData?.category}
-          onChange={(event) => {
-            setNewAccountData({
-              ...newAccountData,
-              category: event.target.value,
-            })
-          }}
+          {...register('category')}
         />
 
         <div className={style.selectTypeContainer}>
           <button
             type="button"
-            style={{ opacity: newAccountData?.type === 'in' ? 1 : 0.5 }}
-            disabled={newAccountData?.type === 'in'}
+            style={{ opacity: accountType === ACCOUNT_TYPE.IN ? 1 : 0.5 }}
+            disabled={accountType === ACCOUNT_TYPE.IN}
             className={`${style.typeButton} ${style.inButton}`}
             onClick={() => {
-              setNewAccountData({
-                ...newAccountData,
-                type: ACCOUNT_TYPE.IN,
-              })
+              setValue('type', ACCOUNT_TYPE.IN)
             }}
           >
             <FontAwesomeIcon className={style.icon} icon={faArrowUp} /> Entrada
           </button>
+
           <button
             type="button"
-            style={{ opacity: newAccountData?.type === 'out' ? 1 : 0.5 }}
-            disabled={newAccountData?.type === 'out'}
+            style={{ opacity: accountType === ACCOUNT_TYPE.OUT ? 1 : 0.5 }}
+            disabled={accountType === ACCOUNT_TYPE.OUT}
             className={`${style.typeButton} ${style.outButton}`}
             onClick={() => {
-              setNewAccountData({
-                ...newAccountData,
-                type: ACCOUNT_TYPE.OUT,
-              })
+              setValue('type', ACCOUNT_TYPE.OUT)
             }}
           >
             <FontAwesomeIcon className={style.icon} icon={faArrowDown} /> Saída
@@ -173,13 +173,9 @@ export function ModalCreateNewAccount({
           label="Valor"
           type="number"
           placeholder="Digite o valor"
-          value={newAccountData?.value}
-          onChange={(event) => {
-            setNewAccountData({
-              ...newAccountData,
-              value: event.target.value,
-            })
-          }}
+          {...register('value', { required: true, valueAsNumber: true })}
+          error={!!errors.value}
+          helperText={errors.value && errors?.value?.message}
         />
       </div>
     </ModalLayout>

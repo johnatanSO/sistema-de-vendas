@@ -1,5 +1,5 @@
 import { HeaderPage } from '../../_ui/HeaderPage'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { ModalCreateNewClient } from './ModalCreateNewClient'
 import { TableComponent } from '../../_ui/TableComponent'
 import { Column } from '../../../models/interfaces/Column'
@@ -13,10 +13,8 @@ import { clientsService } from '../../../services/clientsService'
 import { FilterByName } from '../../_ui/FilterByName'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-
-export interface Client {
-  _id: string
-}
+import { IClient } from '../../../models/interfaces/IClient'
+import { useClientList } from '../../../hooks/useClientList'
 
 export function Clients() {
   const {
@@ -25,33 +23,22 @@ export function Clients() {
     alertNotifyConfigs,
     setAlertNotifyConfigs,
   } = useContext(AlertContext)
-  const [clients, setClients] = useState<Client[]>([])
-  const [loadingClients, setLoadingClients] = useState<boolean>(true)
+
   const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [clientDataToEdit, setClientDataToEdit] = useState<any>(undefined)
+  const [clientDataToEdit, setClientDataToEdit] = useState<IClient | null>(null)
 
   const router = useRouter()
 
-  function getClients() {
-    setLoadingClients(true)
-    clientsService
-      .getAll(httpClientProvider)
-      .then((res) => {
-        setClients(res.data.items)
-      })
-      .catch((err) => {
-        console.log('ERRO AO BUSCAR CLIENTES, ', err)
-      })
-      .finally(() => {
-        setLoadingClients(false)
-      })
-  }
+  const columns: Column[] = useColumns({
+    handleEditClient,
+    handleDeleteClient,
+  })
 
-  useEffect(() => {
-    getClients()
-  }, [router.query])
+  const fieldsMobile = useFieldsMobile()
 
-  function handleDeleteClient(client: Client) {
+  const { clients, loadingClients } = useClientList()
+
+  function handleDeleteClient(client: IClient) {
     setAlertDialogConfirmConfigs({
       ...alertDialogConfirmConfigs,
       open: true,
@@ -59,7 +46,7 @@ export function Clients() {
       text: 'Deseja realmente excluir este cliente?',
       onClickAgree: () => {
         clientsService
-          .delete({ idClient: client?._id }, httpClientProvider)
+          .delete({ idClient: client?._id || '' }, httpClientProvider)
           .then(() => {
             setAlertNotifyConfigs({
               ...alertNotifyConfigs,
@@ -84,17 +71,10 @@ export function Clients() {
     })
   }
 
-  function handleEditClient(client: Client) {
+  function handleEditClient(client: IClient) {
     setClientDataToEdit(client)
     setFormModalOpened(true)
   }
-
-  const columns: Column[] = useColumns({
-    handleEditClient,
-    handleDeleteClient,
-  })
-
-  const fieldsMobile = useFieldsMobile()
 
   return (
     <>
@@ -132,7 +112,7 @@ export function Clients() {
           open={formModalOpened}
           handleClose={() => {
             setFormModalOpened(false)
-            setClientDataToEdit(undefined)
+            setClientDataToEdit(null)
           }}
         />
       )}

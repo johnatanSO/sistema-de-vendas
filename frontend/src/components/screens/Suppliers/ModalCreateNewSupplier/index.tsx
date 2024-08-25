@@ -1,5 +1,5 @@
 import { ModalLayout } from '../../../_ui/ModalLayout'
-import { FormEvent, useState, useContext } from 'react'
+import { useContext } from 'react'
 import style from './ModalCreateNewSupplier.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
 import { AlertContext } from '../../../../contexts/alertContext'
@@ -7,17 +7,11 @@ import { useRouter } from 'next/router'
 import { suppliersService } from '../../../../services/suppliersService'
 import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
-
-export interface NewSupplierData {
-  _id?: string
-  name: string
-  cnpj: string
-  phone: string
-  email: string
-}
+import { INewSupplier } from '../interfaces/INewSupplier'
+import { useForm } from 'react-hook-form'
 
 interface Props {
-  supplierDataToEdit: NewSupplierData
+  supplierDataToEdit: INewSupplier | null
   open: boolean
   handleClose: () => void
 }
@@ -28,31 +22,34 @@ export function ModalCreateNewSupplier({
   supplierDataToEdit,
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-  const defaultNewSupplierValues = {
-    name: '',
-    cnpj: '',
-    phone: '',
-    email: '',
-  }
-  const [newSupplierData, setNewSupplierData] = useState<NewSupplierData>(
-    supplierDataToEdit || defaultNewSupplierValues,
-  )
-  const [loadingCreateNewSupplier, setLoadingCreateNewSupplier] =
-    useState<boolean>(false)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isLoading, errors },
+  } = useForm<INewSupplier>({
+    defaultValues: supplierDataToEdit || {
+      name: '',
+      cnpj: '',
+      phone: '',
+      email: '',
+    },
+  })
 
   const router = useRouter()
 
-  function onCreateNewSupplier(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+  function onCreateNewSupplier(newSupplier: INewSupplier) {
     suppliersService
-      .create({ ...newSupplierData }, httpClientProvider)
+      .create({ ...newSupplier }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
           query: router.query,
         })
-        setNewSupplierData(defaultNewSupplierValues)
+        reset()
+
         handleClose()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
@@ -68,26 +65,20 @@ export function ModalCreateNewSupplier({
           text: 'Erro ao tentar cadastrar fornecedor ' + `(${err?.message})`,
         })
       })
-      .finally(() => {
-        setLoadingCreateNewSupplier(false)
-      })
   }
 
-  function onEditSupplier(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const supplierId = supplierDataToEdit._id
-
-    if (!supplierId) return
-
+  function onEditSupplier(supplier: INewSupplier) {
     suppliersService
-      .update({ ...newSupplierData, supplierId }, httpClientProvider)
+      .update({ ...supplier, _id: supplier._id || '' }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
           query: router.query,
         })
-        setNewSupplierData(defaultNewSupplierValues)
+        reset()
+
         handleClose()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
@@ -105,19 +96,18 @@ export function ModalCreateNewSupplier({
             `(${err?.message})`,
         })
       })
-      .finally(() => {
-        setLoadingCreateNewSupplier(false)
-      })
   }
 
   return (
     <ModalLayout
       open={open}
       handleClose={handleClose}
-      onSubmit={supplierDataToEdit ? onEditSupplier : onCreateNewSupplier}
+      onSubmit={handleSubmit(
+        supplierDataToEdit ? onEditSupplier : onCreateNewSupplier,
+      )}
       title="Cadastro de fornecedor"
       submitButtonText="Cadastrar"
-      loading={loadingCreateNewSupplier}
+      loading={isLoading}
       customStyle={{ width: '500px' }}
     >
       <div className={style.fieldsContainer}>
@@ -126,26 +116,16 @@ export function ModalCreateNewSupplier({
           label="Nome"
           type="text"
           placeholder="Digite o nome do fornecedor"
-          value={newSupplierData?.name}
-          onChange={(event) => {
-            setNewSupplierData({
-              ...newSupplierData,
-              name: event.target.value,
-            })
-          }}
+          {...register('name', { required: true })}
+          error={!!errors.name}
+          helperText={errors.name && errors.name.message}
         />
         <CustomTextField
           size="small"
           label="E-mail"
           type="email"
           placeholder="Digite o e-mail"
-          value={newSupplierData?.email}
-          onChange={(event) => {
-            setNewSupplierData({
-              ...newSupplierData,
-              email: event.target.value,
-            })
-          }}
+          {...register('email')}
         />
 
         <CustomTextField
@@ -153,13 +133,7 @@ export function ModalCreateNewSupplier({
           label="CNPJ"
           type="number"
           placeholder="Digite o CNPJ do fornecedor"
-          value={newSupplierData?.cnpj}
-          onChange={(event) => {
-            setNewSupplierData({
-              ...newSupplierData,
-              cnpj: event.target.value,
-            })
-          }}
+          {...register('cnpj')}
         />
 
         <CustomTextField
@@ -167,13 +141,7 @@ export function ModalCreateNewSupplier({
           label="Telefone"
           type="tel"
           placeholder="Digite o telefone"
-          value={newSupplierData?.phone}
-          onChange={(event) => {
-            setNewSupplierData({
-              ...newSupplierData,
-              phone: event.target.value,
-            })
-          }}
+          {...register('phone')}
         />
       </div>
     </ModalLayout>

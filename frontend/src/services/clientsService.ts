@@ -12,7 +12,7 @@ interface UpdateParams {
   cpf: string
   phone: string
   email: string
-  clientId: string
+  _id: string
 }
 
 interface DeleteParams {
@@ -45,17 +45,17 @@ export const clientsService = {
   },
 
   update(
-    { name, cpf, phone, email, clientId }: UpdateParams,
+    { _id: idClient, name, email, phone, cpf }: UpdateParams,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
       name,
-      cpf,
       phone,
       email,
+      cpf,
     }
 
-    return httpClientProvider.put(`/clientes/${clientId}`, {
+    return httpClientProvider.put(`/clientes/${idClient}`, {
       ...body,
     })
   },

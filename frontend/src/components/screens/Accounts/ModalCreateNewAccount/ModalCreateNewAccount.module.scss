@@ -29,11 +29,11 @@
     border-radius: 20px;
     font-size: 0.875rem;
     line-height: 1;
+    font-weight: 500;
+    gap: 1rem;
 
     cursor: pointer;
-    transition:
-      filter 0.2s,
-      opacity 0.2s;
+    transition: filter 0.2s, opacity 0.2s;
 
     &:not(:disabled):hover {
       filter: brightness(0.8);

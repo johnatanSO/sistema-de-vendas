@@ -1,6 +1,6 @@
 import style from './Login.module.scss'
 import Link from 'next/link'
-import { FormEvent, useContext, useState } from 'react'
+import { useContext } from 'react'
 import { usersService } from '../../../services/usersService'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../../contexts/alertContext'
@@ -8,50 +8,34 @@ import { CustomTextField } from '../../_ui/CustomTextField'
 import { Loading } from '../../_ui/Loading'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-
-export interface LoginUserData {
-  email: string
-  password: string
-}
+import { ILoginData, loginSchema } from './interfaces/ILoginData'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export function Login() {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
 
-  const router = useRouter()
-
-  const [loading, setLoading] = useState<boolean>(false)
-  const [userData, setUserData] = useState<LoginUserData>({
-    email: '',
-    password: '',
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isLoading, errors },
+  } = useForm<ILoginData>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: zodResolver(loginSchema),
   })
 
-  function onLogin(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    if (loading) return
-    if (!userData?.email) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        text: 'E-mail não informado',
-        open: 'true',
-      })
-      return
-    }
+  const router = useRouter()
 
-    if (!userData?.password) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        text: 'Senha não informada',
-        open: 'true',
-      })
-      return
-    }
-
-    setLoading(true)
+  function onLogin(loginData: ILoginData) {
     usersService
-      .login({ userData }, httpClientProvider)
+      .login({ ...loginData }, httpClientProvider)
       .then(async (res) => {
+        reset()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.SUCCESS,
@@ -76,47 +60,35 @@ export function Login() {
           open: 'true',
         })
       })
-      .finally(() => {
-        setLoading(false)
-      })
   }
 
   return (
     <div className={style.loginContainer}>
       <h2>Entrar com uma conta existente</h2>
-      <form onSubmit={onLogin} className={style.formContainer}>
+      <form onSubmit={handleSubmit(onLogin)} className={style.formContainer}>
         <CustomTextField
           size="medium"
-          value={userData?.email}
           className={style.input}
           type="email"
           label="E-mail"
-          required
           placeholder="Digite seu E-mail"
-          onChange={(event) => {
-            setUserData({
-              ...userData,
-              email: event.target.value,
-            })
-          }}
+          {...register('email')}
+          error={!!errors.email}
+          helperText={errors?.email && errors?.email?.message}
         />
+
         <CustomTextField
           label="Senha"
           size="medium"
-          required
           className={style.input}
-          value={userData?.password}
           type="password"
           placeholder="Senha"
-          onChange={(event) => {
-            setUserData({
-              ...userData,
-              password: event.target.value,
-            })
-          }}
+          {...register('password')}
+          error={!!errors.password}
+          helperText={errors?.password && errors?.password?.message}
         />
-        <button disabled={loading} type="submit">
-          {loading ? <Loading size={13} /> : 'Entrar'}
+        <button disabled={isLoading} type="submit">
+          {isLoading ? <Loading size={13} /> : 'Entrar'}
         </button>
       </form>
 

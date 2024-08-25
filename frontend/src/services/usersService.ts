@@ -1,5 +1,3 @@
-import { NewUser } from '../components/screens/CreateAccount'
-import { LoginUserData } from '../components/screens/Login'
 import nookies, { setCookie, destroyCookie } from 'nookies'
 import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
 
@@ -8,11 +6,15 @@ const ACCESS_TOKEN_KEY = 'sis-vendas:token[v1]'
 const ACCESS_REFRESH_TOKEN_KEY = 'sis-vendas:refresh_token[v1]'
 
 interface LoginParams {
-  userData: LoginUserData
+  email: string
+  password: string
 }
 
 interface RegisterParams {
-  newUser: NewUser
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
 }
 
 interface IUser {
@@ -28,8 +30,11 @@ export const usersService = {
     return token
   },
 
-  login({ userData }: LoginParams, httpClientProvider: IHttpClientProvider) {
-    const body = { ...userData }
+  login(
+    { email, password }: LoginParams,
+    httpClientProvider: IHttpClientProvider,
+  ) {
+    const body = { email, password }
 
     return httpClientProvider.post('/signIn', {
       ...body,
@@ -37,10 +42,10 @@ export const usersService = {
   },
 
   register(
-    { newUser }: RegisterParams,
+    { name, email, password, confirmPassword }: RegisterParams,
     httpClientProvider: IHttpClientProvider,
   ) {
-    const body = { ...newUser }
+    const body = { name, email, password, confirmPassword }
 
     return httpClientProvider.post('/users', {
       ...body,

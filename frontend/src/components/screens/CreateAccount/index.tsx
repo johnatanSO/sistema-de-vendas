@@ -1,6 +1,6 @@
 import style from './CreateAccount.module.scss'
 import Link from 'next/link'
-import { FormEvent, useContext, useState } from 'react'
+import { useContext } from 'react'
 import { usersService } from '../../../services/usersService'
 import { AlertContext } from '../../../contexts/alertContext'
 import { CustomTextField } from '../../_ui/CustomTextField'
@@ -8,69 +8,41 @@ import { Loading } from '../../_ui/Loading'
 import { useRouter } from 'next/router'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-
-export interface NewUser {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+import { useForm } from 'react-hook-form'
+import { INewUser } from './interfaces/INewUser'
 
 export function CreateAccount() {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-  const defaultValuesNewUser = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  }
-  const [newUser, setNewUser] = useState<NewUser>(defaultValuesNewUser)
-  const [loading, setLoading] = useState<boolean>(false)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { isLoading, errors },
+  } = useForm<INewUser>({
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  })
+
   const router = useRouter()
+  const [password, confirmPassword] = watch(['password', 'confirmPassword'])
 
-  function onCreateAccount(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    if (loading) return
-    if (!newUser?.email) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        text: 'E-mail não informado',
-        open: 'true',
-      })
-      return
-    }
-
-    if (!newUser?.password) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        text: 'Senha não informada',
-        open: 'true',
-      })
-      return
-    }
-
-    if (!newUser?.name) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        text: 'Nome não informada',
-        open: 'true',
-      })
-      return
-    }
-
-    setLoading(true)
+  function onCreateAccount(newUser: INewUser) {
     usersService
-      .register({ newUser }, httpClientProvider)
-      .then(({ data }) => {
+      .register({ ...newUser }, httpClientProvider)
+      .then(() => {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Usuário cadastrado com sucesso',
           open: 'true',
         })
+
+        reset()
 
         router.push('/login')
       })
@@ -83,74 +55,63 @@ export function CreateAccount() {
           open: 'true',
         })
       })
-      .finally(() => {
-        setLoading(false)
-      })
+  }
+
+  function getErrorConfirmPassword() {
+    if (errors?.confirmPassword) return errors?.confirmPassword?.message
+
+    if (password !== confirmPassword) return 'As senhas são diferentes'
+
+    return undefined
   }
 
   return (
     <div className={style.createAccountContainer}>
       <h2>Criar uma nova conta</h2>
-      <form onSubmit={onCreateAccount} className={style.formContainer}>
+      <form
+        onSubmit={handleSubmit(onCreateAccount)}
+        className={style.formContainer}
+      >
         <CustomTextField
-          onChange={(e) => {
-            setNewUser({
-              ...newUser,
-              name: e.target.value,
-            })
-          }}
-          required
-          value={newUser.name}
           type="text"
           label="Nome"
           className={style.input}
           placeholder="Digite seu nome"
+          {...register('name')}
+          error={!!errors?.name}
+          helperText={errors?.name && errors?.name?.message}
         />
         <CustomTextField
           required
           label="E-mail"
           className={style.input}
-          onChange={(e) => {
-            setNewUser({
-              ...newUser,
-              email: e.target.value,
-            })
-          }}
-          value={newUser.email}
           type="email"
           placeholder="Digite seu E-mail"
+          {...register('email')}
+          error={!!errors?.email}
+          helperText={errors?.email && errors?.email?.message}
         />
         <CustomTextField
           required
           label="Senha"
           className={style.input}
-          value={newUser.password}
-          onChange={(e) => {
-            setNewUser({
-              ...newUser,
-              password: e.target.value,
-            })
-          }}
           type="password"
           placeholder="Digite uma senha"
+          {...register('password')}
+          error={!!errors?.password}
+          helperText={errors?.password && errors?.password?.message}
         />
         <CustomTextField
-          required
           label="Confirmar a senha"
           className={style.input}
-          error={newUser.password !== newUser.confirmPassword}
-          value={newUser.confirmPassword}
-          onChange={(e) => {
-            setNewUser({
-              ...newUser,
-              confirmPassword: e.target.value,
-            })
-          }}
+          error={password !== confirmPassword || !!errors?.confirmPassword}
           type="password"
           placeholder="Digite novamente a senha"
+          {...register('confirmPassword')}
+          helperText={getErrorConfirmPassword()}
         />
-        <button disabled={loading} type="submit">
-          {loading ? <Loading size={13} /> : 'Cadastrar'}
+        <button disabled={isLoading} type="submit">
+          {isLoading ? <Loading size={13} /> : 'Cadastrar'}
         </button>
       </form>
       <Link href="/login" className={style.loginAccountLink}>
@@ -159,3 +120,4 @@ export function CreateAccount() {
     </div>
   )
 }
+// 161

@@ -1,15 +1,15 @@
 import {
   Column,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column.js'
+} from '../../../../models/interfaces/Column'
 import style from '../Suppliers.module.scss'
-import { Supplier } from '..'
+import { ISupplier } from '../../../../models/interfaces/ISupplier'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
-  handleEditSupplier: (supplier: Supplier) => void
-  handleDeleteSupplier: (supplier: Supplier) => void
+  handleEditSupplier: (supplier: ISupplier) => void
+  handleDeleteSupplier: (supplier: ISupplier) => void
 }
 
 export function useColumns({
@@ -35,32 +35,32 @@ export function useColumns({
     {
       headerName: 'Nome',
       field: 'name',
-      valueFormatter: (params: CellFunctionParams<Supplier>) =>
+      valueFormatter: (params: CellFunctionParams<ISupplier>) =>
         params.value || '--',
     },
     {
       headerName: 'Telefone',
       field: 'phone',
-      valueFormatter: (params: CellFunctionParams<Supplier>) =>
+      valueFormatter: (params: CellFunctionParams<ISupplier>) =>
         params.value || '--',
     },
     {
       headerName: 'E-mail',
       field: 'email',
-      valueFormatter: (params: CellFunctionParams<Supplier>) =>
+      valueFormatter: (params: CellFunctionParams<ISupplier>) =>
         params.value || '--',
     },
     {
       headerName: 'cnpj',
       field: 'cnpj',
-      valueFormatter: (params: CellFunctionParams<Supplier>) =>
+      valueFormatter: (params: CellFunctionParams<ISupplier>) =>
         params.value || '--',
     },
     {
       headerName: '',
       field: 'acoes',
       type: 'actions',
-      cellRenderer: (params: CellFunctionParams<Supplier>) => {
+      cellRenderer: (params: CellFunctionParams<ISupplier>) => {
         return (
           <div className={style.actionsContainer}>
             {actions.map((action) => {

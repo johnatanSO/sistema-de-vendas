@@ -1,6 +1,6 @@
-import { ACCOUNT_TYPE } from '../../../../models/enums/AccountType'
+import { ACCOUNT_TYPE } from '../enums/AccountType'
 
-export interface Account {
+export interface IAccount {
   _id: string
   description: string
   type: ACCOUNT_TYPE

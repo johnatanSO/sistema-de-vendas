@@ -8,8 +8,6 @@
   flex-direction: column;
   text-align: center;
 
-  // box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.42);
-  // background: $gray-color-400;
   border-radius: 20px;
   padding: 2rem;
   animation: appear 0.2s;
@@ -26,7 +24,7 @@
     flex-direction: column;
     gap: 15px;
 
-    .input {
+    input {
       background: $gray-color-700;
       color: $gray-color-200;
 

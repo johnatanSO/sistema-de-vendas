@@ -11,7 +11,7 @@ interface Props {
   submitButtonText: string
   handleClose: () => void
   children: ReactNode
-  onSubmit: (event: FormEvent<HTMLFormElement>) => void
+  onSubmit: (params: FormEvent<HTMLFormElement> | any) => void
   loading: boolean
   customStyle?: CSSProperties
 }

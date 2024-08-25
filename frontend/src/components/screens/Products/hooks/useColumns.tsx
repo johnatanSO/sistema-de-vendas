@@ -1,16 +1,16 @@
 import {
   Column,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column.js'
+} from '../../../../models/interfaces/Column'
 import { format } from '../../../../utils/format'
 import style from '../Products.module.scss'
-import { Product } from '..'
+import { IProduct } from '../../../../models/interfaces/IProduct'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UseColumnsParams {
-  handleEditProduct: (product: Product) => void
-  handleDeleteProduct: (product: Product) => void
+  handleEditProduct: (product: IProduct) => void
+  handleDeleteProduct: (product: IProduct) => void
 }
 
 export function useColumns({
@@ -36,32 +36,32 @@ export function useColumns({
     {
       headerName: 'Código',
       field: 'code',
-      valueFormatter: (params: CellFunctionParams<Product>) =>
+      valueFormatter: (params: CellFunctionParams<IProduct>) =>
         params.value || '--',
     },
     {
       headerName: 'Nome do produto',
       field: 'name',
-      valueFormatter: (params: CellFunctionParams<Product>) =>
+      valueFormatter: (params: CellFunctionParams<IProduct>) =>
         params.value || '--',
     },
     {
       headerName: 'Quantidade',
       field: 'stock',
-      valueFormatter: (params: CellFunctionParams<Product>) =>
+      valueFormatter: (params: CellFunctionParams<IProduct>) =>
         params.value || 0,
     },
     {
       headerName: 'Valor',
       field: 'value',
-      valueFormatter: (params: CellFunctionParams<Product>) =>
+      valueFormatter: (params: CellFunctionParams<IProduct>) =>
         format.formatarReal(params.value || 0),
     },
     {
       headerName: '',
       field: 'acoes',
       type: 'actions',
-      cellRenderer: (params: CellFunctionParams<Product>) => {
+      cellRenderer: (params: CellFunctionParams<IProduct>) => {
         return (
           <div className={style.actionsContainer}>
             {actions.map((action) => {

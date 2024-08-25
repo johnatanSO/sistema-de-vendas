@@ -1,5 +1,5 @@
 import { ModalLayout } from '../../../_ui/ModalLayout'
-import { FormEvent, useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import style from './ModalCreateNewProduct.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
 import { productsService } from '../../../../services/productsService'
@@ -10,16 +10,13 @@ import { httpClientProvider } from '../../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons'
-
-export interface NewProductData {
-  name: string
-  stock: number | string
-  value: number | string
-  isDefault: boolean
-}
+import { useForm } from 'react-hook-form'
+import { IProduct } from '../../../../models/interfaces/IProduct'
+import { INewProduct, newProductSchema } from '../interfaces/INewProduct'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 interface Props {
-  productDataToEdit: NewProductData
+  productDataToEdit: IProduct | null
   open: boolean
   handleClose: () => void
 }
@@ -30,43 +27,53 @@ export function ModalCreateNewProduct({
   productDataToEdit,
 }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-  const defaultNewProductValues = {
-    name: '',
-    stock: 0,
-    value: 0,
-    isDefault: false,
-  }
-  const [newProductData, setNewProductData] = useState<NewProductData>(
-    productDataToEdit || defaultNewProductValues,
-  )
-  const [loadingCreateNewProduct, setLoadingCreateNewProduct] =
-    useState<boolean>(false)
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors, isLoading },
+  } = useForm<INewProduct>({
+    defaultValues: productDataToEdit || {
+      name: '',
+      stock: 0,
+      value: 0,
+      isDefault: false,
+    },
+    resolver: zodResolver(newProductSchema),
+  })
+
+  const isDefault = watch('isDefault')
+
   const router = useRouter()
-  const [anchorEl, setAnchorEl] = useState<any>(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
-  function onCreateNewProduct(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    setLoadingCreateNewProduct(true)
-
-    if (!newProductData?.name) {
+  function onCreateNewProduct(newProduct: INewProduct) {
+    if (!newProduct?.name) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
         open: true,
         type: ALERT_NOTIFY_TYPE.ERROR,
         text: 'Nenhum nome foi informado',
       })
+
       return
     }
+
     productsService
-      .create({ newProductData }, httpClientProvider)
+      .create({ ...newProduct }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
           query: router.query,
         })
-        setNewProductData(defaultNewProductValues)
+
+        reset()
+
         handleClose()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
@@ -82,34 +89,32 @@ export function ModalCreateNewProduct({
           text: `Erro ao tentar cadastrar produto - ${err?.message}`,
         })
       })
-      .finally(() => {
-        setLoadingCreateNewProduct(false)
-      })
   }
 
-  function onEditProduct(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    setLoadingCreateNewProduct(true)
-
-    if (!newProductData?.name) {
+  function onEditProduct(product: INewProduct) {
+    if (!product.name) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
         open: true,
         type: ALERT_NOTIFY_TYPE.ERROR,
         text: 'Nenhum nome foi informado',
       })
+
       return
     }
+
     productsService
-      .update({ productData: newProductData }, httpClientProvider)
+      .update({ ...product, _id: product._id || '' }, httpClientProvider)
       .then(() => {
         router.push({
           pathname: router.route,
           query: router.query,
         })
-        setNewProductData(defaultNewProductValues)
+
+        reset()
+
         handleClose()
+
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
@@ -125,19 +130,18 @@ export function ModalCreateNewProduct({
           text: 'Erro ao tentar atualizar dados produto ' + `(${err?.message})`,
         })
       })
-      .finally(() => {
-        setLoadingCreateNewProduct(false)
-      })
   }
 
   return (
     <ModalLayout
       open={open}
       handleClose={handleClose}
-      onSubmit={productDataToEdit ? onEditProduct : onCreateNewProduct}
+      onSubmit={handleSubmit(
+        productDataToEdit ? onEditProduct : onCreateNewProduct,
+      )}
       title="Cadastro de produto"
       submitButtonText="Cadastrar"
-      loading={loadingCreateNewProduct}
+      loading={isLoading}
     >
       <div className={style.fieldsContainer}>
         <CustomTextField
@@ -146,13 +150,9 @@ export function ModalCreateNewProduct({
           label="Nome"
           type="text"
           placeholder="Digite o nome"
-          value={newProductData?.name}
-          onChange={(event) => {
-            setNewProductData({
-              ...newProductData,
-              name: event.target.value,
-            })
-          }}
+          {...register('name', { required: true })}
+          error={!!errors?.name}
+          helperText={errors.name && errors?.name?.message}
         />
 
         <CustomTextField
@@ -160,26 +160,19 @@ export function ModalCreateNewProduct({
           label="Quantidade"
           type="number"
           placeholder="Digite a quantidade"
-          value={newProductData?.stock}
-          onChange={(event) => {
-            setNewProductData({
-              ...newProductData,
-              stock: event.target.value,
-            })
-          }}
+          {...register('stock', { required: true, valueAsNumber: true })}
+          error={!!errors.stock}
+          helperText={errors.stock && errors?.stock?.message}
         />
 
         <div className={style.labelDefaultProduct}>
           <FormControlLabel
             onChange={(event: any) => {
-              setNewProductData({
-                ...newProductData,
-                isDefault: event.target.checked,
-              })
+              setValue('isDefault', event.target.checked)
             }}
             control={
               <Checkbox
-                checked={newProductData?.isDefault}
+                checked={isDefault}
                 sx={{
                   '&.Mui-checked': { color: '#ff6600' },
                 }}
@@ -220,13 +213,7 @@ export function ModalCreateNewProduct({
           label="Valor"
           type="number"
           placeholder="Digite o valor"
-          value={newProductData?.value}
-          onChange={(event) => {
-            setNewProductData({
-              ...newProductData,
-              value: event.target.value,
-            })
-          }}
+          {...register('value', { valueAsNumber: true })}
         />
       </div>
     </ModalLayout>

@@ -12,12 +12,11 @@ interface CreateParams {
 }
 
 interface UpdateParams {
-  accountData: {
-    description: string
-    type: string
-    category: string
-    value: string | number
-  }
+  description: string
+  type: string
+  category: string
+  value: number
+  _id: string
 }
 
 interface UpdateStatusParams {
@@ -59,11 +58,15 @@ export const accountsService = {
   },
 
   update(
-    { accountData }: UpdateParams,
+    { type, value, _id, category, description }: UpdateParams,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
-      ...accountData,
+      type,
+      value,
+      _id,
+      category,
+      description,
     }
 
     return httpClientProvider.put('/contas/', {
