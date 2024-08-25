@@ -14,7 +14,7 @@ export class MockAccountsRepository implements IAccountsRepository {
     let accounts = this.accounts
 
     accounts = accounts.filter(
-      (account) => account.userId.toString() === userId.toString(),
+      (account) => account.user.toString() === userId.toString(),
     )
 
     if (accountType) {
@@ -36,7 +36,7 @@ export class MockAccountsRepository implements IAccountsRepository {
       category,
       code,
       description,
-      userId,
+      user: userId,
       type,
       value,
       _id: new Types.ObjectId(),
@@ -76,7 +76,7 @@ export class MockAccountsRepository implements IAccountsRepository {
 
   async getEntries(userId: string): Promise<number> {
     return this.accounts.filter(
-      (account) => account.userId.toString() === userId,
+      (account) => account.user.toString() === userId,
     ).length
   }
 }

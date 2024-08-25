@@ -7,6 +7,7 @@ export class MockUsersRepository implements IUsersRepository {
   async create(newUserData: INewUserDTO): Promise<User> {
     const newUser = {
       ...newUserData,
+      code: null,
       _id: new Types.ObjectId(),
     }
 

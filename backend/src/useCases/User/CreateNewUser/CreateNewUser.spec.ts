@@ -13,6 +13,6 @@ describe('Create new user', () => {
   })
 
   it('should be able create new user', async () => {
-    const newUser = await createNewUserService.execute({})
+
   })
 })

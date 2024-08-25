@@ -27,6 +27,7 @@ describe('Verify token', () => {
       name: 'New user test',
       email: 'teste@teste.com',
       password: '123456',
+      confirmPassword: '123456'
     })
 
     const authInfos = await authenticateUserService.execute({
