@@ -4,7 +4,7 @@
   "description": "Servidor para sistema de vendas. ",
   "main": "server.js",
   "scripts": {
-    "start": "ts-node-dev --transpile-only server.ts",
+    "start": "ts-node-dev --transpile-only ./src/shared/http/server.ts",
     "build": "tsc",
     "test": "jest"
   },
