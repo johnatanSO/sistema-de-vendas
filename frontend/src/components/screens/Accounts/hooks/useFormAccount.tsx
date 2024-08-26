@@ -47,7 +47,7 @@ export function useFormAccount({ handleClose, accountDataToEdit }: Props) {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Conta cadastrada com sucesso',
         })
 
@@ -80,7 +80,7 @@ export function useFormAccount({ handleClose, accountDataToEdit }: Props) {
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
           open: true,
-          type: 'success',
+          type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Dados da conta atualizados com sucesso',
         })
 

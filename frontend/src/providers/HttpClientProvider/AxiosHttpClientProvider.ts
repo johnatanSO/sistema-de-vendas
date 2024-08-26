@@ -3,9 +3,7 @@ import { IHttpClientProvider } from './IHttpClientProvider'
 import { usersService } from '../../services/usersService'
 import { HTTP_STATUS_CODE } from '../../models/enums/HttpStatusCode'
 import { httpClientProvider } from '.'
-import { redirect } from 'next/dist/server/api-utils'
-import { NextApiResponse } from 'next'
-import { NextResponse } from 'next/server'
+
 export class AxiosHttpClientProvider implements IHttpClientProvider {
   private httpIntance: Axios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,

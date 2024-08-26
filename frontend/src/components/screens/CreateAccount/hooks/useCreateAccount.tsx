@@ -37,7 +37,7 @@ export function useCreateAccount() {
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Usuário cadastrado com sucesso',
-          open: 'true',
+          open: true,
         })
 
         reset()
@@ -50,7 +50,7 @@ export function useCreateAccount() {
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.ERROR,
           text: `Erro ao tentar cadastrar usuário - ${err?.message}`,
-          open: 'true',
+          open: true,
         })
       })
   }

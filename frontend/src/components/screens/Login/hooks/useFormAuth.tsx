@@ -36,7 +36,7 @@ export function useFormAuth() {
           ...alertNotifyConfigs,
           type: ALERT_NOTIFY_TYPE.SUCCESS,
           text: 'Usuário autenticado com sucesso',
-          open: 'true',
+          open: true,
         })
 
         await Promise.all([
@@ -55,7 +55,7 @@ export function useFormAuth() {
           text:
             'Erro ao tentar realizar autenticação do usuário ' +
             `(${err?.message})`,
-          open: 'true',
+          open: true,
         })
       })
   }

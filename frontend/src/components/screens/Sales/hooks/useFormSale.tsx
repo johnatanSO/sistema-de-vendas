@@ -154,7 +154,7 @@ export function useFormSale({
         ...alertNotifyConfigs,
         type: ALERT_NOTIFY_TYPE.ERROR,
         open: true,
-        text: errors.products.message,
+        text: String(errors.products.message),
       })
     }
   }, [errors.products])
