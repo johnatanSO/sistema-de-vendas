@@ -4,6 +4,7 @@ import { IClientsRepository } from '../../../repositories/Client/IClientsReposit
 
 interface IRequest {
   userId: string
+  searchString: string | null
 }
 
 @injectable()
@@ -15,8 +16,8 @@ export class ListClientsService {
     this.clientsRepository = clientsRepository
   }
 
-  async execute({ userId }: IRequest): Promise<Client[]> {
-    const clients = await this.clientsRepository.list({ userId })
+  async execute({ userId, searchString }: IRequest): Promise<Client[]> {
+    const clients = await this.clientsRepository.list({ userId, searchString })
 
     return clients
   }

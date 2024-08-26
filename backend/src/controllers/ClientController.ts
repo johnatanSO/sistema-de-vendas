@@ -28,9 +28,17 @@ export class ClientController {
 
   async list(req: Request, res: Response): Promise<Response> {
     const { userId } = req.user
+    const { searchString = null } = req.query
 
     const listClientsService = container.resolve(ListClientsService)
-    const clients = await listClientsService.execute({ userId })
+    const clients = await listClientsService.execute({ 
+      userId, 
+      ...(searchString ? {
+        searchString: String(searchString)
+      } : {
+        searchString: null
+      }) 
+    })
 
     return res.status(200).json({
       success: true,

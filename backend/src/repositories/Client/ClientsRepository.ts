@@ -32,8 +32,15 @@ export class ClientsRepository implements IClientsRepository {
     return newClient
   }
 
-  async list({ userId }: IListClientsDTO): Promise<Client[]> {
-    const clients = await this.model.find({ user: userId }).lean()
+  async list({ userId, searchString }: IListClientsDTO): Promise<Client[]> {
+    const clients = await this.model.find({ 
+      user: userId, 
+      ...(searchString ? { 
+        name: { 
+          $regex: searchString, $options: 'i' 
+        } 
+      } : {}) 
+    }).lean()
 
     return clients
   }

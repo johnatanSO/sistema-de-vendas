@@ -18,6 +18,7 @@ export interface IUpdateClientDTO {
 
 export interface IListClientsDTO {
   userId: string
+  searchString: string
 }
 
 export interface IClientsRepository {
