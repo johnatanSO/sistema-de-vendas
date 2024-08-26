@@ -1,8 +1,7 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 import { AuthenticateUserService } from '../useCases/Authenticate/AuthenticateUser/AuthenticateUserService.service'
-import { VerifyTokenService } from '../useCases/Authenticate/VerifyToken/VerifyTokenService.service'
-import { AppError } from '../errors/AppError'
+import { RefreshTokenService } from '../useCases/Authenticate/RefreshToken/RefreshTokenService.service'
 
 export class AuthenticateController {
   async authenticateUser(req: Request, res: Response): Promise<Response> {
@@ -18,25 +17,23 @@ export class AuthenticateController {
       success: true,
       user: authenticatedUser.user,
       token: authenticatedUser.token,
-      refreshToken: null,
+      refreshToken: authenticatedUser.refreshToken,
       message: 'Usuário autenticado com sucesso',
     })
   }
 
-  async verifyToken(req: Request, res: Response): Promise<Response> {
-    const { token } = req.body
+  async refreshToken(req: Request, res: Response): Promise<Response> {
+    const token =
+      req.body.token || req.query.token || req.headers['x-access-token']
 
-    if (!token) throw new AppError('Token não informado')
-
-    const verifyTokenService = container.resolve(VerifyTokenService)
-    const hasSession = await verifyTokenService.execute(token)
-
-    if (!hasSession) throw new AppError('Sessão inválida')
+    const refreshTokenService = container.resolve(RefreshTokenService)
+    const { refreshToken, newToken } = await refreshTokenService.execute(token)
 
     return res.status(200).json({
       success: true,
-      hasSession,
-      message: 'Usuário possui uma sessão válida',
+      token: newToken,
+      refreshToken,
+      message: "Tokens renovados com sucesso"
     })
   }
 }

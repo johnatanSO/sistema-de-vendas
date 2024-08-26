@@ -5,6 +5,7 @@ const authenticateRoutes = express.Router()
 const authenticateController = new AuthenticateController()
 
 authenticateRoutes.post('/signIn', authenticateController.authenticateUser)
-authenticateRoutes.post('/verify_token', authenticateController.verifyToken)
+
+authenticateRoutes.post('/refreshToken', authenticateController.refreshToken)
 
 export { authenticateRoutes }

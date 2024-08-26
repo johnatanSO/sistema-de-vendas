@@ -5,6 +5,9 @@ import { compare } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import { Types } from 'mongoose'
 import { AppError } from '../../../errors/AppError'
+import auth from '../../../config/auth'
+import dayjs from 'dayjs'
+import { IUsersTokensRepository } from '../../../repositories/UsersTokens/IUsersTokensRepository'
 dotenv.config()
 
 interface IRequest {
@@ -19,13 +22,21 @@ interface IResponse {
     email: string
   }
   token: string
+  refreshToken: string
 }
 
 @injectable()
 export class AuthenticateUserService {
   usersRepository: IUsersRepository
-  constructor(@inject('UsersRepository') usersRepository: IUsersRepository) {
+  usersTokensRepository: IUsersTokensRepository
+
+  constructor(
+    @inject('UsersRepository') usersRepository: IUsersRepository, 
+    @inject('UsersTokensRepository') 
+      usersTokensRepository: IUsersTokensRepository,
+  ) {
     this.usersRepository = usersRepository
+    this.usersTokensRepository = usersTokensRepository
   }
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -33,17 +44,35 @@ export class AuthenticateUserService {
     if (!password) throw new AppError('Senha não enviada')
 
     const user = await this.usersRepository.findByEmail(email)
-
-    if (!user) {
-      throw new AppError('E-mail e/ou senha incorretos')
-    }
-
+    if (!user) throw new AppError('E-mail ou senha incorretos')
+    
     const passwordMatch = await compare(password, user.password)
-    if (!passwordMatch) throw new AppError('E-mail e/ou senha incorretos')
+    if (!passwordMatch) throw new AppError('E-mail ou senha incorretos')
 
-    const token = sign({}, process.env.SECRET, {
+    const { 
+      secretToken, 
+      expiresInToken,
+      secretRefreshToken,
+      expiresInRefreshToken,
+      expiresRefreshTokenDays
+    } = auth
+
+    const token = sign({}, secretToken, {
       subject: user._id.toString(),
-      expiresIn: '1d',
+      expiresIn: expiresInToken,
+    })
+
+    const refreshToken = sign({ email }, secretRefreshToken, {
+      subject: user._id.toString(),
+      expiresIn: expiresInRefreshToken,
+    })
+
+    const refreshTokenExpiresDate =  dayjs().add(expiresRefreshTokenDays, 'days').toDate()
+
+    await this.usersTokensRepository.create({
+      user: user._id.toString(),
+      refreshToken,
+      expiresDate: refreshTokenExpiresDate,
     })
 
     return {
@@ -53,6 +82,7 @@ export class AuthenticateUserService {
         email: user.email,
       },
       token,
+      refreshToken,
     }
   }
 }
