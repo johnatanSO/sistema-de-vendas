@@ -8,7 +8,7 @@ import { ACCOUNT_STATUS } from '../models/enums/AccountStatus'
 interface Props {
   otherFilters: {
     status: ACCOUNT_STATUS
-  }
+  } | null
 }
 
 export function useAccountList({ otherFilters }: Props) {
@@ -19,10 +19,14 @@ export function useAccountList({ otherFilters }: Props) {
 
   function getAccounts() {
     setLoadingAccounts(true)
-    console.log('otherFilters', otherFilters)
     accountsService
       .getAll(
-        { filters: { ...router.query, ...otherFilters } },
+        {
+          filters: {
+            ...router.query,
+            ...otherFilters,
+          },
+        },
         httpClientProvider,
       )
       .then((res) => {

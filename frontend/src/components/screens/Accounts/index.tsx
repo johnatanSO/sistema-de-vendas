@@ -13,7 +13,7 @@ import { useEditAccount } from './hooks/useEditAccount'
 
 export function Accounts() {
   const fieldsMobile = useFieldsMobile()
-  const { accounts, loadingAccounts } = useAccountList()
+  const { accounts, loadingAccounts } = useAccountList({ otherFilters: null })
   const { handleDeleteAccount } = useDeleteAccount()
   const {
     handleEditAccount,
