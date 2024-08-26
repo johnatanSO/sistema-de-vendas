@@ -1,5 +1,3 @@
-import { dashboardService } from '../../../services/dashboardService'
-import { useEffect, useState } from 'react'
 import { FilterDate } from '../../_ui/FilterDate'
 import style from './Dashboard.module.scss'
 import { format } from '../../../utils/format'
@@ -18,17 +16,12 @@ import {
 } from 'recharts'
 import { CustomLabel } from './tools/CustomLabel'
 import { CustomTooltipPizzaGraph } from './tools/CustomToolTipPizzaGraph'
-import { accountsService } from '../../../services/accountsService'
-import { useRouter } from 'next/router'
-import { salesService } from '../../../services/salesService'
-import dayjs from 'dayjs'
 import { Card } from './partials/Card'
 import { useTotalAccounts } from './hooks/useTotalAccounts'
 import { useTotalSales } from './hooks/useTotalSales'
 import { usePizzaGraph } from './hooks/usePizzaGraph'
 import { useProducts } from './hooks/useProducts'
 import { CustomTooltipBarGraph } from './tools/CustomToolTipBarGraph'
-import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faArrowDown,
@@ -37,73 +30,14 @@ import {
   faDollarSign,
   faTag,
 } from '@fortawesome/free-solid-svg-icons'
-import { IAccount } from '../../../models/interfaces/IAccount'
-import { ISale } from '../../../models/interfaces/ISale'
-import { IPaymentType } from '../../../models/interfaces/IPaymentType'
+import { useSaleList } from '../../../hooks/useSaleList'
+import { useAccountList } from '../../../hooks/useAccountList'
+import { usePayments } from './hooks/usePayments'
 
 export function Dashboard() {
-  const [paymentTypes, setPaymentTypes] = useState<IPaymentType[]>([])
-  const [accounts, setAccounts] = useState<IAccount[]>([])
-  const [sales, setSales] = useState<ISale[]>([])
-
-  const router = useRouter()
-  const { startDate, endDate } = router.query
-
-  const datesFilter = {
-    startDate: startDate || dayjs().startOf('month').toISOString(),
-    endDate: endDate || dayjs().endOf('month').toISOString(),
-  }
-
-  function getPaymentTypes() {
-    dashboardService
-      .getPaymentTypes({ filters: { ...datesFilter } }, httpClientProvider)
-      .then(({ data: { items } }) => {
-        const formatedPayments: any[] = formatPaymentsToGraph(items)
-
-        setPaymentTypes(formatedPayments)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }
-
-  function formatPaymentsToGraph(payments: IPaymentType[]) {
-    return payments?.map((payment) => {
-      return {
-        label: format.formatarFormaDePagamento(payment.type),
-        formatedData: format.formatarReal(payment.value || 0),
-        Valor: payment.value || 0,
-      }
-    })
-  }
-
-  function getAccounts() {
-    accountsService
-      .getAll({ filters: { ...datesFilter } }, httpClientProvider)
-      .then(({ data: { items } }) => {
-        setAccounts(items)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }
-
-  function getSales() {
-    salesService
-      .getAll({ filters: { ...datesFilter } as any }, httpClientProvider)
-      .then(({ data: { items } }) => {
-        setSales(items)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }
-
-  useEffect(() => {
-    getPaymentTypes()
-    getAccounts()
-    getSales()
-  }, [router.query])
+  const { paymentTypes } = usePayments()
+  const { sales } = useSaleList()
+  const { accounts } = useAccountList()
 
   const totalAccounts = useTotalAccounts(accounts)
   const totalSales = useTotalSales(sales)

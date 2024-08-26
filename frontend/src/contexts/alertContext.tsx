@@ -2,33 +2,25 @@ import { ReactNode, createContext, useState } from 'react'
 import { AlertDialogConfirm } from '../components/_ui/AlertDialogConfirm'
 import { AlertNotify } from '../components/_ui/AlertNotify'
 import { ALERT_NOTIFY_TYPE } from '../models/enums/AlertNotifyType'
+import { IAlertDialogConfirm } from '../models/interfaces/IAlertDialogConfirm'
+import { IAlertNotify } from '../models/interfaces/IAlertNotify'
 
-interface AlertContextComponentProps {
+interface Props {
   children: ReactNode
 }
 
-interface AlertDialogConfirmConfigs {
-  open: boolean
-  title: string
-  text: string
-  handleClose: () => void
-  onClickAgree: () => void
+interface IAlertContext {
+  alertDialogConfirmConfigs: IAlertDialogConfirm
+  setAlertDialogConfirmConfigs: (configs: IAlertDialogConfirm) => void
+  alertNotifyConfigs: IAlertNotify
+  setAlertNotifyConfigs: (configs: IAlertNotify) => void
 }
 
-interface AlertNotifyConfigs {
-  open: boolean
-  type: ALERT_NOTIFY_TYPE
-  text: string
-  handleClose: () => void
-}
+export const AlertContext = createContext({} as IAlertContext)
 
-export const AlertContext = createContext({} as any)
-
-export function AlertContextComponent({
-  children,
-}: AlertContextComponentProps) {
+export function AlertContextComponent({ children }: Props) {
   const [alertDialogConfirmConfigs, setAlertDialogConfirmConfigs] =
-    useState<AlertDialogConfirmConfigs>({
+    useState<IAlertDialogConfirm>({
       open: false,
       title: '',
       text: '',
@@ -36,13 +28,12 @@ export function AlertContextComponent({
       onClickAgree: () => undefined,
     })
 
-  const [alertNotifyConfigs, setAlertNotifyConfigs] =
-    useState<AlertNotifyConfigs>({
-      open: false,
-      text: '',
-      type: ALERT_NOTIFY_TYPE.SUCCESS,
-      handleClose: onCloseNotify,
-    })
+  const [alertNotifyConfigs, setAlertNotifyConfigs] = useState<IAlertNotify>({
+    open: false,
+    text: '',
+    type: ALERT_NOTIFY_TYPE.SUCCESS,
+    handleClose: onCloseNotify,
+  })
 
   function onCloseNotify() {
     setAlertNotifyConfigs({

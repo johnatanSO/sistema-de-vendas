@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { IAccount } from '../../../../models/interfaces/IAccount'
-import { accountsService } from '../../../../services/accountsService'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { IAccount } from '../models/interfaces/IAccount'
+import { accountsService } from '../services/accountsService'
+import { httpClientProvider } from '../providers/HttpClientProvider'
 import { useRouter } from 'next/router'
 
 export function useAccountList() {

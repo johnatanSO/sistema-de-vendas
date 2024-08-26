@@ -1,68 +1,11 @@
 import style from './Login.module.scss'
 import Link from 'next/link'
-import { useContext } from 'react'
-import { usersService } from '../../../services/usersService'
-import { useRouter } from 'next/router'
-import { AlertContext } from '../../../contexts/alertContext'
 import { CustomTextField } from '../../_ui/CustomTextField'
 import { Loading } from '../../_ui/Loading'
-import { httpClientProvider } from '../../../providers/HttpClientProvider'
-import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-import { ILoginData, loginSchema } from './interfaces/ILoginData'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useFormAuth } from './hooks/useFormAuth'
 
 export function Login() {
-  const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { isLoading, errors },
-  } = useForm<ILoginData>({
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-    resolver: zodResolver(loginSchema),
-  })
-
-  const router = useRouter()
-
-  function onLogin(loginData: ILoginData) {
-    usersService
-      .login({ ...loginData }, httpClientProvider)
-      .then(async ({ data: { user, token, refreshToken } }) => {
-        reset()
-
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          type: ALERT_NOTIFY_TYPE.SUCCESS,
-          text: 'Usuário autenticado com sucesso',
-          open: 'true',
-        })
-
-        await Promise.all([
-          await usersService.saveUser(user),
-          await usersService.saveToken(token),
-          await usersService.saveRefreshToken(refreshToken),
-        ])
-
-        router.push('/')
-      })
-      .catch((err) => {
-        console.log('ERRO AO TENTAR REALIZAR LOGIN,', err)
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          type: ALERT_NOTIFY_TYPE.ERROR,
-          text:
-            'Erro ao tentar realizar autenticação do usuário ' +
-            `(${err?.message})`,
-          open: 'true',
-        })
-      })
-  }
+  const { errors, handleSubmit, isLoading, onLogin, register } = useFormAuth()
 
   return (
     <div className={style.loginContainer}>
