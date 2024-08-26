@@ -38,21 +38,17 @@ export function useColumns({
       headerName: 'Nº da venda',
       field: 'code',
       valueFormatter: (params: CellFunctionParams<ISale>) => params.value,
-      cellClass: (params) => {
-        if (params?.data?.status === 'canceled') {
-          return style.canceledText
-        }
+      cellClass: ({ data: { status } }) => {
+        if (status === 'canceled') return style.canceledText
       },
     },
     {
       headerName: 'Cliente',
       field: 'client',
-      valueFormatter: (params: CellFunctionParams<ISale>) =>
-        params.value.name || '--',
-      cellClass: (params) => {
-        if (params?.data?.status === 'canceled') {
-          return style.canceledText
-        }
+      valueFormatter: ({ data: { client } }: CellFunctionParams<ISale>) =>
+        client?.name || '--',
+      cellClass: ({ data: { status } }) => {
+        if (status === 'canceled') return style.canceledText
       },
     },
     {
@@ -60,10 +56,8 @@ export function useColumns({
       field: 'date',
       valueFormatter: (params: CellFunctionParams<ISale>) =>
         dayjs(params.value).format('DD/MM/YYYY - HH:mm'),
-      cellClass: (params) => {
-        if (params?.data?.status === 'canceled') {
-          return style.canceledText
-        }
+      cellClass: ({ data: { status } }) => {
+        if (status === 'canceled') return style.canceledText
       },
     },
     {
@@ -71,10 +65,8 @@ export function useColumns({
       field: 'paymentType',
       valueFormatter: (params: CellFunctionParams<ISale>) =>
         format.formatarFormaDePagamento(params.value),
-      cellClass: (params) => {
-        if (params?.data?.status === 'canceled') {
-          return style.canceledText
-        }
+      cellClass: ({ data: { status } }) => {
+        if (status === 'canceled') return style.canceledText
       },
     },
     {
@@ -82,10 +74,8 @@ export function useColumns({
       field: 'totalValue',
       valueFormatter: (params: CellFunctionParams<ISale>) =>
         format.formatarReal(params.value),
-      cellClass: (params) => {
-        if (params?.data?.status === 'canceled') {
-          return style.canceledText
-        }
+      cellClass: ({ data: { status } }) => {
+        if (status === 'canceled') return style.canceledText
       },
     },
     {

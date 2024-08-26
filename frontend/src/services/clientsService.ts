@@ -1,13 +1,19 @@
 import {
   CreateClientDTO,
   DeleteClientDTO,
+  GetAllClientsDTO,
   UpdateClientDTO,
 } from '../dtos/ClientDTOS'
 import { IHttpClientProvider } from './../providers/HttpClientProvider/IHttpClientProvider'
 
 export const clientsService = {
-  getAll(httpClientProvider: IHttpClientProvider) {
-    const params = {}
+  getAll(
+    { searchString }: GetAllClientsDTO,
+    httpClientProvider: IHttpClientProvider,
+  ) {
+    const params = {
+      ...(searchString ? { searchString } : {}),
+    }
 
     return httpClientProvider.get('/clientes/', {
       params,

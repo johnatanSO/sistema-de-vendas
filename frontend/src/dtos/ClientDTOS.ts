@@ -16,3 +16,7 @@ export interface UpdateClientDTO {
 export interface DeleteClientDTO {
   idClient: string
 }
+
+export interface GetAllClientsDTO {
+  searchString: string | null
+}

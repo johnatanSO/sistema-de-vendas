@@ -12,8 +12,17 @@ export function useClientList() {
 
   function getClients() {
     setLoadingClients(true)
+
+    const { searchString } = router.query
+
+    const filters = {
+      ...(searchString
+        ? { searchString: String(searchString) }
+        : { searchString: null }),
+    }
+
     clientsService
-      .getAll(httpClientProvider)
+      .getAll(filters, httpClientProvider)
       .then((res) => {
         setClients(res.data.items)
       })

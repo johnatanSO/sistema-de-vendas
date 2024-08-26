@@ -1,6 +1,9 @@
 import axios, { Axios, AxiosError, AxiosResponse } from 'axios'
 import { IHttpClientProvider } from './IHttpClientProvider'
 import { usersService } from '../../services/usersService'
+import { HTTP_STATUS_CODE } from '../../models/enums/HttpStatusCode'
+import { useRouter } from 'next/router'
+
 export class AxiosHttpClientProvider implements IHttpClientProvider {
   private httpIntance: Axios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -33,36 +36,24 @@ export class AxiosHttpClientProvider implements IHttpClientProvider {
       },
     )
 
-    // this.httpIntance.interceptors.response.use(
-    //   (config: AxiosResponse) => config,
-    //   async (error: AxiosError) => {
-    //     const tokenExpired =
-    //       error?.response?.status === HTTP_STATUS_CODE.UNAUTHORIZED
+    this.httpIntance.interceptors.response.use(
+      (config: AxiosResponse) => config,
+      async (error: AxiosError) => {
+        try {
+          const tokenExpired =
+            error?.response?.status === HTTP_STATUS_CODE.UNAUTHORIZED
 
-    //     if (tokenExpired) {
-    //       try {
-    //         const refreshToken = usersService.getRefreshToken()
+          const router = useRouter()
+          if (tokenExpired) {
+            router.push('/login')
+          }
+        } catch (err) {
+          console.log(err)
+        }
 
-    //         const { data } = await usersService.updateRefreshTokenService(
-    //           refreshToken,
-    //           httpClientProvider,
-    //         )
-
-    //         usersService.saveToken(data.token)
-    //         usersService.saveRefreshToken(data.refreshToken)
-
-    //         return Promise.resolve()
-    //       } catch (errorRefreshToken) {
-    //         usersService.deleteToken()
-    //         usersService.deleteRefreshToken()
-    //         usersService.deleteLocalUser()
-    //         return Promise.reject(errorRefreshToken)
-    //       }
-    //     }
-
-    //     return Promise.reject(error)
-    //   },
-    // )
+        return Promise.reject(error)
+      },
+    )
   }
 
   public static getInstance(): AxiosHttpClientProvider {

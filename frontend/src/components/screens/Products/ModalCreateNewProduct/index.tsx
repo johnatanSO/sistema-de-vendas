@@ -51,17 +51,6 @@ export function ModalCreateNewProduct({
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
 
   function onCreateNewProduct(newProduct: INewProduct) {
-    if (!newProduct?.name) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        open: true,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        text: 'Nenhum nome foi informado',
-      })
-
-      return
-    }
-
     productsService
       .create({ ...newProduct }, httpClientProvider)
       .then(() => {
@@ -92,17 +81,6 @@ export function ModalCreateNewProduct({
   }
 
   function onEditProduct(product: INewProduct) {
-    if (!product.name) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        open: true,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        text: 'Nenhum nome foi informado',
-      })
-
-      return
-    }
-
     productsService
       .update({ ...product, _id: product._id || '' }, httpClientProvider)
       .then(() => {
@@ -146,8 +124,7 @@ export function ModalCreateNewProduct({
       <div className={style.fieldsContainer}>
         <CustomTextField
           size="small"
-          required
-          label="Nome"
+          label="Nome *"
           type="text"
           placeholder="Digite o nome"
           {...register('name', { required: true })}

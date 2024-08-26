@@ -16,9 +16,10 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { ISale } from '../../../../models/interfaces/ISale'
 import { IProduct } from '../../../../models/interfaces/IProduct'
 import { useForm } from 'react-hook-form'
-import { INewSale } from '../interfaces/INewSale'
+import { INewSale, newSaleSchema } from '../interfaces/INewSale'
 import { useProductsList } from '../hooks/useProductsList'
 import { useClientList } from '../../../../hooks/useClientList'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 interface Props {
   saleToEditData: ISale | null
@@ -43,10 +44,11 @@ export function ModalCreateNewSale({
   } = useForm<INewSale>({
     defaultValues: {
       clientId: null,
-      paymentType: null,
+      paymentType: undefined,
       products: [],
       totalValue: 0,
     },
+    resolver: zodResolver(newSaleSchema),
   })
 
   const products = watch('products')
@@ -95,16 +97,6 @@ export function ModalCreateNewSale({
   }, 0)
 
   function onCreateNewSale(newSale: INewSale) {
-    if (errors.products) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        open: true,
-        text: errors.products.message,
-      })
-      return
-    }
-
     salesService
       .create({ newSaleData: newSale, totalValue }, httpClientProvider)
       .then(() => {
@@ -137,17 +129,6 @@ export function ModalCreateNewSale({
   }
 
   function onEditSale(sale: INewSale) {
-    if (errors.products) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        open: true,
-        text: errors.products.message,
-      })
-
-      return
-    }
-
     salesService
       .update({ saleData: sale, totalValue }, httpClientProvider)
       .then(() => {
@@ -199,6 +180,19 @@ export function ModalCreateNewSale({
         })
   }, [saleToEditData])
 
+  useEffect(() => {
+    console.log('errors', errors)
+
+    if (errors.products) {
+      setAlertNotifyConfigs({
+        ...alertNotifyConfigs,
+        type: ALERT_NOTIFY_TYPE.ERROR,
+        open: true,
+        text: errors.products.message,
+      })
+    }
+  }, [errors.products])
+
   return (
     <ModalLayout
       open={open}
@@ -237,10 +231,12 @@ export function ModalCreateNewSale({
             <CustomTextField
               size="small"
               className={style.input}
-              label="Forma de pagamento"
+              label="Forma de pagamento *"
               select
               placeholder="Escolha a forma de pagamento"
-              {...register('paymentType', { required: true })}
+              {...register('paymentType')}
+              error={!!errors.paymentType}
+              helperText={errors.paymentType && errors.paymentType.message}
             >
               {paymentTypeList.map(({ text, value }) => {
                 return (

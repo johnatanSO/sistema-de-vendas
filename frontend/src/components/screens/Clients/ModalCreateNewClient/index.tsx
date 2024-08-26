@@ -120,10 +120,21 @@ export function ModalCreateNewClient({
           label="Nome *"
           type="text"
           placeholder="Digite o nome do cliente"
-          {...register('name')}
+          {...register('name', { required: true })}
           error={!!errors.name}
           helperText={errors.name && errors.name.message}
         />
+
+        <CustomTextField
+          size="small"
+          label="Telefone *"
+          type="tel"
+          placeholder="Digite o telefone"
+          {...register('phone', { required: true })}
+          error={!!errors.phone}
+          helperText={errors.phone && errors.phone.message}
+        />
+
         <CustomTextField
           size="small"
           label="E-mail"
@@ -138,14 +149,6 @@ export function ModalCreateNewClient({
           type="number"
           placeholder="Digite o CPF do cliente"
           {...register('cpf')}
-        />
-
-        <CustomTextField
-          size="small"
-          label="Telefone"
-          type="tel"
-          placeholder="Digite o telefone"
-          {...register('phone')}
         />
       </div>
     </ModalLayout>
