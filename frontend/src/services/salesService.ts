@@ -2,35 +2,19 @@ import dayjs from 'dayjs'
 import { usersService } from './usersService'
 import utc from 'dayjs/plugin/utc'
 import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
+import {
+  CreateSaleDTO,
+  DeleteSaleDTO,
+  GetAllSalesDTO,
+  UpdateSaleDTO,
+} from '../dtos/SalesDTOS'
 dayjs.extend(utc)
-
-interface GetAllParams {
-  filters: {
-    status: string
-    startDate: string | Date
-    endDate: string | Date
-  }
-}
-
-interface CreateParams {
-  newSaleData: any
-  totalValue: number
-}
-
-interface UpdateParams {
-  saleData: any
-  totalValue: number
-}
-
-interface DeleteParams {
-  idSale: string
-}
 
 export const salesService = {
   userInfo: usersService.getUserInfo(),
 
   getAll(
-    { filters: { startDate, endDate, status } }: GetAllParams,
+    { filters: { startDate, endDate, status } }: GetAllSalesDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const params = {
@@ -50,7 +34,7 @@ export const salesService = {
   },
 
   create(
-    { newSaleData, totalValue }: CreateParams,
+    { newSaleData, totalValue }: CreateSaleDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -65,7 +49,7 @@ export const salesService = {
   },
 
   update(
-    { saleData, totalValue }: UpdateParams,
+    { saleData, totalValue }: UpdateSaleDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -78,7 +62,7 @@ export const salesService = {
     })
   },
 
-  cancel({ idSale }: DeleteParams, httpClientProvider: IHttpClientProvider) {
+  cancel({ idSale }: DeleteSaleDTO, httpClientProvider: IHttpClientProvider) {
     return httpClientProvider.put(`/vendas/cancelar/`, {
       _id: idSale,
     })

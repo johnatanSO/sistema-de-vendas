@@ -1,7 +1,7 @@
 import {
-  Column,
+  IColumn,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column'
+} from '../../../../models/interfaces/IColumn'
 import { format } from '../../../../utils/format'
 import style from '../Products.module.scss'
 import { IProduct } from '../../../../models/interfaces/IProduct'
@@ -16,7 +16,7 @@ interface UseColumnsParams {
 export function useColumns({
   handleEditProduct,
   handleDeleteProduct,
-}: UseColumnsParams): Column[] {
+}: UseColumnsParams): IColumn[] {
   const actions = [
     {
       icon: <FontAwesomeIcon className={style.icon} icon={faPen} />,

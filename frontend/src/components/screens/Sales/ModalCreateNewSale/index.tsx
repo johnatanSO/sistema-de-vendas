@@ -1,5 +1,5 @@
 import { ModalLayout } from '../../../_ui/ModalLayout'
-import { FormEvent, useState, ChangeEvent, useContext, useEffect } from 'react'
+import { ChangeEvent, useContext, useEffect } from 'react'
 import style from './ModalCreateNewSale.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
 import { Autocomplete, MenuItem } from '@mui/material'
@@ -137,7 +137,7 @@ export function ModalCreateNewSale({
   }
 
   function onEditSale(sale: INewSale) {
-    if (errors?.products) {
+    if (errors.products) {
       setAlertNotifyConfigs({
         ...alertNotifyConfigs,
         type: ALERT_NOTIFY_TYPE.ERROR,

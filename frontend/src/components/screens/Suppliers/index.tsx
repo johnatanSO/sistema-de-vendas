@@ -2,7 +2,7 @@ import { HeaderPage } from '../../_ui/HeaderPage'
 import { useContext, useState } from 'react'
 import { ModalCreateNewSupplier } from './ModalCreateNewSupplier'
 import { TableComponent } from '../../_ui/TableComponent'
-import { Column } from '../../../models/interfaces/Column'
+import { IColumn } from '../../../models/interfaces/IColumn'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { AlertContext } from '../../../contexts/alertContext'
@@ -71,7 +71,7 @@ export function Suppliers() {
     setFormModalOpened(true)
   }
 
-  const columns: Column[] = useColumns({
+  const columns: IColumn[] = useColumns({
     handleEditSupplier,
     handleDeleteSupplier,
   })

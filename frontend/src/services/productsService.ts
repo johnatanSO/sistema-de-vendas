@@ -1,33 +1,19 @@
+import {
+  CreateProductDTO,
+  DeleteProductDTO,
+  GetAllProductsDTO,
+  UpdateProductDTO,
+} from '../dtos/ProductDTOS'
 import { IHttpClientProvider } from './../providers/HttpClientProvider/IHttpClientProvider'
 import { usersService } from './usersService'
-
-interface GetAllParams {
-  filters: any
-}
-
-interface CreateParams {
-  name: string
-  value: number
-  stock: number
-  isDefault: boolean
-}
-
-interface UpdateParams {
-  _id: string
-  name: string
-  value: number
-  stock: number
-  isDefault: boolean
-}
-
-interface DeleteParams {
-  idProduct: string
-}
 
 export const productsService = {
   userInfo: usersService.getUserInfo(),
 
-  getAll({ filters }: GetAllParams, httpClientProvider: IHttpClientProvider) {
+  getAll(
+    { filters }: GetAllProductsDTO,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const params = {
       ...filters,
       userId: this.userInfo._id,
@@ -49,7 +35,7 @@ export const productsService = {
   },
 
   create(
-    { name, stock, value, isDefault }: CreateParams,
+    { name, stock, value, isDefault }: CreateProductDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -66,7 +52,7 @@ export const productsService = {
   },
 
   update(
-    { _id, name, stock, value, isDefault }: UpdateParams,
+    { _id, name, stock, value, isDefault }: UpdateProductDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -82,7 +68,10 @@ export const productsService = {
     })
   },
 
-  delete({ idProduct }: DeleteParams, httpClientProvider: IHttpClientProvider) {
+  delete(
+    { idProduct }: DeleteProductDTO,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     return httpClientProvider.delete(`/produtos/`, {
       params: {
         idProduct,

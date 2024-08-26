@@ -2,7 +2,7 @@ import { HeaderPage } from '../../_ui/HeaderPage'
 import { useContext, useState } from 'react'
 import { ModalCreateNewAccount } from './ModalCreateNewAccount'
 import { TableComponent } from '../../_ui/TableComponent'
-import { Column } from '../../../models/interfaces/Column'
+import { IColumn } from '../../../models/interfaces/IColumn'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { FilterByAccountType } from '../../_ui/FilterByAccountType'
@@ -31,7 +31,7 @@ export function Accounts() {
   const router = useRouter()
   const fieldsMobile = useFieldsMobile()
   const { accounts, loadingAccounts } = useAccountList()
-  const columns: Column[] = useColumns({
+  const columns: IColumn[] = useColumns({
     handleEditAccount,
     handleDeleteAccount,
   })

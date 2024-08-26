@@ -1,27 +1,11 @@
 import nookies, { setCookie, destroyCookie } from 'nookies'
 import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
+import { IUser } from '../models/interfaces/IUser'
+import { LoginDTO, RegisterUserDTO } from '../dtos/UserDTOS'
 
 const USER_INFO = 'sis-vendas:user_info[v1]'
 const ACCESS_TOKEN_KEY = 'sis-vendas:token[v1]'
 const ACCESS_REFRESH_TOKEN_KEY = 'sis-vendas:refresh_token[v1]'
-
-interface LoginParams {
-  email: string
-  password: string
-}
-
-interface RegisterParams {
-  name: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
-interface IUser {
-  _id: string
-  name: string
-  email: string
-}
 
 export const usersService = {
   async getSession(ctx = null) {
@@ -31,7 +15,7 @@ export const usersService = {
   },
 
   login(
-    { email, password }: LoginParams,
+    { email, password }: LoginDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = { email, password }
@@ -42,7 +26,7 @@ export const usersService = {
   },
 
   register(
-    { name, email, password, confirmPassword }: RegisterParams,
+    { name, email, password, confirmPassword }: RegisterUserDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = { name, email, password, confirmPassword }

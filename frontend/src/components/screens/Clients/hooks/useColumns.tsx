@@ -1,7 +1,7 @@
 import {
-  Column,
+  IColumn,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column'
+} from '../../../../models/interfaces/IColumn'
 import style from '../Clients.module.scss'
 import { IClient } from '../../../../models/interfaces/IClient'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,7 +15,7 @@ interface UseColumnsParams {
 export function useColumns({
   handleEditClient,
   handleDeleteClient,
-}: UseColumnsParams): Column[] {
+}: UseColumnsParams): IColumn[] {
   const actions = [
     {
       icon: <FontAwesomeIcon icon={faPen} className={style.icon} />,

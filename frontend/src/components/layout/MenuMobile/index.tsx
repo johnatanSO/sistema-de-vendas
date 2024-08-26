@@ -2,9 +2,10 @@ import style from './MenuMobile.module.scss'
 import { UserOptions } from '../UserOptions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { MouseEventHandler } from 'react'
 
 interface Props {
-  handleOpenMenuOptions: (event: any) => void
+  handleOpenMenuOptions: MouseEventHandler<HTMLButtonElement>
   menuOptionsOpened: boolean
 }
 

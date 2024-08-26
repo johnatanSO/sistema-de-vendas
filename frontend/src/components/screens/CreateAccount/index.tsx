@@ -9,7 +9,8 @@ import { useRouter } from 'next/router'
 import { httpClientProvider } from '../../../providers/HttpClientProvider'
 import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
 import { useForm } from 'react-hook-form'
-import { INewUser } from './interfaces/INewUser'
+import { INewUser, newUserSchema } from './interfaces/INewUser'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export function CreateAccount() {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
@@ -17,7 +18,6 @@ export function CreateAccount() {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { isLoading, errors },
   } = useForm<INewUser>({
     defaultValues: {
@@ -26,10 +26,10 @@ export function CreateAccount() {
       password: '',
       confirmPassword: '',
     },
+    resolver: zodResolver(newUserSchema),
   })
 
   const router = useRouter()
-  const [password, confirmPassword] = watch(['password', 'confirmPassword'])
 
   function onCreateAccount(newUser: INewUser) {
     usersService
@@ -55,14 +55,6 @@ export function CreateAccount() {
           open: 'true',
         })
       })
-  }
-
-  function getErrorConfirmPassword() {
-    if (errors?.confirmPassword) return errors?.confirmPassword?.message
-
-    if (password !== confirmPassword) return 'As senhas são diferentes'
-
-    return undefined
   }
 
   return (
@@ -104,11 +96,13 @@ export function CreateAccount() {
         <CustomTextField
           label="Confirmar a senha"
           className={style.input}
-          error={password !== confirmPassword || !!errors?.confirmPassword}
           type="password"
           placeholder="Digite novamente a senha"
           {...register('confirmPassword')}
-          helperText={getErrorConfirmPassword()}
+          error={!!errors?.confirmPassword}
+          helperText={
+            errors?.confirmPassword && errors?.confirmPassword?.message
+          }
         />
         <button disabled={isLoading} type="submit">
           {isLoading ? <Loading size={13} /> : 'Cadastrar'}

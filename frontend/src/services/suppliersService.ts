@@ -1,22 +1,9 @@
+import {
+  CreateSupplierDTO,
+  DeleteSupplierDTO,
+  UpdateSupplierDTO,
+} from '../dtos/SupplierDTOS'
 import { IHttpClientProvider } from './../providers/HttpClientProvider/IHttpClientProvider'
-interface CreateParams {
-  name: string
-  cnpj: string
-  phone: string
-  email: string
-}
-
-interface UpdateParams {
-  name: string
-  cnpj: string
-  phone: string
-  email: string
-  _id: string
-}
-
-interface DeleteParams {
-  idSupplier: string
-}
 
 export const suppliersService = {
   getAll(httpClientProvider: IHttpClientProvider) {
@@ -28,7 +15,7 @@ export const suppliersService = {
   },
 
   create(
-    { name, cnpj, phone, email }: CreateParams,
+    { name, cnpj, phone, email }: CreateSupplierDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -44,7 +31,7 @@ export const suppliersService = {
   },
 
   update(
-    { name, cnpj, phone, email, _id: supplierId }: UpdateParams,
+    { name, cnpj, phone, email, _id: supplierId }: UpdateSupplierDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -60,7 +47,7 @@ export const suppliersService = {
   },
 
   delete(
-    { idSupplier }: DeleteParams,
+    { idSupplier }: DeleteSupplierDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     return httpClientProvider.delete(`/fornecedores/${idSupplier}`)

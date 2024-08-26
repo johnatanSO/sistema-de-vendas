@@ -5,7 +5,7 @@ export interface CellFunctionParams<Data> {
   value: any
 }
 
-export interface Column {
+export interface IColumn {
   type?: string
   headerName: string
   field: string

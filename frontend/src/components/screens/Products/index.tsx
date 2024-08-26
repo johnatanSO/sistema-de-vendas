@@ -1,9 +1,9 @@
 import { productsService } from '../../../services/productsService'
 import { HeaderPage } from '../../_ui/HeaderPage'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { ModalCreateNewProduct } from './ModalCreateNewProduct'
 import { TableComponent } from '../../_ui/TableComponent'
-import { Column } from '../../../models/interfaces/Column'
+import { IColumn } from '../../../models/interfaces/IColumn'
 import { useColumns } from './hooks/useColumns'
 import { useRouter } from 'next/router'
 import { FilterByName } from '../../_ui/FilterByName'
@@ -32,7 +32,7 @@ export function Products() {
 
   const { loadingProducts, products } = useProductList()
 
-  const columns: Column[] = useColumns({
+  const columns: IColumn[] = useColumns({
     handleEditProduct,
     handleDeleteProduct,
   })

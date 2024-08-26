@@ -1,23 +1,9 @@
+import {
+  CreateClientDTO,
+  DeleteClientDTO,
+  UpdateClientDTO,
+} from '../dtos/ClientDTOS'
 import { IHttpClientProvider } from './../providers/HttpClientProvider/IHttpClientProvider'
-
-interface CreateParams {
-  name: string
-  cpf: string
-  phone: string
-  email: string
-}
-
-interface UpdateParams {
-  name: string
-  cpf: string
-  phone: string
-  email: string
-  _id: string
-}
-
-interface DeleteParams {
-  idClient: string
-}
 
 export const clientsService = {
   getAll(httpClientProvider: IHttpClientProvider) {
@@ -29,7 +15,7 @@ export const clientsService = {
   },
 
   create(
-    { name, cpf, phone, email }: CreateParams,
+    { name, cpf, phone, email }: CreateClientDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -45,7 +31,7 @@ export const clientsService = {
   },
 
   update(
-    { _id: idClient, name, email, phone, cpf }: UpdateParams,
+    { _id: idClient, name, email, phone, cpf }: UpdateClientDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -60,7 +46,10 @@ export const clientsService = {
     })
   },
 
-  delete({ idClient }: DeleteParams, httpClientProvider: IHttpClientProvider) {
+  delete(
+    { idClient }: DeleteClientDTO,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     return httpClientProvider.delete(`/clientes/${idClient}`)
   },
 }

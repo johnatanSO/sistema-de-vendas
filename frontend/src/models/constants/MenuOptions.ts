@@ -5,9 +5,9 @@ import {
   faFileInvoiceDollar,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons'
-import { MenuOption } from '../interfaces/MenuOption'
+import { IMenuOption } from '../interfaces/IMenuOption'
 
-export const menuOptions: MenuOption[] = [
+export const menuOptions: IMenuOption[] = [
   {
     title: 'Dashboard',
     link: '/',

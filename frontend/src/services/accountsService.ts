@@ -1,37 +1,20 @@
+import {
+  CreateAccountDTO,
+  DeleteAccountDTO,
+  GetAllAccountsDTO,
+  UpdateAccountDTO,
+  UpdateStatusAccountDTO,
+} from '../dtos/AccountDTOS'
 import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
 import { usersService } from './usersService'
-
-interface GetAllParams {
-  filters: any
-}
-
-interface CreateParams {
-  newAccountData: {
-    value: number | string
-  }
-}
-
-interface UpdateParams {
-  description: string
-  type: string
-  category: string
-  value: number
-  _id: string
-}
-
-interface UpdateStatusParams {
-  idAccount: string
-  status: string
-}
-
-interface DeleteParams {
-  idAccount: string
-}
 
 export const accountsService = {
   userInfo: usersService.getUserInfo(),
 
-  getAll({ filters }: GetAllParams, httpClientProvider: IHttpClientProvider) {
+  getAll(
+    { filters }: GetAllAccountsDTO,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     const params = {
       ...filters,
       userId: this.userInfo?._id,
@@ -43,7 +26,7 @@ export const accountsService = {
   },
 
   create(
-    { newAccountData }: CreateParams,
+    { newAccountData }: CreateAccountDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -58,7 +41,7 @@ export const accountsService = {
   },
 
   update(
-    { type, value, _id, category, description }: UpdateParams,
+    { type, value, _id, category, description }: UpdateAccountDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const body = {
@@ -75,7 +58,7 @@ export const accountsService = {
   },
 
   updateStatus(
-    { idAccount, status }: UpdateStatusParams,
+    { idAccount, status }: UpdateStatusAccountDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     return httpClientProvider.patch(`/contas/updateStatus/${idAccount}`, {
@@ -83,7 +66,10 @@ export const accountsService = {
     })
   },
 
-  delete({ idAccount }: DeleteParams, httpClientProvider: IHttpClientProvider) {
+  delete(
+    { idAccount }: DeleteAccountDTO,
+    httpClientProvider: IHttpClientProvider,
+  ) {
     return httpClientProvider.delete(`/contas/`, {
       params: {
         idAccount,

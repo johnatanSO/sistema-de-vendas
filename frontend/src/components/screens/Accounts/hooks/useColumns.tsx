@@ -1,7 +1,7 @@
 import {
-  Column,
+  IColumn,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column'
+} from '../../../../models/interfaces/IColumn'
 import { format } from '../../../../utils/format'
 import style from '../Accounts.module.scss'
 import dayjs from 'dayjs'
@@ -19,7 +19,7 @@ interface UseColumnsParams {
 export function useColumns({
   handleEditAccount,
   handleDeleteAccount,
-}: UseColumnsParams): Column[] {
+}: UseColumnsParams): IColumn[] {
   const actions = [
     {
       icon: <FontAwesomeIcon icon={faPen} className={style.icon} />,

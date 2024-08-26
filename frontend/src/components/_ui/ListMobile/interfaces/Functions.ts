@@ -1,4 +1,4 @@
-export interface CollapseFunctionParams<DataModel> {
-  data: DataModel
+export interface CollapseFunctionParams<T = any> {
+  data: T
   value: any
 }

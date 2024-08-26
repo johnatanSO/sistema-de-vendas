@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 import {
-  Column,
+  IColumn,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column'
+} from '../../../../models/interfaces/IColumn'
 import { format } from '../../../../utils/format'
 import { ISale } from '../../../../models/interfaces/ISale'
 import style from '../Sales.module.scss'
@@ -17,7 +17,7 @@ interface UseColumnsParams {
 export function useColumns({
   handleEditSale,
   handleCancelSale,
-}: UseColumnsParams): Column[] {
+}: UseColumnsParams): IColumn[] {
   const actions = [
     {
       icon: <FontAwesomeIcon className={style.icon} icon={faPen} />,

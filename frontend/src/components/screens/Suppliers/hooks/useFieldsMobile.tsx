@@ -1,5 +1,5 @@
 import { ISupplier } from '../../../../models/interfaces/ISupplier'
-import { CellFunctionParams } from '../../../../models/interfaces/Column'
+import { CellFunctionParams } from '../../../../models/interfaces/IColumn'
 
 export function useFieldsMobile() {
   return [

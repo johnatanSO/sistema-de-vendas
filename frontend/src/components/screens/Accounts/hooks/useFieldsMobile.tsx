@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { CellFunctionParams } from '../../../../models/interfaces/Column'
+import { CellFunctionParams } from '../../../../models/interfaces/IColumn'
 import { format } from '../../../../utils/format'
 import style from '../Accounts.module.scss'
 import { IAccount } from '../../../../models/interfaces/IAccount'

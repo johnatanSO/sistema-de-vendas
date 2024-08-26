@@ -1,5 +1,5 @@
 import { IClient } from '../../../../models/interfaces/IClient'
-import { CellFunctionParams } from '../../../../models/interfaces/Column'
+import { CellFunctionParams } from '../../../../models/interfaces/IColumn'
 
 export function useFieldsMobile() {
   return [

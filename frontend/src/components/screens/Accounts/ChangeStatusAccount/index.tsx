@@ -1,4 +1,4 @@
-import { CellFunctionParams } from '../../../../models/interfaces/Column'
+import { CellFunctionParams } from '../../../../models/interfaces/IColumn'
 import style from '../Accounts.module.scss'
 import { accountsService } from '../../../../services/accountsService'
 import { ChangeEvent, useContext } from 'react'

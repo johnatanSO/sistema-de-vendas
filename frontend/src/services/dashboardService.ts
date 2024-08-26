@@ -1,15 +1,12 @@
+import { GetPaymentTypesDTO } from '../dtos/DashboardDTOS'
 import { IHttpClientProvider } from '../providers/HttpClientProvider/IHttpClientProvider'
 import { usersService } from './usersService'
-
-interface GetPaymentTypesParams {
-  filters: any
-}
 
 export const dashboardService = {
   userInfo: usersService.getUserInfo(),
 
   getPaymentTypes(
-    { filters }: GetPaymentTypesParams,
+    { filters }: GetPaymentTypesDTO,
     httpClientProvider: IHttpClientProvider,
   ) {
     const params = {

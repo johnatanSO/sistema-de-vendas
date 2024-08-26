@@ -1,7 +1,7 @@
 import {
-  Column,
+  IColumn,
   CellFunctionParams,
-} from '../../../../models/interfaces/Column'
+} from '../../../../models/interfaces/IColumn'
 import style from '../Suppliers.module.scss'
 import { ISupplier } from '../../../../models/interfaces/ISupplier'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +15,7 @@ interface UseColumnsParams {
 export function useColumns({
   handleEditSupplier,
   handleDeleteSupplier,
-}: UseColumnsParams): Column[] {
+}: UseColumnsParams): IColumn[] {
   const actions = [
     {
       icon: <FontAwesomeIcon className={style.icon} icon={faPen} />,
