@@ -33,11 +33,16 @@ import {
 import { useSaleList } from '../../../hooks/useSaleList'
 import { useAccountList } from '../../../hooks/useAccountList'
 import { usePayments } from './hooks/usePayments'
+import { ACCOUNT_STATUS } from '../../../models/enums/AccountStatus'
 
 export function Dashboard() {
   const { paymentTypes } = usePayments()
   const { sales } = useSaleList()
-  const { accounts } = useAccountList()
+  const { accounts } = useAccountList({
+    otherFilters: {
+      status: ACCOUNT_STATUS.PAID,
+    },
+  })
 
   const totalAccounts = useTotalAccounts(accounts)
   const totalSales = useTotalSales(sales)
