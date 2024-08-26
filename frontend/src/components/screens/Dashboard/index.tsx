@@ -22,7 +22,6 @@ import { accountsService } from '../../../services/accountsService'
 import { useRouter } from 'next/router'
 import { salesService } from '../../../services/salesService'
 import dayjs from 'dayjs'
-import { IPaymentType } from './interfaces/IPaymentType'
 import { Card } from './partials/Card'
 import { useTotalAccounts } from './hooks/useTotalAccounts'
 import { useTotalSales } from './hooks/useTotalSales'
@@ -40,6 +39,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { IAccount } from '../../../models/interfaces/IAccount'
 import { ISale } from '../../../models/interfaces/ISale'
+import { IPaymentType } from '../../../models/interfaces/IPaymentType'
 
 export function Dashboard() {
   const [paymentTypes, setPaymentTypes] = useState<IPaymentType[]>([])
