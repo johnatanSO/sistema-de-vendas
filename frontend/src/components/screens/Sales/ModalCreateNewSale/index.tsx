@@ -1,25 +1,15 @@
 import { ModalLayout } from '../../../_ui/ModalLayout'
-import { ChangeEvent, useContext, useEffect } from 'react'
 import style from './ModalCreateNewSale.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
 import { Autocomplete, MenuItem } from '@mui/material'
 import { paymentTypeList } from '../../../../models/constants/PaymentTypeList'
-import { productsService } from '../../../../services/productsService'
 import { format } from '../../../../utils/format'
-import { AlertContext } from '../../../../contexts/alertContext'
-import { salesService } from '../../../../services/salesService'
-import { useRouter } from 'next/router'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider'
-import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { ISale } from '../../../../models/interfaces/ISale'
-import { IProduct } from '../../../../models/interfaces/IProduct'
-import { useForm } from 'react-hook-form'
-import { INewSale, newSaleSchema } from '../interfaces/INewSale'
 import { useProductsList } from '../hooks/useProductsList'
 import { useClientList } from '../../../../hooks/useClientList'
-import { zodResolver } from '@hookform/resolvers/zod'
+import { useFormSale } from '../hooks/useFormSale'
 
 interface Props {
   saleToEditData: ISale | null
@@ -32,166 +22,27 @@ export function ModalCreateNewSale({
   handleClose,
   saleToEditData,
 }: Props) {
-  const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    setValue,
-    formState: { errors, isLoading },
-  } = useForm<INewSale>({
-    defaultValues: {
-      clientId: null,
-      paymentType: undefined,
-      products: [],
-      totalValue: 0,
-    },
-    resolver: zodResolver(newSaleSchema),
-  })
-
-  const products = watch('products')
   const { getProducts, productsList } = useProductsList()
   const { clients: clientsList } = useClientList()
 
-  const router = useRouter()
-
-  function handleAddNewProduct(event: any) {
-    const { value } = event.target
-    const newProduct = productsList.find((prodItem) => prodItem?._id === value)
-    if (!newProduct) return
-
-    const alreadExistProductInList = !!products.find(
-      (product) => product?._id === newProduct?._id,
-    )
-    if (alreadExistProductInList) return
-
-    newProduct.amount = 1
-
-    setValue('products', [...products, newProduct])
-  }
-
-  function handleChangeProduct(
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    index: number,
-  ) {
-    const { name, value } = event.target
-
-    const copyProducts: any[] = [...products]
-
-    copyProducts[index][name] = value
-
-    setValue('products', copyProducts)
-  }
-
-  function handleRemoveProduct(productId: string) {
-    const filteredProducts = products.filter((prod) => prod._id !== productId)
-
-    setValue('products', filteredProducts)
-  }
-
-  const totalValue = products?.reduce((acc, prod) => {
-    acc += Number(prod.value) * Number(prod.amount)
-    return acc
-  }, 0)
-
-  function onCreateNewSale(newSale: INewSale) {
-    salesService
-      .create({ newSaleData: newSale, totalValue }, httpClientProvider)
-      .then(() => {
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          type: ALERT_NOTIFY_TYPE.SUCCESS,
-          open: true,
-          text: 'Venda realizada com sucesso',
-        })
-
-        reset()
-
-        router.push({
-          pathname: router.route,
-          query: router.query,
-        })
-
-        handleClose()
-      })
-      .catch((err) => {
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          type: ALERT_NOTIFY_TYPE.ERROR,
-          open: true,
-          text: `Erro ao tentar realizar venda - ${err?.message}`,
-        })
-
-        console.error(err)
-      })
-  }
-
-  function onEditSale(sale: INewSale) {
-    salesService
-      .update({ saleData: sale, totalValue }, httpClientProvider)
-      .then(() => {
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          type: ALERT_NOTIFY_TYPE.SUCCESS,
-          open: true,
-          text: 'Venda atualizada com sucesso',
-        })
-
-        reset()
-
-        router.push({
-          pathname: router.route,
-          query: router.query,
-        })
-
-        handleClose()
-      })
-      .catch((err) => {
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          type: ALERT_NOTIFY_TYPE.ERROR,
-          open: true,
-          text: 'Erro ao tentar atualizar venda' + err?.message,
-        })
-        console.log('[ERROR]: ', err?.message)
-      })
-  }
-
-  useEffect(() => {
-    if (!saleToEditData)
-      productsService
-        .getDefaultProducts(httpClientProvider)
-        .then(({ data: { items } }) => {
-          const defaultProducts = items
-
-          const defaultProductsList = defaultProducts.map(
-            (product: IProduct) => ({
-              ...product,
-              amount: 1,
-            }),
-          )
-
-          setValue('products', defaultProductsList)
-        })
-        .catch((err) => {
-          console.log('ERRO AO BUSCAR PRODUTO PADRÃO, ' + err?.message)
-        })
-  }, [saleToEditData])
-
-  useEffect(() => {
-    console.log('errors', errors)
-
-    if (errors.products) {
-      setAlertNotifyConfigs({
-        ...alertNotifyConfigs,
-        type: ALERT_NOTIFY_TYPE.ERROR,
-        open: true,
-        text: errors.products.message,
-      })
-    }
-  }, [errors.products])
+  const {
+    errors,
+    handleSubmit,
+    isLoading,
+    onCreateNewSale,
+    onEditSale,
+    products,
+    register,
+    setValue,
+    totalValue,
+    handleAddNewProduct,
+    handleChangeProduct,
+    handleRemoveProduct,
+  } = useFormSale({
+    handleClose,
+    saleToEditData,
+    productsList,
+  })
 
   return (
     <ModalLayout

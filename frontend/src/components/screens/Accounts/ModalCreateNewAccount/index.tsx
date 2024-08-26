@@ -1,19 +1,11 @@
 import { ModalLayout } from '../../../_ui/ModalLayout'
-import { useContext } from 'react'
 import style from './ModalCreateNewAccount.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
-import { accountsService } from '../../../../services/accountsService'
-import { AlertContext } from '../../../../contexts/alertContext'
-import { useRouter } from 'next/router'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider'
-import { INewAccount, newAccountSchema } from '../interfaces/INewAccount'
 import { ACCOUNT_TYPE } from '../../../../models/enums/AccountType'
-import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { IAccount } from '../../../../models/interfaces/IAccount'
+import { useFormAccount } from '../hooks/useFormAccount'
 
 interface Props {
   accountDataToEdit: IAccount | null
@@ -26,91 +18,19 @@ export function ModalCreateNewAccount({
   handleClose,
   accountDataToEdit,
 }: Props) {
-  const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const {
-    register,
+    onCreateNewAccount,
+    onEditAccount,
+    accountType,
+    errors,
     handleSubmit,
+    isLoading,
+    register,
     setValue,
-    watch,
-    reset,
-    formState: { errors, isLoading },
-  } = useForm<INewAccount>({
-    defaultValues: accountDataToEdit || {
-      description: '',
-      type: ACCOUNT_TYPE.IN,
-      category: '',
-      value: 0,
-    },
-    resolver: zodResolver(newAccountSchema),
+  } = useFormAccount({
+    accountDataToEdit,
+    handleClose,
   })
-
-  const accountType = watch('type')
-
-  const router = useRouter()
-
-  function onCreateNewAccount(newAccountData: INewAccount) {
-    accountsService
-      .create({ newAccountData }, httpClientProvider)
-      .then(() => {
-        reset()
-
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          open: true,
-          type: 'success',
-          text: 'Conta cadastrada com sucesso',
-        })
-
-        router.push({
-          pathname: router.route,
-          query: router.query,
-        })
-
-        handleClose()
-      })
-      .catch((err) => {
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          open: true,
-          type: ALERT_NOTIFY_TYPE.ERROR,
-          text: 'Erro ao tentar cadastrar conta ' + `(${err?.message})`,
-        })
-      })
-  }
-
-  function onEditAccount(accountData: INewAccount) {
-    accountsService
-      .update(
-        { ...accountData, _id: accountData._id || '' },
-        httpClientProvider,
-      )
-      .then(() => {
-        reset()
-
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          open: true,
-          type: 'success',
-          text: 'Dados da conta atualizados com sucesso',
-        })
-
-        router.push({
-          pathname: router.route,
-          query: router.query,
-        })
-
-        handleClose()
-      })
-      .catch((err) => {
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          open: true,
-          type: ALERT_NOTIFY_TYPE.ERROR,
-          text:
-            'Erro ao tentar atualizar dados da conta ' + `(${err?.message})`,
-        })
-      })
-  }
 
   return (
     <ModalLayout

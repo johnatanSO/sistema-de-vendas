@@ -6,8 +6,8 @@ import { sign } from 'jsonwebtoken'
 import { Types } from 'mongoose'
 import { AppError } from '../../../errors/AppError'
 import auth from '../../../config/auth'
-import dayjs from 'dayjs'
 import { IUsersTokensRepository } from '../../../repositories/UsersTokens/IUsersTokensRepository'
+import { IDateProvider } from '../../../shared/containers/providers/DateProvider/IDateProvider'
 dotenv.config()
 
 interface IRequest {
@@ -29,14 +29,17 @@ interface IResponse {
 export class AuthenticateUserService {
   usersRepository: IUsersRepository
   usersTokensRepository: IUsersTokensRepository
+  dateProvider: IDateProvider
 
   constructor(
     @inject('UsersRepository') usersRepository: IUsersRepository, 
     @inject('UsersTokensRepository') 
       usersTokensRepository: IUsersTokensRepository,
+    @inject('DayjsDateProvider') dateProvider: IDateProvider
   ) {
     this.usersRepository = usersRepository
     this.usersTokensRepository = usersTokensRepository
+    this.dateProvider = dateProvider
   }
 
   async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -67,7 +70,7 @@ export class AuthenticateUserService {
       expiresIn: expiresInRefreshToken,
     })
 
-    const refreshTokenExpiresDate =  dayjs().add(expiresRefreshTokenDays, 'days').toDate()
+    const refreshTokenExpiresDate = this.dateProvider.addDays(expiresRefreshTokenDays)
 
     await this.usersTokensRepository.create({
       user: user._id.toString(),

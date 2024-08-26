@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react'
-import { IAccount } from '../../../../models/interfaces/IAccount'
-import { accountsService } from '../../../../services/accountsService'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { IAccount } from '../models/interfaces/IAccount'
+import { accountsService } from '../services/accountsService'
+import { httpClientProvider } from '../providers/HttpClientProvider'
 import { useRouter } from 'next/router'
+import { ACCOUNT_STATUS } from '../models/enums/AccountStatus'
 
-export function useAccountList() {
+interface Props {
+  otherFilters: {
+    status: ACCOUNT_STATUS
+  } | null
+}
+
+export function useAccountList({ otherFilters }: Props) {
   const [accounts, setAccounts] = useState<IAccount[]>([])
   const [loadingAccounts, setLoadingAccounts] = useState<boolean>(true)
 
@@ -13,7 +20,15 @@ export function useAccountList() {
   function getAccounts() {
     setLoadingAccounts(true)
     accountsService
-      .getAll({ filters: { ...router.query } }, httpClientProvider)
+      .getAll(
+        {
+          filters: {
+            ...router.query,
+            ...otherFilters,
+          },
+        },
+        httpClientProvider,
+      )
       .then((res) => {
         setAccounts(res.data.items)
       })

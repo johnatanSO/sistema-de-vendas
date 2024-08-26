@@ -8,7 +8,7 @@ import { UpdateStatusAccountService } from '../useCases/Account/UpdateStatusAcco
 
 export class AccountController {
   async listAccounts(req: Request, res: Response): Promise<Response> {
-    const { startDate, endDate, accountType } = req.query as any
+    const { startDate, endDate, accountType, status } = req.query as any
     const { userId } = req.user
 
     const listAccountsService = container.resolve(ListAccountsService)
@@ -17,6 +17,7 @@ export class AccountController {
       endDate,
       accountType,
       userId,
+      status,
     })
 
     return res.status(200).json({

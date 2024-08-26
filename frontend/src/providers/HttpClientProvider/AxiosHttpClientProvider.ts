@@ -60,16 +60,11 @@ export class AxiosHttpClientProvider implements IHttpClientProvider {
             usersService.saveToken(data.token)
             usersService.saveRefreshToken(data.refreshToken)
 
-            const currentPath = window.location.href
-            NextResponse.redirect(currentPath)
-
             return Promise.resolve()
           } catch (errorRefreshToken) {
             usersService.deleteToken()
             usersService.deleteRefreshToken()
             usersService.deleteLocalUser()
-
-            NextResponse.redirect('/login')
 
             return Promise.reject(errorRefreshToken)
           }

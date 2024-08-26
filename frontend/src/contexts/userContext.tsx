@@ -1,23 +1,19 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { usersService } from '../services/usersService'
+import { IUser } from '../models/interfaces/IUser'
 
 interface Props {
   children: ReactNode
 }
 
-interface UserInfo {
-  _id: string
-  name: string
-  email: string
-}
 interface IUserContext {
-  userInfo: UserInfo | null
+  userInfo: IUser | null
 }
 
 export const UserContext = createContext({} as IUserContext)
 
 export function UserContextComponent({ children }: Props) {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+  const [userInfo, setUserInfo] = useState<IUser | null>(null)
 
   useEffect(() => {
     const userStorage = usersService.getUserInfo()

@@ -1,36 +1,26 @@
-import { productsService } from '../../../services/productsService'
 import { HeaderPage } from '../../_ui/HeaderPage'
-import { useContext, useState } from 'react'
 import { ModalCreateNewProduct } from './ModalCreateNewProduct'
 import { TableComponent } from '../../_ui/TableComponent'
 import { IColumn } from '../../../models/interfaces/IColumn'
 import { useColumns } from './hooks/useColumns'
-import { useRouter } from 'next/router'
 import { FilterByName } from '../../_ui/FilterByName'
-import { AlertContext } from '../../../contexts/alertContext'
 import style from './Products.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
-import { httpClientProvider } from '../../../providers/HttpClientProvider'
-import { ALERT_NOTIFY_TYPE } from '../../../models/enums/AlertNotifyType'
-import { IProduct } from '../../../models/interfaces/IProduct'
 import { useProductList } from './hooks/useProductList'
+import { useDeleteProduct } from './hooks/useDeleteProduct'
+import { useEditProduct } from './hooks/useEditProduct'
 
 export function Products() {
-  const {
-    alertDialogConfirmConfigs,
-    setAlertDialogConfirmConfigs,
-    alertNotifyConfigs,
-    setAlertNotifyConfigs,
-  } = useContext(AlertContext)
-
-  const [formModalOpened, setFormModalOpened] = useState<boolean>(false)
-  const [productDataToEdit, setProductDataToEdit] = useState<IProduct | null>(
-    null,
-  )
-  const router = useRouter()
-
   const { loadingProducts, products } = useProductList()
+  const { handleDeleteProduct } = useDeleteProduct()
+  const {
+    formModalOpened,
+    handleEditProduct,
+    productDataToEdit,
+    setFormModalOpened,
+    setProductDataToEdit,
+  } = useEditProduct()
 
   const columns: IColumn[] = useColumns({
     handleEditProduct,
@@ -38,44 +28,6 @@ export function Products() {
   })
 
   const fieldsMobile = useFieldsMobile()
-
-  function handleDeleteProduct(product: IProduct) {
-    setAlertDialogConfirmConfigs({
-      ...alertDialogConfirmConfigs,
-      open: true,
-      title: 'Alerta de confirmação',
-      text: 'Deseja realmente excluir este produto?',
-      onClickAgree: () => {
-        productsService
-          .delete({ idProduct: product?._id }, httpClientProvider)
-          .then(() => {
-            setAlertNotifyConfigs({
-              ...alertNotifyConfigs,
-              open: true,
-              type: ALERT_NOTIFY_TYPE.SUCCESS,
-              text: 'Produto excluído com sucesso',
-            })
-            router.push({
-              pathname: router.route,
-              query: router.query,
-            })
-          })
-          .catch((err) => {
-            setAlertNotifyConfigs({
-              ...alertNotifyConfigs,
-              open: true,
-              type: ALERT_NOTIFY_TYPE.ERROR,
-              text: `Erro ao tentar excluir produto - ${err?.message}`,
-            })
-          })
-      },
-    })
-  }
-
-  function handleEditProduct(product: IProduct) {
-    setProductDataToEdit(product)
-    setFormModalOpened(true)
-  }
 
   return (
     <>

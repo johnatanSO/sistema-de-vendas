@@ -1,17 +1,11 @@
 import { ModalLayout } from '../../../_ui/ModalLayout'
-import { useContext } from 'react'
 import style from './ModalCreateNewSupplier.module.scss'
 import { CustomTextField } from '../../../_ui/CustomTextField'
-import { AlertContext } from '../../../../contexts/alertContext'
-import { useRouter } from 'next/router'
-import { suppliersService } from '../../../../services/suppliersService'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider'
-import { ALERT_NOTIFY_TYPE } from '../../../../models/enums/AlertNotifyType'
-import { INewSupplier } from '../interfaces/INewSupplier'
-import { useForm } from 'react-hook-form'
+import { useFormSupplier } from '../hooks/useFormSupplier'
+import { ISupplier } from '../../../../models/interfaces/ISupplier'
 
 interface Props {
-  supplierDataToEdit: INewSupplier | null
+  supplierDataToEdit: ISupplier | null
   open: boolean
   handleClose: () => void
 }
@@ -21,82 +15,17 @@ export function ModalCreateNewSupplier({
   handleClose,
   supplierDataToEdit,
 }: Props) {
-  const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
   const {
-    register,
+    errors,
     handleSubmit,
-    reset,
-    formState: { isLoading, errors },
-  } = useForm<INewSupplier>({
-    defaultValues: supplierDataToEdit || {
-      name: '',
-      cnpj: '',
-      phone: '',
-      email: '',
-    },
+    isLoading,
+    onCreateNewSupplier,
+    onEditSupplier,
+    register,
+  } = useFormSupplier({
+    handleClose,
+    supplierDataToEdit,
   })
-
-  const router = useRouter()
-
-  function onCreateNewSupplier(newSupplier: INewSupplier) {
-    suppliersService
-      .create({ ...newSupplier }, httpClientProvider)
-      .then(() => {
-        router.push({
-          pathname: router.route,
-          query: router.query,
-        })
-        reset()
-
-        handleClose()
-
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          open: true,
-          type: ALERT_NOTIFY_TYPE.SUCCESS,
-          text: 'Fornecedor cadastrado com sucesso',
-        })
-      })
-      .catch((err) => {
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          open: true,
-          type: ALERT_NOTIFY_TYPE.ERROR,
-          text: 'Erro ao tentar cadastrar fornecedor ' + `(${err?.message})`,
-        })
-      })
-  }
-
-  function onEditSupplier(supplier: INewSupplier) {
-    suppliersService
-      .update({ ...supplier, _id: supplier._id || '' }, httpClientProvider)
-      .then(() => {
-        router.push({
-          pathname: router.route,
-          query: router.query,
-        })
-        reset()
-
-        handleClose()
-
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          open: true,
-          type: ALERT_NOTIFY_TYPE.SUCCESS,
-          text: 'Dados do fornecedor atualizados com sucesso',
-        })
-      })
-      .catch((err) => {
-        setAlertNotifyConfigs({
-          ...alertNotifyConfigs,
-          open: true,
-          type: ALERT_NOTIFY_TYPE.ERROR,
-          text:
-            'Erro ao tentar atualizar dados do fornecedor ' +
-            `(${err?.message})`,
-        })
-      })
-  }
 
   return (
     <ModalLayout

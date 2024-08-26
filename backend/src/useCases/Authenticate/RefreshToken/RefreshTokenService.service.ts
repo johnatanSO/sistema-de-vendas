@@ -3,7 +3,7 @@ import { IUsersTokensRepository } from "../../../repositories/UsersTokens/IUsers
 import { AppError } from "../../../errors/AppError";
 import { sign, verify } from "jsonwebtoken";
 import auth from "../../../config/auth";
-import dayjs from "dayjs";
+import { IDateProvider } from "../../../shared/containers/providers/DateProvider/IDateProvider";
 
 interface IPayload {
   sub: string
@@ -18,12 +18,15 @@ interface IResponse  {
 @injectable()
 export class RefreshTokenService {
   usersTokensRepository: IUsersTokensRepository
+  dateProvider: IDateProvider
 
   constructor(
     @inject('UsersTokensRepository')
     usersTokensRepository: IUsersTokensRepository,
+    @inject('DayjsDateProvider') dateProvider: IDateProvider
   ) {
     this.usersTokensRepository = usersTokensRepository
+    this.dateProvider = dateProvider
   }
 
   async execute(token: string): Promise<IResponse> {
@@ -49,7 +52,7 @@ export class RefreshTokenService {
       expiresIn: auth.expiresInRefreshToken,
     })
 
-    const expiresDate = dayjs().add(auth.expiresRefreshTokenDays, 'days').toDate()
+    const expiresDate = this.dateProvider.addDays(auth.expiresRefreshTokenDays)
 
     await this.usersTokensRepository.create({
       user: userId,

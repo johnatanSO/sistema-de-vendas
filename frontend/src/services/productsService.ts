@@ -16,7 +16,7 @@ export const productsService = {
   ) {
     const params = {
       ...filters,
-      userId: this.userInfo._id,
+      userId: this.userInfo?._id,
     }
 
     return httpClientProvider.get('/produtos/', {
@@ -26,7 +26,7 @@ export const productsService = {
 
   getDefaultProducts(httpClientProvider: IHttpClientProvider) {
     const params = {
-      userId: this.userInfo._id,
+      userId: this.userInfo?._id,
     }
 
     return httpClientProvider.get('/produtos/padroes/', {

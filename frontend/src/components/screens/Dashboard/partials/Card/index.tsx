@@ -24,9 +24,7 @@ export function Card({
   const router = useRouter()
 
   function handleClickCard(routeParams: { pathname: string; query?: any }) {
-    if (route) {
-      router.push(routeParams)
-    }
+    if (route) router.push(routeParams)
   }
 
   return (
