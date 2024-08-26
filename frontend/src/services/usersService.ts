@@ -104,7 +104,7 @@ export const usersService = {
     token: string | null,
     httpClientProvider: IHttpClientProvider,
   ) {
-    return httpClientProvider.post('refreshToken', {
+    return httpClientProvider.post('/refreshToken', {
       token,
     })
   },

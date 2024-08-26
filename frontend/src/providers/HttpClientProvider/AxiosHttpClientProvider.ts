@@ -2,8 +2,10 @@ import axios, { Axios, AxiosError, AxiosResponse } from 'axios'
 import { IHttpClientProvider } from './IHttpClientProvider'
 import { usersService } from '../../services/usersService'
 import { HTTP_STATUS_CODE } from '../../models/enums/HttpStatusCode'
-import { useRouter } from 'next/router'
-
+import { httpClientProvider } from '.'
+import { redirect } from 'next/dist/server/api-utils'
+import { NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
 export class AxiosHttpClientProvider implements IHttpClientProvider {
   private httpIntance: Axios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_URL,
@@ -39,16 +41,38 @@ export class AxiosHttpClientProvider implements IHttpClientProvider {
     this.httpIntance.interceptors.response.use(
       (config: AxiosResponse) => config,
       async (error: AxiosError) => {
-        try {
-          const tokenExpired =
-            error?.response?.status === HTTP_STATUS_CODE.UNAUTHORIZED
+        const tokenExpired =
+          error?.response?.status === HTTP_STATUS_CODE.UNAUTHORIZED
 
-          const router = useRouter()
-          if (tokenExpired) {
-            router.push('/login')
+        if (tokenExpired) {
+          try {
+            const refreshToken = usersService.getRefreshToken()
+
+            const { data } = await usersService.updateRefreshTokenService(
+              refreshToken,
+              httpClientProvider,
+            )
+
+            if (!data.token || !data.refreshToken) {
+              throw new Error('Refresh token não identificado')
+            }
+
+            usersService.saveToken(data.token)
+            usersService.saveRefreshToken(data.refreshToken)
+
+            const currentPath = window.location.href
+            NextResponse.redirect(currentPath)
+
+            return Promise.resolve()
+          } catch (errorRefreshToken) {
+            usersService.deleteToken()
+            usersService.deleteRefreshToken()
+            usersService.deleteLocalUser()
+
+            NextResponse.redirect('/login')
+
+            return Promise.reject(errorRefreshToken)
           }
-        } catch (err) {
-          console.log(err)
         }
 
         return Promise.reject(error)

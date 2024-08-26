@@ -33,7 +33,7 @@ export function Login() {
   function onLogin(loginData: ILoginData) {
     usersService
       .login({ ...loginData }, httpClientProvider)
-      .then(async (res) => {
+      .then(async ({ data: { user, token, refreshToken } }) => {
         reset()
 
         setAlertNotifyConfigs({
@@ -43,9 +43,11 @@ export function Login() {
           open: 'true',
         })
 
-        await usersService.saveUser(res.data.user)
-        await usersService.saveToken(res.data.token)
-        await usersService.saveRefreshToken(res.data.refreshToken)
+        await Promise.all([
+          await usersService.saveUser(user),
+          await usersService.saveToken(token),
+          await usersService.saveRefreshToken(refreshToken),
+        ])
 
         router.push('/')
       })
