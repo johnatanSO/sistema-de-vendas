@@ -3,9 +3,12 @@ import { MockUsersRepository } from '../../../repositories/Users/MockUsersReposi
 import { CreateNewUserService } from '../../User/CreateNewUser/CreateNewUserService.service'
 import { AppError } from '../../../errors/AppError'
 import { MockUsersTokensRepository } from '../../../repositories/UsersTokens/MockUsersTokensRepository'
+import { DayjsDateProvider } from '../../../shared/containers/providers/DateProvider/DayjsDateProvider'
+import { IDateProvider } from '../../../shared/containers/providers/DateProvider/IDateProvider'
 
 let mockUsersRepository: MockUsersRepository
 let mockUsersTokensRepository: MockUsersTokensRepository
+let dateProvider: IDateProvider
 
 let createNewUserService: CreateNewUserService
 let authenticateUserService: AuthenticateUserService
@@ -14,9 +17,10 @@ describe('Authenticate user', () => {
   beforeEach(() => {
     mockUsersRepository = new MockUsersRepository()
     mockUsersTokensRepository = new MockUsersTokensRepository()
+    dateProvider = new DayjsDateProvider()
 
     createNewUserService = new CreateNewUserService(mockUsersRepository)
-    authenticateUserService = new AuthenticateUserService(mockUsersRepository, mockUsersTokensRepository)
+    authenticateUserService = new AuthenticateUserService(mockUsersRepository, mockUsersTokensRepository, dateProvider)
   })
 
   it('should be able authenticate user', async () => {
