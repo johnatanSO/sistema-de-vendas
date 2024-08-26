@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { ISale } from '../../../../models/interfaces/ISale'
 import { useRouter } from 'next/router'
-import { salesService } from '../../../../services/salesService'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { salesService } from '../services/salesService'
+import { httpClientProvider } from '../providers/HttpClientProvider'
+import { ISale } from '../models/interfaces/ISale'
 
 export function useSaleList() {
   const [sales, setSales] = useState<ISale[]>([])
