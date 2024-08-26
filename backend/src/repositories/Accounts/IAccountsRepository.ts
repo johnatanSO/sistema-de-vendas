@@ -1,5 +1,6 @@
 import { Types } from 'mongoose'
 import { Account } from '../../entities/account'
+import { ACCOUNT_STATUS } from '../../models/enums/AccountStatus'
 
 export interface INewAccountDTO {
   type: 'in' | 'out'
@@ -15,6 +16,7 @@ export interface QueryList {
   userId: string
   startDate: any
   endDate: any
+  status: ACCOUNT_STATUS
 }
 
 export interface UpdateParams {

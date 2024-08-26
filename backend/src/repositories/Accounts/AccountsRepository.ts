@@ -18,10 +18,12 @@ export class AccountsRepository implements IAccountsRepository {
     endDate,
     accountType,
     userId,
+    status,
   }: QueryList): Promise<Account[]> {
     const query = {
       user: userId,
       ...(accountType ? { type: accountType } : {}),
+      ...(status ? { status } : {}),
       ...(startDate && endDate
         ? { date: { $gte: startDate, $lt: endDate } }
         : {}),
