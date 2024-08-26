@@ -35,6 +35,7 @@ describe('List accounts', () => {
       accountType: newAccount.type,
       startDate: undefined,
       endDate: undefined,
+      status: undefined
     })
 
     expect(accounts).toContainEqual(newAccount)
@@ -47,6 +48,7 @@ describe('List accounts', () => {
         accountType: 'in',
         startDate: undefined,
         endDate: undefined,
+        status: undefined
       })
     }).rejects.toBeInstanceOf(AppError)
   })
