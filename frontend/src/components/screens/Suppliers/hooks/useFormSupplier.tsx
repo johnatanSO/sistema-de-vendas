@@ -18,7 +18,7 @@ export function useFormSupplier({ handleClose, supplierDataToEdit }: Props) {
     register,
     handleSubmit,
     reset,
-    formState: { isLoading, errors },
+    formState: { isSubmitting, errors },
   } = useForm<INewSupplier>({
     defaultValues: supplierDataToEdit || {
       name: '',
@@ -95,7 +95,7 @@ export function useFormSupplier({ handleClose, supplierDataToEdit }: Props) {
     onEditSupplier,
     register,
     errors,
-    isLoading,
+    isSubmitting,
     handleSubmit,
   }
 }

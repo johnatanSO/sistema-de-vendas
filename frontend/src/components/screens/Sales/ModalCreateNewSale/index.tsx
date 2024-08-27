@@ -28,7 +28,7 @@ export function ModalCreateNewSale({
   const {
     errors,
     handleSubmit,
-    isLoading,
+    isSubmitting,
     onCreateNewSale,
     onEditSale,
     products,
@@ -51,7 +51,7 @@ export function ModalCreateNewSale({
       onSubmit={handleSubmit(saleToEditData ? onEditSale : onCreateNewSale)}
       title={saleToEditData ? 'Editar venda' : 'Realizar nova venda'}
       submitButtonText={saleToEditData ? 'Atualizar' : 'Finalizar'}
-      loading={isLoading}
+      loading={isSubmitting}
     >
       <div className={style.content}>
         <section className={style.sectionContainer}>

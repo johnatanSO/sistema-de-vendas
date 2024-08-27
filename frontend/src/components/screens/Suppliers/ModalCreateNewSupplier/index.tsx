@@ -18,7 +18,7 @@ export function ModalCreateNewSupplier({
   const {
     errors,
     handleSubmit,
-    isLoading,
+    isSubmitting,
     onCreateNewSupplier,
     onEditSupplier,
     register,
@@ -36,7 +36,7 @@ export function ModalCreateNewSupplier({
       )}
       title="Cadastro de fornecedor"
       submitButtonText="Cadastrar"
-      loading={isLoading}
+      loading={isSubmitting}
       customStyle={{ width: '500px' }}
     >
       <div className={style.fieldsContainer}>

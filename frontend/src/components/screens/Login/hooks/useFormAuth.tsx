@@ -15,7 +15,7 @@ export function useFormAuth() {
     register,
     handleSubmit,
     reset,
-    formState: { isLoading, errors },
+    formState: { isSubmitting, errors },
   } = useForm<ILoginData>({
     defaultValues: {
       email: '',
@@ -65,6 +65,6 @@ export function useFormAuth() {
     register,
     errors,
     handleSubmit,
-    isLoading,
+    isSubmitting,
   }
 }

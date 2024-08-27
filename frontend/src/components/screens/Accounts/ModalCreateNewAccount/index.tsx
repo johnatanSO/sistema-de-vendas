@@ -24,7 +24,7 @@ export function ModalCreateNewAccount({
     accountType,
     errors,
     handleSubmit,
-    isLoading,
+    isSubmitting,
     register,
     setValue,
   } = useFormAccount({
@@ -41,7 +41,7 @@ export function ModalCreateNewAccount({
       )}
       title="Cadastro de conta"
       submitButtonText="Cadastrar"
-      loading={isLoading}
+      loading={isSubmitting}
       customStyle={{ width: '500px' }}
     >
       <div className={style.fieldsContainer}>

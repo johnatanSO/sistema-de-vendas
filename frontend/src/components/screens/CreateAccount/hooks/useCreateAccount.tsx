@@ -16,7 +16,7 @@ export function useCreateAccount() {
     register,
     handleSubmit,
     reset,
-    formState: { isLoading, errors },
+    formState: { isSubmitting, errors },
   } = useForm<INewUser>({
     defaultValues: {
       name: '',
@@ -59,7 +59,7 @@ export function useCreateAccount() {
     onCreateAccount,
     register,
     handleSubmit,
-    isLoading,
+    isSubmitting,
     errors,
   }
 }
