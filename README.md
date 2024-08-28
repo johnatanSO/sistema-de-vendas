@@ -1,4 +1,4 @@
-<h1 align="center">🏫 Sistema de vendas</h1>
+<h1 align="center">💰 Sistema de vendas</h1>
 
 <h2> 💻 Sobre o projeto</h2>
 
@@ -83,8 +83,8 @@
 <h4>Login do sistema</h4>
 <table>
   <tr>
-    <td><img width="700px" src="https://github.com/user-attachments/assets/6fb87d90-1f09-4283-b84d-ac3d85198b3b" /></td>
-    <td><img height="470px" src="https://github.com/user-attachments/assets/7e4839be-4ab8-47f3-966f-ad8367fedfd5" /></td>
+    <td><img src="https://github.com/user-attachments/assets/6fb87d90-1f09-4283-b84d-ac3d85198b3b" /></td>
+    <td><img src="https://github.com/user-attachments/assets/7e4839be-4ab8-47f3-966f-ad8367fedfd5" /></td>
   </tr>
 </table>
 <hr />
@@ -94,8 +94,8 @@
 <h4>Cadastro de novo usuário</h4>
 <table>
   <tr>
-    <td><img width="700px" src="https://github.com/user-attachments/assets/9a5387f2-bacc-4098-841b-e486ac5e3ea2" /></td>
-    <td><img height="470px" src="https://github.com/user-attachments/assets/ab667053-5dc8-4ec2-ab59-18d572c79788" /></td>
+    <td><img src="https://github.com/user-attachments/assets/9a5387f2-bacc-4098-841b-e486ac5e3ea2" /></td>
+    <td><img src="https://github.com/user-attachments/assets/ab667053-5dc8-4ec2-ab59-18d572c79788" /></td>
   </tr>
 </table>
 <hr />
