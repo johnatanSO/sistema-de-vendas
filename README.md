@@ -4,6 +4,31 @@
 
 <p>Este é um sistema (ERP) para gestão de um estabelecimento destinado à comércios em geral, construído com o intuito de facilitar e otimizar os processos de vendas, gerenciamento de produtos e estoques, cadastros de clientes, contas de despesas e entradas,fornecedores, etc.</p>
 
+<h2>🚀 Tecnologias utilizadas </h2>
+<h4>Frontend </h4>
+<ul>
+  
+    - NextJS 12 / ReactJS,
+    - React Hook Form;
+    - Zod;
+    - Context API;
+    - Sass / CSS (Modules);
+    - Typescript / Javascript;
+    - Axios;
+    - Material UI;
+</ul>
+  
+<h4>Backend</h5>
+<ul>
+  
+    - Node;
+    - Express;
+    - Typescript / Javascript;
+    - JWT (Controle de tokens/refresh-tokens);
+    - JEST (Testes unitários);
+    - MongoDB (Banco de dados NoSQL)
+</ul>
+
 <h3>📝 O sistema possui as seguintes funcionalidades:</h3>
 
  <h4>Dashboard</h4>
@@ -39,21 +64,6 @@
  <li>Exclusão de uma conta;</li>
  <br>
  
-<h2>🚀 Tecnologias utilizadas: </h2>
-
-<div style="display: inline_block">
-  <img align="center" alt="John-HTML" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg">
-  <img align="center" alt="John-SASS" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sass/sass-original.svg">
-  <img align="center" alt="John-ReactJs" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
-  <img align="center" alt="John-Nextjs" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg">
-  <img align="center" alt="John-JS" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
-  <img align="center" alt="John-TS" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg">
-  <img align="center" alt="John-Node" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg">
-  <img align="center" alt="John-Express" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original.svg">
-  <img align="center" alt="John-MongoDB" height="50" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg">
-</div>
-<p>(HTML, CSS/SASS, React/NextJS, React Hook Form, Context API, MaterialUI, Typescsript/Javascript, Node, Express, MongoDB, JWT, BCRYPT)</p>
-
 <br>
 
 <h2>👷 Como testar? </h2>
@@ -190,18 +200,6 @@
 <hr />
 <br />
 
-
-![Cadastro de cliente]()
-![Cadastro de conta]()
-![Cadastro de produtos]()
-![Cadastro de usuário]()
-![Cadastro de vena]()
-![Clientes]()
-![Contas]()
-![Dashboard]()
-![Login]()
-![Produtos]()
-![Relatório de vendas]()
 
 <div>
  <h2>🎓 Autores</h2>
