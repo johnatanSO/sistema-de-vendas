@@ -84,7 +84,7 @@
 <table>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/6fb87d90-1f09-4283-b84d-ac3d85198b3b" /></td>
-    <td><img src="https://github.com/user-attachments/assets/7e4839be-4ab8-47f3-966f-ad8367fedfd5" /></td>
+    <td><img width="700" src="https://github.com/user-attachments/assets/7e4839be-4ab8-47f3-966f-ad8367fedfd5" /></td>
   </tr>
 </table>
 <hr />
