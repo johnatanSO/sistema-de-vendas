@@ -4,13 +4,16 @@ import { ISale } from '../../../../models/interfaces/ISale'
 export function useTotalSales(sales: ISale[]) {
   return sales.reduce(
     (acc, sale) => {
-      if (sale.status === STATUS_SALE.CANCELED)
+      if (sale.status === STATUS_SALE.CANCELED) {
         acc.totalValueCanceled += sale.totalValue
-      acc.totalValueSales += sale.totalValue
+      } else {
+        acc.totalValueApproved += sale.totalValue
+      }
+
       return acc
     },
     {
-      totalValueSales: 0,
+      totalValueApproved: 0,
       totalValueCanceled: 0,
     },
   )

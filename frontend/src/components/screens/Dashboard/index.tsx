@@ -34,15 +34,13 @@ import { useSaleList } from '../../../hooks/useSaleList'
 import { useAccountList } from '../../../hooks/useAccountList'
 import { usePayments } from './hooks/usePayments'
 import { ACCOUNT_STATUS } from '../../../models/enums/AccountStatus'
-import { STATUS_SALE } from '../../../models/enums/SaleStatus'
 
 export function Dashboard() {
   const { paymentTypes } = usePayments()
   const { sales } = useSaleList({
-    otherFilters: {
-      status: STATUS_SALE.APPROVED,
-    },
+    otherFilters: null,
   })
+
   const { accounts } = useAccountList({
     otherFilters: {
       status: ACCOUNT_STATUS.PAID,
@@ -72,8 +70,8 @@ export function Dashboard() {
             />
 
             <Card
-              title="Valor das vendas"
-              value={format.formatarReal(totalSales?.totalValueSales || 0)}
+              title="Valor das vendas aprovadas"
+              value={format.formatarReal(totalSales?.totalValueApproved || 0)}
               icon={
                 <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
               }
