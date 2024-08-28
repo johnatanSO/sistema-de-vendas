@@ -201,6 +201,28 @@
 <br />
 
 
+<h4>Relatório de fornecedores</h4>
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/300b5cab-d9c9-4a9c-8e1e-b4825685bfa0" /></td>
+    <td><img width="700px" src="https://github.com/user-attachments/assets/26e60531-6993-431c-9376-9f832812fc30" /></td>
+  </tr>
+</table>
+<hr />
+<br />
+
+
+<h4>Cadastro de fornecedor</h4>
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/4c9fb482-8b84-4748-bca8-211844ccd9a6" /></td>
+    <td><img width="700px" src="https://github.com/user-attachments/assets/07de3599-275e-428e-82a3-202cc066095f" /></td>
+  </tr>
+</table>
+<hr />
+<br />
+
+
 <div>
  <h2>🎓 Autores</h2>
  <h3>Feito com 💜 by <a href="https://github.com/johnatanSO" target="_blank">Johnatan Santos</a></h3>
