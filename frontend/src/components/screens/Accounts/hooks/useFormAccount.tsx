@@ -38,8 +38,8 @@ export function useFormAccount({ handleClose, accountDataToEdit }: Props) {
 
   const accountType = watch('type')
 
-  function onCreateNewAccount(newAccountData: INewAccount) {
-    accountsService
+  async function onCreateNewAccount(newAccountData: INewAccount) {
+    await accountsService
       .create({ newAccountData }, httpClientProvider)
       .then(() => {
         reset()
@@ -68,8 +68,8 @@ export function useFormAccount({ handleClose, accountDataToEdit }: Props) {
       })
   }
 
-  function onEditAccount(accountData: INewAccount) {
-    accountsService
+  async function onEditAccount(accountData: INewAccount) {
+    await accountsService
       .update(
         { ...accountData, _id: accountData._id || '' },
         httpClientProvider,

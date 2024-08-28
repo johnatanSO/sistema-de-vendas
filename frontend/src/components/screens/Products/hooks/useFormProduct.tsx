@@ -69,8 +69,8 @@ export function useFormProduct({ handleClose, productDataToEdit }: Props) {
       })
   }
 
-  function onEditProduct(product: INewProduct) {
-    productsService
+  async function onEditProduct(product: INewProduct) {
+    await productsService
       .update({ ...product, _id: product._id || '' }, httpClientProvider)
       .then(() => {
         router.push({

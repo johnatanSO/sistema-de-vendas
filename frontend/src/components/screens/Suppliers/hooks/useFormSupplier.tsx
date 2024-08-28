@@ -30,8 +30,8 @@ export function useFormSupplier({ handleClose, supplierDataToEdit }: Props) {
 
   const router = useRouter()
 
-  function onCreateNewSupplier(newSupplier: INewSupplier) {
-    suppliersService
+  async function onCreateNewSupplier(newSupplier: INewSupplier) {
+    await suppliersService
       .create({ ...newSupplier }, httpClientProvider)
       .then(() => {
         router.push({
@@ -59,8 +59,8 @@ export function useFormSupplier({ handleClose, supplierDataToEdit }: Props) {
       })
   }
 
-  function onEditSupplier(supplier: INewSupplier) {
-    suppliersService
+  async function onEditSupplier(supplier: INewSupplier) {
+    await suppliersService
       .update({ ...supplier, _id: supplier._id || '' }, httpClientProvider)
       .then(() => {
         router.push({

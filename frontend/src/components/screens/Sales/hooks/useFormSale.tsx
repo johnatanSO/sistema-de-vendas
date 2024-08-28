@@ -42,8 +42,8 @@ export function useFormSale({
     resolver: zodResolver(newSaleSchema),
   })
 
-  function onCreateNewSale(newSale: INewSale) {
-    salesService
+  async function onCreateNewSale(newSale: INewSale) {
+    await salesService
       .create({ newSaleData: newSale, totalValue }, httpClientProvider)
       .then(() => {
         setAlertNotifyConfigs({
@@ -74,8 +74,8 @@ export function useFormSale({
       })
   }
 
-  function onEditSale(sale: INewSale) {
-    salesService
+  async function onEditSale(sale: INewSale) {
+    await salesService
       .update({ saleData: sale, totalValue }, httpClientProvider)
       .then(() => {
         setAlertNotifyConfigs({

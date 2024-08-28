@@ -29,8 +29,8 @@ export function useCreateAccount() {
 
   const router = useRouter()
 
-  function onCreateAccount(newUser: INewUser) {
-    usersService
+  async function onCreateAccount(newUser: INewUser) {
+    await usersService
       .register({ ...newUser }, httpClientProvider)
       .then(() => {
         setAlertNotifyConfigs({

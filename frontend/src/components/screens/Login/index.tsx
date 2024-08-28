@@ -34,7 +34,7 @@ export function Login() {
           helperText={errors?.password && errors?.password?.message}
         />
         <button disabled={isSubmitting} type="submit">
-          {isSubmitting ? <Loading size={13} /> : 'Entrar'}
+          {isSubmitting ? <Loading size={15} /> : 'Entrar'}
         </button>
       </form>
 

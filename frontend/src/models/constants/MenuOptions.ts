@@ -3,6 +3,7 @@ import {
   faCartPlus,
   faChartSimple,
   faFileInvoiceDollar,
+  faTruckField,
   faUsers,
 } from '@fortawesome/free-solid-svg-icons'
 import { IMenuOption } from '../interfaces/IMenuOption'
@@ -37,5 +38,11 @@ export const menuOptions: IMenuOption[] = [
     link: '/contas',
     icon: faFileInvoiceDollar,
     name: 'contas',
+  },
+  {
+    title: 'Fornecedores',
+    link: '/fornecedores',
+    icon: faTruckField,
+    name: 'fornecedores',
   },
 ]

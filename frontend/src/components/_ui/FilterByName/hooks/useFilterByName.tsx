@@ -16,9 +16,9 @@ export function useFilterByName() {
     resolver: zodResolver(filterByNameSchema),
   })
 
-  function onFilterByName({ searchString }: IFilterByName) {
+  async function onFilterByName({ searchString }: IFilterByName) {
     if (searchString) {
-      router.push({
+      await router.push({
         pathname: router.route,
         query: {
           searchString,
@@ -28,7 +28,7 @@ export function useFilterByName() {
       return
     }
 
-    router.push(router.route)
+    await router.push(router.route)
   }
 
   return {

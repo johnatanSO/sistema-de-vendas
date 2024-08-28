@@ -33,8 +33,8 @@ export function useFormClient({ clientDataToEdit, handleClose }: Props) {
     resolver: zodResolver(newClientSchema),
   })
 
-  function onCreateNewClient(newClientData: INewClient) {
-    clientsService
+  async function onCreateNewClient(newClientData: INewClient) {
+    await clientsService
       .create({ ...newClientData }, httpClientProvider)
       .then(() => {
         router.push({
@@ -63,8 +63,8 @@ export function useFormClient({ clientDataToEdit, handleClose }: Props) {
       })
   }
 
-  function onEditClient(clientData: INewClient) {
-    clientsService
+  async function onEditClient(clientData: INewClient) {
+    await clientsService
       .update({ ...clientData, _id: clientData?._id || '' }, httpClientProvider)
       .then(() => {
         router.push({

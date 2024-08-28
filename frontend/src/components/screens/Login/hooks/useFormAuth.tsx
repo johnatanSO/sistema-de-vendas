@@ -15,7 +15,7 @@ export function useFormAuth() {
     register,
     handleSubmit,
     reset,
-    formState: { isSubmitting, errors },
+    formState: { errors, isSubmitting },
   } = useForm<ILoginData>({
     defaultValues: {
       email: '',
@@ -26,8 +26,8 @@ export function useFormAuth() {
 
   const router = useRouter()
 
-  function onLogin(loginData: ILoginData) {
-    usersService
+  async function onLogin(loginData: ILoginData) {
+    await usersService
       .login({ ...loginData }, httpClientProvider)
       .then(async ({ data: { user, token, refreshToken } }) => {
         reset()

@@ -22,8 +22,8 @@ export function useFilterDate() {
 
   const router = useRouter()
 
-  function onFilterByDate({ startDate, endDate }: IFilterDate) {
-    router.push({
+  async function onFilterByDate({ startDate, endDate }: IFilterDate) {
+    await router.push({
       pathname: router.route,
       query: {
         startDate,
