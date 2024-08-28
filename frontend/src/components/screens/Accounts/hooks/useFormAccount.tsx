@@ -25,7 +25,7 @@ export function useFormAccount({ handleClose, accountDataToEdit }: Props) {
     setValue,
     watch,
     reset,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm<INewAccount>({
     defaultValues: accountDataToEdit || {
       description: '',
@@ -106,7 +106,7 @@ export function useFormAccount({ handleClose, accountDataToEdit }: Props) {
     onCreateNewAccount,
     onEditAccount,
     handleSubmit,
-    isLoading,
+    isSubmitting,
     register,
     setValue,
     accountType,

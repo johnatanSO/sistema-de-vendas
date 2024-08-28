@@ -31,7 +31,7 @@ export function useFormSale({
     reset,
     watch,
     setValue,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm<INewSale>({
     defaultValues: saleToEditData || {
       clientId: null,
@@ -187,7 +187,7 @@ export function useFormSale({
     handleSubmit,
     setValue,
     errors,
-    isLoading,
+    isSubmitting,
     products,
     totalValue,
     handleAddNewProduct,

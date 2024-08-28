@@ -23,7 +23,7 @@ export function useFormProduct({ handleClose, productDataToEdit }: Props) {
     setValue,
     watch,
     reset,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm<INewProduct>({
     defaultValues: productDataToEdit || {
       name: '',
@@ -106,7 +106,7 @@ export function useFormProduct({ handleClose, productDataToEdit }: Props) {
     handleSubmit,
     setValue,
     errors,
-    isLoading,
+    isSubmitting,
     isDefault,
     anchorEl,
     setAnchorEl,

@@ -22,7 +22,7 @@ export function useFormClient({ clientDataToEdit, handleClose }: Props) {
     register,
     handleSubmit,
     reset,
-    formState: { isLoading, errors },
+    formState: { isSubmitting, errors },
   } = useForm<INewClient>({
     defaultValues: clientDataToEdit || {
       name: '',
@@ -100,6 +100,6 @@ export function useFormClient({ clientDataToEdit, handleClose }: Props) {
     register,
     errors,
     handleSubmit,
-    isLoading,
+    isSubmitting,
   }
 }

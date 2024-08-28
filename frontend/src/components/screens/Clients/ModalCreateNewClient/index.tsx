@@ -18,7 +18,7 @@ export function ModalCreateNewClient({
   const {
     errors,
     handleSubmit,
-    isLoading,
+    isSubmitting,
     onCreateNewClient,
     onEditClient,
     register,
@@ -36,7 +36,7 @@ export function ModalCreateNewClient({
       )}
       title="Cadastro de cliente"
       submitButtonText="Cadastrar"
-      loading={isLoading}
+      loading={isSubmitting}
       customStyle={{ width: '500px' }}
     >
       <div className={style.fieldsContainer}>

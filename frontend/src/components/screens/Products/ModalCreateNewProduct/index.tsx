@@ -25,7 +25,7 @@ export function ModalCreateNewProduct({
     handleSubmit,
     setValue,
     errors,
-    isLoading,
+    isSubmitting,
     isDefault,
     anchorEl,
     setAnchorEl,
@@ -43,7 +43,7 @@ export function ModalCreateNewProduct({
       )}
       title="Cadastro de produto"
       submitButtonText="Cadastrar"
-      loading={isLoading}
+      loading={isSubmitting}
     >
       <div className={style.fieldsContainer}>
         <CustomTextField

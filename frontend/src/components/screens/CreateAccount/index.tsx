@@ -6,7 +6,7 @@ import { Loading } from '../../_ui/Loading'
 import { useCreateAccount } from './hooks/useCreateAccount'
 
 export function CreateAccount() {
-  const { errors, handleSubmit, isLoading, onCreateAccount, register } =
+  const { errors, handleSubmit, isSubmitting, onCreateAccount, register } =
     useCreateAccount()
   return (
     <div className={style.createAccountContainer}>
@@ -56,8 +56,8 @@ export function CreateAccount() {
             errors?.confirmPassword && errors?.confirmPassword?.message
           }
         />
-        <button disabled={isLoading} type="submit">
-          {isLoading ? <Loading size={13} /> : 'Cadastrar'}
+        <button disabled={isSubmitting} type="submit">
+          {isSubmitting ? <Loading size={13} /> : 'Cadastrar'}
         </button>
       </form>
       <Link href="/login" className={style.loginAccountLink}>
