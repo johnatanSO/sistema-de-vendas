@@ -5,31 +5,17 @@ import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { useFilterDate } from './hooks/useFilterDate'
 
 export function FilterDate() {
-  const [startDate, setStartDate] = useState<string>(
-    dayjs().startOf('month').toISOString(),
-  )
-  const [endDate, setEndDate] = useState<string>(
-    dayjs().endOf('month').toISOString(),
-  )
-
-  const router = useRouter()
-
-  function onFilterByDate(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
-    router.push({
-      pathname: router.route,
-      query: {
-        startDate,
-        endDate,
-      },
-    })
-  }
+  const { errors, handleSubmit, onFilterByDate, setValue, endDate, startDate } =
+    useFilterDate()
 
   return (
-    <form onSubmit={onFilterByDate} className={style.inputsContainer}>
+    <form
+      onSubmit={handleSubmit(onFilterByDate)}
+      className={style.inputsContainer}
+    >
       <CustomTextField
         size="small"
         className={style.input}
@@ -38,8 +24,12 @@ export function FilterDate() {
         InputLabelProps={{ shrink: true }}
         value={dayjs(startDate).format('YYYY-MM-DD')}
         onChange={(event) => {
-          setStartDate(dayjs(event.target.value).startOf('day').toISOString())
+          setValue(
+            'startDate',
+            dayjs(event.target.value).startOf('day').toISOString(),
+          )
         }}
+        error={!!errors.startDate}
       />
       <CustomTextField
         size="small"
@@ -53,8 +43,12 @@ export function FilterDate() {
         InputLabelProps={{ shrink: true }}
         value={dayjs(endDate).format('YYYY-MM-DD')}
         onChange={(event) => {
-          setEndDate(dayjs(event.target.value).endOf('day').toISOString())
+          setValue(
+            'endDate',
+            dayjs(event.target.value).endOf('day').toISOString(),
+          )
         }}
+        error={!!errors.endDate}
       />
       <button type="submit" className={style.filterButton}>
         <FontAwesomeIcon className={style.icon} icon={faSearch} />

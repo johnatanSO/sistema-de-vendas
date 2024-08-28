@@ -1,34 +1,10 @@
-import { useState, useEffect } from 'react'
 import { CustomTextField } from '../CustomTextField'
 import style from './FilterByAccountType.module.scss'
-import { useRouter } from 'next/router'
 import { MenuItem } from '@mui/material'
+import { useFilterByAccountType } from './hooks/useFilterByAccountType'
 
 export function FilterByAccountType() {
-  const router = useRouter()
-
-  const [accountType, setAccountType] = useState<string>(
-    router?.query?.accountType?.toString() || 'all',
-  )
-
-  function handleSelectAccountType() {
-    if (accountType !== 'all') {
-      router.push({
-        pathname: router.route,
-        query: {
-          accountType,
-        },
-      })
-
-      return
-    }
-
-    router.push(router.route)
-  }
-
-  useEffect(() => {
-    handleSelectAccountType()
-  }, [accountType])
+  const { register, errors } = useFilterByAccountType()
 
   return (
     <form className={style.filterContainer}>
@@ -38,10 +14,8 @@ export function FilterByAccountType() {
         label="Tipo de conta"
         placeholder="Escolha o tipo da conta"
         className={style.input}
-        value={accountType}
-        onChange={(event: any) => {
-          setAccountType(event?.target.value)
-        }}
+        {...register('accountType')}
+        error={!!errors.accountType}
       >
         <MenuItem value={'all'}>Todas</MenuItem>
         <MenuItem value="in">Entrada</MenuItem>

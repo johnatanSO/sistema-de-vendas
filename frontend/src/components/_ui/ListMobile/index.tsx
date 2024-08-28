@@ -12,10 +12,7 @@ import { CollapseItem } from './interfaces/CollapseItem'
 import { Field } from './interfaces/Field'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
-
-interface ItemStatus {
-  [itemId: string]: boolean
-}
+import { ItemStatus } from './interfaces/IItemStatus'
 
 type Props = {
   items: any[]

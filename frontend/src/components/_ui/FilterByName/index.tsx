@@ -1,42 +1,25 @@
-import { FormEvent, useState } from 'react'
 import { CustomTextField } from '../CustomTextField'
 import style from './FilterByName.module.scss'
-import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { useFilterByName } from './hooks/useFilterByName'
 
 export function FilterByName() {
-  const [searchString, setSearchString] = useState<string>('')
-  const router = useRouter()
-
-  function onFilterByName(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    if (searchString) {
-      router.push({
-        pathname: router.route,
-        query: {
-          searchString,
-        },
-      })
-
-      return
-    }
-
-    router.push(router.route)
-  }
+  const { errors, handleSubmit, onFilterByName, register } = useFilterByName()
 
   return (
-    <form className={style.filterContainer} onSubmit={onFilterByName}>
+    <form
+      className={style.filterContainer}
+      onSubmit={handleSubmit(onFilterByName)}
+    >
       <CustomTextField
         size="small"
         type="text"
         label="Nome"
         placeholder="Digite o nome"
         className={style.input}
-        value={searchString}
-        onChange={(event) => {
-          setSearchString(event?.target.value)
-        }}
+        {...register('searchString')}
+        error={!!errors.searchString}
       />
       <button type="submit">
         <FontAwesomeIcon className={style.icon} icon={faSearch} />

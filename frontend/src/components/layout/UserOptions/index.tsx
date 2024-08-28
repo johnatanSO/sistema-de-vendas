@@ -1,15 +1,13 @@
 import { Popover } from '@mui/material'
 import style from './UserOptions.module.scss'
-import { useContext, useState } from 'react'
-import { usersService } from '../../../services/usersService'
-import { useRouter } from 'next/router'
-import { UserContext } from '../../../contexts/userContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faAngleLeft,
   faEnvelope,
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
+import { IPosition } from './interfaces/IPosition'
+import { useUserOptions } from './hooks/useUserOptions'
 
 export interface UserInfo {
   name: string
@@ -18,42 +16,17 @@ export interface UserInfo {
 }
 
 type Props = {
-  position: {
-    horizontal: 'left' | 'right'
-    vertical: 'top' | 'bottom'
-  }
+  position: IPosition
 }
 
 export function UserOptions({ position }: Props) {
-  const { userInfo } = useContext(UserContext)
-  const [userInfoAnchorEl, setUserInfoAnchorEl] = useState<HTMLElement | null>(
-    null,
-  )
-  const router = useRouter()
-
-  function getPosition() {
-    const positionFormated: any = {}
-
-    if (position?.horizontal === 'right') {
-      positionFormated.marginLeft = '40px'
-    }
-    if (position?.horizontal === 'left') {
-      positionFormated.marginRight = '40px'
-    }
-    if (position.vertical === 'top') {
-      positionFormated.marginTop = '-25px'
-    }
-    if (position.vertical === 'bottom') {
-      positionFormated.marginTop = '-15px'
-    }
-
-    return positionFormated
-  }
-
-  function handleLogout() {
-    usersService.deleteToken()
-    router.push('/login')
-  }
+  const {
+    getPosition,
+    handleLogout,
+    setUserInfoAnchorEl,
+    userInfo,
+    userInfoAnchorEl,
+  } = useUserOptions({ position })
 
   return (
     <>
