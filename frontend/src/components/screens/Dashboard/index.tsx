@@ -70,7 +70,7 @@ export function Dashboard() {
             />
 
             <Card
-              title="Valor das vendas aprovadas"
+              title="Vendas aprovadas"
               value={format.formatarReal(totalSales?.totalValueApproved || 0)}
               icon={
                 <FontAwesomeIcon className={style.icon} icon={faDollarSign} />
