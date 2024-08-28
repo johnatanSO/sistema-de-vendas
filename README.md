@@ -2,7 +2,7 @@
 
 <h2> 💻 Sobre o projeto</h2>
 
-<p>Este é um sistema (ERP) para gestão de um estabelecimento destinado à comércios em geral, construído com o intuito de facilitar e otimizar os processos de vendas, gerenciamento de produtos e estoques, cadastros de clientes, contas de despesas e entradas,fornecedores, etc.</p>
+<p>Este é um sistema (ERP) para gestão de um estabelecimento destinado à comércios em geral, construído com o intuito de facilitar e otimizar os processos de vendas, gerenciamento de produtos e estoques, cadastros de clientes, contas de despesas e entradas, cadastro de fornecedores, etc.</p>
 
 <h2>🚀 Tecnologias utilizadas </h2>
 <h4>Frontend </h4>
