@@ -1,5 +1,11 @@
+import { ACCOUNT_STATUS } from '../models/enums/AccountStatus'
+import { ACCOUNT_TYPE } from '../models/enums/AccountType'
+
 export interface GetAllAccountsDTO {
-  filters: any
+  filters: {
+    type?: ACCOUNT_TYPE
+    status?: ACCOUNT_STATUS
+  }
 }
 
 export interface CreateAccountDTO {

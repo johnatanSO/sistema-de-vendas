@@ -7,9 +7,9 @@ import { format } from '../../../../utils/format'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { ISale } from '../../../../models/interfaces/ISale'
-import { useProductsList } from '../hooks/useProductsList'
 import { useClientList } from '../../../../hooks/useClientList'
 import { useFormSale } from '../hooks/useFormSale'
+import { useProductList } from '../../../../hooks/useProductList'
 
 interface Props {
   saleToEditData: ISale | null
@@ -22,7 +22,7 @@ export function ModalCreateNewSale({
   handleClose,
   saleToEditData,
 }: Props) {
-  const { getProducts, productsList } = useProductsList()
+  const { products: productsList } = useProductList()
   const { clients: clientsList } = useClientList()
 
   const {
@@ -105,7 +105,6 @@ export function ModalCreateNewSale({
               select
               placeholder="Selecione um produto"
               onChange={handleAddNewProduct}
-              onFocus={getProducts}
             >
               {productsList.map(({ _id, name }) => {
                 return (

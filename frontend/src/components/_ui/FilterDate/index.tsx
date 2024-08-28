@@ -1,8 +1,6 @@
 import style from './FilterDate.module.scss'
 import { CustomTextField } from '../CustomTextField'
-import { FormEvent, useState } from 'react'
 import dayjs from 'dayjs'
-import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { useFilterDate } from './hooks/useFilterDate'

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { IProduct } from '../../../../models/interfaces/IProduct'
+import { IProduct } from '../models/interfaces/IProduct'
 import { useRouter } from 'next/router'
-import { productsService } from '../../../../services/productsService'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { productsService } from '../services/productsService'
+import { httpClientProvider } from '../providers/HttpClientProvider'
 
 export function useProductList() {
   const [products, setProducts] = useState<IProduct[]>([])

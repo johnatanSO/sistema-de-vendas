@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { ISupplier } from '../../../../models/interfaces/ISupplier'
-import { suppliersService } from '../../../../services/suppliersService'
-import { httpClientProvider } from '../../../../providers/HttpClientProvider'
+import { suppliersService } from '../services/suppliersService'
+import { ISupplier } from '../models/interfaces/ISupplier'
+import { httpClientProvider } from '../providers/HttpClientProvider'
 
 export function useSupplierList() {
   const [suppliers, setSuppliers] = useState<ISupplier[]>([])

@@ -13,7 +13,7 @@ import { useEditSale } from './hooks/useEditSale'
 
 export function Sales() {
   const { handleCancelSale } = useCancelSale()
-  const { sales, loadingSales } = useSaleList()
+  const { sales, loadingSales } = useSaleList({ otherFilters: null })
   const {
     formModalOpened,
     handleEditSale,

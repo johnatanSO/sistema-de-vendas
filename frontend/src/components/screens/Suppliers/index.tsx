@@ -7,9 +7,9 @@ import style from './Suppliers.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
 import { FilterByName } from '../../_ui/FilterByName'
-import { useSupplierList } from './hooks/useSupplierList'
 import { useDeleteSupplier } from './hooks/useDeleteSupplier'
 import { useEditSupplier } from './hooks/useEditSupplier'
+import { useSupplierList } from '../../../hooks/useSupplierList'
 
 export function Suppliers() {
   const { suppliers, loadingSuppliers } = useSupplierList()

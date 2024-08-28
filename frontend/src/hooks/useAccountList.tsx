@@ -7,7 +7,7 @@ import { ACCOUNT_STATUS } from '../models/enums/AccountStatus'
 
 interface Props {
   otherFilters: {
-    status: ACCOUNT_STATUS
+    status?: ACCOUNT_STATUS
   } | null
 }
 

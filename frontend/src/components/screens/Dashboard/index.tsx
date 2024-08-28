@@ -34,10 +34,15 @@ import { useSaleList } from '../../../hooks/useSaleList'
 import { useAccountList } from '../../../hooks/useAccountList'
 import { usePayments } from './hooks/usePayments'
 import { ACCOUNT_STATUS } from '../../../models/enums/AccountStatus'
+import { STATUS_SALE } from '../../../models/enums/SaleStatus'
 
 export function Dashboard() {
   const { paymentTypes } = usePayments()
-  const { sales } = useSaleList()
+  const { sales } = useSaleList({
+    otherFilters: {
+      status: STATUS_SALE.APPROVED,
+    },
+  })
   const { accounts } = useAccountList({
     otherFilters: {
       status: ACCOUNT_STATUS.PAID,

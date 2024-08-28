@@ -1,8 +1,10 @@
+import { STATUS_SALE } from '../models/enums/SaleStatus'
+
 export interface GetAllSalesDTO {
   filters: {
-    status: string
-    startDate: string | Date
-    endDate: string | Date
+    status?: STATUS_SALE
+    startDate?: string | Date
+    endDate?: string | Date
   }
 }
 

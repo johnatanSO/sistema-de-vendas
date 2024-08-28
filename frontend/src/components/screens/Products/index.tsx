@@ -7,7 +7,7 @@ import { FilterByName } from '../../_ui/FilterByName'
 import style from './Products.module.scss'
 import { ListMobile } from '../../_ui/ListMobile'
 import { useFieldsMobile } from './hooks/useFieldsMobile'
-import { useProductList } from './hooks/useProductList'
+import { useProductList } from '../../../hooks/useProductList'
 import { useDeleteProduct } from './hooks/useDeleteProduct'
 import { useEditProduct } from './hooks/useEditProduct'
 

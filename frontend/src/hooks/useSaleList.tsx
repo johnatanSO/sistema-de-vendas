@@ -3,8 +3,15 @@ import { useRouter } from 'next/router'
 import { salesService } from '../services/salesService'
 import { httpClientProvider } from '../providers/HttpClientProvider'
 import { ISale } from '../models/interfaces/ISale'
+import { STATUS_SALE } from '../models/enums/SaleStatus'
 
-export function useSaleList() {
+type Props = {
+  otherFilters: {
+    status?: STATUS_SALE
+  } | null
+}
+
+export function useSaleList({ otherFilters }: Props) {
   const [sales, setSales] = useState<ISale[]>([])
   const [loadingSales, setLoadingSales] = useState<boolean>(true)
 
@@ -13,7 +20,10 @@ export function useSaleList() {
   function getSales() {
     setLoadingSales(true)
     salesService
-      .getAll({ filters: { ...(router.query as any) } }, httpClientProvider)
+      .getAll(
+        { filters: { ...router.query, ...otherFilters } },
+        httpClientProvider,
+      )
       .then((res) => {
         setSales(res.data.items)
       })
