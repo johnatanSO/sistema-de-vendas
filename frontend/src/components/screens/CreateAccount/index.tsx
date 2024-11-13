@@ -57,7 +57,7 @@ export function CreateAccount() {
           }
         />
         <button disabled={isSubmitting} type="submit">
-          {isSubmitting ? <Loading size={13} /> : 'Cadastrar'}
+          {isSubmitting ? <Loading size={15} /> : 'Cadastrar'}
         </button>
       </form>
       <Link href="/login" className={style.loginAccountLink}>

@@ -30,7 +30,11 @@ export function useFormAuth() {
     await usersService
       .login({ ...loginData }, httpClientProvider)
       .then(async ({ data: { user, token, refreshToken } }) => {
-        reset()
+        await Promise.all([
+          usersService.saveUser(user),
+          usersService.saveToken(token),
+          usersService.saveRefreshToken(refreshToken),
+        ])
 
         setAlertNotifyConfigs({
           ...alertNotifyConfigs,
@@ -39,12 +43,7 @@ export function useFormAuth() {
           open: true,
         })
 
-        await Promise.all([
-          await usersService.saveUser(user),
-          await usersService.saveToken(token),
-          await usersService.saveRefreshToken(refreshToken),
-        ])
-
+        reset()
         router.push('/')
       })
       .catch((err) => {

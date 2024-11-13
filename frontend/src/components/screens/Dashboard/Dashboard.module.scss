@@ -24,7 +24,7 @@
   }
 
   .pizzaGraph {
-    background: $gray-color-500;
+    border: 1px solid $gray-color-300;
 
     border-radius: 20px;
 
@@ -51,7 +51,7 @@
 }
 
 .graphPayments {
-  background: $gray-color-500;
+  border: 1px solid $gray-color-300;
 
   border-radius: 20px;
   display: flex;

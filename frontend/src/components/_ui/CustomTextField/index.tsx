@@ -13,7 +13,7 @@ export const CustomTextField = styled(TextField)({
   },
   [`& .Mui-error .${outlinedInputClasses.notchedOutline}`]: {
     // Style da borda do input quando tem um erro
-    border: '2px solid #ff5757',
+    border: '2px solid #ff2e2e',
     fontWeight: '500',
   },
   [`&:hover .${outlinedInputClasses.root} .${outlinedInputClasses.notchedOutline}`]:
@@ -23,7 +23,7 @@ export const CustomTextField = styled(TextField)({
     },
   [`&:hover .Mui-error .${outlinedInputClasses.notchedOutline}`]: {
     // Style da borda com hover
-    borderColor: '#ff3d3d',
+    borderColor: '#ff2e2e',
     fontWeight: '500',
   },
   [`& .${outlinedInputClasses.root}.${outlinedInputClasses.focused} .${outlinedInputClasses.notchedOutline}`]:
@@ -50,12 +50,12 @@ export const CustomTextField = styled(TextField)({
   },
   [`& .Mui-error`]: {
     // Cor do text do error
-    color: '#ff5757',
+    color: '#ff2e2e',
     fontWeight: '500',
   },
   [`& .Mui-error .MuiSelect-icon`]: {
     // Style do icone quando tem um erro
-    color: '#ff5757',
+    color: '#ff2e2e',
   },
   [`& .${inputLabelClasses.outlined}.${inputLabelClasses.focused}`]: {
     // Style da label em foco

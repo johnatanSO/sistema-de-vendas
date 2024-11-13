@@ -224,7 +224,7 @@ export function Dashboard() {
                           usarLabel={true}
                           formatarReal={true}
                           position="top"
-                          fill="#FFF"
+                          fill="#e2e2e2"
                         />
                       }
                     />

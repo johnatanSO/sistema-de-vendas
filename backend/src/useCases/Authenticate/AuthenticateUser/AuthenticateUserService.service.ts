@@ -47,10 +47,10 @@ export class AuthenticateUserService {
     if (!password) throw new AppError('Senha não enviada')
 
     const user = await this.usersRepository.findByEmail(email)
-    if (!user) throw new AppError('E-mail ou senha incorretos')
+    if (!user) throw new AppError('E-mail e/ou senha incorretos')
     
     const passwordMatch = await compare(password, user.password)
-    if (!passwordMatch) throw new AppError('E-mail ou senha incorretos')
+    if (!passwordMatch) throw new AppError('E-mail e/ou senha incorretos')
 
     const { 
       secretToken, 

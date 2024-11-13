@@ -33,7 +33,7 @@ export class CreateNewUserService {
     if (password !== confirmPassword)
       throw new AppError('Confirmação de senha incorreta')
 
-    const alreadExistUser = await this.usersRepository.findByEmail(name)
+    const alreadExistUser = await this.usersRepository.findByEmail(email)
 
     if (alreadExistUser) {
       throw new AppError('Já existe um usuário cadastrado com este e-mail')
