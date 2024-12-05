@@ -10,7 +10,7 @@ import {
   faClipboardList,
   faDollarSign,
 } from '@fortawesome/free-solid-svg-icons'
-import theme from '../../styles/theme'
+import theme from '../styles/theme'
 
 const { Navigator, Screen } = createBottomTabNavigator()
 

@@ -8,7 +8,7 @@ import { styles } from './VendasStyles'
 import dayjs from 'dayjs'
 import { ModalSale } from './ModalSale'
 import { Product } from '../Relatorios/ProductsList'
-import { salesService } from '../../services/salesService.service'
+import { salesService } from '../../services/sales.service'
 import { Loading } from '../../components/Loading'
 import { AlertContext } from '../../contexts/alertContext'
 

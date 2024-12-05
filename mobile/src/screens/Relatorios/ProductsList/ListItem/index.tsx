@@ -3,7 +3,7 @@ import { View, Text, Pressable } from 'react-native'
 import { formatting } from '../../../../utils/formatting'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import theme from '../../../../../styles/theme'
+import theme from '../../../../styles/theme'
 import { styles } from './ListItem.styles'
 
 interface ListItemProps {

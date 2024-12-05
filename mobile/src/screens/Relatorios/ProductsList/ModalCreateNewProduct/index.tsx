@@ -15,8 +15,8 @@ import {
 import { styles } from './ModalCreateNewProduct.styles'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import theme from '../../../../../styles/theme'
-import { productsService } from '../../../../services/productsService.service'
+import theme from '../../../../styles/theme'
+import { productsService } from '../../../../services/products.service'
 import CurrencyInput from 'react-native-currency-input'
 import { AlertContext } from '../../../../contexts/alertContext'
 

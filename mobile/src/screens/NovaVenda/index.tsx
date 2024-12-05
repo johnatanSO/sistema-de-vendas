@@ -14,44 +14,32 @@ import { useState, useContext } from 'react'
 import { styles } from './NovaVendaStyles'
 import HeaderNewSale from '../../layout/HeaderNewSale'
 import http from '../../http'
-import { Product } from '../Relatorios/ProductsList'
 import { formasDePagamento, formatting } from '../../utils/formatting'
-import { salesService } from '../../services/salesService.service'
+import { salesService } from '../../services/sales.service'
 import { Dropdown } from 'react-native-element-dropdown'
-import theme from '../../../styles/theme'
+import theme from '../../styles/theme'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faBroom, faTrash } from '@fortawesome/free-solid-svg-icons'
 import CurrencyInput from 'react-native-currency-input'
 import { AlertContext } from '../../contexts/alertContext'
+import { INewSale } from './interfaces/INovaVenda'
+import { IProduct } from '../../models/IProduct'
+import { ISaleProduct } from './interfaces/ISaleProduct'
 
-interface SaleProduct extends Product {
-  amount: number
-}
-
-interface ListItem {
-  text: string
-  value: SaleProduct
-}
-
-interface NovaVendaProps {
+type Props = {
   navigation: any
 }
 
-export interface NewSale {
-  client: string
-  products: SaleProduct[]
-  paymentType: string
-}
-
-export function NovaVenda({ navigation }: NovaVendaProps) {
+export function NovaVenda({ navigation }: Props) {
   const { alertNotifyConfigs, setAlertNotifyConfigs } = useContext(AlertContext)
+
   const defaultValuesNewSale = {
     client: '',
     paymentType: '',
     products: [],
   }
-  const [newSale, setNewSale] = useState<NewSale>(defaultValuesNewSale)
-  const [productsList, setProductsList] = useState<ListItem[]>([])
+  const [newSale, setNewSale] = useState<INewSale>(defaultValuesNewSale)
+  const [productsList, setProductsList] = useState<IProduct[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   function createNewSale() {
@@ -62,7 +50,7 @@ export function NovaVenda({ navigation }: NovaVendaProps) {
         open: true,
         text: 'Forma de pagamento não informada',
       })
-      console.log('Forma de pagamento não informada')
+
       return
     }
     if (newSale.products.length === 0) {
@@ -72,7 +60,7 @@ export function NovaVenda({ navigation }: NovaVendaProps) {
         open: true,
         text: 'Nenhum produto selecionado',
       })
-      console.log('Nenhum produto selecionado')
+
       return
     }
 
@@ -111,12 +99,8 @@ export function NovaVenda({ navigation }: NovaVendaProps) {
   function getProducts() {
     http
       .get('/produtos')
-      .then((res) => {
-        const formatedList = res.data.items.map((product: SaleProduct) => ({
-          value: product,
-          text: product.name,
-        }))
-        setProductsList(formatedList)
+      .then(({ data }) => {
+        setProductsList(data.items)
       })
       .catch((err) => {
         console.log('[ERRO]: ', err)
@@ -130,7 +114,12 @@ export function NovaVenda({ navigation }: NovaVendaProps) {
     setNewSale(sale)
   }
 
-  function handleAddNewProduct({ value }: ListItem) {
+  function handleAddNewProduct({
+    value,
+  }: {
+    value: ISaleProduct
+    text: string
+  }) {
     const alreadExistProductInList = !!newSale.products.find(
       (product) => product._id === value._id,
     )
@@ -230,7 +219,10 @@ export function NovaVenda({ navigation }: NovaVendaProps) {
                   selectedTextStyle={{ color: theme.COLORS.GRAY_100 }}
                   style={styles.selectProductsInput}
                   onChange={handleAddNewProduct}
-                  data={productsList}
+                  data={productsList.map((product: any) => ({
+                    value: product,
+                    text: product.name,
+                  }))}
                   onFocus={() => {
                     getProducts()
                   }}

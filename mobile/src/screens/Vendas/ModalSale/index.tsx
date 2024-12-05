@@ -13,8 +13,8 @@ import { styles } from './ModalSalesStyles'
 import { formatting } from '../../../utils/formatting'
 import dayjs from 'dayjs'
 import { Sale } from '..'
-import { salesService } from '../../../services/salesService.service'
-import theme from '../../../../styles/theme'
+import { salesService } from '../../../services/sales.service'
+import theme from '../../../styles/theme'
 import { AlertContext } from '../../../contexts/alertContext'
 
 interface ModalSaleProps {
