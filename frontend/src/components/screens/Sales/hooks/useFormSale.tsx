@@ -128,7 +128,7 @@ export function useFormSale({
 
     const copyProducts: any[] = [...products]
 
-    copyProducts[index][name] = value
+    copyProducts[index][name] = Number(value)
 
     setValue('products', copyProducts)
   }
